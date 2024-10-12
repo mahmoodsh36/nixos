@@ -51,6 +51,21 @@ in
     serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
   };
 
+  # needed for zoom screen-share
+  xdg.portal = {
+    xdgOpenUsePortal = true;
+    enable = true;
+    # wlr.enable = true;
+    # lxqt.enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-kde
+      pkgs.xdg-desktop-portal-wlr
+    ];
+  };
+
   nixpkgs.config.cudaSupport = per_machine_vars.enable_nvidia;
 
   # my overlays
@@ -427,6 +442,12 @@ in
     #python3
     neo4j
 
+    xdg-desktop-portal-gnome
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-hyprland
+    xdg-desktop-portal-kde
+    xdg-desktop-portal-wlr
+
     # lisps
     babashka
     chicken
@@ -466,7 +487,9 @@ in
     # enchant.dev # for emacs jinx-mode
 
     cudatoolkit # although i should only enable it if per_machine_vars.enable_nvidia is true
-    nvtop
+    nvtopPackages.full
+
+    liquidctl
   ] ++ server_vars.server_packages;
 
   services.prometheus = {
