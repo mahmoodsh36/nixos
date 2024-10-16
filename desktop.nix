@@ -379,6 +379,7 @@ in
     eww
     brightnessctl
     swww
+    wf-recorder
 
     # other
     zoom-us #, do i realy want this running natively?
