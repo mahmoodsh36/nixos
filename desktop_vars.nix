@@ -30,20 +30,20 @@
     # "CUDA" "Javis" "GalacticOptim" "Dagger" "Interact"
     # "Gadfly" "Turing" "RecipesPipeline"
 
+    # "Images"
     "LanguageServer"
-    "Images"
 
     # math
-    "Graphs"
-    "Symbolics" "SymbolicUtils"
+    "Graphs" "MetaGraphs"
+    # "Symbolics" "SymbolicUtils"
 
     # data processing
     "JSON" "CSV" "DataFrames"
 
     # graphics
-    "Makie" "GLMakie"
-    "SGtSNEpi" "Karnak"
-    "TikzPictures" "NetworkLayout" "Plots"
-    "GraphRecipes"
+    "Plots" "GraphRecipes"
+    # "Makie" "GLMakie"
+    # "SGtSNEpi" "Karnak"
+    # "TikzPictures" "NetworkLayout"
   ]));
 }

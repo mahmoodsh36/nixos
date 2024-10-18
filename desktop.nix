@@ -304,6 +304,11 @@ in
     ];
   };
 
+  services.ollama = {
+    enable = per_machine_vars.enable_nvidia;
+    acceleration = "cuda";
+  };
+
   # packages
   environment.systemPackages = with pkgs; [
     (pkgs.writeShellScriptBin "python" ''
@@ -420,7 +425,7 @@ in
     gnuplot
     lean
     sentencepiece
-    # sageWithDoc sagetex
+    sageWithDoc sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
     # quickly start VMs
@@ -433,8 +438,8 @@ in
     rustc meson ninja
     # jupyter
     typescript
-    # desktop_vars.desktop_julia
-    julia-bin
+    desktop_vars.desktop_julia
+    # julia-bin
     python3Packages.west
     typst
     tailwindcss

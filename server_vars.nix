@@ -69,6 +69,7 @@
     ttags
     diffsitter
     mongosh
+    unison
 
     # some build systems
     cmake gnumake autoconf
