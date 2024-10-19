@@ -207,13 +207,13 @@ in
   programs.light.enable = true;
 
   # hybrid sleep when press power button
-  services.logind.extraConfig = ''
-    HandlePowerKey=ignore
-    IdleAction=ignore
-    IdleActionSec=1m
-  '';
+  # services.logind.extraConfig = ''
+  #   HandlePowerKey=ignore
+  #   IdleAction=ignore
+  #   IdleActionSec=1m
+  # '';
   # dont hibernate when lid is closed
-  services.logind.lidSwitch = "ignore";
+  # services.logind.lidSwitch = "ignore";
 
   qt = {
     enable = true;
