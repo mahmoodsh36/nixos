@@ -11,7 +11,7 @@ in
   ] ++ lib.optional (per_machine_vars.enable_nvidia) ./nvidia.nix;
 
   # automatic screen rotation?
-  # hardware.sensor.iio.enable = true;
+  hardware.sensor.iio.enable = true;
 
   hardware.graphics = {
     enable = true;
