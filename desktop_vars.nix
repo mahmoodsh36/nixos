@@ -22,15 +22,21 @@
     # "TruthTables" "LinearSolve"
     # "LightGraphs" "HTTP" "OhMyREPL" "MLJ"
     # "Luxor" "ReinforcementLearningBase" "DataStructures" "RecipesBase"
-    # "Latexify" "Distributions" "Gen" "UnicodePlots" "StaticArrays"
+    # "Distributions" "Gen" "UnicodePlots" "StaticArrays"
     # "Genie" "WaterLily"
-    # "ForwardDiff" "Metatheory" "TermInterface" "SymbolicRegression"
+    # "ForwardDiff" "TermInterface" "SymbolicRegression"
     # "Transformers" "Optimization" "Knet" "ModelingToolkit" "StatsPlots" "Zygote"
     # "Flux" "JET" "LoopVectorization" "Weave" "BrainFlow"
     # "CUDA" "Javis" "GalacticOptim" "Dagger" "Interact"
     # "Gadfly" "Turing" "RecipesPipeline"
 
-    # "Images"
+    "OhMyREPL"
+    "Metatheory"
+    "Latexify"
+    # "Flux"
+    "CUDA" "MLJ"
+
+    "Images"
     "LanguageServer"
 
     # math

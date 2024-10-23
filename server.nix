@@ -17,7 +17,7 @@ in
 
   nixpkgs.config.allowUnfree = true;
   time.timeZone = "Asia/Jerusalem";
-  # system.etc.overlay.enable = true;
+  system.etc.overlay.enable = false;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
