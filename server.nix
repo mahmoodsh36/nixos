@@ -118,7 +118,6 @@ in
   };
 
   services.mongodb.enable = true;
-  services.syncthing.enable = true;
 
   # users
   users.users.mahmooz = {

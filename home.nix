@@ -43,6 +43,7 @@ in
         services.blueman-applet.enable = true;
         services.playerctld.enable = true;
         services.parcellite.enable = true;
+        services.syncthing.enable = true;
 
         home.packages = [
         ];
