@@ -348,7 +348,6 @@ in
     scrcpy
     pavucontrol
     libreoffice
-    syncthing
     neovide
 
     # commandline tools
@@ -409,6 +408,7 @@ in
     python312Packages.google
     # popcorntime
     stremio
+    syncthing
 
     # local model stuff?
     koboldcpp
@@ -447,12 +447,6 @@ in
     # desktop_vars.desktop_python
     #python3
     neo4j
-
-    xdg-desktop-portal-gnome
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-kde
-    xdg-desktop-portal-wlr
 
     # lisps
     babashka
@@ -505,13 +499,13 @@ in
   # services.monit.enable = true;
 
   # run sxhkd when x11 starts
-  systemd.user.services.my_sxhkd_service = {
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${lib.getExe pkgs.sxhkd}";
-    };
-  };
+  # systemd.user.services.my_sxhkd_service = {
+  #   wantedBy = [ "graphical-session.target" ];
+  #   partOf = [ "graphical-session.target" ];
+  #   serviceConfig = {
+  #     ExecStart = "${lib.getExe pkgs.sxhkd}";
+  #   };
+  # };
 
   systemd.services.my_mpv_logger_service = {
     description = "mpv logger";
@@ -522,6 +516,15 @@ in
       Restart = "always";
       RuntimeMaxSec = "3600";
       # ExecStart = "${pkgs.coreutils}/bin/sh ${server_vars.scripts_dir}/mpv_logger.sh";
+    };
+  };
+
+  systemd.services.my_syncthing = {
+    description = "mpv logger";
+    wantedBy = [ "multi-user.target" ];
+    script = "${pkgs.syncthing}/bin/syncthing --home=/home/mahmooz/brain/syncthing_config/";
+    serviceConfig = {
+      User = "mahmooz";
     };
   };
 
