@@ -522,7 +522,7 @@ in
   systemd.services.my_syncthing = {
     description = "mpv logger";
     wantedBy = [ "multi-user.target" ];
-    script = "${pkgs.syncthing}/bin/syncthing --home=/home/mahmooz/brain/syncthing_config/";
+    script = "${pkgs.syncthing}/bin/syncthing --home=/home/mahmooz/.syncthing_config";
     serviceConfig = {
       User = "mahmooz";
     };
