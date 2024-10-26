@@ -51,21 +51,6 @@ in
     serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
   };
 
-  # needed for zoom screen-share
-  xdg.portal = {
-    xdgOpenUsePortal = true;
-    enable = true;
-    # wlr.enable = true;
-    # lxqt.enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gnome
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
-      pkgs.xdg-desktop-portal-kde
-      pkgs.xdg-desktop-portal-wlr
-    ];
-  };
-
   nixpkgs.config.cudaSupport = per_machine_vars.enable_nvidia;
 
   # my overlays
@@ -221,12 +206,6 @@ in
   # '';
   # dont hibernate when lid is closed
   # services.logind.lidSwitch = "ignore";
-
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
 
   # virtualization
   virtualisation.libvirtd = {

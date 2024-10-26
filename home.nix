@@ -34,12 +34,6 @@ in
           withPython3 = true;
         };
 
-        home.pointerCursor = {
-          name = "Adwaita";
-          package = pkgs.adwaita-icon-theme;
-          size = 64;
-        };
-
         services.blueman-applet.enable = true;
         services.playerctld.enable = true;
         services.parcellite.enable = true;
@@ -72,34 +66,61 @@ in
           mimeType = [ "x-scheme-handler/magnet" ];
         };
 
-        home-manager.users.myuser = {
-          dconf = {
-            enable = true;
-            settings = {
-              "org/gnome/shell" = {
-                disable-user-extensions = false;
-                enabled-extensions = with pkgs.gnomeExtensions; [
-                  blur-my-shell.extensionUuid
-                  gsconnect.extensionUuid
-                  paperwm.extensionUuid
-                ];
-              };
-              # You need quotes to escape '/'
-              "org/gnome/desktop/interface" = {
-                clock-show-weekday = true;
-                color-scheme = "prefer-dark";
-              };
-            }
+        programs.dconf.enable = true;
+
+        dconf = {
+          enable = true;
+          settings = {
+            "org/gnome/shell" = {
+              disable-user-extensions = false;
+              enabled-extensions = with pkgs.gnomeExtensions; [
+                blur-my-shell.extensionUuid
+                gsconnect.extensionUuid
+                paperwm.extensionUuid
+              ];
+            };
+            # you need quotes to escape '/'
+            "org/gnome/desktop/interface" = {
+              clock-show-weekday = true;
+              color-scheme = "prefer-dark";
+              gtk-theme = "Adwaita-dark";
+            };
           };
+        };
+
+        home.pointerCursor = {
+          gtk.enable = true;
+          # x11.enable = true;
+          package = pkgs.bibata-cursors;
+          name = "Bibata-Modern-Classic";
+          size = 16;
         };
 
         gtk = {
           enable = true;
-          font.name = "Victor Mono SemiBold 12";
           theme = {
-            name = "SolArc-Dark";
-            package = pkgs.solarc-gtk-theme;
+            name = "Adwaita-dark";
+            package = pkgs.gnome.gnome-themes-extra;
           };
+        };
+
+        qt = {
+          enable = true;
+          platformTheme.name = "Adwaita-dark";
+          style = {
+            name = "Adwaita-dark";
+            package = pkgs.adwaita-qt;
+          };
+        };
+
+        xdg.portal = {
+          enable = true;
+          extraPortals = with pkgs; [
+            xdg-desktop-portal-wlr
+            xdg-desktop-portal-kde
+            xdg-desktop-portal-gtk
+          ];
+          wlr.enable = true;
         };
       };
     in {
