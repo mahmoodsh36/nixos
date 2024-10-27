@@ -237,7 +237,7 @@ in
       nerdfonts
       ubuntu_font_family
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       dejavu_fonts
       cm_unicode
@@ -326,7 +326,7 @@ in
     qimgv
 
     # media manipulation tools
-    inkscape gimp
+    inkscape # gimp
 
     # general tools
     # google-chrome nyxt tor-browser-bundle-bin # qutebrowser
@@ -412,7 +412,7 @@ in
     gnuplot
     lean
     sentencepiece
-    sageWithDoc sagetex
+    # sageWithDoc sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
     # quickly start VMs
