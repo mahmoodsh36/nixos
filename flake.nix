@@ -2,12 +2,14 @@
   description = "nixos flake";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable; # use the unstable branch, usually behind masters by a few days
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # use the unstable branch, usually behind masters by a few days
     # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     # nixpkgs.url = github:NixOS/nixpkgs/master; # use the master branch
-    home-manager.url = github:nix-community/home-manager;
+    home-manager.url = "github:nix-community/home-manager";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
 
-    emacs-overlay.url = github:nix-community/emacs-overlay;
+    # for running unpatched binaries
+    nix-alien.url = "github:thiagokokada/nix-alien";
 
     # https://github.com/gmodena/nix-flatpak?tab=readme-ov-file
     nix-flatpak.url = "github:gmodena/nix-flatpak"; # unstable branch. Use github:gmodena/nix-flatpak/?ref=<tag> to pin releases.
@@ -27,6 +29,16 @@
             emacs-overlay.overlay
           ];
         }
+
+        # https://github.com/thiagokokada/nix-alien
+        ({ pkgs, ... }: {
+          nixpkgs.overlays = [
+            self.inputs.nix-alien.overlays.default
+          ];
+          environment.systemPackages = with pkgs; [
+            nix-alien
+          ];
+        })
       ];
     };
     homeConfigurations = {
