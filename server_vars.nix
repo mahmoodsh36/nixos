@@ -12,11 +12,6 @@
     #      });
     #  })
     # (self: super: {
-    #  my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = true; withGTK3 = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; }).overrideAttrs (oldAttrs: rec {
-    #      imagemagick = pkgs.imagemagickBig;
-    #    });
-    #  })
-    # (self: super: {
     #   my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = true; withGTK3 = true; withNativeCompilation = true; withCompressInstall=false; withTreeSitter=true; }).overrideAttrs (oldAttrs: rec {
     #     imagemagick = pkgs.imagemagickBig;
     #   });
@@ -86,8 +81,7 @@
 
     # my_emacs
     # emacs
-    # my_emacs_git
-    emacs-git
+    # emacs-git
   ];
 
   main_server_ipv6 = "2a01:4f9:c012:ad1b::1";

@@ -426,7 +426,7 @@ in
     # jupyter
     typescript
     # desktop_vars.desktop_julia
-    julia-bin
+    # julia-bin
     python3Packages.west
     typst
     tailwindcss

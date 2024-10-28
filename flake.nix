@@ -24,11 +24,19 @@
       modules = [
         nix-flatpak.nixosModules.nix-flatpak
         ./desktop.nix
-        {
+        ({ pkgs, ... }: {
           nixpkgs.overlays = [
             emacs-overlay.overlay
+            (self: super: {
+              my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; }).overrideAttrs (oldAttrs: rec {
+                imagemagick = pkgs.imagemagickBig;
+              });
+            })
           ];
-        }
+          environment.systemPackages = with pkgs; [
+            my_emacs_git
+          ];
+        })
 
         # https://github.com/thiagokokada/nix-alien
         ({ pkgs, ... }: {
