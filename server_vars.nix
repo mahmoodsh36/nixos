@@ -93,7 +93,6 @@
   main_server_ipv6 = "2a01:4f9:c012:ad1b::1";
   main_server_user = "root";
   main_server_ip = "95.217.0.99";
-  # mac,name,is_main_storage (is_main_storage should be t for the one that has my hard drives)
   main_user = "mahmooz";
   home_dir = "/home/mahmooz";
   work_dir = "/home/${main_user}/work";
