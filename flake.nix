@@ -28,7 +28,7 @@
           nixpkgs.overlays = [
             emacs-overlay.overlay
             (self: super: {
-              my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; }).overrideAttrs (oldAttrs: rec {
+              my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
                 imagemagick = pkgs.imagemagickBig;
               });
             })

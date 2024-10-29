@@ -145,7 +145,10 @@ in
       naturalScrolling = false;
     };
   };
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = false;
+  };
 
   # tty configs
   console = {
@@ -426,7 +429,7 @@ in
     # jupyter
     typescript
     # desktop_vars.desktop_julia
-    # julia-bin
+    julia-bin
     python3Packages.west
     typst
     tailwindcss
