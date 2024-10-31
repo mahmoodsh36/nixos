@@ -107,8 +107,8 @@ in
     # desktopManager.xfce.enable = true;
     # desktopManager.plasma6.enable = true;
     displayManager = {
-      # autoLogin.enable = true;
-      # autoLogin.user = "mahmooz";
+      autoLogin.enable = true;
+      autoLogin.user = "mahmooz";
       sessionCommands = ''
         # some of these commands dont work because $HOME isnt /home/mahmooz..
         # ${lib.getExe pkgs.hsetroot} -solid '#222222' # incase wallpaper isnt set
@@ -120,13 +120,13 @@ in
     };
     xkb.layout = "us,il,ara";
     xkb.options = "caps:escape,ctrl:ralt_rctrl";
-    windowManager.awesome = {
-      package = with pkgs; my_awesome;
-      enable = true;
-      luaModules = with pkgs.luaPackages; [
-        luarocks
-      ];
-    };
+    # windowManager.awesome = {
+    #   package = with pkgs; my_awesome;
+    #   enable = true;
+    #   luaModules = with pkgs.luaPackages; [
+    #     luarocks
+    #   ];
+    # };
   };
   services.displayManager = {
     # defaultSession = "none+awesome";
@@ -147,7 +147,7 @@ in
   };
   programs.hyprland = {
     enable = true;
-    xwayland.enable = false;
+    xwayland.enable = true;
   };
 
   # tty configs
@@ -429,7 +429,8 @@ in
     # jupyter
     typescript
     # desktop_vars.desktop_julia
-    julia-bin
+    # julia-bin
+    julia
     python3Packages.west
     typst
     tailwindcss
