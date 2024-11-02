@@ -67,6 +67,7 @@ in
         python-magic
         requests
         numpy
+        paramiko pynacl # for find_computers.py (latter is needed for former)
       ]);
     })
     (self: super:
