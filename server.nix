@@ -5,10 +5,9 @@ let
   per_machine_vars = (import ./per_machine_vars.nix {});
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix # hardware scan results
-    ];
+  imports = [
+    ./hardware-configuration.nix # hardware scan results
+  ];
 
   boot.tmp.cleanOnBoot = true;
   # use the systemd-boot EFI boot loader.
@@ -28,8 +27,8 @@ in
     networkmanager.enable = true;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
-        # 127.0.0.1 youtube.com
-        # 127.0.0.1 www.youtube.com
+        127.0.0.1 youtube.com
+        127.0.0.1 www.youtube.com
         # 127.0.0.1 reddit.com
         # 127.0.0.1 www.reddit.com
         127.0.0.1 discord.com
