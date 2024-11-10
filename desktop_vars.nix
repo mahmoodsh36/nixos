@@ -29,19 +29,20 @@
     # "Flux" "JET" "LoopVectorization" "Weave" "BrainFlow"
     # "CUDA" "Javis" "GalacticOptim" "Dagger" "Interact"
     # "Gadfly" "Turing" "RecipesPipeline"
-
-    "OhMyREPL"
-    "Metatheory"
-    "Latexify"
     # "Flux"
-    "CUDA" "MLJ"
+    # "Symbolics" "SymbolicUtils"
 
-    "Images"
-    "LanguageServer"
+
+    # "OhMyREPL"
+    # "Metatheory"
+    # "Latexify"
+    # "CUDA" "MLJ"
+
+    # "Images"
+    # "LanguageServer"
 
     # math
     "Graphs" "MetaGraphs" "MetaGraphsNext"
-    # "Symbolics" "SymbolicUtils"
 
     # data processing
     "JSON" "CSV" "DataFrames"
