@@ -66,8 +66,12 @@ in
       mypython = super.python3.withPackages (ps: with ps; [
         python-magic
         requests
-        numpy
         paramiko pynacl # for find_computers.py (latter is needed for former)
+
+        # ML
+        numpy
+        pytorch
+        matplotlib
       ]);
     })
     (self: super:
