@@ -150,8 +150,10 @@ in
       naturalScrolling = false;
     };
   };
+
   programs.hyprland = {
     enable = true;
+    package = pkgs.hyprland;
     xwayland.enable = true;
   };
 
@@ -383,6 +385,10 @@ in
     swww
     wf-recorder
     ydotool
+    hyprpicker
+    iio-hyprland
+    swappy # for quick snapshot image editing
+    wvkbd # onboard alternative (on-screen keyboard)
 
     # other
     zoom-us #, do i realy want this running natively?
