@@ -62,15 +62,22 @@
             nix-alien
           ];
         })
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.mahmooz = import ./home.nix;
+            home-manager.backupFileExtension = "hmbkup";
+          }
       ];
     };
-    homeConfigurations = {
-      "mahmooz@mahmooz" = home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = { inherit inputs; };
-        modules = [
-          ./home.nix
-        ];
-      };
-    };
+    # homeConfigurations = {
+    #   "mahmooz@mahmooz" = home-manager.lib.homeManagerConfiguration {
+    #     modules = [
+    #       ./home.nix
+    #     ];
+    #   };
+    # };
   };
 }
