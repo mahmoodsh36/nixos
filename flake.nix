@@ -34,7 +34,11 @@
             })
           ];
           environment.systemPackages = with pkgs; [
-            my_emacs_git
+            # my_emacs_git.emacsWithPackages
+            ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
+              # vterm
+              treesit-grammars.with-all-grammars
+            ]))
           ];
         })
 

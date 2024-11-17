@@ -69,9 +69,9 @@ in
         paramiko pynacl # for find_computers.py (latter is needed for former)
 
         # ML
-        numpy
-        pytorch
-        matplotlib
+        # numpy
+        # pytorch
+        # matplotlib
       ]);
     })
     (self: super:
@@ -303,6 +303,9 @@ in
     acceleration = "cuda";
   };
 
+  # self-hosted media service
+  services.jellyfin.enable = true;
+
   # packages
   environment.systemPackages = with pkgs; [
     (pkgs.writeShellScriptBin "python" ''
@@ -332,6 +335,7 @@ in
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
     djvulibre
     qimgv
+    jellyfin jellyfin-web jellyfin-ffmpeg
 
     # media manipulation tools
     inkscape # gimp
@@ -378,6 +382,7 @@ in
     brightnessctl
     swww
     wf-recorder
+    ydotool
 
     # other
     zoom-us #, do i realy want this running natively?
