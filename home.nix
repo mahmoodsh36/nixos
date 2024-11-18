@@ -16,7 +16,7 @@ in
       pkgs.hyprlandPlugins.hyprspace
       pkgs.hyprlandPlugins.hypr-dynamic-cursors
       # pkgs.hyprlandPlugins.hyprcursor
-      pkgs.hyprlandPlugins.hyprbars
+      # pkgs.hyprlandPlugins.hyprbars # buggy
       pkgs.hyprlandPlugins.borders-plus-plus
       # pkgs.hyprlandPlugins.hyprtrails
       # pkgs.hyprlandPlugins.hyprwinwrap
