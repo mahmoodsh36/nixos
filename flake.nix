@@ -42,13 +42,17 @@
           ];
           environment.systemPackages = with pkgs; [
             # my_emacs_git.emacsWithPackages
-            ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
+            # ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
+            #   # vterm
+            #   treesit-grammars.with-all-grammars
+            # ]))
+            ((emacsPackagesFor emacs).emacsWithPackages(epkgs: with epkgs; [
               # vterm
               treesit-grammars.with-all-grammars
             ]))
-            (pkgs.writeShellScriptBin "emacsold" ''
-              exec ${((emacsPackagesFor emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
-            '')
+            # (pkgs.writeShellScriptBin "emacsold" ''
+            #   exec ${((emacsPackagesFor emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
+            # '')
           ];
         })
         ./desktop.nix
