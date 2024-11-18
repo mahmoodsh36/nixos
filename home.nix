@@ -9,15 +9,17 @@ in
     enable = true; # enable Hyprland
     package = pkgs.hyprland;
     plugins = [
+      pkgs.hyprlandPlugins.hyprfocus
+
+      # pkgs.hyprlandPlugins.hyprscroller
+      # pkgs.hyprlandPlugins.hyprspace
+      # pkgs.hyprlandPlugins.borders-plus-plus
+
+      # pkgs.hyprlandPlugins.hypr-dynamic-cursors
       # pkgs.hyprlandPlugins.hy3
       # pkgs.hyprlandPlugins.hyprgrass
-      pkgs.hyprlandPlugins.hyprfocus
-      pkgs.hyprlandPlugins.hyprscroller
-      pkgs.hyprlandPlugins.hyprspace
-      pkgs.hyprlandPlugins.hypr-dynamic-cursors
       # pkgs.hyprlandPlugins.hyprcursor
       # pkgs.hyprlandPlugins.hyprbars # buggy
-      pkgs.hyprlandPlugins.borders-plus-plus
       # pkgs.hyprlandPlugins.hyprtrails
       # pkgs.hyprlandPlugins.hyprwinwrap
     ];
@@ -114,7 +116,7 @@ in
     enable = true;
     theme = {
       name = "Adwaita-dark";
-      package = pkgs.gnome.gnome-themes-extra;
+      package = pkgs.gnome-themes-extra;
     };
   };
 

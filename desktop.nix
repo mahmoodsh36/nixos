@@ -113,8 +113,6 @@ in
     # desktopManager.xfce.enable = true;
     # desktopManager.plasma6.enable = true;
     displayManager = {
-      autoLogin.enable = true;
-      autoLogin.user = "mahmooz";
       sessionCommands = ''
         # some of these commands dont work because $HOME isnt /home/mahmooz..
         # ${lib.getExe pkgs.hsetroot} -solid '#222222' # incase wallpaper isnt set
@@ -135,6 +133,10 @@ in
     # };
   };
   services.displayManager = {
+    autoLogin = {
+      enable = true;
+      user = "mahmooz";
+    };
     # defaultSession = "none+awesome";
     # defaultSession = "xfce+awesome";
     # defaultSession = "xfce";
@@ -349,7 +351,7 @@ in
     scrcpy
     pavucontrol
     libreoffice
-    neovide
+    # neovide
 
     # commandline tools
     wezterm # terminal emulator
