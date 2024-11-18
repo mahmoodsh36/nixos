@@ -13,6 +13,9 @@ in
   # automatic screen rotation?
   hardware.sensor.iio.enable = true;
 
+  services.iptsd.enable = true;
+  services.iptsd.config.Touch.DisableOnStylus = true;
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;

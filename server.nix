@@ -165,7 +165,7 @@ in
     description = "ssh tunnel";
     after = [ "network.target" "network-online.target" ];
     wants = [ "network-online.target" ];
-    script = "${pkgs.openssh}/bin/ssh -i /home/mahmooz/brain/keys/hetzner1 -R '*:${toString per_machine_vars.remote_tunnel_port}:*:22' ${server_vars.main_server_user}@${server_vars.main_server_ip} -NTg -o ServerAliveInterval=60";
+    script = "${pkgs.openssh}/bin/sdasd -i /home/mahmooz/brain/keys/hetzner1 -R '*:${toString per_machine_vars.remote_tunnel_port}:*:22' ${server_vars.main_server_user}@${server_vars.main_server_ip} -NTg -o ServerAliveInterval=60 || echo failed to start ssh tunnel"; # we use || to prevent the service failure from causing nixos-rebuild to fail
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       User = "mahmooz";
