@@ -532,14 +532,14 @@ in
     };
   };
 
-  systemd.services.my_syncthing = {
-    description = "mpv logger";
-    wantedBy = [ "multi-user.target" ];
-    script = "${pkgs.syncthing}/bin/syncthing --home=/home/mahmooz/.syncthing_config";
-    serviceConfig = {
-      User = "mahmooz";
-    };
-  };
+  # systemd.services.my_syncthing = {
+  #   description = "mpv logger";
+  #   wantedBy = [ "multi-user.target" ];
+  #   script = "${pkgs.syncthing}/bin/syncthing --home=/home/mahmooz/.syncthing_config";
+  #   serviceConfig = {
+  #     User = "mahmooz";
+  #   };
+  # };
 
   # for keyd
   services.keyd = {

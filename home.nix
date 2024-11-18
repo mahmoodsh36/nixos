@@ -4,7 +4,6 @@ let
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; });
 in
 {
-
   wayland.windowManager.hyprland = {
     enable = true; # enable Hyprland
     package = pkgs.hyprland;
@@ -128,4 +127,8 @@ in
       package = pkgs.adwaita-qt;
     };
   };
+
+  home.file.".ssh.authorized_keys" = { text = ''
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz
+  ''; };
 }
