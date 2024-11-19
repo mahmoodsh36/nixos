@@ -27,12 +27,12 @@ in
     networkmanager.enable = true;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
-        # 127.0.0.1 youtube.com
-        # 127.0.0.1 www.youtube.com
+        127.0.0.1 youtube.com
+        127.0.0.1 www.youtube.com
         # 127.0.0.1 reddit.com
         # 127.0.0.1 www.reddit.com
-        # 127.0.0.1 discord.com
-        # 127.0.0.1 www.discord.com
+        127.0.0.1 discord.com
+        127.0.0.1 www.discord.com
         127.0.0.1 instagram.com
         127.0.0.1 www.instagram.com
     '';
@@ -149,7 +149,7 @@ in
     DOTFILES_DIR = server_vars.dotfiles_dir;
     NIX_CONFIG_DIR = "$HOME/work/nixos/";
     BLOG_DIR = server_vars.blog_dir;
-    QT_SCALE_FACTOR = "2";
+    # QT_SCALE_FACTOR = "2";
     EDITOR = "nvim";
     BROWSER = "firefox";
     LIB_PATH = "$HOME/mnt2/my/lib/:$HOME/mnt/vol1/lib/";

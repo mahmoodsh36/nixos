@@ -337,7 +337,7 @@ in
     telegram-desktop
     youtube-music
     okular zathura foliate mupdf
-    xournalpp # pkgs.adwaita-icon-theme # the icon theme is needed for xournalpp to work otherwise it crashes
+    xournalpp krita # pkgs.adwaita-icon-theme # the icon theme is needed for xournalpp to work otherwise it crashes
     # krita
     # lollypop clementine
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
