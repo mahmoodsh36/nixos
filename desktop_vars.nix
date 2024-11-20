@@ -52,5 +52,7 @@
     "Makie" "GraphMakie" "CairoMakie" #"GLMakie"
     "GraphPlot" "Compose"
     # "SGtSNEpi" "Karnak"
+
+    # "LogicCircuits"
   ]));
 }
