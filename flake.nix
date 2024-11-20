@@ -9,13 +9,19 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # for running unpatched binaries
-    nix-alien.url = "github:thiagokokada/nix-alien";
-
+    nix-alien = {
+      url = "github:thiagokokada/nix-alien";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # https://github.com/gmodena/nix-flatpak?tab=readme-ov-file
-    nix-flatpak.url = "github:gmodena/nix-flatpak"; # unstable branch. Use github:gmodena/nix-flatpak/?ref=<tag> to pin releases.
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak";
+    };
   };
 
   outputs = {
@@ -39,20 +45,26 @@
                 imagemagick = pkgs.imagemagickBig;
               });
             })
+            # enable pgtk so its not pixelated on wayland
+            (self: super: {
+              my_emacs = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+                imagemagick = pkgs.imagemagickBig;
+              });
+            })
           ];
           environment.systemPackages = with pkgs; [
             # my_emacs_git.emacsWithPackages
-            ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
-              # vterm
-              treesit-grammars.with-all-grammars
-            ]))
-            # ((emacsPackagesFor emacs).emacsWithPackages(epkgs: with epkgs; [
+            # ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
             #   # vterm
             #   treesit-grammars.with-all-grammars
             # ]))
-            (pkgs.writeShellScriptBin "emacsold" ''
-              exec ${((emacsPackagesFor emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
-            '')
+            ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
+              # vterm
+              treesit-grammars.with-all-grammars
+            ]))
+            # (pkgs.writeShellScriptBin "emacsold" ''
+            #   exec ${((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
+            # '')
           ];
         })
         ./desktop.nix

@@ -13,8 +13,10 @@ in
   # automatic screen rotation?
   hardware.sensor.iio.enable = true;
 
+  # iptsd
   services.iptsd.enable = true;
-  services.iptsd.config.Touch.DisableOnStylus = true;
+  services.iptsd.config.Touchscreen.DisableOnStylus = true;
+  services.iptsd.config.Touchscreen.DisableOnPalm = true;
 
   hardware.graphics = {
     enable = true;
