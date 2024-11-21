@@ -22,14 +22,41 @@
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak";
     };
+    # ags
+    astal = {
+      url = "github:aylur/astal";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    ags = {
+      url = "github:aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self, nix-flatpak, nixpkgs, home-manager,
-      emacs-overlay, ...
+      emacs-overlay, ags, astal, ...
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    modifiedAgs = ags.packages.${system}.default.overrideAttrs (oldAttrs: rec {
+      nativeBuildInputs = oldAttrs.nativeBuildInputs or [] ++ [
+        pkgs.wrapGAppsHook
+        pkgs.gobject-introspection
+      ];
+      buildInputs = oldAttrs.buildInputs or [] ++ (with astal.packages.${system}; [
+        astal3
+        apps
+        io
+        hyprland
+        mpris
+        battery
+        wireplumber
+        network
+        tray
+        # any other package
+      ]);
+    });
   in {
     nixosConfigurations.mahmooz = nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -65,6 +92,7 @@
             # (pkgs.writeShellScriptBin "emacsold" ''
             #   exec ${((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
             # '')
+            modifiedAgs
           ];
         })
         ./desktop.nix

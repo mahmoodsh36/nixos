@@ -61,12 +61,12 @@ in
   # my overlays
   nixpkgs.overlays = [
     # for ags
-    (final: prev:
-    {
-      ags = prev.ags.overrideAttrs (old: {
-        buildInputs = old.buildInputs ++ [ pkgs.libdbusmenu-gtk3 pkgs.libnotify pkgs.gtksourceview pkgs.libgedit-gtksourceview ];
-      });
-    })
+    # (final: prev:
+    # {
+    #   ags = prev.ags.overrideAttrs (old: {
+    #     buildInputs = old.buildInputs ++ [ pkgs.libdbusmenu-gtk3 pkgs.libnotify pkgs.gtksourceview pkgs.libgedit-gtksourceview ];
+    #   });
+    # })
     (self: super: {
       mypython = super.python3.withPackages (ps: with ps; [
         python-magic
@@ -422,7 +422,6 @@ in
     # popcorntime
     stremio
     syncthing
-    ags
 
     # local model stuff?
     koboldcpp
