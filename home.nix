@@ -9,6 +9,7 @@ in
     package = pkgs.hyprland;
     plugins = [
       pkgs.hyprlandPlugins.hyprfocus
+      pkgs.hyprlandPlugins.hyprbars # buggy
 
       # pkgs.hyprlandPlugins.hyprscroller
       # pkgs.hyprlandPlugins.hyprspace
@@ -18,7 +19,6 @@ in
       # pkgs.hyprlandPlugins.hy3
       # pkgs.hyprlandPlugins.hyprgrass
       # pkgs.hyprlandPlugins.hyprcursor
-      # pkgs.hyprlandPlugins.hyprbars # buggy
       # pkgs.hyprlandPlugins.hyprtrails
       # pkgs.hyprlandPlugins.hyprwinwrap
     ];
