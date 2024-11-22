@@ -54,6 +54,7 @@
         wireplumber
         network
         tray
+        notifd
         # any other package
       ]);
     });
