@@ -55,6 +55,7 @@
         network
         tray
         notifd
+        bluetooth
         # any other package
       ]);
     });

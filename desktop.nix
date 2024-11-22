@@ -40,15 +40,21 @@ in
     powerOnBoot = true;
   };
   security.rtkit.enable = true; # Realtime audio support
-  services.pipewire.enable = lib.mkForce false;
-  hardware.pulseaudio = {
+  services.pipewire = {
     enable = true;
-    # extraModules = [ pkgs.pulseaudio-modules-bt ];
-    package = pkgs.pulseaudioFull;
-    extraConfig = "
-      load-module module-switch-on-connect
-    ";
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
+  # services.pipewire.enable = lib.mkForce false;
+  # hardware.pulseaudio = {
+  #   enable = true;
+  #   # extraModules = [ pkgs.pulseaudio-modules-bt ];
+  #   package = pkgs.pulseaudioFull;
+  #   extraConfig = "
+  #     load-module module-switch-on-connect
+  #   ";
+  # };
   systemd.user.services.mpris-proxy = {
     description = "mpris proxy";
     after = [ "network.target" "sound.target" ];
@@ -425,7 +431,7 @@ in
     # scientific computation?
     gnuplot
     lean
-    sentencepiece
+    # sentencepiece
     # sageWithDoc sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
