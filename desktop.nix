@@ -60,23 +60,11 @@ in
 
   # my overlays
   nixpkgs.overlays = [
-    # for ags
-    # (final: prev:
-    # {
-    #   ags = prev.ags.overrideAttrs (old: {
-    #     buildInputs = old.buildInputs ++ [ pkgs.libdbusmenu-gtk3 pkgs.libnotify pkgs.gtksourceview pkgs.libgedit-gtksourceview ];
-    #   });
-    # })
     (self: super: {
       mypython = super.python3.withPackages (ps: with ps; [
         python-magic
         requests
         paramiko pynacl # for find_computers.py (latter is needed for former)
-
-        # ML
-        # numpy
-        # pytorch
-        # matplotlib
       ]);
     })
     (self: super:
