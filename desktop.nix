@@ -108,7 +108,7 @@ in
     # wacom.enable = true;
     displayManager.gdm.enable = true;
     # displayManager.sddm.enable = true;
-    # desktopManager.gnome.enable = true;
+    desktopManager.gnome.enable = true;
     # desktopManager.xfce.enable = true;
     # desktopManager.plasma6.enable = true;
     displayManager = {
@@ -139,7 +139,8 @@ in
     # defaultSession = "none+awesome";
     # defaultSession = "xfce+awesome";
     # defaultSession = "xfce";
-    defaultSession = "hyprland";
+    # defaultSession = "hyprland";
+    defaultSession = "gnome";
     # defaultSession = "gnome";
     # defaultSession = "plasma";
   };

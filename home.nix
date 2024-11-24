@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; });
@@ -83,6 +83,7 @@ in
     mimeType = [ "x-scheme-handler/magnet" ];
   };
 
+  # use 'dconf dump /' or 'gsettings list-recursively | less' to get a list of options
   dconf = {
     enable = true;
     settings = {
@@ -93,12 +94,56 @@ in
           gsconnect.extensionUuid
           paperwm.extensionUuid
         ];
+        favorite-apps = [
+          "firefox.desktop"
+          "emacs.desktop"
+          "org.gnome.Nautilus.desktop"
+        ];
       };
-      # you need quotes to escape '/'
+      "org/gnome/desktop/wm/preferences" = {
+        resize-with-right-button = true;
+      };
+      "org.gnome.desktop.peripherals.mouse" = {
+        natural-scroll = true;
+      };
+      "org/gnome/desktop/wm/keybindings" = {
+        switch-to-workspace-1 = ["<Super>1"];
+        switch-to-workspace-2 = ["<Super>2"];
+        switch-to-workspace-3 = ["<Super>3"];
+        switch-to-workspace-4 = ["<Super>4"];
+        move-to-workspace-1 = ["<Super><Shift>1"];
+        move-to-workspace-2 = ["<Super><Shift>2"];
+        move-to-workspace-3 = ["<Super><Shift>3"];
+        move-to-workspace-4 = ["<Super><Shift>4"];
+        switch-to-application-1 = "disabled";
+        switch-to-application-2 = "disabled";
+        switch-to-application-3 = "disabled";
+        switch-to-application-4 = "disabled";
+        close = ["<Super>q"];
+        minimize = ["<Super>n"];
+        toggle-maximized = ["<Super>m"];
+      };
+      "org/gnome/desktop/peripherals/touchpad" = {
+        tap-to-click = true;
+        two-finger-scrolling-enabled = true;
+      };
       "org/gnome/desktop/interface" = {
+        clock-show-seconds = true;
         clock-show-weekday = true;
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
+        scaling-factor = lib.hm.gvariant.mkUint32 0; # 0 to automatically detect
+        enable-hot-corners = false;
+      };
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        custom-keybindings = [
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        ];
+      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+        binding = "<Super>Return";
+        command = "kitty";
+        name = "open-terminal";
       };
     };
   };
