@@ -103,8 +103,14 @@ in
       "org/gnome/desktop/wm/preferences" = {
         resize-with-right-button = true;
       };
-      "org.gnome.desktop.peripherals.mouse" = {
+      "org/gnome/desktop/peripherals/mouse" = {
         natural-scroll = true;
+      };
+      "org/gnome/desktop/session" = {
+        idle-delay = "0";
+      };
+      "org/gnome/desktop/screensaver" = {
+        lock-enabled = "0";
       };
       "org/gnome/desktop/wm/keybindings" = {
         switch-to-workspace-1 = ["<Super>1"];
@@ -122,6 +128,8 @@ in
         close = ["<Super>q"];
         minimize = ["<Super>n"];
         toggle-maximized = ["<Super>m"];
+        toggle-message-tray = "disabled";
+        activate-window-menu = ["<Super>`"];
       };
       "org/gnome/desktop/peripherals/touchpad" = {
         tap-to-click = true;
@@ -134,6 +142,7 @@ in
         gtk-theme = "Adwaita-dark";
         scaling-factor = lib.hm.gvariant.mkUint32 0; # 0 to automatically detect
         enable-hot-corners = false;
+        show-battery-percentage = true;
       };
       "org/gnome/settings-daemon/plugins/media-keys" = {
         custom-keybindings = [
