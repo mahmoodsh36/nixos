@@ -107,10 +107,15 @@ in
         natural-scroll = true;
       };
       "org/gnome/desktop/session" = {
-        idle-delay = "0";
+        idle-delay = lib.hm.gvariant.mkUint32 0;
       };
       "org/gnome/desktop/screensaver" = {
-        lock-enabled = "0";
+        lock-enabled = false;
+        logout-enabled = false;
+        logout-delay = lib.hm.gvariant.mkUint32 0;
+      };
+      "org/gnome/shell/app-switcher" = {
+        current-workspace-only = true;
       };
       "org/gnome/desktop/wm/keybindings" = {
         switch-to-workspace-1 = ["<Super>1"];

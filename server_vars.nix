@@ -79,6 +79,8 @@
     deploy-rs
     nix-tree
 
+    kanata
+
     # my_emacs
     # emacs
     # emacs-git

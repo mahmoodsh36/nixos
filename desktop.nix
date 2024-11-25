@@ -111,7 +111,7 @@ in
     wacom.enable = true;
     displayManager.gdm.enable = true;
     # displayManager.sddm.enable = true;
-    desktopManager.gnome.enable = true;
+    # desktopManager.gnome.enable = true;
     # desktopManager.xfce.enable = true;
     # desktopManager.plasma6.enable = true;
     displayManager = {
@@ -125,7 +125,7 @@ in
       # sx.enable = true;
     };
     xkb.layout = "us,il,ara";
-    xkb.options = "caps:escape,ctrl:ralt_rctrl";
+    # xkb.options = "caps:escape,ctrl:ralt_rctrl";
     # windowManager.awesome = {
     #   package = with pkgs; my_awesome;
     #   enable = true;
@@ -142,8 +142,7 @@ in
     # defaultSession = "none+awesome";
     # defaultSession = "xfce+awesome";
     # defaultSession = "xfce";
-    # defaultSession = "hyprland";
-    defaultSession = "gnome";
+    defaultSession = "hyprland";
     # defaultSession = "gnome";
     # defaultSession = "plasma";
   };
@@ -436,7 +435,7 @@ in
     gnuplot
     lean
     # sentencepiece
-    # sageWithDoc sagetex
+    sageWithDoc sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
     # quickly start VMs
@@ -555,9 +554,8 @@ in
             };
             otherlayer = {};
           };
-        extraConfig = ''
-            # put here any extra-config, e.g. you can copy/paste here directly a configuration, just remove the ids part
-          '';
+          extraConfig = ''
+'';
       };
     };
   };

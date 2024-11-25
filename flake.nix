@@ -58,7 +58,7 @@
             #   # vterm
             #   treesit-grammars.with-all-grammars
             # ]))
-            ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
+            ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
               # vterm
               treesit-grammars.with-all-grammars
             ]))
