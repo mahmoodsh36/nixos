@@ -22,11 +22,14 @@
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak";
     };
+    fabric.url = "github:Fabric-Development/fabric";
+    # fabric-libgray.url = "github:Fabric-Development/gray";
+    # fabric-libglace.url = "github:Fabric-Development/glace/hyprland";
   };
 
   outputs = {
     self, nix-flatpak, nixpkgs, home-manager,
-      emacs-overlay, ...
+      emacs-overlay, fabric, ...
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -51,6 +54,15 @@
                 imagemagick = pkgs.imagemagickBig;
               });
             })
+
+            # self.inputs.fabric.packages.${system}.default
+            fabric.overlays.${system}.default
+            # (final: prev: {
+            #   python-fabric = prev.python-fabric.overrideAttrs (old: {
+            #     dependencies = old.dependencies ++
+            #                    [ pkgs.python3Packages.requests ];
+            #   });
+            # })
           ];
           environment.systemPackages = with pkgs; [
             # my_emacs_git.emacsWithPackages
@@ -76,6 +88,8 @@
           ];
           environment.systemPackages = with pkgs; [
             nix-alien
+            # self.inputs.fabric.packages.${system}.default
+            self.inputs.fabric.packages.${system}.run-widget
           ];
         })
 

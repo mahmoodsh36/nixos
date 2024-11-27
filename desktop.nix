@@ -353,7 +353,7 @@ in
     scrcpy
     pavucontrol
     libreoffice
-    # neovide
+    neovide
 
     # commandline tools
     wezterm # terminal emulator
