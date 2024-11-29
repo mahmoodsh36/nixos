@@ -89,7 +89,7 @@
           environment.systemPackages = with pkgs; [
             nix-alien
             # self.inputs.fabric.packages.${system}.default
-            self.inputs.fabric.packages.${system}.run-widget
+            # self.inputs.fabric.packages.${system}.run-widget
           ];
         })
 

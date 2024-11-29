@@ -70,11 +70,25 @@ in
   # my overlays
   nixpkgs.overlays = [
     (self: super: {
-      mypython = super.python3.withPackages (ps: with ps; [
+      mypython = (super.python3.withPackages(ps: with ps; [
         python-magic
         requests
         paramiko pynacl # for find_computers.py (latter is needed for former)
-      ]);
+
+        # for widgets
+        pygobject3
+        pydbus
+      ])).overrideAttrs(old: {
+        nativeBuildInputs = (old.nativeBuildInputs or []) ++ [
+          pkgs.gobject-introspection
+        ];
+        buildInputs = (old.buildInputs or []) ++ [
+          pkgs.gobject-introspection
+        ];
+        propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [
+          pkgs.gobject-introspection
+        ];
+      });
     })
     (self: super:
     {
@@ -501,6 +515,31 @@ in
     nvtopPackages.full
 
     liquidctl
+
+    # for widgets
+    (pkgs.python3Packages.buildPythonPackage rec {
+      pname = "widgets";
+      format = "other";
+      version = "1.0";
+      dontBuild = true;
+      dontUnpack = true;
+
+      src = /home/mahmooz/work/widgets/menu.py;
+
+      nativeBuildInputs = with pkgs; [ gobject-introspection ];
+      buildInputs = with pkgs; [ gtk3 gtk-layer-shell wrapGAppsHook ];
+      # propagatedBuildInputs = with python3Packages; [ pygobject3 pydbus ];
+      propagatedBuildInputs = with python3Packages; [
+        pydbus
+        pygobject3
+      ];
+
+      installPhase = ''
+        mkdir -p $out/bin
+        cp ${src} $out/bin/menu.py
+        chmod +x $out/bin/menu.py
+      '';
+    })
   ] ++ server_vars.server_packages;
 
   services.prometheus = {
@@ -567,6 +606,9 @@ in
     MatchName=keyd virtual keyboard
     AttrKeyboardIntegration=internal
   '';
+
+  # make electron apps work properly with wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   system.stateVersion = "24.05"; # dont change
 }
