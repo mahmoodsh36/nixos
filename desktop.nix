@@ -408,6 +408,7 @@ in
     iio-hyprland
     swappy # for quick snapshot image editing
     wvkbd # onboard alternative (on-screen keyboard)
+    zenity
 
     # other
     zoom-us #, do i realy want this running natively?
@@ -463,7 +464,8 @@ in
     # jupyter
     typescript
     # desktop_vars.desktop_julia
-    julia-bin
+    # julia-bin
+    julia
     python3Packages.west
     typst
     tailwindcss
@@ -515,6 +517,7 @@ in
     nvtopPackages.full
 
     liquidctl
+    libinput
 
     # for widgets
     (pkgs.python3Packages.buildPythonPackage rec {
@@ -591,7 +594,6 @@ in
               capslock = "esc"; # you might need to also enclose the key in quotes if it contains non-alphabetical symbols
               rightalt = "leftcontrol";
             };
-            otherlayer = {};
           };
           extraConfig = ''
 '';
