@@ -527,7 +527,7 @@ in
       dontBuild = true;
       dontUnpack = true;
 
-      src = /home/mahmooz/work/widgets/menu.py;
+      src = /home/mahmooz/work/widgets;
 
       nativeBuildInputs = with pkgs; [ gobject-introspection ];
       buildInputs = with pkgs; [ gtk3 gtk-layer-shell wrapGAppsHook ];
@@ -539,7 +539,8 @@ in
 
       installPhase = ''
         mkdir -p $out/bin
-        cp ${src} $out/bin/menu.py
+        cp ${src}/menu.py $out/bin/menu.py
+        cp ${src}/main.css $out/bin/
         chmod +x $out/bin/menu.py
       '';
     })
