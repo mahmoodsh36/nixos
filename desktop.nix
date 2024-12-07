@@ -263,7 +263,7 @@ in
       inconsolata-nerdfont
       iosevka
       fira-code
-      nerdfonts
+      # nerdfonts
       ubuntu_font_family
       noto-fonts
       noto-fonts-cjk-sans
@@ -594,6 +594,7 @@ in
             main = {
               capslock = "esc"; # you might need to also enclose the key in quotes if it contains non-alphabetical symbols
               rightalt = "leftcontrol";
+              rightshift = "C-space";
             };
           };
           extraConfig = ''
