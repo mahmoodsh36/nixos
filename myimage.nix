@@ -4,7 +4,7 @@
     # provide an initial copy of the NixOS channel so that the user
     # doesn't need to run "nix-channel --update" first.
     # <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
-    "/etc/nixos/configuration.nix"
+    "/etc/nixos/desktop.nix"
   ];
   # recommended by the wiki for speeding up build time
   # suboptimal for production tho :p

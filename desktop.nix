@@ -76,8 +76,8 @@ in
         paramiko pynacl # for find_computers.py (latter is needed for former)
 
         # for widgets
-        pygobject3
-        pydbus
+        # pygobject3
+        # pydbus
       ])).overrideAttrs(old: {
         nativeBuildInputs = (old.nativeBuildInputs or []) ++ [
           pkgs.gobject-introspection
@@ -319,6 +319,8 @@ in
     ];
   };
 
+  programs.ydotool.enable = true;
+
   services.ollama = {
     enable = per_machine_vars.enable_nvidia;
     acceleration = "cuda";
@@ -403,7 +405,6 @@ in
     brightnessctl
     swww
     wf-recorder
-    ydotool
     hyprpicker
     iio-hyprland
     swappy # for quick snapshot image editing
@@ -539,9 +540,9 @@ in
 
       installPhase = ''
         mkdir -p $out/bin
-        cp ${src}/menu.py $out/bin/menu.py
+        cp ${src}/*.py $out/bin/
         cp ${src}/main.css $out/bin/
-        chmod +x $out/bin/menu.py
+        chmod +x $out/bin/*.py
       '';
     })
   ] ++ server_vars.server_packages;
