@@ -75,7 +75,9 @@ in
         requests
         paramiko pynacl # for find_computers.py (latter is needed for former)
 
-        # for widgets
+        evdev # for event handling/manipulation
+
+        # for widgets, doesnt work
         # pygobject3
         # pydbus
       ])).overrideAttrs(old: {
