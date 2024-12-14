@@ -19,7 +19,7 @@ in
   # services.iptsd.config.Touchscreen.DisableOnPalm = true;
 
   # i dont need this to use wacom, but it provides extra options/features
-  hardware.opentabletdriver.enable = true;
+  # hardware.opentabletdriver.enable = true;
 
   hardware.graphics = {
     enable = true;
@@ -122,7 +122,7 @@ in
   # x11 and awesomewm
   services.xserver = {
     enable = true;
-    wacom.enable = true;
+    # wacom.enable = true;
     displayManager.gdm.enable = true;
     # displayManager.sddm.enable = true;
     # desktopManager.gnome.enable = true;
