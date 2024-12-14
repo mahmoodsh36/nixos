@@ -169,7 +169,6 @@ in
       naturalScrolling = false;
     };
   };
-
   programs.hyprland = {
     enable = true;
     package = pkgs.hyprland;
