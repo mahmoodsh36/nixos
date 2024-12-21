@@ -21,6 +21,9 @@ in
   # i dont need this to use wacom, but it provides extra options/features
   # hardware.opentabletdriver.enable = true;
 
+  # not needed with flakes and causes a bunch of warnings
+  nix.channel.enable = false;
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
