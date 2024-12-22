@@ -93,13 +93,13 @@
           ];
         })
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.mahmooz = import ./home.nix;
-            home-manager.backupFileExtension = "hmbkup";
-          }
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.mahmooz = import ./home.nix;
+          home-manager.backupFileExtension = "hmbkup";
+        }
       ];
     };
     # homeConfigurations = {
