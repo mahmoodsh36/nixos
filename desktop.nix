@@ -78,6 +78,10 @@ in
         requests
         paramiko pynacl # for find_computers.py (latter is needed for former)
 
+        # for quick tests etc? i use it for ML uni courses
+        matplotlib
+        numpy
+
         evdev # for event handling/manipulation
 
         # for widgets, doesnt work
