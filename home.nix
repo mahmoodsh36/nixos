@@ -177,13 +177,4 @@ in
       package = pkgs.gnome-themes-extra;
     };
   };
-
-  qt = {
-    enable = true;
-    platformTheme.name = "Adwaita-dark";
-    style = {
-      name = "Adwaita-dark";
-      package = pkgs.adwaita-qt;
-    };
-  };
 }

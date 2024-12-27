@@ -528,6 +528,8 @@ in
     liquidctl
     libinput
 
+    bluez-tools blueman
+
     # for widgets
     (pkgs.python3Packages.buildPythonPackage rec {
       pname = "widgets";
@@ -585,6 +587,15 @@ in
 
   # make electron apps work properly with wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  # without this okular is blurry
+  environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
+
+  qt = {
+    enable = true;
+    platformTheme = "qt5ct";
+    style = "adwaita-dark";
+  };
 
   system.stateVersion = "24.05"; # dont change
 }
