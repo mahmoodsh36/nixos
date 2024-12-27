@@ -22,14 +22,15 @@
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak";
     };
-    fabric.url = "github:Fabric-Development/fabric";
-    # fabric-libgray.url = "github:Fabric-Development/gray";
-    # fabric-libglace.url = "github:Fabric-Development/glace/hyprland";
+    wezterm-flake = {
+      url = "github:wez/wezterm/main?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self, nix-flatpak, nixpkgs, home-manager,
-      emacs-overlay, fabric, ...
+      emacs-overlay, wezterm-flake, ...
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -55,14 +56,6 @@
               });
             })
 
-            # self.inputs.fabric.packages.${system}.default
-            fabric.overlays.${system}.default
-            # (final: prev: {
-            #   python-fabric = prev.python-fabric.overrideAttrs (old: {
-            #     dependencies = old.dependencies ++
-            #                    [ pkgs.python3Packages.requests ];
-            #   });
-            # })
           ];
           environment.systemPackages = with pkgs; [
             # my_emacs_git.emacsWithPackages
@@ -77,6 +70,8 @@
             # (pkgs.writeShellScriptBin "emacsold" ''
             #   exec ${((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
             # '')
+
+            inputs.wezterm-flake.packages.${pkgs.system}.default
           ];
         })
         ./desktop.nix
@@ -88,8 +83,6 @@
           ];
           environment.systemPackages = with pkgs; [
             nix-alien
-            # self.inputs.fabric.packages.${system}.default
-            # self.inputs.fabric.packages.${system}.run-widget
           ];
         })
 
