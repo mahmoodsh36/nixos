@@ -132,7 +132,7 @@ in
   services.xserver = {
     enable = true;
     # wacom.enable = true;
-    displayManager.gdm.enable = true;
+    # displayManager.gdm.enable = true;
     # displayManager.sddm.enable = true;
     # desktopManager.gnome.enable = true;
     # desktopManager.xfce.enable = true;
