@@ -130,7 +130,7 @@ in
 
   # x11 and awesomewm
   services.xserver = {
-    enable = true;
+    enable = false;
     # wacom.enable = true;
     # displayManager.gdm.enable = true;
     # displayManager.sddm.enable = true;
@@ -165,7 +165,7 @@ in
     # defaultSession = "none+awesome";
     # defaultSession = "xfce+awesome";
     # defaultSession = "xfce";
-    defaultSession = "hyprland";
+    # defaultSession = "hyprland";
     # defaultSession = "gnome";
     # defaultSession = "plasma";
   };
@@ -597,30 +597,29 @@ in
   };
 
   # https://github.com/sjcobb2022/nixos-config/blob/29077cee1fc82c5296908f0594e28276dacbe0b0/hosts/common/optional/greetd.nix
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
-        user = "mahmooz";
-      };
-    };
-  };
-
+  # services.greetd = {
+  #   enable = true;
+  #   settings = {
+  #     default_session = {
+  #       command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
+  #       user = "mahmooz";
+  #     };
+  #   };
+  # };
   # this is a life saver.
   # literally no documentation about this anywhere.
   # might be good to write about this...
   # https://www.reddit.com/r/NixOS/comments/u0cdpi/tuigreet_with_xmonad_how/
-  systemd.services.greetd.serviceConfig = {
-    Type = "idle";
-    StandardInput = "tty";
-    StandardOutput = "tty";
-    StandardError = "journal"; # Without this errors will spam on screen
-    # Without these bootlogs will spam on screen
-    TTYReset = true;
-    TTYVHangup = true;
-    TTYVTDisallocate = true;
-  };
+  # systemd.services.greetd.serviceConfig = {
+  #   Type = "idle";
+  #   StandardInput = "tty";
+  #   StandardOutput = "tty";
+  #   StandardError = "journal"; # Without this errors will spam on screen
+  #   # Without these bootlogs will spam on screen
+  #   TTYReset = true;
+  #   TTYVHangup = true;
+  #   TTYVTDisallocate = true;
+  # };
 
   # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)
   nix.settings.substituters = [
