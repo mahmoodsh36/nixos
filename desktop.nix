@@ -529,6 +529,9 @@ in
 
     bluez-tools blueman
 
+    # image viewer
+    vimiv-qt
+
     # for widgets
     (pkgs.python3Packages.buildPythonPackage rec {
       pname = "widgets";
