@@ -79,7 +79,7 @@
     deploy-rs
     nix-tree
 
-    kanata
+    zeromq
 
     # my_emacs
     # emacs

@@ -84,6 +84,9 @@ in
 
         evdev # for event handling/manipulation
 
+        # for other system scripts?
+        pyzmq
+
         # for widgets, doesnt work
         # pygobject3
         # pydbus
