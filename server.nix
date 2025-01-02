@@ -208,5 +208,12 @@ in
   environment.systemPackages = server_vars.server_packages;
   nixpkgs.overlays = server_vars.server_overlays;
 
+  # wheel group doesnt need password for sudo
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
+    execWheelOnly = true;
+  };
+
   system.stateVersion = "24.05"; # dont change
 }

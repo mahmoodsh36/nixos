@@ -191,11 +191,6 @@ in
     packages = with pkgs; [ terminus_font ];
     useXkbConfig = true; # remap caps to escape
   };
-  security.sudo = {
-    enable = true;
-    wheelNeedsPassword = false;
-    execWheelOnly = true;
-  };
   security.audit.enable = true;
   security.auditd.enable = true;
 
