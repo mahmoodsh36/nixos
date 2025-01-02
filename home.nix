@@ -85,7 +85,7 @@ in
 
   # use 'dconf dump /' or 'gsettings list-recursively | less' to get a list of options
   dconf = {
-    enable = true;
+    enable = false;
     settings = {
       "org/gnome/shell" = {
         disable-user-extensions = false;
