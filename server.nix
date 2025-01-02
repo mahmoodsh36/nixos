@@ -11,11 +11,10 @@ in
 
   boot.tmp.cleanOnBoot = true;
   # use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
   # what about this?
-  # boot.loader.grub.device = "nodev";
+  boot.loader.grub.device = "nodev";
 
   nixpkgs.config.allowUnfree = true;
   time.timeZone = "Asia/Jerusalem";
