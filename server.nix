@@ -198,4 +198,6 @@ in
 
   environment.systemPackages = server_vars.server_packages;
   nixpkgs.overlays = server_vars.server_overlays;
+
+  system.stateVersion = "24.05"; # dont change
 }

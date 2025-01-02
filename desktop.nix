@@ -597,6 +597,4 @@ in
     platformTheme = "qt5ct";
     style = "adwaita-dark";
   };
-
-  system.stateVersion = "24.05"; # dont change
 }
