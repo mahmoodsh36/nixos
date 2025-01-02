@@ -21,7 +21,7 @@
   server_packages = with pkgs; [
     pandoc
     imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
-    ffmpeg-full.bin untrunc-anthwlock
+    ffmpeg-full.bin # untrunc-anthwlock
     sqlite
     silver-searcher
     rx

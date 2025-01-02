@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; });
@@ -178,10 +178,15 @@ in
       naturalScrolling = false;
     };
   };
+  # programs.hyprland = {
+  #   enable = true;
+  #   package = pkgs.hyprland;
+  #   xwayland.enable = true;
+  # };
   programs.hyprland = {
     enable = true;
-    package = pkgs.hyprland;
-    xwayland.enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
 
   # tty configs
@@ -297,8 +302,8 @@ in
   };
 
   # dictionaries
-  services.dictd.enable = true;
-  services.dictd.DBs = with pkgs.dictdDBs; [ wiktionary wordnet ];
+  # services.dictd.enable = true;
+  # services.dictd.DBs = with pkgs.dictdDBs; [ wiktionary wordnet ];
   environment.wordlist.enable = true;
 
   documentation.dev.enable = true;
@@ -385,19 +390,19 @@ in
     sshpass
 
     # x11 tools
-    rofi
+    # rofi
     libnotify
-    xclip xsel
-    maim # maim is a better alternative to scrot
-    hsetroot
-    unclutter
-    xorg.xev
-    sxhkd
-    xorg.xwininfo
-    xorg.xauth
+    # xclip xsel
+    # maim # maim is a better alternative to scrot
+    # hsetroot
+    # unclutter
+    # xorg.xev
+    # sxhkd
+    # xorg.xwininfo
+    # xorg.xauth
 
     # wayland
-    gnomeExtensions.xremap
+    # gnomeExtensions.xremap
     wl-clipboard
     waybar
     grim slurp # for screenshots
@@ -427,7 +432,7 @@ in
     subversion # git alternative
     # logseq
     graphviz
-    firebase-tools
+    # firebase-tools
     graphqlmap
     isync
     notmuch
@@ -436,10 +441,6 @@ in
     # popcorntime
     stremio
     syncthing
-
-    # local model stuff?
-    koboldcpp
-    jan
 
     soulseekqt
     nicotine-plus
@@ -456,7 +457,7 @@ in
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
     # quickly start VMs
-    quickemu
+    # quickemu
 
     # some programming languages/environments
     (lua.withPackages(ps: with ps; [ busted luafilesystem luarocks ]))
@@ -553,12 +554,14 @@ in
         chmod +x $out/bin/*.py
       '';
     })
-  ] ++ server_vars.server_packages;
+  ]
+  ++ server_vars.server_packages
+  ++ (pkgs.lib.optionals per_machine_vars.enable_nvidia [koboldcpp jan]);
 
-  services.prometheus = {
-    enable = true;
-    port = 9001;
-  };
+  # services.prometheus = {
+  #   enable = true;
+  #   port = 9001;
+  # };
   # services.monit.enable = true;
 
   systemd.services.my_mpv_logger_service = {
