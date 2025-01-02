@@ -22,6 +22,8 @@ in
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # do we even need this?
+  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   # networking
   networking = {
     hostName = "mahmooz";
