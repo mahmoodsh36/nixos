@@ -14,6 +14,9 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # what about this?
+  # boot.loader.grub.device = "nodev";
+
   nixpkgs.config.allowUnfree = true;
   time.timeZone = "Asia/Jerusalem";
   system.etc.overlay.enable = false;
@@ -76,8 +79,14 @@ in
     # require public key authentication for better security
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
-    #settings.PermitRootLogin = "yes";
+    settings.PermitRootLogin = "yes";
   };
+  users.users.mahmooz.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz"
+  ];
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz"
+  ];
 
   programs.nix-index = { # helps finding the package that contains a specific file
     enable = true;
