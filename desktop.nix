@@ -350,7 +350,6 @@ in
 
     # text editors
     vscode
-    neovim
 
     # media tools
     mpv

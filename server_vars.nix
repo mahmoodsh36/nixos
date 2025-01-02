@@ -42,6 +42,7 @@
     exiftool
     distrobox
     tree
+    neovim
 
     openjdk
     gcc clang gdb clang-tools
