@@ -263,7 +263,7 @@ in
       fantasque-sans-mono
       google-fonts
       cascadia-code
-      inconsolata-nerdfont
+      nerd-fonts.inconsolata
       iosevka
       fira-code
       # nerdfonts
@@ -452,7 +452,7 @@ in
     gnuplot
     lean
     # sentencepiece
-    sageWithDoc sagetex
+    # sageWithDoc sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
     # quickly start VMs
