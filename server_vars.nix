@@ -49,7 +49,7 @@
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
-    inetutils ncftp samba # samba4Full
+    inetutils # ncftp samba # samba4Full
 
     file vifm zip unzip fzf p7zip unrar-wrapper
     transmission_4 acpi gnupg lm_sensors
@@ -103,5 +103,6 @@
   mpv_socket_dir = "${data_dir}/mpv_data/sockets";
   mpv_main_socket_path = "${data_dir}/mpv_data/sockets/mpv.socket";
   personal_website = "https://mahmoodsh36.github.io";
+  mygithub = "https://github.com/mahmoodsh36";
   main_key = "${brain_dir}/keys/hetzner1";
 }

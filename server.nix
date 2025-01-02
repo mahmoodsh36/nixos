@@ -169,6 +169,7 @@ in
     MPV_SOCKET_DIR = server_vars.mpv_socket_dir;
     MPV_MAIN_SOCKET_PATH = server_vars.mpv_main_socket_path;
     PERSONAL_WEBSITE = server_vars.personal_website;
+    MYGITHUB = server_vars.mygithub;
   };
 
   # not needed with flakes and causes a bunch of warnings
