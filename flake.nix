@@ -75,8 +75,6 @@
             # (pkgs.writeShellScriptBin "emacsold" ''
             #   exec ${((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
             # '')
-
-            inputs.wezterm-flake.packages.${pkgs.system}.default
           ];
         })
         (if (import ./per_machine_vars.nix {}).is_desktop

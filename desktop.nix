@@ -348,6 +348,9 @@ in
       exec ${pkgs.mypython}/bin/python "$@"
     '')
 
+
+    inputs.wezterm-flake.packages.${pkgs.system}.default
+
     # text editors
     vscode
 
