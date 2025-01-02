@@ -171,28 +171,6 @@ in
     PERSONAL_WEBSITE = server_vars.personal_website;
   };
 
-  # note that you may have to ssh first manually for the main server to be inserted into known_hosts file so that this would work
-  systemd.services.my_ssh_tunnel_service = {
-    description = "ssh tunnel";
-    after = [ "network.target" "network-online.target" ];
-    wants = [ "network-online.target" ];
-    script = "[ -f ${server_vars.main_key} ] && ${pkgs.openssh}/bin/ssh -i ${server_vars.main_key} -R '*:${toString per_machine_vars.remote_tunnel_port}:*:22' ${server_vars.main_server_user}@${server_vars.main_server_ip} -NTg -o ServerAliveInterval=60";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      User = "mahmooz";
-      Type = "simple";
-      Restart = "on-failure";
-      RestartSec = "5s";
-      RuntimeMaxSec = "3600";
-      # Restart = "always";
-    };
-  };
-
-  services.udev.extraRules = ''
-    SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
-    SUBSYSTEM=="block", ENV{ID_FS_UUID}=="be5af23f-da6d-42ee-a346-5ad3af1a299a", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt2" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt2", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
-  '';
-
   # not needed with flakes and causes a bunch of warnings
   nix.channel.enable = false;
 
