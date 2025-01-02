@@ -38,6 +38,8 @@ in
     '';
   };
 
+  services.tailscale.enable = true;
+
   # enable some programs/services
   programs.mosh.enable = true;
   programs.zsh.enable = true;
@@ -181,6 +183,18 @@ in
     SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
     SUBSYSTEM=="block", ENV{ID_FS_UUID}=="be5af23f-da6d-42ee-a346-5ad3af1a299a", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt2" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt2", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
   '';
+
+  # not needed with flakes and causes a bunch of warnings
+  nix.channel.enable = false;
+
+  # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)
+  nix.settings.substituters = [
+    "https://nix-community.cachix.org"
+  ];
+  nix.settings.trusted-public-keys = [
+    # Compare to the key published at https://nix-community.org/cache
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  ];
 
   environment.systemPackages = server_vars.server_packages;
   nixpkgs.overlays = server_vars.server_overlays;

@@ -74,7 +74,9 @@
             inputs.wezterm-flake.packages.${pkgs.system}.default
           ];
         })
-        ./desktop.nix
+        (if (import ./per_machine_vars.nix {}).is_desktop
+         then ./desktop.nix
+         else ./server.nix)
 
         # https://github.com/thiagokokada/nix-alien
         ({ pkgs, ... }: {

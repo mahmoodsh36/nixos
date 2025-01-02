@@ -21,9 +21,6 @@ in
   # i dont need this to use wacom, but it provides extra options/features
   # hardware.opentabletdriver.enable = true;
 
-  # not needed with flakes and causes a bunch of warnings
-  nix.channel.enable = false;
-
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -330,7 +327,7 @@ in
     ];
   };
 
-  programs.ydotool.enable = true;
+  # programs.ydotool.enable = true;
 
   services.ollama = {
     enable = per_machine_vars.enable_nvidia;
@@ -601,40 +598,6 @@ in
     platformTheme = "qt5ct";
     style = "adwaita-dark";
   };
-
-  # https://github.com/sjcobb2022/nixos-config/blob/29077cee1fc82c5296908f0594e28276dacbe0b0/hosts/common/optional/greetd.nix
-  # services.greetd = {
-  #   enable = true;
-  #   settings = {
-  #     default_session = {
-  #       command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
-  #       user = "mahmooz";
-  #     };
-  #   };
-  # };
-  # this is a life saver.
-  # literally no documentation about this anywhere.
-  # might be good to write about this...
-  # https://www.reddit.com/r/NixOS/comments/u0cdpi/tuigreet_with_xmonad_how/
-  # systemd.services.greetd.serviceConfig = {
-  #   Type = "idle";
-  #   StandardInput = "tty";
-  #   StandardOutput = "tty";
-  #   StandardError = "journal"; # Without this errors will spam on screen
-  #   # Without these bootlogs will spam on screen
-  #   TTYReset = true;
-  #   TTYVHangup = true;
-  #   TTYVTDisallocate = true;
-  # };
-
-  # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)
-  nix.settings.substituters = [
-    "https://nix-community.cachix.org"
-  ];
-  nix.settings.trusted-public-keys = [
-    # Compare to the key published at https://nix-community.org/cache
-    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-  ];
 
   system.stateVersion = "24.05"; # dont change
 }
