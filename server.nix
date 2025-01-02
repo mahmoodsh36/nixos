@@ -11,10 +11,10 @@ in
 
   boot.tmp.cleanOnBoot = true;
   # use the systemd-boot EFI boot loader.
-  # boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # what about this?
-  boot.loader.grub.device = "nodev";
+  # what about this? works for hetzner
+  # boot.loader.grub.device = "nodev";
 
   nixpkgs.config.allowUnfree = true;
   time.timeZone = "Asia/Jerusalem";
@@ -31,14 +31,14 @@ in
     networkmanager.enable = true;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
-        127.0.0.1 youtube.com
-        127.0.0.1 www.youtube.com
-        127.0.0.1 reddit.com
-        127.0.0.1 www.reddit.com
-        127.0.0.1 discord.com
-        127.0.0.1 www.discord.com
-        127.0.0.1 instagram.com
-        127.0.0.1 www.instagram.com
+      127.0.0.1 youtube.com
+      127.0.0.1 www.youtube.com
+      127.0.0.1 reddit.com
+      127.0.0.1 www.reddit.com
+      127.0.0.1 discord.com
+      127.0.0.1 www.discord.com
+      127.0.0.1 instagram.com
+      127.0.0.1 www.instagram.com
     '';
   };
 
