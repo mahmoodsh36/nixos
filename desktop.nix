@@ -526,6 +526,8 @@ in
     # image viewer
     vimiv-qt
 
+    ngrok
+
     # for widgets
     (pkgs.python3Packages.buildPythonPackage rec {
       pname = "widgets";

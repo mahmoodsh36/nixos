@@ -79,6 +79,7 @@ in
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
     settings.PermitRootLogin = "yes";
+    ports = [ 22 80 443 2222 7422 ]; # my uni wifi blocks ssh.. maybe using 80 will help
   };
   users.users.mahmooz.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz"
