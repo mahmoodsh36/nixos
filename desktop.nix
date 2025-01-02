@@ -461,7 +461,7 @@ in
 
     # some programming languages/environments
     (lua.withPackages(ps: with ps; [ busted luafilesystem luarocks ]))
-    flutter dart android-studio android-tools genymotion
+    # flutter dart android-studio android-tools genymotion
     texlive.combined.scheme-full
     rustc meson ninja
     # jupyter
