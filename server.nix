@@ -31,12 +31,12 @@ in
     networkmanager.enable = true;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
-      # 127.0.0.1 youtube.com
-      # 127.0.0.1 www.youtube.com
-      # 127.0.0.1 reddit.com
-      # 127.0.0.1 www.reddit.com
-      # 127.0.0.1 discord.com
-      # 127.0.0.1 www.discord.com
+      127.0.0.1 youtube.com
+      127.0.0.1 www.youtube.com
+      127.0.0.1 reddit.com
+      127.0.0.1 www.reddit.com
+      127.0.0.1 discord.com
+      127.0.0.1 www.discord.com
       127.0.0.1 instagram.com
       127.0.0.1 www.instagram.com
     '';
@@ -81,6 +81,7 @@ in
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
     settings.PermitRootLogin = "yes";
+    settings.GatewayPorts = "clientspecified";
     ports = [ 22 80 443 2222 7422 ]; # my uni wifi blocks ssh.. maybe using 80 will help
   };
   users.users.mahmooz.openssh.authorizedKeys.keys = [
