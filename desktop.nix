@@ -351,7 +351,7 @@ in
     inputs.wezterm-flake.packages.${pkgs.system}.default
 
     # text editors
-    vscode
+    # vscode
 
     # media tools
     mpv

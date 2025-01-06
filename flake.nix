@@ -31,11 +31,13 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
     };
+
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
   outputs = {
     self, nix-flatpak, nixpkgs, home-manager,
-      emacs-overlay, wezterm-flake, ...
+      emacs-overlay, wezterm-flake, nix-vscode-extensions, ...
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -60,7 +62,6 @@
                 imagemagick = pkgs.imagemagickBig;
               });
             })
-
           ];
           environment.systemPackages = with pkgs; [
             # my_emacs_git.emacsWithPackages
@@ -97,15 +98,9 @@
           home-manager.useUserPackages = true;
           home-manager.users.mahmooz = import ./home.nix;
           home-manager.backupFileExtension = "hmbkup";
+          home-manager.extraSpecialArgs = { inherit inputs; };
         }
       ];
     };
-    # homeConfigurations = {
-    #   "mahmooz@mahmooz" = home-manager.lib.homeManagerConfiguration {
-    #     modules = [
-    #       ./home.nix
-    #     ];
-    #   };
-    # };
   };
 }

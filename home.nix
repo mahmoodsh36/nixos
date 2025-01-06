@@ -1,9 +1,13 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; });
 in
 {
+  imports = [
+    ./vscode.nix
+  ];
+
   # wayland.windowManager.hyprland = {
   #   enable = true; # enable Hyprland
   #   package = pkgs.hyprland;
