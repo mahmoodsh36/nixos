@@ -418,6 +418,7 @@ in
     swappy # for quick snapshot image editing
     wvkbd # onboard alternative (on-screen keyboard)
     zenity
+    squeekboard
 
     # other
     zoom-us #, do i realy want this running natively?
