@@ -334,9 +334,6 @@ in
     acceleration = "cuda";
   };
 
-  # self-hosted media service
-  services.jellyfin.enable = true;
-
   # packages
   environment.systemPackages = with pkgs; [
     (pkgs.writeShellScriptBin "python" ''

@@ -82,6 +82,8 @@
 
     zeromq
 
+    jellyfin jellyfin-web jellyfin-ffmpeg
+
     # my_emacs
     # emacs
     # emacs-git

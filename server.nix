@@ -132,6 +132,13 @@ in
 
   # services.mongodb.enable = true;
 
+  # self-hosted media service
+  services.jellyfin = {
+    enable = true;
+    # openFirewall = true;
+    user = "mahmooz";
+  };
+
   # users
   users.users.mahmooz = {
     isNormalUser = true;
