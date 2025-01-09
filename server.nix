@@ -133,9 +133,14 @@ in
   # services.mongodb.enable = true;
 
   # self-hosted media service
-  services.jellyfin = {
+  # services.jellyfin = {
+  #   enable = true;
+  #   # openFirewall = true;
+  #   user = "mahmooz"; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
+  # };
+  services.plex = {
     enable = true;
-    # openFirewall = true;
+    openFirewall = true;
     user = "mahmooz";
   };
 

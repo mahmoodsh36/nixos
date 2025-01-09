@@ -82,7 +82,7 @@
 
     zeromq
 
-    jellyfin jellyfin-web jellyfin-ffmpeg
+    # jellyfin jellyfin-web jellyfin-ffmpeg
 
     # my_emacs
     # emacs
