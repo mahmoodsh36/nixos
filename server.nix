@@ -133,20 +133,12 @@ in
   # services.mongodb.enable = true;
 
   # self-hosted media service
-  # services.jellyfin = {
-  #   enable = true;
-  #   # openFirewall = true;
-  #   user = "mahmooz"; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
-  # };
-  services.plex = {
+  services.jellyfin = {
     enable = true;
-    openFirewall = true;
-    user = "mahmooz";
+    # openFirewall = true;
+    user = "mahmooz"; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
+    dataDir = "/home/mahmooz/jellyfin";
   };
-
-  users.extraUsers.kodi.isNormalUser = true;
-  services.xserver.desktopManager.kodi.enable = true;
-  nixpkgs.config.kodi.enableAdvancedLauncher = true;
 
   # users
   users.users.mahmooz = {
