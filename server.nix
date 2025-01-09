@@ -144,6 +144,10 @@ in
     user = "mahmooz";
   };
 
+  users.extraUsers.kodi.isNormalUser = true;
+  services.xserver.desktopManager.kodi.enable = true;
+  nixpkgs.config.kodi.enableAdvancedLauncher = true;
+
   # users
   users.users.mahmooz = {
     isNormalUser = true;
