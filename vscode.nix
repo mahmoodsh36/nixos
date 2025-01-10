@@ -18,13 +18,16 @@ in {
       hediet.vscode-drawio
       james-yu.latex-workshop
       ms-python.python
-      # ms-toolsai.jupyter
-      # ms-toolsai.jupyter-keymap
-      # ms-toolsai.jupyter-renderers
+      ms-toolsai.jupyter
+      ms-toolsai.jupyter-keymap
+      ms-toolsai.jupyter-renderers
+      ms-toolsai.vscode-jupyter-slideshow
+      ms-toolsai.vscode-jupyter-cell-tags
       ms-vsliveshare.vsliveshare
       orta.vscode-jest
       redhat.vscode-yaml
       vscodevim.vim
+      file-icons.file-icons
     ];
     userSettings = {
       "editor.wordWrap" = "on";
