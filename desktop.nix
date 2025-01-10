@@ -19,7 +19,10 @@ in
   # services.iptsd.config.Touchscreen.DisableOnPalm = true;
 
   # i dont need this to use wacom, but it provides extra options/features
-  # hardware.opentabletdriver.enable = true;
+  # hardware.opentabletdriver = {
+  #   enable = true;
+  #   daemon.enable = true;
+  # };
 
   hardware.graphics = {
     enable = true;
@@ -358,7 +361,7 @@ in
     telegram-desktop
     youtube-music
     okular zathura foliate mupdf
-    xournalpp krita # pkgs.adwaita-icon-theme # the icon theme is needed for xournalpp to work otherwise it crashes
+    xournalpp krita rnote
     # krita
     # lollypop clementine
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
