@@ -7,14 +7,15 @@
 in {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    # package = pkgs.vscodium;
     enableExtensionUpdateCheck = false;
     enableUpdateCheck = false;
     extensions = with extensions.vscode-marketplace; [
+      jdinhlife.gruvbox
       bbenoist.nix
       esbenp.prettier-vscode
-      # github.copilot
-      # github.copilot-chat
+      github.copilot
+      github.copilot-chat
       hediet.vscode-drawio
       james-yu.latex-workshop
       ms-python.python
@@ -38,7 +39,7 @@ in {
       "vim.commandLineModeKeyBindings" = [];
       "vim.useSystemClipboard" = true;
       "explorer.confirmDragAndDrop" = false;
-      "jupyter.askForKernelRestart" = false;
+      # "jupyter.askForKernelRestart" = false;
     };
     keybindings = [
       # {

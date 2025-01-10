@@ -35,8 +35,8 @@ in
       127.0.0.1 www.youtube.com
       # 127.0.0.1 reddit.com
       # 127.0.0.1 www.reddit.com
-      127.0.0.1 discord.com
-      127.0.0.1 www.discord.com
+      # 127.0.0.1 discord.com
+      # 127.0.0.1 www.discord.com
       127.0.0.1 instagram.com
       127.0.0.1 www.instagram.com
     '';

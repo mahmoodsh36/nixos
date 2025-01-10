@@ -64,7 +64,7 @@ in
 
   programs.git = {
     enable = true;
-    userName = "mahmoodsheikh36";
+    userName = "mahmoodsh36";
     userEmail = "mahmod.m2015@gmail.com";
   };
 
