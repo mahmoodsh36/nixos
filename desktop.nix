@@ -45,7 +45,7 @@ in
     };
     powerOnBoot = true;
   };
-  security.rtkit.enable = true; # Realtime audio support
+  security.rtkit.enable = true; # realtime audio support
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -90,17 +90,7 @@ in
         # for widgets, doesnt work
         # pygobject3
         # pydbus
-      ])).overrideAttrs(old: {
-        nativeBuildInputs = (old.nativeBuildInputs or []) ++ [
-          pkgs.gobject-introspection
-        ];
-        buildInputs = (old.buildInputs or []) ++ [
-          pkgs.gobject-introspection
-        ];
-        propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [
-          pkgs.gobject-introspection
-        ];
-      });
+      ]));
     })
     (self: super:
     {
@@ -128,6 +118,7 @@ in
         };
       });
     })
+    # is this needed anymore?
     (final: prev: { cudaPackages = final.cudaPackages_12_3; })
   ] ++ server_vars.server_overlays;
 
@@ -529,8 +520,6 @@ in
 
     # image viewer
     vimiv-qt
-
-    ngrok
 
     # for widgets
     (pkgs.python3Packages.buildPythonPackage rec {
