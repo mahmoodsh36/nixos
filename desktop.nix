@@ -358,7 +358,7 @@ in
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
     djvulibre
     qimgv
-    jellyfin jellyfin-web jellyfin-ffmpeg
+    jellyfin jellyfin-web jellyfin-ffmpeg jellyfin-media-player jellycli jellyfin-mpv-shim
 
     # media manipulation tools
     inkscape # gimp
