@@ -477,6 +477,24 @@ in
     chicken
     guile
     racket
+    # common lisp
+    # lispPackages.quicklisp
+    (sbcl.withPackages (ps: with ps; [
+      serapeum
+      lparallel
+      cl-csv
+      hunchentoot
+      jsown
+      alexandria
+      cl-ppcre
+      # swank
+      slynk
+      # nyxt
+    ]))
+    # usage example:
+    # $ sbcl
+    # * (load (sb-ext:posix-getenv "ASDF"))
+    # * (asdf:load-system 'alexandria)
 
     # offline docs
     # zeal devdocs-desktop
