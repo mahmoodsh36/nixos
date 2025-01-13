@@ -34,7 +34,7 @@ in {
       "editor.wordWrap" = "on";
       "workbench.startupEditor" = "newUntitledFile";
       "files.autoSave" = "afterDelay";
-      "python.autoComplete.extraPaths" = [];
+      # "python.autoComplete.extraPaths" = [];
       "editor.lineNumbers" = "on";
       "vim.commandLineModeKeyBindings" = [];
       "vim.useSystemClipboard" = true;

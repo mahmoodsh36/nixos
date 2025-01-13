@@ -33,6 +33,11 @@
     };
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    lem = {
+      url = "github:lem-project/lem";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
