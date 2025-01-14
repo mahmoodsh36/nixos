@@ -296,8 +296,8 @@ in
   };
 
   # dictionaries
-  # services.dictd.enable = true;
-  # services.dictd.DBs = with pkgs.dictdDBs; [ wiktionary wordnet ];
+  services.dictd.enable = true;
+  services.dictd.DBs = with pkgs.dictdDBs; [ wiktionary wordnet ];
   environment.wordlist.enable = true;
 
   documentation.dev.enable = true;
