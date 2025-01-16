@@ -413,6 +413,7 @@ in
     wvkbd # onboard alternative (on-screen keyboard)
     zenity
     squeekboard
+    flameshot
 
     # other
     zoom-us #, do i realy want this running natively?
