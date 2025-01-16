@@ -350,7 +350,7 @@ in
     mpv
     vlc
     feh # i use it to set wallpaper
-    my_sxiv # qimgv
+    my_sxiv
     telegram-desktop
     youtube-music
     okular zathura foliate mupdf
@@ -359,8 +359,9 @@ in
     # lollypop clementine
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
     djvulibre
-    qimgv
+    # qimgv
     jellyfin jellyfin-web jellyfin-ffmpeg jellyfin-media-player jellycli jellyfin-mpv-shim
+    imv
 
     # media manipulation tools
     inkscape # gimp
