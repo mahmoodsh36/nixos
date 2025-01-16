@@ -421,7 +421,7 @@ in
     adb-sync
     # woeusb-ng
     ntfs3g
-    gnupg1orig
+    gnupg
     SDL2
     sass
     simplescreenrecorder
