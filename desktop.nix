@@ -482,7 +482,6 @@ in
     guile
     racket
     # common lisp
-    # lispPackages.quicklisp
     (sbcl.withPackages (ps: with ps; [
       serapeum
       lparallel
@@ -494,6 +493,7 @@ in
       # swank
       slynk
       # nyxt
+      cl-fad
     ]))
     # usage example:
     # $ sbcl
