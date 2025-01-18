@@ -43,6 +43,7 @@
     distrobox
     tree
     neovim
+    eza
 
     openjdk
     gcc clang gdb clang-tools
@@ -81,8 +82,6 @@
     nix-tree
 
     zeromq
-
-    # jellyfin jellyfin-web jellyfin-ffmpeg
 
     # my_emacs
     # emacs
