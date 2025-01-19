@@ -119,7 +119,7 @@ in
       });
     })
     # is this needed anymore?
-    (final: prev: { cudaPackages = final.cudaPackages_12_3; })
+    # (final: prev: { cudaPackages = final.cudaPackages_12_3; })
   ] ++ server_vars.server_overlays;
 
   # x11 and awesomewm
