@@ -326,6 +326,7 @@ in
 
   services.ollama = {
     enable = per_machine_vars.enable_nvidia;
+    package = pkgs.ollama-cuda;
     acceleration = "cuda";
   };
 
