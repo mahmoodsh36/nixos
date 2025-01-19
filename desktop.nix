@@ -534,9 +534,6 @@ in
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
     # enchant.dev # for emacs jinx-mode
 
-    cudatoolkit # although i should only enable it if per_machine_vars.enable_nvidia is true
-    nvtopPackages.full
-
     liquidctl
     libinput
 
@@ -572,7 +569,10 @@ in
     })
   ]
   ++ server_vars.server_packages
-  ++ (pkgs.lib.optionals per_machine_vars.enable_nvidia [koboldcpp jan]);
+  ++ (pkgs.lib.optionals per_machine_vars.enable_nvidia [
+    koboldcpp jan cudatoolkit nvtopPackages.full
+    llama-cpp
+  ]);
 
   # services.prometheus = {
   #   enable = true;
