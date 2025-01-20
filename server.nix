@@ -214,7 +214,7 @@ in
   };
   systemd.services.llama-cpp.serviceConfig.user = "mahmooz";
   systemd.services.llama-cpp.wantedBy = [ "default.target" ];
-  systemd.services.llama-cpp.serviceConfig.Type = "simple";
+  systemd.services.llama-cpp.serviceConfig.Type = lib.mkForce "simple";
 
   system.stateVersion = "24.05"; # dont change
 }
