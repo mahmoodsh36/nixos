@@ -213,6 +213,8 @@ in
     host = "0.0.0.0";
   };
   systemd.services.llama-cpp.serviceConfig.user = "mahmooz";
+  systemd.services.llama-cpp.wantedBy = [ "default.target" ];
+  systemd.services.llama-cpp.serviceConfig.Type = "simple";
 
   system.stateVersion = "24.05"; # dont change
 }

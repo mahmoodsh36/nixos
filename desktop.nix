@@ -571,7 +571,7 @@ in
   ++ server_vars.server_packages
   ++ (pkgs.lib.optionals per_machine_vars.enable_nvidia [
     koboldcpp jan cudatoolkit nvtopPackages.full
-    llama-cpp
+    # llama-cpp
   ]);
 
   # services.prometheus = {
