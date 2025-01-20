@@ -604,9 +604,9 @@ in
   systemd.services.my_keys_py_service = {
     description = "service for keys.py";
     wantedBy = [ "multi-user.target" ];
-    script = "{mypython}/bin/python /home/mahmooz/keys.py -d";
+    script = "${mypython}/bin/python /home/mahmooz/work/keys/keys.py -d";
     serviceConfig = {
-      User = "mahmooz";
+      # User = "mahmooz";
       Restart = "always";
     };
   };
