@@ -7,7 +7,7 @@
 in {
   programs.vscode = {
     enable = true;
-    # package = pkgs.vscodium;
+    package = pkgs.vscodium;
     enableExtensionUpdateCheck = false;
     enableUpdateCheck = false;
     extensions = with extensions.vscode-marketplace; [
