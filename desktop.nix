@@ -332,11 +332,11 @@ in
   environment.systemPackages = with pkgs; [
     (pkgs.writeShellScriptBin "python" ''
       export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-      exec ${pkgs.mypython}/bin/python "$@"
+      exec ${mypython}/bin/python "$@"
     '')
     (pkgs.writeShellScriptBin "python3" ''
       export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-      exec ${pkgs.mypython}/bin/python "$@"
+      exec ${mypython}/bin/python "$@"
     '')
 
     inputs.wezterm-flake.packages.${pkgs.system}.default
