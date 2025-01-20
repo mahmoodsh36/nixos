@@ -4,6 +4,24 @@ let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; });
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; });
   per_machine_vars = (import ./per_machine_vars.nix {});
+  mypython = pkgs.python3.withPackages(ps: with ps; [
+    python-magic
+    requests
+    paramiko pynacl # for find_computers.py (latter is needed for former)
+
+    # for quick tests etc? i use it for ML uni courses
+    matplotlib
+    numpy
+
+    evdev # for event handling/manipulation
+
+    # for other system scripts?
+    pyzmq
+
+    # for widgets, doesnt work
+    # pygobject3
+    # pydbus
+  ]);
 in
 {
   imports = [
@@ -72,26 +90,6 @@ in
 
   # my overlays
   nixpkgs.overlays = [
-    (self: super: {
-      mypython = (super.python3.withPackages(ps: with ps; [
-        python-magic
-        requests
-        paramiko pynacl # for find_computers.py (latter is needed for former)
-
-        # for quick tests etc? i use it for ML uni courses
-        matplotlib
-        numpy
-
-        evdev # for event handling/manipulation
-
-        # for other system scripts?
-        pyzmq
-
-        # for widgets, doesnt work
-        # pygobject3
-        # pydbus
-      ]));
-    })
     (self: super:
     {
       my_sxiv = super.sxiv.overrideAttrs (oldAttrs: rec {
@@ -600,6 +598,16 @@ in
     serviceConfig = {
       User = "mahmooz";
       # Restart = "always";
+    };
+  };
+
+  systemd.services.my_keys_py_service = {
+    description = "service for keys.py";
+    wantedBy = [ "multi-user.target" ];
+    script = "sudo ${mypython}/bin/python /home/mahmooz/keys.py -d";
+    serviceConfig = {
+      User = "mahmooz";
+      Restart = "always";
     };
   };
 
