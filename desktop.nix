@@ -324,11 +324,11 @@ in
 
   # programs.ydotool.enable = true;
 
-  services.ollama = {
-    enable = per_machine_vars.enable_nvidia;
-    package = pkgs.ollama-cuda;
-    acceleration = "cuda";
-  };
+  # services.ollama = {
+  #   enable = per_machine_vars.enable_nvidia;
+  #   package = pkgs.ollama-cuda;
+  #   acceleration = "cuda";
+  # };
 
   # packages
   environment.systemPackages = with pkgs; [
