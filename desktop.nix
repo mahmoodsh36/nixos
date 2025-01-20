@@ -612,7 +612,6 @@ in
   #   };
   # };
 
-
   # make electron apps work properly with wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
