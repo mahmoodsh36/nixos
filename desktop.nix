@@ -571,7 +571,7 @@ in
   ++ server_vars.server_packages
   ++ (pkgs.lib.optionals per_machine_vars.enable_nvidia [
     koboldcpp jan cudatoolkit nvtopPackages.full
-    # llama-cpp
+    llama-cpp
   ]);
 
   # services.prometheus = {
@@ -589,6 +589,17 @@ in
       Restart = "always";
       RuntimeMaxSec = "3600";
       # ExecStart = "${pkgs.coreutils}/bin/sh ${server_vars.scripts_dir}/mpv_logger.sh";
+    };
+  };
+
+  systemd.services.my_llama_cpp_service = {
+    enable = per_machine_vars.enable_nvidia;
+    description = "llama";
+    wantedBy = [ "multi-user.target" ];
+    script = "${pkgs.llama-cpp}/bin/llama-server --host 0.0.0.0 --port 8080 -m /home/mahmooz/models/models--Qwen--Qwen2.5-Coder-14B-Instruct/snapshots/aedcc2d42b622764e023cf882b6652e646b95671/Aedcc2D42B622764E023Cf882B6652E646B95671-15B-F16.gguf -fa -ngl 35 -p 'you are a computer expert and a great programmer and mathematician' --host 0.0.0.0";
+    serviceConfig = {
+      User = "mahmooz";
+      # Restart = "always";
     };
   };
 
