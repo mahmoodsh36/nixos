@@ -612,8 +612,8 @@ in
   #   };
   # };
 
-  # make electron apps work properly with wayland
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # make electron apps work properly with wayland?
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # without this okular is blurry
   environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
