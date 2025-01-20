@@ -604,7 +604,8 @@ in
   systemd.services.my_keys_py_service = {
     description = "service for keys.py";
     wantedBy = [ "multi-user.target" ];
-    script = "${mypython}/bin/python /home/mahmooz/work/keys/keys.py -d";
+    # run it with a shell so it has access to all binaries as usual in $PATH
+    script = "${pkgs.zsh}/bin/zsh -c '${mypython}/bin/python /home/mahmooz/work/keys/keys.py -d'";
     serviceConfig = {
       # User = "mahmooz";
       Restart = "always";
