@@ -205,9 +205,10 @@ in
     execWheelOnly = true;
   };
 
+  # run an llm
   services.llama-cpp = {
     enable = per_machine_vars.enable_nvidia;
-    model = "/home/mahmooz/models/models--Qwen--Qwen2.5-Coder-14B-Instruct";
+    model = "/home/mahmooz/models/models--Qwen--Qwen2.5-Coder-14B-Instruct/snapshots/aedcc2d42b622764e023cf882b6652e646b95671/Aedcc2D42B622764E023Cf882B6652E646B95671-15B-F16.gguf";
     extraFlags = ["-fa" "-ngl" "35" "-p" "you are a computer expert and a great programmer and mathematician" "--host" "0.0.0.0"];
     host = "0.0.0.0";
   };
