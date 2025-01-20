@@ -209,7 +209,9 @@ in
     enable = per_machine_vars.enable_nvidia;
     model = "/home/mahmooz/models/models--Qwen--Qwen2.5-Coder-14B-Instruct";
     extraFlags = ["-fa" "-ngl" "35" "-p" "you are a computer expert and a great programmer and mathematician" "--host" "0.0.0.0"];
+    host = "0.0.0.0";
   };
+  systemd.services.llama-cpp.serviceConfig.user = "mahmooz";
 
   system.stateVersion = "24.05"; # dont change
 }
