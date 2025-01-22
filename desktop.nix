@@ -92,6 +92,17 @@ in
   nixpkgs.overlays = [
     (self: super:
     {
+      llama-cpp = super.llama-cpp.overrideAttrs (oldAttrs: rec {
+        src = super.fetchFromGitHub {
+          owner = "ggerganov";
+          repo = "llama.cpp";
+          rev = "a94f3b2727e97eb6c904006eb786960c069282bc";
+          sha256 = "06canqysnbk1030dzjailcx272qyfg1rnzpgnz2x104zi2c2n9cc";
+        };
+      });
+    })
+    (self: super:
+    {
       my_sxiv = super.sxiv.overrideAttrs (oldAttrs: rec {
         src = super.fetchFromGitHub {
           owner = "mahmoodsheikh36";
@@ -594,7 +605,7 @@ in
     enable = per_machine_vars.enable_nvidia;
     description = "llama";
     wantedBy = [ "multi-user.target" ];
-    script = "${pkgs.llama-cpp}/bin/llama-server --host 0.0.0.0 --port 8080 -m /home/mahmooz/models/DeepSeek-R1-Distill-Qwen-14B-Q8_0.gguf -fa -ngl 35 -p 'you are a computer expert and a great programmer and mathematician' --host 0.0.0.0 --cache-type-k q8_0"; # -k q8_0 may be very important
+    script = "${pkgs.llama-cpp}/bin/llama-server --host 0.0.0.0 --port 8080 -m /home/mahmooz/models/DeepSeek-R1-Distill-Qwen-14B-Q8_0.gguf -fa -ngl 35 --host 0.0.0.0 --cache-type-k q8_0"; # -k q8_0 may be very important
     serviceConfig = {
       User = "mahmooz";
       # Restart = "always";
