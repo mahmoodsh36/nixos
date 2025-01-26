@@ -289,7 +289,7 @@ in
       # persian font
       vazir-fonts
       font-awesome
-      # corefonts # MS fonts?
+      corefonts # for good arabic/hebrew/etc fonts
       mplus-outline-fonts.githubRelease
       dina-font
       proggyfonts
