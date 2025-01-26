@@ -442,21 +442,23 @@ in
     # logseq
     graphviz
     # firebase-tools
-    graphqlmap
+    # graphqlmap
     isync
     notmuch
-    nuclear
-    python312Packages.google
+    # nuclear
+    # python312Packages.google
     # popcorntime
     stremio
     syncthing
+    monolith # save webpages
 
-    soulseekqt
-    nicotine-plus
+    # soulseek?
+    # soulseekqt
+    # nicotine-plus
 
     # for listening to radio music?
-    strawberry
-    shortwave
+    # strawberry
+    # shortwave
 
     # scientific computation?
     gnuplot
