@@ -451,6 +451,7 @@ in
     stremio
     syncthing
     monolith # save webpages
+    wallabag
 
     # soulseek?
     # soulseekqt
