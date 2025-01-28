@@ -265,6 +265,11 @@ in
   # virtualisation.waydroid.enable = true;
   # virtualisation.virtualbox.host.enable = true;
   # virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   fonts = {
     enableDefaultPackages = true;

@@ -25,7 +25,6 @@
     sqlite
     silver-searcher
     rx
-    docker
     jq
     ripgrep
     spotdl

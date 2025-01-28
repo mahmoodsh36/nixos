@@ -143,7 +143,7 @@ in
   # users
   users.users.mahmooz = {
     isNormalUser = true;
-    extraGroups = [ "audio" "wheel" ];
+    extraGroups = [ "audio" "wheel" "docker" ];
     shell = pkgs.zsh;
     initialPassword = "123";
     packages = with pkgs; [
