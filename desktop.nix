@@ -293,6 +293,7 @@ in
       mplus-outline-fonts.githubRelease
       dina-font
       proggyfonts
+      monaspace
     ];
     fontDir.enable = true;
     enableGhostscriptFonts = true;
