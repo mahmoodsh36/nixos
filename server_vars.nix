@@ -83,6 +83,8 @@
 
     zeromq
 
+    tesseract
+
     # my_emacs
     # emacs
     # emacs-git
