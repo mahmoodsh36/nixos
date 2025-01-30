@@ -181,16 +181,33 @@ in
       naturalScrolling = false;
     };
   };
-  # programs.hyprland = {
-  #   enable = true;
-  #   package = pkgs.hyprland;
-  #   xwayland.enable = true;
-  # };
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    package = pkgs.hyprland;
     xwayland.enable = true;
+  };
+  # programs.hyprland = {
+  #   enable = true;
+  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  #   portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  #   xwayland.enable = true;
+  # };
+  xdg.portal = {
+    xdgOpenUsePortal = true;
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-kde
+      pkgs.xdg-desktop-portal-wlr
+    ];
+    config.hyprland = {
+      default = [
+        "wlr"
+        "gtk"
+      ];
+    };
   };
 
   # tty configs
