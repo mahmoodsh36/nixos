@@ -19,18 +19,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # https://github.com/gmodena/nix-flatpak?tab=readme-ov-file
-    nix-flatpak = {
-      url = "github:gmodena/nix-flatpak";
-    };
+    # nix-flatpak = {
+    #   url = "github:gmodena/nix-flatpak";
+    # };
     wezterm-flake = {
       url = "github:wez/wezterm/main?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
-    };
+    # hyprland.url = "github:hyprwm/Hyprland";
+    # hyprland-plugins = {
+    #   url = "github:hyprwm/hyprland-plugins";
+    #   inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
+    # };
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
@@ -41,7 +41,7 @@
   };
 
   outputs = {
-    self, nix-flatpak, nixpkgs, home-manager,
+    self, nixpkgs, home-manager,
       emacs-overlay, wezterm-flake, nix-vscode-extensions, ...
   } @inputs: let
     system = "x86_64-linux";
@@ -52,7 +52,6 @@
         inherit inputs;
       };
       modules = [
-        nix-flatpak.nixosModules.nix-flatpak
         ({ pkgs, ... }: {
           nixpkgs.overlays = [
             emacs-overlay.overlay
@@ -74,13 +73,16 @@
             #   # vterm
             #   treesit-grammars.with-all-grammars
             # ]))
-            ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
-              # vterm
-              treesit-grammars.with-all-grammars
-            ]))
+            # ((emacsPackagesFor my_emacs_git).emacsWithPackages(epkgs: with epkgs; [
+            #   # vterm
+            #   treesit-grammars.with-all-grammars
+            # ]))
             # (pkgs.writeShellScriptBin "emacsold" ''
             #   exec ${((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [treesit-grammars.with-all-grammars]))}/bin/emacs --init-directory=/home/mahmooz/emacsold "$@"
             # '')
+            ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
+              treesit-grammars.with-all-grammars
+            ]))
           ];
         })
         (if (import ./per_machine_vars.nix {}).is_desktop
