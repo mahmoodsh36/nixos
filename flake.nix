@@ -32,7 +32,10 @@
     #   inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
     # };
 
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     lem = {
       url = "github:lem-project/lem";
