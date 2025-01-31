@@ -448,6 +448,7 @@ in
     zenity
     squeekboard
     flameshot
+    wl-screenrec
 
     # other
     zoom-us #, do i realy want this running natively?
