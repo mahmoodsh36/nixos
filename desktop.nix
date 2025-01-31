@@ -45,8 +45,27 @@ in
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+
   };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # optionally, set the environment variable for vaapi
   hardware.nvidia.open = false;
+
+  # vaapi (accelerated video playback)
+  # enable vaapi on OS-level
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+  hardware.graphics = {
+    # accelerated video playback
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver # for older processors. LIBVA_DRIVER_NAME=i965
+      vaapiVdpau
+      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      vpl-gpu-rt # QSV on 11th gen or newer
+      intel-media-sdk # QSV up to 11th gen
+    ];
+  };
 
   # enable sound and bluetooth
   # services.blueman.enable = true;
