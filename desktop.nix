@@ -148,47 +148,9 @@ in
     # (final: prev: { cudaPackages = final.cudaPackages_12_3; })
   ] ++ server_vars.server_overlays;
 
-  # x11 and awesomewm
-  services.xserver = {
-    enable = false;
-    # wacom.enable = true;
-    # displayManager.gdm.enable = true;
-    # displayManager.sddm.enable = true;
-    # desktopManager.gnome.enable = true;
-    # desktopManager.xfce.enable = true;
-    # desktopManager.plasma6.enable = true;
-    displayManager = {
-      sessionCommands = ''
-        # some of these commands dont work because $HOME isnt /home/mahmooz..
-        # ${lib.getExe pkgs.hsetroot} -solid '#222222' # incase wallpaper isnt set
-        # ${lib.getExe pkgs.xorg.xrdb} -load /home/mahmooz/.Xresources
-        # ${lib.getExe pkgs.feh} --bg-fill /home/mahmooz/.cache/wallpaper
-      '';
-      # startx.enable = true;
-      # sx.enable = true;
-    };
-    xkb.layout = "us,il,ara";
-    # xkb.options = "caps:escape,ctrl:ralt_rctrl";
-    # windowManager.awesome = {
-    #   package = with pkgs; my_awesome;
-    #   enable = true;
-    #   luaModules = with pkgs.luaPackages; [
-    #     luarocks
-    #   ];
-    # };
-  };
-  services.displayManager = {
-    # autoLogin = {
-    #   enable = true;
-    #   user = "mahmooz";
-    # };
-    # defaultSession = "none+awesome";
-    # defaultSession = "xfce+awesome";
-    # defaultSession = "xfce";
-    # defaultSession = "hyprland";
-    # defaultSession = "gnome";
-    # defaultSession = "plasma";
-  };
+
+  # graphical stuff (wayland,x11,etc)
+  services.xserver.xkb.layout = "us,il,ara";
   services.libinput = {
     enable = true;
     touchpad = {
@@ -226,6 +188,8 @@ in
       ];
     };
   };
+  # kde
+  services.xserver.desktopManager.plasma6.enable = true;
 
   # tty configs
   console = {
@@ -388,6 +352,11 @@ in
     (pkgs.writeShellScriptBin "python3" ''
       export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
       exec ${mypython}/bin/python "$@"
+    '')
+
+    # overwrite notify-send to not let anything handle notifications
+    (pkgs.writeShellScriptBin "notify-send" ''
+      echo $@ > /tmp/notif
     '')
 
     inputs.wezterm-flake.packages.${pkgs.system}.default
