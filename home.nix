@@ -34,28 +34,27 @@ in
 
   programs.home-manager.enable = true;
   # i dont think im even making use of this
-  # programs.neovim = {
-  #   enable = true;
-  #   plugins = with pkgs.vimPlugins; [
-  #     nvim-treesitter.withAllGrammars
-  #     coc-nvim coc-css coc-explorer coc-git coc-go coc-html coc-json coc-prettier coc-pyright coc-rust-analyzer coc-tsserver coc-yaml
-  #     coc-clangd
-  #     sqlite-lua
-  #     coc-vimtex
-  #     neoformat
-  #     vim-commentary
-  #     vim-monokai
-  #     vimtex
-  #     vim-nix
-  #     vim-fugitive
-  #   ];
-  #   viAlias = true;
-  #   vimAlias = true;
-  #   vimdiffAlias = true;
-  #   withNodeJs = true;
-  #   withPython3 = true;
-  # };
-  programs.neovim.enable = true;
+  programs.neovim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      nvim-treesitter.withAllGrammars
+      # coc-nvim coc-css coc-explorer coc-git coc-go coc-html coc-json coc-prettier coc-pyright coc-rust-analyzer coc-tsserver coc-yaml
+      # coc-clangd
+      # sqlite-lua
+      # coc-vimtex
+      # neoformat
+      # vim-commentary
+      # vim-monokai
+      # vimtex
+      # vim-nix
+      # vim-fugitive
+    ];
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    withNodeJs = true;
+    withPython3 = true;
+  };
 
   services.blueman-applet.enable = true;
   services.playerctld.enable = true;

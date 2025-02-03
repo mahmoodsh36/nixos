@@ -43,6 +43,7 @@
     tree
     neovim
     eza
+    tree-sitter
 
     openjdk
     gcc clang gdb clang-tools
