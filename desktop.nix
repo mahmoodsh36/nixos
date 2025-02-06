@@ -160,25 +160,25 @@ in
       naturalScrolling = false;
     };
   };
-  programs.hyprland = {
-    enable = true;
-    package = pkgs.hyprland;
-    xwayland.enable = true;
-  };
   # programs.hyprland = {
   #   enable = true;
-  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-  #   portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  #   package = pkgs.hyprland;
   #   xwayland.enable = true;
   # };
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    xwayland.enable = true;
+  };
   xdg.portal = {
     # xdgOpenUsePortal = true; # this seems to override my .desktop definitions in home-manager?
     enable = true;
     extraPortals = [
-      # pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gnome
       pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
-      # pkgs.xdg-desktop-portal-kde
+      # pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-kde
       pkgs.xdg-desktop-portal-wlr
     ];
     config.hyprland = {
@@ -188,9 +188,34 @@ in
       ];
     };
   };
+
   # kde
   # services.xserver.desktopManager.plasma6.enable = true;
+  # environment = {
+  #   etc."xdg/baloofilerc".source = (pkgs.formats.ini {}).generate "baloorc" {
+  #     "Basic Settings" = {
+  #       "Indexing-Enabled" = false;
+  #     };
+  #   };
+  # };
+
   # services.xserver.desktopManager.gnome.enable = true;
+
+  services.displayManager = {
+    autoLogin = {
+      enable = true;
+      user = "mahmooz";
+    };
+    sddm.enable = true;
+    sddm.wayland.enable = true;
+    sddm.enableHidpi = true;
+    # defaultSession = "none+awesome";
+    # defaultSession = "xfce+awesome";
+    # defaultSession = "xfce";
+    # defaultSession = "hyprland";
+    # defaultSession = "gnome";
+    # defaultSession = "plasma";
+  };
 
   # tty configs
   console = {
