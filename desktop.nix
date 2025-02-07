@@ -199,8 +199,6 @@ in
   #   };
   # };
 
-  # services.xserver.desktopManager.gnome.enable = true;
-
   services.displayManager = {
     autoLogin = {
       enable = true;
@@ -212,7 +210,7 @@ in
     # defaultSession = "none+awesome";
     # defaultSession = "xfce+awesome";
     # defaultSession = "xfce";
-    # defaultSession = "hyprland";
+    defaultSession = "hyprland";
     # defaultSession = "gnome";
     # defaultSession = "plasma";
   };
