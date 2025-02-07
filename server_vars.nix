@@ -44,6 +44,7 @@
     neovim
     eza
     tree-sitter
+    goose-cli # goose ai tool
 
     openjdk
     gcc clang gdb clang-tools
