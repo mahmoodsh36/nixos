@@ -88,6 +88,10 @@ in
     mimeType = [ "x-scheme-handler/magnet" ];
   };
 
+  programs.firefox = {
+    enable = true;
+  };
+
   # use 'dconf dump /' or 'gsettings list-recursively | less' to get a list of options
   dconf = {
     enable = false;

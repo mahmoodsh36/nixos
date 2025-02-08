@@ -256,7 +256,6 @@ in
   };
   # programs.xfconf.enable = true;
   # programs.nm-applet.enable = true; # this thing is annoying lol (send notifications and stuff..)
-  programs.firefox.enable = true;
   programs.dconf.enable = true;
   services.tumbler.enable = lib.mkForce false;
   programs.light.enable = true;
@@ -460,6 +459,8 @@ in
     flameshot
     wl-screenrec
 
+    vdhcoapp # for firefox video download helper
+
     # other
     zoom-us #, do i realy want this running natively?
     hugo
@@ -512,7 +513,7 @@ in
     rustc meson ninja
     # jupyter
     typescript
-    desktop_vars.desktop_julia
+    # desktop_vars.desktop_julia
     # julia-bin
     # julia
     python3Packages.west
