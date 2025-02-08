@@ -397,7 +397,7 @@ in
     telegram-desktop
     youtube-music
     okular zathura foliate mupdf
-    xournalpp rnote # krita
+    xournalpp # rnote krita
     # krita
     # lollypop clementine
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
