@@ -14,10 +14,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # for running unpatched binaries
-    nix-alien = {
-      url = "github:thiagokokada/nix-alien";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nix-alien = {
+    #   url = "github:thiagokokada/nix-alien";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     # https://github.com/gmodena/nix-flatpak?tab=readme-ov-file
     # nix-flatpak = {
     #   url = "github:gmodena/nix-flatpak";
@@ -93,14 +93,14 @@
          else ./server.nix)
 
         # https://github.com/thiagokokada/nix-alien
-        ({ pkgs, ... }: {
-          nixpkgs.overlays = [
-            self.inputs.nix-alien.overlays.default
-          ];
-          environment.systemPackages = with pkgs; [
-            nix-alien
-          ];
-        })
+        # ({ pkgs, ... }: {
+        #   nixpkgs.overlays = [
+        #     self.inputs.nix-alien.overlays.default
+        #   ];
+        #   environment.systemPackages = with pkgs; [
+        #     nix-alien
+        #   ];
+        # })
 
         home-manager.nixosModules.home-manager
         {

@@ -566,15 +566,13 @@ in
     nodePackages.node2nix yaml-language-server postgres-lsp ansible-language-server
     asm-lsp htmx-lsp cmake-language-server lua-language-server java-language-server # typst-lsp
     tailwindcss-language-server
-    nodePackages.vim-language-server
     nodePackages.bash-language-server
-    nil # nixd
+    nil
     texlab
     sqls
     ruff-lsp
     python3Packages.python-lsp-server
     nodePackages_latest.typescript-language-server
-    nodePackages_latest.eslint
     vscode-langservers-extracted
 
     # dictionary
