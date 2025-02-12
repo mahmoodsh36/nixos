@@ -26,11 +26,15 @@
       url = "github:wez/wezterm/main?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
-    };
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland";
+    #   follows = "nixpkgs";
+    # };
+    # hyprland-plugins = {
+    #   url = "github:hyprwm/hyprland-plugins";
+    #   follows = "hyprland";
+    #   inputs.hyprland.follows = "nixpkgs";
+    # };
 
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
