@@ -23,7 +23,7 @@
     #   url = "github:gmodena/nix-flatpak";
     # };
     wezterm-flake = {
-      url = "github:wez/wezterm/main?dir=nix";
+      url = "github:wez/wezterm/11505b7083cc098203f899b023f31fe41abff0bd?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # hyprland = {

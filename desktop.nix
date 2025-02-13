@@ -45,7 +45,6 @@ in
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-
   };
   hardware.nvidia.open = false;
 
@@ -118,34 +117,6 @@ in
         };
       });
     })
-    (self: super:
-    {
-      my_sxiv = super.sxiv.overrideAttrs (oldAttrs: rec {
-        src = super.fetchFromGitHub {
-          owner = "mahmoodsheikh36";
-          repo = "sxiv";
-          rev = "e10d3683bf9b26f514763408c86004a6593a2b66";
-          sha256 = "161l59balzh3q8vlya1rs8g97s5s8mwc5lfspxcb2sv83d35410a";
-        };
-      });
-    })
-    (self: super:
-    {
-      my_awesome = super.awesome.overrideAttrs (oldAttrs: rec {
-        postPatch = ''
-          patchShebangs tests/examples/_postprocess.lua
-        '';
-        patches = [];
-        src = super.fetchFromGitHub {
-          owner = "awesomeWM";
-          repo = "awesome";
-          rev = "7ed4dd620bc73ba87a1f88e6f126aed348f94458";
-          sha256 = "0qz21z3idimw1hlmr23ffl0iwr7128wywjcygss6phyhq5zn5bx3";
-        };
-      });
-    })
-    # is this needed anymore?
-    # (final: prev: { cudaPackages = final.cudaPackages_12_3; })
   ] ++ server_vars.server_overlays;
 
 
@@ -358,8 +329,6 @@ in
     ];
   };
 
-  # programs.ydotool.enable = true;
-
   # services.ollama = {
   #   enable = per_machine_vars.enable_nvidia;
   #   package = pkgs.ollama-cuda;
@@ -385,9 +354,6 @@ in
     inputs.wezterm-flake.packages.${pkgs.system}.default
     # inputs.lem.packages.${pkgs.system}.lem-ncurses
     inputs.lem.packages.${pkgs.system}.lem-sdl2
-
-    # text editors
-    # vscode
 
     # media tools
     mpv
@@ -513,7 +479,7 @@ in
     rustc meson ninja
     # jupyter
     typescript
-    # desktop_vars.desktop_julia
+    desktop_vars.desktop_julia
     # julia-bin
     # julia
     python3Packages.west

@@ -1,21 +1,5 @@
 { pkgs, ... }: rec {
   server_overlays = [
-    # (import (builtins.fetchTarball { # emacs master
-    #   url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-    #   sha256 = "1h9my9dq1l3mmbvlqlpxpl6ma3hmglgcmjd39rc48pr11aspkbp2"; # to avoid an error
-    # }))
-    # (self: super: {
-    #  my_emacs_git = super.emacs-git.overrideAttrs (oldAttrs: rec {
-    #      configureFlags = oldAttrs.configureFlags ++ ["--with-json" "--with-tree-sitter" "--with-native-compilation" "--with-modules" "--with-widgets" "--with-imagemagick"];
-    #      patches = [];
-    #      imagemagick = pkgs.imagemagickBig;
-    #      });
-    #  })
-    # (self: super: {
-    #   my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = true; withGTK3 = true; withNativeCompilation = true; withCompressInstall=false; withTreeSitter=true; }).overrideAttrs (oldAttrs: rec {
-    #     imagemagick = pkgs.imagemagickBig;
-    #   });
-    # })
   ];
 
   server_packages = with pkgs; [

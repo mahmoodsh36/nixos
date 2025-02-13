@@ -18,7 +18,7 @@
     psutil
     pynput
   ]));
-  desktop_julia = (pkgs.julia.withPackages.override({ precompile = true; })([
+  desktop_julia = (pkgs.julia.withPackages.override({ precompile = false; })([
     # "TruthTables" "LinearSolve"
     # "HTTP" "OhMyREPL" "MLJ"
     # "Luxor" "ReinforcementLearningBase" "DataStructures" "RecipesBase"
