@@ -359,7 +359,7 @@ in
     mpv
     vlc
     feh # i use it to set wallpaper
-    my_sxiv
+    # my_sxiv
     telegram-desktop
     youtube-music
     okular zathura foliate mupdf
