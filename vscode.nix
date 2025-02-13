@@ -10,7 +10,8 @@ in {
     package = pkgs.vscode;
     enableExtensionUpdateCheck = false;
     enableUpdateCheck = false;
-    extensions = with extensions.vscode-marketplace; [
+    # extensions = with extensions.vscode-marketplace; [
+    extensions = with pkgs.vscode-extensions; [
       jdinhlife.gruvbox
       bbenoist.nix
       esbenp.prettier-vscode
@@ -25,7 +26,6 @@ in {
       ms-toolsai.vscode-jupyter-slideshow
       ms-toolsai.vscode-jupyter-cell-tags
       ms-vsliveshare.vsliveshare
-      orta.vscode-jest
       redhat.vscode-yaml
       vscodevim.vim
       file-icons.file-icons

@@ -65,6 +65,7 @@
       modules = [
         ({ pkgs, ... }: {
           nixpkgs.overlays = [
+            # nix-vscode-extensions.overlays.default
             emacs-overlay.overlay
             (self: super: {
               my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
