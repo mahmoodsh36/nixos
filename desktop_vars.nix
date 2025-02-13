@@ -1,29 +1,23 @@
 { pkgs, pinned-pkgs, ... }:
 
-# let
-#   pinned-pkgs = import (builtins.fetchTarball {
-#     url = "https://github.com/NixOS/nixpkgs/archive/64e75cd44acf21c7933d61d7721e812eac1b5a0a.tar.gz";
-#   }) {};
-# in
 {
   desktop_python = (pinned-pkgs.python3.withPackages (ps: with ps; [
-    matplotlib flask requests panflute numpy jupyter jupyter-core pandas sympy scipy
-    beautifulsoup4 seaborn pillow dash mysql-connector
-    rich networkx dpkt python-lsp-server opencv4
-    # graphviz flask-sqlalchemy flask-cors ariadne graphene
-    # python-magic
+    matplotlib flask requests numpy pandas
+    # sympy scipy panflute jupyter jupyter-core
+    beautifulsoup4 seaborn pillow dash rich networkx
+    # dpkt python-lsp-server opencv4
+    # graphviz flask-sqlalchemy flask-cors ariadne graphene mysql-connector
 
     # machine learning
     pytorch torchvision
-    scikit-learn
+    # scikit-learn
     transformers
-    diffusers
-    spacy gensim nltk
+    # diffusers
+    # spacy gensim nltk
     datasets
 
-    # for homework
-    psutil
-    pynput
+    # for system
+    evdev pyzmq python-magic
   ]));
   desktop_julia = (pinned-pkgs.julia.withPackages.override({ precompile = false; })([
     # "TruthTables" "LinearSolve"

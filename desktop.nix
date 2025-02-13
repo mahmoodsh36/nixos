@@ -4,24 +4,25 @@ let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; });
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   per_machine_vars = (import ./per_machine_vars.nix {});
-  mypython = pkgs.python3.withPackages(ps: with ps; [
-    python-magic
-    requests
-    paramiko pynacl # for find_computers.py (latter is needed for former)
+  # mypython = pkgs.python3.withPackages(ps: with ps; [
+  #   python-magic
+  #   requests
+  #   paramiko pynacl # for find_computers.py (latter is needed for former)
 
-    # for quick tests etc? i use it for ML uni courses
-    matplotlib
-    numpy
+  #   # for quick tests etc? i use it for ML uni courses
+  #   matplotlib
+  #   numpy
 
-    evdev # for event handling/manipulation
+  #   evdev # for event handling/manipulation
 
-    # for other system scripts?
-    pyzmq
+  #   # for other system scripts?
+  #   pyzmq
 
-    # for widgets, doesnt work
-    # pygobject3
-    # pydbus
-  ]);
+  #   # for widgets, doesnt work
+  #   # pygobject3
+  #   # pydbus
+  # ]);
+  mypython = desktop_vars.desktop_python;
 in
 {
   imports = [
