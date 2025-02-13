@@ -1,8 +1,8 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, pinned-pkgs, ... }:
 
 let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; });
-  desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; });
+  desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   per_machine_vars = (import ./per_machine_vars.nix {});
   mypython = pkgs.python3.withPackages(ps: with ps; [
     python-magic

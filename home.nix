@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 let
-  desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; });
+  desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; inputs = inputs; });
 in
 {
   imports = [

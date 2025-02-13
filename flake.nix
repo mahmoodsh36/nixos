@@ -45,6 +45,9 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # yet another pinning mechanism (beside the fact that this is a flake..)
+    pinned-pkgs.url = "github:NixOS/nixpkgs/64e75cd44acf21c7933d61d7721e812eac1b5a0a";
   };
 
   outputs = {
@@ -53,6 +56,7 @@
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    pinned-pkgs = inputs.pinned-pkgs.legacyPackages.${system};
   in {
     nixosConfigurations.mahmooz = nixpkgs.lib.nixosSystem {
       specialArgs = {
@@ -95,6 +99,9 @@
         (if (import ./per_machine_vars.nix {}).is_desktop
          then ./desktop.nix
          else ./server.nix)
+        {
+          _module.args = { inherit pinned-pkgs; }; # need to pass it to desktop.nix
+        }
 
         # https://github.com/thiagokokada/nix-alien
         # ({ pkgs, ... }: {
