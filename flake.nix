@@ -67,11 +67,11 @@
           nixpkgs.overlays = [
             # nix-vscode-extensions.overlays.default
             # emacs-overlay.overlay
-            (self: super: {
-              my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
-                imagemagick = pkgs.imagemagickBig;
-              });
-            })
+            # (self: super: {
+            #   my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+            #     imagemagick = pkgs.imagemagickBig;
+            #   });
+            # })
             # enable pgtk so its not pixelated on wayland
             (self: super: {
               my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
