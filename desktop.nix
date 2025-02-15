@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, pinned-pkgs, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { pkgs = pkgs; });
+  server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   per_machine_vars = (import ./per_machine_vars.nix {});
   # mypython = pkgs.python3.withPackages(ps: with ps; [
@@ -497,24 +497,6 @@ in
     chicken
     guile
     racket
-    # common lisp
-    (sbcl.withPackages (ps: with ps; [
-      serapeum
-      lparallel
-      cl-csv
-      hunchentoot
-      jsown
-      alexandria
-      cl-ppcre
-      # swank
-      slynk
-      # nyxt
-      cl-fad
-    ]))
-    # usage example:
-    # $ sbcl
-    # * (load (sb-ext:posix-getenv "ASDF"))
-    # * (asdf:load-system 'alexandria)
 
     # offline docs
     # zeal devdocs-desktop

@@ -47,7 +47,7 @@
     };
 
     # yet another pinning mechanism (beside the fact that this is a flake..)
-    pinned-pkgs.url = "github:NixOS/nixpkgs/64e75cd44acf21c7933d61d7721e812eac1b5a0a";
+    pinned-pkgs.url = "github:NixOS/nixpkgs/2ff53fe64443980e139eaa286017f53f88336dd0";
   };
 
   outputs = {

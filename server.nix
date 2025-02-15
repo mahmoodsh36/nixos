@@ -1,7 +1,7 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, pinned-pkgs, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { pkgs = pkgs; });
+  server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   per_machine_vars = (import ./per_machine_vars.nix {});
 in
 {

@@ -1,4 +1,19 @@
-{ pkgs, ... }: rec {
+{ pkgs, pinned-pkgs, ... }:
+let
+  mysbcl = (pinned-pkgs.sbcl.withPackages (ps: with ps; [
+    serapeum
+    lparallel
+    cl-csv
+    hunchentoot
+    jsown
+    alexandria
+    cl-ppcre
+    # swank
+    slynk
+    # nyxt
+    cl-fad
+  ]));
+in rec {
   server_overlays = [
   ];
 
@@ -69,6 +84,8 @@
     zeromq
 
     tesseract
+
+    mysbcl
 
     # my_emacs
     # emacs
