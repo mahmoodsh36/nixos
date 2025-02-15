@@ -9,10 +9,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # emacs-overlay = {
+    #   url = "github:nix-community/emacs-overlay";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     # for running unpatched binaries
     # nix-alien = {
     #   url = "github:thiagokokada/nix-alien";
@@ -52,7 +52,7 @@
 
   outputs = {
     self, nixpkgs, home-manager,
-      emacs-overlay, wezterm-flake, nix-vscode-extensions, ...
+      wezterm-flake, nix-vscode-extensions, ...
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -66,7 +66,7 @@
         ({ pkgs, ... }: {
           nixpkgs.overlays = [
             # nix-vscode-extensions.overlays.default
-            emacs-overlay.overlay
+            # emacs-overlay.overlay
             (self: super: {
               my_emacs_git = (super.emacs-git.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
                 imagemagick = pkgs.imagemagickBig;
