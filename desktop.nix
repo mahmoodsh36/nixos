@@ -453,7 +453,7 @@ in
     stremio
     syncthing
     monolith # save webpages
-    wallabag
+    hoarder # wallabag
 
     # soulseek?
     # soulseekqt
