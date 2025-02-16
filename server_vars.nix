@@ -44,6 +44,7 @@ in rec {
     eza
     tree-sitter
     goose-cli # goose ai tool
+    glances
 
     openjdk
     gcc clang gdb clang-tools
