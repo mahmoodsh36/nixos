@@ -27,14 +27,19 @@
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    pinned-pkgs = inputs.pinned-pkgs.legacyPackages.${system};
+    # pinned-pkgs = inputs.pinned-pkgs.legacyPackages.${system};
+    pinned-pkgs = import inputs.pinned-pkgs {
+      system = "x86_64-linux"; # Adjust this for your system
+      config.allowUnfree = true;
+      config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
+    };
   in {
     nixosConfigurations.mahmooz = nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
       };
       modules = [
-        ({ pkgs, ... }: {
+        ({ pkgs, pinned-pkgs, ... }: {
           nixpkgs.overlays = [
             # enable pgtk so its not pixelated on wayland
             (self: super: {

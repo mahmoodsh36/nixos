@@ -9,7 +9,9 @@
     # graphviz flask-sqlalchemy flask-cors ariadne graphene mysql-connector
 
     # machine learning
-    pytorch torchvision
+    (if (import ./per_machine_vars.nix {}).enable_nvidia
+     then torchWithCuda
+     else torch)
     # scikit-learn
     transformers
     # diffusers
