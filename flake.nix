@@ -27,9 +27,8 @@
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    # pinned-pkgs = inputs.pinned-pkgs.legacyPackages.${system};
     pinned-pkgs = import inputs.pinned-pkgs {
-      system = "x86_64-linux"; # Adjust this for your system
+      system = "x86_64-linux";
       config.allowUnfree = true;
       config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
     };
