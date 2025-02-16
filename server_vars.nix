@@ -12,6 +12,14 @@ let
     slynk
     # nyxt
     cl-fad
+    str
+    py4cl # run python in common lisp
+    # cl-cuda
+    rutils # "radical" macros
+    dexador # http library
+    # numcl # numpy-like functionality
+    clingon # command-line options parser
+    cl-gtk4
   ]));
 in rec {
   server_overlays = [

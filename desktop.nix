@@ -4,24 +4,6 @@ let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   per_machine_vars = (import ./per_machine_vars.nix {});
-  # mypython = pkgs.python3.withPackages(ps: with ps; [
-  #   python-magic
-  #   requests
-  #   paramiko pynacl # for find_computers.py (latter is needed for former)
-
-  #   # for quick tests etc? i use it for ML uni courses
-  #   matplotlib
-  #   numpy
-
-  #   evdev # for event handling/manipulation
-
-  #   # for other system scripts?
-  #   pyzmq
-
-  #   # for widgets, doesnt work
-  #   # pygobject3
-  #   # pydbus
-  # ]);
   mypython = desktop_vars.desktop_python;
 in
 {
@@ -31,17 +13,6 @@ in
 
   # automatic screen rotation?
   hardware.sensor.iio.enable = true;
-
-  # iptsd
-  # services.iptsd.enable = true;
-  # services.iptsd.config.Touchscreen.DisableOnStylus = true;
-  # services.iptsd.config.Touchscreen.DisableOnPalm = true;
-
-  # i dont need this to use wacom, but it provides extra options/features
-  # hardware.opentabletdriver = {
-  #   enable = true;
-  #   daemon.enable = true;
-  # };
 
   hardware.graphics = {
     enable = true;
@@ -330,12 +301,6 @@ in
     ];
   };
 
-  # services.ollama = {
-  #   enable = per_machine_vars.enable_nvidia;
-  #   package = pkgs.ollama-cuda;
-  #   acceleration = "cuda";
-  # };
-
   # packages
   environment.systemPackages = with pkgs; [
     (pkgs.writeShellScriptBin "python" ''
@@ -568,12 +533,6 @@ in
     llama-cpp
   ]);
 
-  # services.prometheus = {
-  #   enable = true;
-  #   port = 9001;
-  # };
-  # services.monit.enable = true;
-
   systemd.services.my_mpv_logger_service = {
     description = "mpv logger";
     wantedBy = [ "multi-user.target" ];
@@ -608,15 +567,6 @@ in
     };
   };
 
-  # systemd.services.my_syncthing = {
-  #   description = "mpv logger";
-  #   wantedBy = [ "multi-user.target" ];
-  #   script = "${pkgs.syncthing}/bin/syncthing --home=/home/mahmooz/.syncthing_config";
-  #   serviceConfig = {
-  #     User = "mahmooz";
-  #   };
-  # };
-
   # make electron apps work properly with wayland?
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -628,23 +578,6 @@ in
     platformTheme = "qt5ct";
     style = "adwaita-dark";
   };
-
-  # note that you may have to ssh first manually for the main server to be inserted into known_hosts file so that this would work
-  # systemd.services.my_ssh_tunnel_service = {
-  #   description = "ssh tunnel";
-  #   after = [ "network.target" "network-online.target" ];
-  #   wants = [ "network-online.target" ];
-  #   script = "[ -f ${server_vars.main_key} ] && ${pkgs.openssh}/bin/ssh -i ${server_vars.main_key} -R '*:${toString per_machine_vars.remote_tunnel_port}:*:22' ${server_vars.main_server_user}@${server_vars.main_server_ip} -NTg -o ServerAliveInterval=60";
-  #   wantedBy = [ "multi-user.target" ];
-  #   serviceConfig = {
-  #     User = "mahmooz";
-  #     Type = "simple";
-  #     Restart = "on-failure";
-  #     RestartSec = "5s";
-  #     RuntimeMaxSec = "3600";
-  #     # Restart = "always";
-  #   };
-  # };
 
   services.udev.extraRules = ''
     SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
