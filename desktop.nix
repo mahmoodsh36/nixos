@@ -78,17 +78,17 @@ in
 
   # my overlays
   nixpkgs.overlays = [
-    (self: super:
-    {
-      llama-cpp = super.llama-cpp.overrideAttrs (oldAttrs: rec {
-        src = super.fetchFromGitHub {
-          owner = "ggerganov";
-          repo = "llama.cpp";
-          rev = "a94f3b2727e97eb6c904006eb786960c069282bc";
-          sha256 = "06canqysnbk1030dzjailcx272qyfg1rnzpgnz2x104zi2c2n9cc";
-        };
-      });
-    })
+    # (self: super:
+    # {
+    #   llama-cpp = super.llama-cpp.overrideAttrs (oldAttrs: rec {
+    #     src = super.fetchFromGitHub {
+    #       owner = "ggerganov";
+    #       repo = "llama.cpp";
+    #       rev = "a94f3b2727e97eb6c904006eb786960c069282bc";
+    #       sha256 = "06canqysnbk1030dzjailcx272qyfg1rnzpgnz2x104zi2c2n9cc";
+    #     };
+    #   });
+    # })
   ] ++ server_vars.server_overlays;
 
 
