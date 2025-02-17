@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     wezterm-flake = {
-      url = "github:wez/wezterm/11505b7083cc098203f899b023f31fe41abff0bd?dir=nix";
+      url = "github:wez/wezterm/ee0c04e735fb94cb5119681f704fb7fa6731e713?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
