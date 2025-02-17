@@ -539,7 +539,7 @@ in
     enable = per_machine_vars.enable_nvidia;
     description = "llama";
     wantedBy = [ "multi-user.target" ];
-    script = "${pkgs.llama-cpp}/bin/llama-server --host 0.0.0.0 --port 8080 -m /home/mahmooz/models/DeepSeek-R1-Distill-Qwen-14B-Q8_0.gguf --host 0.0.0.0 --cache-type-k q8_0 --n-gpu-layers 40"; # -k q8_0 may be very important, https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF
+    script = "${pkgs.llama-cpp}/bin/llama-server --host 0.0.0.0 --port 8080 -m /home/mahmooz/models/DeepSeek-R1-Distill-Qwen-14B-Q8_0.gguf --host 0.0.0.0 --cache-type-k q8_0 --n-gpu-layers 50"; # -k q8_0 may be very important, https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF
     serviceConfig = {
       User = "mahmooz";
       # Restart = "always";
