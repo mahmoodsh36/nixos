@@ -307,7 +307,6 @@ in
       echo $@ > /tmp/notif
     '')
 
-    inputs.wezterm-flake.packages.${pkgs.system}.default
     inputs.lem.packages.${pkgs.system}.lem-ncurses
     inputs.lem.packages.${pkgs.system}.lem-sdl2
 
@@ -340,7 +339,7 @@ in
     neovide
 
     # commandline tools
-    # wezterm kitty
+    wezterm # kitty
     pulsemixer # tui for pulseaudio control
     alsa-utils
     playerctl # media control

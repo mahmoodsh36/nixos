@@ -9,10 +9,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    wezterm-flake = {
-      url = "github:wez/wezterm/ee0c04e735fb94cb5119681f704fb7fa6731e713?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     lem = {
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,8 +18,7 @@
   };
 
   outputs = {
-    self, nixpkgs, home-manager,
-      wezterm-flake, ...
+    self, nixpkgs, home-manager, ...
   } @inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
