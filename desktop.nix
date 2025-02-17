@@ -78,18 +78,7 @@ in
 
   # my overlays
   nixpkgs.overlays = [
-    # (self: super:
-    # {
-    #   llama-cpp = super.llama-cpp.overrideAttrs (oldAttrs: rec {
-    #     src = super.fetchFromGitHub {
-    #       owner = "ggerganov";
-    #       repo = "llama.cpp";
-    #       rev = "a94f3b2727e97eb6c904006eb786960c069282bc";
-    #       sha256 = "06canqysnbk1030dzjailcx272qyfg1rnzpgnz2x104zi2c2n9cc";
-    #     };
-    #   });
-    # })
-    (final: prev: { cudaPackages = final.cudaPackages_12_3; })
+
   ] ++ server_vars.server_overlays;
 
 
@@ -550,7 +539,7 @@ in
     enable = per_machine_vars.enable_nvidia;
     description = "llama";
     wantedBy = [ "multi-user.target" ];
-    script = "${pkgs.llama-cpp}/bin/llama-server --host 0.0.0.0 --port 8080 -m /home/mahmooz/models/DeepSeek-R1-Distill-Qwen-14B-Q8_0.gguf --host 0.0.0.0 --cache-type-k q8_0 --n-gpu-layers 20 --threads 16"; # -k q8_0 may be very important, https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF
+    script = "${pkgs.llama-cpp}/bin/llama-server --host 0.0.0.0 --port 8080 -m /home/mahmooz/models/DeepSeek-R1-Distill-Qwen-14B-Q8_0.gguf --host 0.0.0.0 --cache-type-k q8_0 --n-gpu-layers 40"; # -k q8_0 may be very important, https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF
     serviceConfig = {
       User = "mahmooz";
       # Restart = "always";
