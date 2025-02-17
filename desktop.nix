@@ -89,6 +89,7 @@ in
     #     };
     #   });
     # })
+    (final: prev: { cudaPackages = final.cudaPackages_12_3; })
   ] ++ server_vars.server_overlays;
 
 
