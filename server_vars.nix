@@ -20,6 +20,7 @@ let
     # numcl # numpy-like functionality
     clingon # command-line options parser
     cl-gtk4
+    ironclad # crypto functions
   ]));
 in rec {
   server_overlays = [
