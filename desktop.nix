@@ -15,6 +15,9 @@ in
   hardware.enableAllHardware = true;
   hardware.enableAllFirmware = true;
 
+  # for firmware updates
+  services.fwupd.enable = true;
+
   # automatic screen rotation?
   hardware.sensor.iio.enable = true;
 
