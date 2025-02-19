@@ -75,6 +75,7 @@ in
       };
     };
   };
+  networking.firewall.enable = false;
 
   # enable some programs/services
   services.tailscale.enable = true;
