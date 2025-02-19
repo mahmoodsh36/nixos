@@ -545,6 +545,12 @@ in
     };
   };
 
+  services.ollama = {
+    enable = per_machine_vars.enable_nvidia;
+    package = pkgs.ollama-cuda;
+    acceleration = "cuda";
+  };
+
   systemd.services.my_keys_py_service = {
     description = "service for keys.py";
     wantedBy = [ "multi-user.target" ];
