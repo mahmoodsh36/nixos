@@ -26,7 +26,7 @@ in
     hostName = "mahmooz";
     usePredictableInterfaceNames = true;
     # resolvconf.dnsExtensionMechanism = false;
-    networkmanager.enable = true;
+    networkmanager.enable = false;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
       127.0.0.1 youtube.com
@@ -37,7 +37,43 @@ in
       127.0.0.1 www.discord.com
       127.0.0.1 instagram.com
       127.0.0.1 www.instagram.com
+      192.168.1.2 mahmooz2
     '';
+  };
+
+  # networkd config
+  systemd.network.enable = true;
+  systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
+  # dont wait for interfaces to come online (faster boot)
+  boot.initrd.systemd.network.wait-online.enable = false;
+  systemd.network = {
+    # static ip for wired ethernet
+    networks."10-wired" = {
+      matchConfig.Type = "ether"; # matches any wired interface
+      DHCP = "no";
+      address = [ "${per_machine_vars.static_ip}/24" ];
+      gateway = [ "192.168.1.1" ];
+      linkConfig.RequiredForOnline = "routable";
+    };
+    # wireless interface (use DHCP)
+    networks."20-wifi" = {
+      matchConfig.Name = "wlo1";
+      # what about wlan type?
+      # matchConfig.Type = "wlan";
+      DHCP = "yes"; # get IP dynamically
+    };
+  };
+  # `iwd` for wifi management (alternative to wpa_supplicant)
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General = {
+        EnableNetworkConfiguration = true;
+      };
+      Settings = {
+        AutoConnect = true;
+      };
+    };
   };
 
   # enable some programs/services
