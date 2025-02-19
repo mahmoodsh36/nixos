@@ -16,7 +16,6 @@ in
   # what about this? works for hetzner
   # boot.loader.grub.device = "nodev";
 
-  nixpkgs.config.allowUnfree = true;
   time.timeZone = "Asia/Jerusalem";
   system.etc.overlay.enable = false;
 
@@ -42,9 +41,8 @@ in
     '';
   };
 
-  services.tailscale.enable = true;
-
   # enable some programs/services
+  services.tailscale.enable = true;
   programs.mosh.enable = true;
   programs.zsh.enable = true;
   programs.adb.enable = true;
@@ -70,10 +68,10 @@ in
     settings.mysqld.bind-address = "0.0.0.0";
   };
 
-  services.locate = {
-    enable = true;
-    interval = "hourly";
-  };
+  # services.locate = {
+  #   enable = true;
+  #   interval = "hourly";
+  # };
 
   services.openssh = {
     enable = true;

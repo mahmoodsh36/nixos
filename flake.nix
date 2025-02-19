@@ -21,10 +21,16 @@
     self, nixpkgs, home-manager, ...
   } @inputs: let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    # pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
+      config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
+    };
     pinned-pkgs = import inputs.pinned-pkgs {
       system = "x86_64-linux";
       config.allowUnfree = true;
+      nixpkgs.config.allowUnfree = true;
       config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
     };
   in {

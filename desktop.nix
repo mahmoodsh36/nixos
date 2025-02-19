@@ -11,6 +11,10 @@ in
     ./server.nix
   ] ++ lib.optional (per_machine_vars.enable_nvidia) ./nvidia.nix;
 
+  # better safe than sorry (for having to deal with firmware/driver issues)..?
+  hardware.enableAllHardware = true;
+  hardware.enableAllFirmware = true;
+
   # automatic screen rotation?
   hardware.sensor.iio.enable = true;
 
@@ -73,8 +77,6 @@ in
     wantedBy = [ "default.target" ];
     serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
   };
-
-  nixpkgs.config.cudaSupport = per_machine_vars.enable_nvidia;
 
   # my overlays
   nixpkgs.overlays = [
