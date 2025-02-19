@@ -49,6 +49,7 @@ in
   # dont wait for interfaces to come online (faster boot)
   boot.initrd.systemd.network.wait-online.enable = false;
   systemd.network = {
+    wait-online.enable = false;
     # static ip for wired ethernet
     networks."10-wired" = {
       matchConfig.Type = "ether"; # matches any wired interface
