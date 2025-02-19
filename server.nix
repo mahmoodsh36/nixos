@@ -25,6 +25,7 @@ in
   networking = {
     hostName = "mahmooz";
     usePredictableInterfaceNames = true;
+    useDHCP = false;
     # resolvconf.dnsExtensionMechanism = false;
     networkmanager.enable = false;
     # block some hosts by redirecting to the loopback interface
@@ -43,6 +44,7 @@ in
 
   # networkd config
   systemd.network.enable = true;
+  services.resolved.enable = true;
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
   # dont wait for interfaces to come online (faster boot)
   boot.initrd.systemd.network.wait-online.enable = false;
