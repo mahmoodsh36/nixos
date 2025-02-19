@@ -32,44 +32,54 @@
       config.allowUnfree = true;
       config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
     };
-  in {
-    nixosConfigurations.mahmooz = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
+    mkSystem = extraModules:
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
+          }
+          ({ pkgs, pinned-pkgs, ... }: {
+            nixpkgs.overlays = [
+              # enable pgtk so its not pixelated on wayland
+              (self: super: {
+                my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+                  imagemagick = pkgs.imagemagickBig;
+                });
+              })
+            ];
+            environment.systemPackages = with pkgs; [
+              ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
+                treesit-grammars.with-all-grammars
+              ]))
+            ];
+          })
+          (if (import ./per_machine_vars.nix {}).is_desktop
+           then ./desktop.nix
+           else ./server.nix)
+          {
+            _module.args = { inherit pinned-pkgs; }; # need to pass it to desktop.nix
+          }
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.mahmooz = import ./home.nix;
+            home-manager.backupFileExtension = "hmbkup";
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
+        ];
       };
-      modules = [
+  in {
+    nixosConfigurations = {
+      mahmooz = mkSystem [];
+      hetzner = mkSystem [
         {
-          nixpkgs.config.allowUnfree = true;
-          nixpkgs.config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
-        }
-        ({ pkgs, pinned-pkgs, ... }: {
-          nixpkgs.overlays = [
-            # enable pgtk so its not pixelated on wayland
-            (self: super: {
-              my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
-                imagemagick = pkgs.imagemagickBig;
-              });
-            })
-          ];
-          environment.systemPackages = with pkgs; [
-            ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
-              treesit-grammars.with-all-grammars
-            ]))
-          ];
-        })
-        (if (import ./per_machine_vars.nix {}).is_desktop
-         then ./desktop.nix
-         else ./server.nix)
-        {
-          _module.args = { inherit pinned-pkgs; }; # need to pass it to desktop.nix
-        }
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.mahmooz = import ./home.nix;
-          home-manager.backupFileExtension = "hmbkup";
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          # otherwise my hetzner server's bootloader wont work
+          boot.loader.grub.device = "nodev";
         }
       ];
     };

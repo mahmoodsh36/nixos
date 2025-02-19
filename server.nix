@@ -13,8 +13,6 @@ in
   # use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # what about this? works for hetzner
-  # boot.loader.grub.device = "nodev";
 
   time.timeZone = "Asia/Jerusalem";
   system.etc.overlay.enable = false;
@@ -26,6 +24,7 @@ in
   # networking
   networking = {
     hostName = "mahmooz";
+    usePredictableInterfaceNames = true;
     # resolvconf.dnsExtensionMechanism = false;
     networkmanager.enable = true;
     # block some hosts by redirecting to the loopback interface
@@ -189,7 +188,7 @@ in
     "https://nix-community.cachix.org"
   ];
   nix.settings.trusted-public-keys = [
-    # Compare to the key published at https://nix-community.org/cache
+    # compare to the key published at https://nix-community.org/cache
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
   ];
 
