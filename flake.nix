@@ -30,7 +30,6 @@
     pinned-pkgs = import inputs.pinned-pkgs {
       system = "x86_64-linux";
       config.allowUnfree = true;
-      nixpkgs.config.allowUnfree = true;
       config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
     };
   in {
@@ -39,6 +38,10 @@
         inherit inputs;
       };
       modules = [
+        {
+          nixpkgs.config.allowUnfree = true;
+          nixpkgs.config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
+        }
         ({ pkgs, pinned-pkgs, ... }: {
           nixpkgs.overlays = [
             # enable pgtk so its not pixelated on wayland
