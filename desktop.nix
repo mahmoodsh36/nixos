@@ -431,11 +431,18 @@ in
     syncthing
     monolith # save webpages
     hoarder # wallabag
+    liquidctl
+    libinput
+    bluez-tools blueman
+    pulseaudioFull
+    prettierd # for emacs apheleia
+    nodePackages.prettier # for emacs apheleia
+    black
 
     # scientific computation?
     gnuplot
     lean
-    sageWithDoc sagetex
+    pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
     # quickly start VMs
@@ -463,14 +470,6 @@ in
     # offline docs
     # zeal devdocs-desktop
 
-    # some helpful programs / other
-    onboard # onscreen keyboard
-    xcape keyd # haskellPackages.kmonad  # keyboard utilities
-    pulseaudioFull
-    prettierd # for emacs apheleia
-    nodePackages.prettier # for emacs apheleia
-    black
-
     # lsp
     haskell-language-server emmet-language-server clojure-lsp #llm-ls
     nodePackages.node2nix yaml-language-server postgres-lsp ansible-language-server
@@ -488,14 +487,6 @@ in
     # dictionary
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
-    liquidctl
-    libinput
-
-    bluez-tools blueman
-
-    # image viewer
-    vimiv-qt
-
     # for widgets
     (pkgs.python3Packages.buildPythonPackage rec {
       pname = "widgets";
@@ -508,7 +499,6 @@ in
 
       nativeBuildInputs = with pkgs; [ gobject-introspection ];
       buildInputs = with pkgs; [ gtk3 gtk-layer-shell wrapGAppsHook ];
-      # propagatedBuildInputs = with python3Packages; [ pygobject3 pydbus ];
       propagatedBuildInputs = with python3Packages; [
         pydbus
         pygobject3
