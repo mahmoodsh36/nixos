@@ -33,8 +33,8 @@ in
     extraHosts = ''
       127.0.0.1 youtube.com
       127.0.0.1 www.youtube.com
-      127.0.0.1 reddit.com
-      127.0.0.1 www.reddit.com
+      # 127.0.0.1 reddit.com
+      # 127.0.0.1 www.reddit.com
       127.0.0.1 discord.com
       127.0.0.1 www.discord.com
       127.0.0.1 instagram.com
@@ -56,7 +56,7 @@ in
       matchConfig.Type = "ether"; # matches any wired interface
       DHCP = "no";
       address = [ "${per_machine_vars.static_ip}/24" ];
-      gateway = [ "192.168.1.1" ];
+      # gateway = [ "192.168.1.1" ]; # setting a gateway messes up other connections
       linkConfig.RequiredForOnline = "routable";
     };
     # wireless interface (use DHCP)
