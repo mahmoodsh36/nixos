@@ -232,8 +232,7 @@ in
       thunar-volman
     ];
   };
-  # programs.xfconf.enable = true;
-  # programs.nm-applet.enable = true; # this thing is annoying lol (send notifications and stuff..)
+  programs.xfconf.enable = true;
   programs.dconf.enable = true;
   services.tumbler.enable = lib.mkForce false;
   programs.light.enable = true;
@@ -359,24 +358,21 @@ in
     mpv
     vlc
     feh # i use it to set wallpaper
-    # my_sxiv
     telegram-desktop
     youtube-music
     okular zathura foliate mupdf
     xournalpp # rnote krita
     # krita
-    # lollypop clementine
+    lollypop clementine
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
     djvulibre
-    # qimgv
     jellyfin jellyfin-web jellyfin-ffmpeg jellyfin-media-player jellycli jellyfin-mpv-shim
     imv
 
     # media manipulation tools
-    inkscape # gimp
+    inkscape
 
     # general tools
-    # google-chrome nyxt tor-browser-bundle-bin # qutebrowser
     brave tor-browser-bundle-bin google-chrome
     scrcpy
     pavucontrol
@@ -394,20 +390,7 @@ in
     btrfs-progs
     sshpass
 
-    # x11 tools
-    # rofi
-    libnotify
-    # xclip xsel
-    # maim # maim is a better alternative to scrot
-    # hsetroot
-    # unclutter
-    # xorg.xev
-    # sxhkd
-    # xorg.xwininfo
-    # xorg.xauth
-
     # wayland
-    # gnomeExtensions.xremap
     wl-clipboard
     waybar
     grim slurp # for screenshots
@@ -424,6 +407,7 @@ in
     squeekboard
     flameshot
     wl-screenrec
+    libnotify
 
     vdhcoapp # for firefox video download helper
 
@@ -431,7 +415,7 @@ in
     zoom-us #, do i realy want this running natively?
     hugo
     adb-sync
-    # woeusb-ng
+    woeusb-ng
     ntfs3g
     gnupg
     SDL2
@@ -440,33 +424,18 @@ in
     usbutils
     pciutils
     subversion # git alternative
-    # logseq
     graphviz
-    # firebase-tools
-    # graphqlmap
     isync
     notmuch
-    # nuclear
-    # python312Packages.google
-    # popcorntime
     stremio
     syncthing
     monolith # save webpages
     hoarder # wallabag
 
-    # soulseek?
-    # soulseekqt
-    # nicotine-plus
-
-    # for listening to radio music?
-    # strawberry
-    # shortwave
-
     # scientific computation?
     gnuplot
     lean
-    # sentencepiece
-    # sageWithDoc sagetex
+    sageWithDoc sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
 
     # quickly start VMs
@@ -474,20 +443,14 @@ in
 
     # some programming languages/environments
     (lua.withPackages(ps: with ps; [ busted luafilesystem luarocks ]))
-    # flutter dart android-studio android-tools genymotion
     texlive.combined.scheme-full
     rustc meson ninja
-    # jupyter
     typescript
     desktop_vars.desktop_julia
-    # julia-bin
-    # julia
     python3Packages.west
     typst
     tailwindcss
     poetry
-    # desktop_vars.desktop_python
-    #python3
     neo4j
     bun
 
@@ -506,7 +469,6 @@ in
     pulseaudioFull
     prettierd # for emacs apheleia
     nodePackages.prettier # for emacs apheleia
-    # ruff # python code formatter
     black
 
     # lsp
@@ -525,7 +487,6 @@ in
 
     # dictionary
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
-    # enchant.dev # for emacs jinx-mode
 
     liquidctl
     libinput
@@ -606,9 +567,6 @@ in
       Restart = "always";
     };
   };
-
-  # make electron apps work properly with wayland?
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # without this okular is blurry
   environment.sessionVariables.QT_QPA_PLATFORM = "wayland";

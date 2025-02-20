@@ -13,23 +13,21 @@ in
   # use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
+  system.etc.overlay.enable = false;
+  time.timeZone = "Asia/Jerusalem";
   # power saving causes my internet to keep disconnecting
   powerManagement.enable = false;
 
-  time.timeZone = "Asia/Jerusalem";
-  system.etc.overlay.enable = false;
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # not needed with flakes and causes a bunch of warnings
+  nix.channel.enable = false;
 
-  # do we even need this?
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   # networking
   networking = {
     hostName = "mahmooz";
     usePredictableInterfaceNames = true;
     useDHCP = false;
-    # resolvconf.dnsExtensionMechanism = false;
     networkmanager.enable = false;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
@@ -222,9 +220,6 @@ in
     PERSONAL_WEBSITE = server_vars.personal_website;
     MYGITHUB = server_vars.mygithub;
   };
-
-  # not needed with flakes and causes a bunch of warnings
-  nix.channel.enable = false;
 
   # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)
   nix.settings.substituters = [
