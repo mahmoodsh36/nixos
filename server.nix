@@ -73,6 +73,7 @@ in
     settings = {
       General = {
         EnableNetworkConfiguration = true;
+        EnablePowerSave = false;
       };
       Settings = {
         AutoConnect = true;
