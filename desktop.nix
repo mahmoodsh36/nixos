@@ -15,12 +15,12 @@ in
     "quiet"
     "splash"
     "boot.shell_on_fail"
+    "usbcore.autosuspend=-1" # or 120 to wait two minutes, etc
   ];
   boot.kernelModules = [ "iwlwifi" ];
   boot.extraModprobeConfig = ''
     options iwlwifi power_save=0
   '';
-
 
   # tlp for battery saving? this heavily throttles my itnernet so im disabling it..
   # services.tlp = {
