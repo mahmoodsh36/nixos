@@ -173,7 +173,7 @@ in
 
   # self-hosted media service
   services.jellyfin = {
-    enable = true;
+    enable = false;
     # openFirewall = true;
     user = "mahmooz"; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
     dataDir = "/home/mahmooz/jellyfin";
