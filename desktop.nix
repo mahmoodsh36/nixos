@@ -16,6 +16,11 @@ in
     "splash"
     "boot.shell_on_fail"
   ];
+  boot.kernelModules = [ "iwlwifi" ];
+  boot.extraModprobeConfig = ''
+    options iwlwifi power_save=0
+  '';
+
 
   # tlp for battery saving? this heavily throttles my itnernet so im disabling it..
   # services.tlp = {
