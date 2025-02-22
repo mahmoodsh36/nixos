@@ -136,7 +136,7 @@ in
           owner = "ggerganov";
           repo = "llama.cpp";
           rev = "9d00bc21498a2d5235feab438eb4dc5490ec64d6";
-          sha256 = "06canqysnbk1030dzjailcx272qyfg1rnzpgnz2x104zi2c2n9cc";
+          sha256 = "sha256-SFHYNK6d4+XzffCtZxKzFAEiU6vReAlV4yPuK/Vtm34=";
         };
       });
     })
