@@ -31,10 +31,10 @@ in
     networkmanager.enable = false;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
-      127.0.0.1 youtube.com
-      127.0.0.1 www.youtube.com
-      # 127.0.0.1 reddit.com
-      # 127.0.0.1 www.reddit.com
+      # 127.0.0.1 youtube.com
+      # 127.0.0.1 www.youtube.com
+      127.0.0.1 reddit.com
+      127.0.0.1 www.reddit.com
       127.0.0.1 discord.com
       127.0.0.1 www.discord.com
       127.0.0.1 instagram.com
@@ -61,9 +61,7 @@ in
     };
     # wireless interface (use DHCP)
     networks."20-wifi" = {
-      matchConfig.Name = "wlo1";
-      # what about wlan type?
-      # matchConfig.Type = "wlan";
+      matchConfig.Type = "wlan";
       DHCP = "yes"; # get IP dynamically
     };
   };

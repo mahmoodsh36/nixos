@@ -127,8 +127,19 @@ in
   };
 
   # my overlays
-  nixpkgs.overlays = [
 
+  nixpkgs.overlays = [
+    (self: super:
+    {
+      llama-cpp = super.llama-cpp.overrideAttrs (oldAttrs: rec {
+        src = super.fetchFromGitHub {
+          owner = "ggerganov";
+          repo = "llama.cpp";
+          rev = "9d00bc21498a2d5235feab438eb4dc5490ec64d6";
+          sha256 = "06canqysnbk1030dzjailcx272qyfg1rnzpgnz2x104zi2c2n9cc";
+        };
+      });
+    })
   ] ++ server_vars.server_overlays;
 
 

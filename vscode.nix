@@ -39,6 +39,7 @@ in {
       "vim.commandLineModeKeyBindings" = [];
       "vim.useSystemClipboard" = true;
       "explorer.confirmDragAndDrop" = false;
+      "security.workspace.trust.enabled" = false;
       # "jupyter.askForKernelRestart" = false;
     };
     keybindings = [
