@@ -32,10 +32,17 @@
       config.allowUnfree = true;
       config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
     };
+    isobase = {
+      isoImage.squashfsCompression = "gzip -Xcompression-level 1";
+      systemd.services.sshd.wantedBy = nixpkgs.lib.mkForce [ "multi-user.target" ];
+      networking.wireless.enable = false; # installation-cd-minimal.nix sets that to true
+      # users.users.root.openssh.authorizedKeys.keys = [ "<my ssh key>" ];
+    };
     mkSystem = extraModules:
       nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
+          inherit system;
         };
         modules = [
           {
@@ -71,7 +78,7 @@
             home-manager.backupFileExtension = "hmbkup";
             home-manager.extraSpecialArgs = { inherit inputs; };
           }
-        ];
+        ] ++ extraModules;
       };
   in {
     nixosConfigurations = {
@@ -81,6 +88,10 @@
           # otherwise my hetzner server's bootloader wont work
           boot.loader.grub.device = "nodev";
         }
+      ];
+      myiso = mkSystem [
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        isobase
       ];
     };
   };
