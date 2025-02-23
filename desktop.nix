@@ -159,12 +159,6 @@ in
     package = pkgs.hyprland;
     xwayland.enable = true;
   };
-  # programs.hyprland = {
-  #   enable = true;
-  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-  #   portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  #   xwayland.enable = true;
-  # };
   xdg.portal = {
     # xdgOpenUsePortal = true; # this seems to override my .desktop definitions in home-manager?
     enable = true;
@@ -334,7 +328,6 @@ in
 
   programs.nix-ld = {
     enable = true;
-    # include libstdc++ in the nix-ld profile
     libraries = [
       pkgs.stdenv.cc.cc
       pkgs.zlib
