@@ -417,6 +417,8 @@ in
     flameshot
     wl-screenrec
     libnotify
+    darktable # image editor
+    digikam # another image viewer?
 
     vdhcoapp # for firefox video download helper
 

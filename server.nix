@@ -40,6 +40,7 @@ in
       127.0.0.1 instagram.com
       127.0.0.1 www.instagram.com
       # 192.168.1.2 mahmooz2 # this prevents tailscale from identifying mahmooz2
+      192.168.1.2 mahmooz2-2
     '';
   };
 
