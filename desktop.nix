@@ -369,7 +369,7 @@ in
     feh # i use it to set wallpaper
     telegram-desktop
     youtube-music
-    okular zathura foliate mupdf
+    kdePackages.okular zathura foliate mupdf
     xournalpp # rnote krita
     # krita
     lollypop clementine

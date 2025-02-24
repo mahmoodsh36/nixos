@@ -34,6 +34,6 @@
     "GraphPlot" "Compose"
     # "SGtSNEpi" "Karnak"
 
-    # "LogicCircuits"
+    # "LogicCircuits" # causes compilation error :(
   ]));
 }
