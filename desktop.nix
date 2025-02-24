@@ -595,7 +595,7 @@ in
         done
 
         echo "sending ARP ping..."
-        ${pkgs.iputils}/bin/arping -c 1 $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '/default/ {print $3}')
+        ${pkgs.iputils}/bin/arping -c 1 $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '/default/ {print $3}' | head -1)
 
         echo "pinging Google DNS..."
         ${pkgs.iputils}/bin/ping -c 1 8.8.8.8 || echo "Ping to 8.8.8.8 failed"
