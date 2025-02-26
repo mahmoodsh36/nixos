@@ -556,6 +556,7 @@ in
     enable = per_machine_vars.enable_nvidia;
     package = pkgs.ollama-cuda;
     acceleration = "cuda";
+    host = "0.0.0.0";
   };
 
   systemd.services.my_keys_py_service = {
@@ -569,45 +570,46 @@ in
     };
   };
 
-  systemd.services.network-keepalive = {
-    enable = true;
-    description = "keep network connection alive using various network activities";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "simple";
-      Restart = "always";
-      RestartSec = 5;
-    };
-    script = ''
-      echo "=== Starting network keepalive ==="
+  # this didnt help my case
+  # systemd.services.network-keepalive = {
+  #   enable = true;
+  #   description = "keep network connection alive using various network activities";
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     Restart = "always";
+  #     RestartSec = 5;
+  #   };
+  #   script = ''
+  #     echo "=== Starting network keepalive ==="
 
-      while true; do
-        echo "renewing DHCP lease..."
-        networkctl renew wlan0
+  #     while true; do
+  #       echo "renewing DHCP lease..."
+  #       networkctl renew wlan0
 
-        echo "flushing DNS cache..."
-        resolvectl flush-caches
+  #       echo "flushing DNS cache..."
+  #       resolvectl flush-caches
 
-        echo "performing DNS lookups..."
-        for server in 8.8.8.8 1.1.1.1 208.67.222.222 9.9.9.9; do
-          echo "querying DNS via $server..."
-          ${pkgs.dnsutils}/bin/dig @$server example.com +short || echo "DNS query failed for $server"
-        done
+  #       echo "performing DNS lookups..."
+  #       for server in 8.8.8.8 1.1.1.1 208.67.222.222 9.9.9.9; do
+  #         echo "querying DNS via $server..."
+  #         ${pkgs.dnsutils}/bin/dig @$server example.com +short || echo "DNS query failed for $server"
+  #       done
 
-        echo "sending ARP ping..."
-        ${pkgs.iputils}/bin/arping -c 1 $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '/default/ {print $3}' | head -1)
+  #       echo "sending ARP ping..."
+  #       ${pkgs.iputils}/bin/arping -c 1 $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '/default/ {print $3}' | head -1)
 
-        echo "pinging Google DNS..."
-        ${pkgs.iputils}/bin/ping -c 1 8.8.8.8 || echo "Ping to 8.8.8.8 failed"
+  #       echo "pinging Google DNS..."
+  #       ${pkgs.iputils}/bin/ping -c 1 8.8.8.8 || echo "Ping to 8.8.8.8 failed"
 
-        echo "making an HTTP request..."
-        ${pkgs.curl}/bin/curl -s --max-time 5 https://example.com > /dev/null || echo "HTTP request failed"
+  #       echo "making an HTTP request..."
+  #       ${pkgs.curl}/bin/curl -s --max-time 5 https://example.com > /dev/null || echo "HTTP request failed"
 
-        echo "sleeping for 15 seconds..."
-        sleep 15
-      done
-    '';
-  };
+  #       echo "sleeping for 15 seconds..."
+  #       sleep 15
+  #     done
+  #   '';
+  # };
 
   # without this okular is blurry
   environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
