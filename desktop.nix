@@ -449,6 +449,7 @@ in
     prettierd # for emacs apheleia
     nodePackages.prettier # for emacs apheleia
     black
+    open-webui
 
     # scientific computation?
     gnuplot

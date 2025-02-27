@@ -8,10 +8,10 @@ in {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
+    profiles.default.enableExtensionUpdateCheck = false;
+    profiles.default.enableUpdateCheck = false;
     # extensions = with extensions.vscode-marketplace; [
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       jdinhlife.gruvbox
       bbenoist.nix
       esbenp.prettier-vscode
@@ -42,7 +42,7 @@ in {
       "security.workspace.trust.enabled" = false;
       # "jupyter.askForKernelRestart" = false;
     };
-    keybindings = [
+    profiles.default.keybindings = [
       # {
       #   "key" = "ctrl+k";
       #   "command" = "-extension.vim_ctrl+k";
