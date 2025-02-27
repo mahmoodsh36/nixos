@@ -6,6 +6,9 @@
     beautifulsoup4 seaborn pillow dash rich networkx
     python-lsp-server
 
+    # would this help for ~/work/widgets?
+    pygobject3 pydbus
+
     # machine learning
     (if (import ./per_machine_vars.nix {}).enable_nvidia
      then torchWithCuda
