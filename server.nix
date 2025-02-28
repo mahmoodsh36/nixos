@@ -240,5 +240,20 @@ in
     execWheelOnly = true;
   };
 
+  systemd.services.keepalive = {
+    description = "keep network connections alive";
+    after = [ "network.target" ];
+    wants = [ "network.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.python3.withPackages (ps: with ps; [ aiohttp requests ])}/bin/python /home/mahmooz/work/scripts/keepalive.py";
+      Restart = "always";
+      RestartSec = 10;
+      User = "mahmooz";
+      NoNewPrivileges = true;
+      ConditionPathExists = "/home/mahmooz/work/scripts/keepalive.py";  # only run if script exists
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+
   system.stateVersion = "24.05"; # dont change
 }
