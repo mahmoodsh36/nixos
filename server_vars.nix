@@ -96,7 +96,7 @@ in rec {
 
     # ai stuff?
     aider-chat
-    goose-cli # goose ai tool
+    # goose-cli # goose ai tool
   ];
 
   main_server_ipv6 = "2a01:4f9:c012:ad1b::1";
