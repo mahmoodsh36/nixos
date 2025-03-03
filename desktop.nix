@@ -424,7 +424,7 @@ in
     subversion # git alternative
     graphviz
     isync
-    notmuch
+    pinned-pkgs.notmuch
     stremio
     syncthing
     monolith # save webpages
