@@ -127,7 +127,6 @@ in
   };
 
   # my overlays
-
   nixpkgs.overlays = [
     (self: super:
     {
@@ -500,7 +499,7 @@ in
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
     # for widgets
-    (pkgs.python3Packages.buildPythonPackage rec {
+    (pinned-pkgs.python3Packages.buildPythonPackage rec {
       pname = "widgets";
       format = "other";
       version = "1.0";
@@ -509,9 +508,9 @@ in
 
       src = /home/mahmooz/work/widgets;
 
-      nativeBuildInputs = with pkgs; [ gobject-introspection ];
-      buildInputs = with pkgs; [ gtk3 gtk-layer-shell wrapGAppsHook ];
-      propagatedBuildInputs = with python3Packages; [
+      nativeBuildInputs = with pinned-pkgs; [ gobject-introspection ];
+      buildInputs = with pinned-pkgs; [ gtk3 gtk-layer-shell wrapGAppsHook ];
+      propagatedBuildInputs = with pinned-pkgs.python3Packages; [
         pydbus
         pygobject3
       ];
