@@ -128,19 +128,7 @@ in
 
   # my overlays
   nixpkgs.overlays = [
-    (self: super:
-    {
-      llama-cpp = super.llama-cpp.overrideAttrs (oldAttrs: rec {
-        src = super.fetchFromGitHub {
-          owner = "ggerganov";
-          repo = "llama.cpp";
-          rev = "9d00bc21498a2d5235feab438eb4dc5490ec64d6";
-          sha256 = "sha256-SFHYNK6d4+XzffCtZxKzFAEiU6vReAlV4yPuK/Vtm34=";
-        };
-      });
-    })
   ] ++ server_vars.server_overlays;
-
 
   # graphical stuff (wayland,x11,etc)
   services.xserver.xkb.layout = "us,il,ara";
