@@ -30,7 +30,7 @@ in {
       vscodevim.vim
       file-icons.file-icons
     ];
-    userSettings = {
+    profiles.default.userSettings = {
       "editor.wordWrap" = "on";
       "workbench.startupEditor" = "newUntitledFile";
       "files.autoSave" = "afterDelay";
