@@ -364,6 +364,7 @@ in
     djvulibre
     jellyfin jellyfin-web jellyfin-ffmpeg jellyfin-media-player jellycli jellyfin-mpv-shim
     imv
+    spotube # open source spotify client?
 
     # media manipulation tools
     inkscape
