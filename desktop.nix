@@ -444,6 +444,7 @@ in
     lean
     pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
     kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
+    maxima
 
     # quickly start VMs
     quickemu
