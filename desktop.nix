@@ -347,7 +347,6 @@ in
       echo $@ > /tmp/notif
     '')
 
-    inputs.lem.packages.${pkgs.system}.lem-ncurses
     inputs.lem.packages.${pkgs.system}.lem-sdl2
 
     # media tools
