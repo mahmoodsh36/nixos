@@ -97,7 +97,6 @@ in
   programs.htop.enable = true;
   programs.iotop.enable = true;
   programs.java.enable = true;
-  programs.nix-ld.enable = true;
   programs.sniffnet.enable = true;
   programs.wireshark.enable = true;
   # services.atuin.enable = true;

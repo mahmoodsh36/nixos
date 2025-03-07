@@ -423,9 +423,16 @@ in
     '')
 
     (pkgs.writeShellScriptBin "julia" ''
-      export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-      exec ${pkgs.julia}/bin/julia "$@"
+      export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath with pkgs; [
+        stdenv.cc.cc.lib
+        libGL
+        glib
+        zlib
+      ]}:$LD_LIBRARY_PATH
+      export DISPLAY=:0 # cheating so it can compile
+      exec ${julia}/bin/julia "$@"
     '')
+
 
     inputs.lem.packages.${pkgs.system}.lem-sdl2
 
@@ -494,6 +501,7 @@ in
     # some programming languages/environments
     texlive.combined.scheme-full
     # desktop_vars.desktop_julia
+    julia
     typst
 
     # lsp

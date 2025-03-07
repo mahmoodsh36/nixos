@@ -73,6 +73,7 @@ in rec {
     nix-prefetch-git
     nix-tree
     mysbcl
+    steam-run-free
 
     # ai stuff?
     aider-chat
