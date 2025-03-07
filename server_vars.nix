@@ -31,67 +31,47 @@ in rec {
     imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
     ffmpeg-full.bin # untrunc-anthwlock
     sqlite
-    silver-searcher
     rx
     jq
     ripgrep
     spotdl
     parallel
-    pigz
+    pigz # for compression
     fd # alternative to find
     sshfs
     dash
-    redis
-    ncdu dua duf dust # file size checkers i think
     btop
+    ncdu
     lshw
     lsof
     exiftool
-    distrobox
     tree
     neovim
-    eza
     tree-sitter
     glances
-
     openjdk
     gcc clang gdb clang-tools
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
-    inetutils # ncftp samba # samba4Full
+    inetutils
 
-    file vifm zip unzip fzf p7zip unrar-wrapper
+    file zip unzip fzf p7zip unrar-wrapper
     transmission_4 acpi gnupg lm_sensors
     cryptsetup
     openssl
     yt-dlp you-get
     aria # aria2c downloader
-    pls # alternative to ls
     man-pages man-pages-posix
-    ansible
-    bc # for arithmetic in shell
-    ttags
-    diffsitter
-    mongosh
-    unison
 
     # some build systems
     cmake gnumake autoconf
     pkg-config
 
-    # nodejs
-    nodejs
-    yarn
-
     # nix specific tools
     nixos-generators
     nix-prefetch-git
-    deploy-rs
     nix-tree
-
-    zeromq
-    tesseract
     mysbcl
 
     # ai stuff?

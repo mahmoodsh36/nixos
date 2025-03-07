@@ -19,7 +19,7 @@
     # for system
     evdev pyzmq python-magic
   ]));
-  desktop_julia = (pinned-pkgs.julia.withPackages.override({ precompile = true; })([
+  desktop_julia = (pinned-pkgs.julia-bin.withPackages.override({ precompile = false; })([
     "OhMyREPL" "Symbolics" "SymbolicUtils"
 
     "Images"

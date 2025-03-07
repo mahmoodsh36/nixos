@@ -5,6 +5,81 @@ let
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   per_machine_vars = (import ./per_machine_vars.nix {});
   mypython = desktop_vars.desktop_python;
+  # packages i dont think i need..
+  other_packages = with pkgs; [
+    stremio
+    syncthing
+    hoarder # wallabag
+    prettierd # for emacs apheleia
+    nodePackages.prettier # for emacs apheleia
+    black
+    gnuplot
+    lean
+    maxima
+    kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
+    (lua.withPackages(ps: with ps; [ busted luafilesystem luarocks ]))
+    rustc meson ninja
+    typescript
+    tailwindcss
+    poetry
+    neo4j
+    bun
+    # lisps
+    babashka
+    chicken
+    guile
+    racket
+    zeal devdocs-desktop # offline docs
+    # lsp
+    haskell-language-server emmet-language-server clojure-lsp llm-ls
+    nodePackages.node2nix yaml-language-server postgres-lsp ansible-language-server
+    asm-lsp htmx-lsp lua-language-server java-language-server typst-lsp
+    tailwindcss-language-server
+    texlab
+    sqls
+    ruff-lsp
+    nodePackages_latest.typescript-language-server
+    zoom-us # do i realy want this running natively?
+    hugo
+    sass
+    subversion # git alternative
+    squeekboard
+    flameshot # screenshot util?
+    wofi # dmenu-like for wayland
+    eww # widgets..
+    zenity # gui interfaces from scripts?
+    hyprpicker
+    swappy # for quick snapshot image editing
+    sshpass
+    kitty
+    brave tor-browser-bundle-bin google-chrome
+    jellyfin jellyfin-web jellyfin-ffmpeg jellyfin-media-player jellycli jellyfin-mpv-shim
+    djvulibre
+    krita
+    youtube-music
+    telegram-desktop
+    vlc
+    silver-searcher
+    redis
+    dua duf dust # file size checkers i think
+    distrobox
+    eza
+    ncftp samba
+    vifm
+    pls # alternative to ls
+    ansible
+    bc # for arithmetic in shell
+    ttags
+    diffsitter
+    mongosh
+    unison
+    # nodejs
+    nodejs
+    yarn
+    deploy-rs
+    zeromq
+    tesseract
+  ];
 in
 {
   imports = [
@@ -347,141 +422,85 @@ in
       echo $@ > /tmp/notif
     '')
 
+    (pkgs.writeShellScriptBin "julia" ''
+      export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+      exec ${pkgs.julia}/bin/julia "$@"
+    '')
+
     inputs.lem.packages.${pkgs.system}.lem-sdl2
 
     # media tools
     mpv
-    vlc
-    feh # i use it to set wallpaper
-    telegram-desktop
-    youtube-music
+    # feh # image viewer (can it set wallpaper on wayland?)
     kdePackages.okular zathura foliate mupdf
     xournalpp # rnote krita
-    # krita
     lollypop clementine
     ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
-    djvulibre
-    jellyfin jellyfin-web jellyfin-ffmpeg jellyfin-media-player jellycli jellyfin-mpv-shim
-    imv
+    imv # nice image viewer
     spotube # open source spotify client?
-
-    # media manipulation tools
     inkscape
 
     # general tools
-    brave tor-browser-bundle-bin google-chrome
     scrcpy
     pavucontrol
     libreoffice
     neovide
 
     # commandline tools
-    wezterm # kitty
+    wezterm
     pulsemixer # tui for pulseaudio control
     alsa-utils
     playerctl # media control
     gptfdisk parted
     libtool # to compile vterm
-    xdotool
     btrfs-progs
-    sshpass
 
     # wayland
     wl-clipboard
-    waybar
     grim slurp # for screenshots
-    wofi
-    eww
     brightnessctl
-    swww
     wf-recorder
-    hyprpicker
     iio-hyprland
-    swappy # for quick snapshot image editing
     wvkbd # onboard alternative (on-screen keyboard)
-    zenity
-    squeekboard
-    flameshot
     wl-screenrec
     libnotify
     darktable # image editor
     digikam # another image viewer?
+    swww # wallpaper setter
 
     vdhcoapp # for firefox video download helper
 
     # other
-    zoom-us #, do i realy want this running natively?
-    hugo
     adb-sync
     woeusb-ng
     ntfs3g
     gnupg
-    SDL2
-    sass
     simplescreenrecorder
     usbutils
     pciutils
-    subversion # git alternative
     graphviz
     isync
-    pinned-pkgs.notmuch
-    stremio
-    syncthing
+    notmuch
     monolith # save webpages
-    hoarder # wallabag
     liquidctl
     libinput
     bluez-tools blueman
     pulseaudioFull
-    prettierd # for emacs apheleia
-    nodePackages.prettier # for emacs apheleia
-    black
     pinned-pkgs.open-webui
+    quickemu # quickly start VMs
 
-    # scientific computation?
-    gnuplot
-    lean
     pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
-    kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
-    maxima
-
-    # quickly start VMs
-    quickemu
 
     # some programming languages/environments
-    (lua.withPackages(ps: with ps; [ busted luafilesystem luarocks ]))
     texlive.combined.scheme-full
-    rustc meson ninja
-    typescript
-    desktop_vars.desktop_julia
-    python3Packages.west
+    # desktop_vars.desktop_julia
     typst
-    tailwindcss
-    poetry
-    neo4j
-    bun
-
-    # lisps
-    babashka
-    chicken
-    guile
-    racket
-
-    # offline docs
-    # zeal devdocs-desktop
 
     # lsp
-    haskell-language-server emmet-language-server clojure-lsp #llm-ls
-    nodePackages.node2nix yaml-language-server postgres-lsp ansible-language-server
-    asm-lsp htmx-lsp cmake-language-server lua-language-server java-language-server # typst-lsp
-    tailwindcss-language-server
+    cmake-language-server
     nodePackages.bash-language-server
     nil
-    texlab
-    sqls
-    ruff-lsp
     python3Packages.python-lsp-server
-    nodePackages_latest.typescript-language-server
     vscode-langservers-extracted
 
     # dictionary
@@ -514,8 +533,8 @@ in
   ]
   ++ server_vars.server_packages
   ++ (pkgs.lib.optionals per_machine_vars.enable_nvidia [
-    koboldcpp jan cudatoolkit nvtopPackages.full
-    llama-cpp
+    # koboldcpp jan
+    cudatoolkit nvtopPackages.full llama-cpp
   ]);
 
   systemd.services.my_mpv_logger_service = {
