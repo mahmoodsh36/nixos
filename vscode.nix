@@ -19,7 +19,7 @@ in {
       github.copilot-chat
       hediet.vscode-drawio
       james-yu.latex-workshop
-      ms-python.python
+      # ms-python.python
       ms-toolsai.jupyter
       ms-toolsai.jupyter-keymap
       ms-toolsai.jupyter-renderers
