@@ -79,6 +79,7 @@ let
     deploy-rs
     zeromq
     tesseract
+    djvu2pdf fntsample calibre
   ];
 in
 {
@@ -433,7 +434,6 @@ in
       exec ${julia}/bin/julia "$@"
     '')
 
-
     inputs.lem.packages.${pkgs.system}.lem-sdl2
 
     # media tools
@@ -441,8 +441,8 @@ in
     # feh # image viewer (can it set wallpaper on wayland?)
     kdePackages.okular zathura foliate mupdf
     xournalpp # rnote krita
-    lollypop clementine
-    ocrmypdf pdftk pdfgrep poppler_utils djvu2pdf fntsample #calibre
+    # lollypop clementine
+    ocrmypdf pdftk pdfgrep poppler_utils
     imv # nice image viewer
     spotube # open source spotify client?
     inkscape
