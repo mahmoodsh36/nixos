@@ -423,11 +423,11 @@ in
     '')
 
     (pkgs.writeShellScriptBin "julia" ''
-      export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath with pkgs; [
-        stdenv.cc.cc.lib
-        libGL
-        glib
-        zlib
+      export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+        pkgs.stdenv.cc.cc.lib
+        pkgs.libGL
+        pkgs.glib
+        pkgs.zlib
       ]}:$LD_LIBRARY_PATH
       export DISPLAY=:0 # cheating so it can compile
       exec ${julia}/bin/julia "$@"
