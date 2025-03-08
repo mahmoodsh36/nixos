@@ -12,6 +12,10 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # yet another pinning mechanism (beside the fact that this is a flake..)
     pinned-pkgs.url = "github:NixOS/nixpkgs/2ff53fe64443980e139eaa286017f53f88336dd0";
   };
@@ -44,6 +48,7 @@
           inherit system;
         };
         modules = [
+          inputs.nur.modules.nixos.default
           {
             nixpkgs.config.allowUnfree = true;
             nixpkgs.config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
