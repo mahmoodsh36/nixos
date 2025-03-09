@@ -80,6 +80,7 @@ let
     zeromq
     tesseract
     djvu2pdf fntsample calibre
+    lollypop clementine
   ];
 in
 {
@@ -277,9 +278,6 @@ in
     };
   };
   programs.virt-manager.enable = true;
-  # virtualisation.waydroid.enable = true;
-  # virtualisation.virtualbox.host.enable = true;
-  # virtualisation.virtualbox.host.enableExtensionPack = true;
   virtualisation.docker.enable = true;
   virtualisation.docker.rootless = {
     enable = true;
@@ -295,7 +293,7 @@ in
       nerd-fonts.inconsolata
       iosevka
       fira-code
-      # nerdfonts
+      nerdfonts
       ubuntu_font_family
       noto-fonts
       noto-fonts-cjk-sans
@@ -385,7 +383,6 @@ in
     # feh # image viewer (can it set wallpaper on wayland?)
     kdePackages.okular zathura foliate mupdf
     xournalpp # rnote krita
-    # lollypop clementine
     ocrmypdf pdftk pdfgrep poppler_utils
     imv # nice image viewer
     spotube # open source spotify client?
@@ -528,37 +525,6 @@ in
       # User = "mahmooz";
       Restart = "always";
     };
-  };
-
-  # indexers, downloaders
-  # lidarr is a music manager
-  services.lidarr = {
-    enable = false;
-    group = "users";
-    user = "mahmooz";
-  };
-  # apis for trackers?
-  services.jackett = {
-    enable = false;
-    group = "users";
-    user = "mahmooz";
-  };
-  # indexer
-  services.prowlarr.enable = false;
-  # flaresolverr (used to by pass cloudflare) is currently broken so we use a docker container
-  # services.flaresolverr.enable = true;
-  systemd.services.flaresolverr = {
-    enable = false;
-    after = [ "network.target" ];
-    serviceConfig = {
-      User = "mahmooz";
-      Group = "users";
-      Restart = "always";
-      RestartSec = 5;
-      TimeoutStopSec = 30;
-      ExecStart = "${pkgs.nur.repos.xddxdd.flaresolverr-21hsmw}/bin/flaresolverr";
-    };
-    wantedBy = [ "multi-user.target" ];
   };
 
   # without this okular is blurry
