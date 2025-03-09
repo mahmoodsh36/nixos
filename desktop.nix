@@ -530,7 +530,7 @@ in
     package = pkgs.ollama-cuda;
     acceleration = "cuda";
     host = "0.0.0.0";
-    loadModels = [ "qwen2.5-coder:32b" ];
+    # loadModels = [ "qwen2.5-coder:32b" ];
   };
 
   systemd.services.my_keys_py_service = {
