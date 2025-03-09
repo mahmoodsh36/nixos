@@ -293,7 +293,6 @@ in
       nerd-fonts.inconsolata
       iosevka
       fira-code
-      nerdfonts
       ubuntu_font_family
       noto-fonts
       noto-fonts-cjk-sans
