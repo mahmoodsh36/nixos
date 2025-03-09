@@ -82,6 +82,15 @@ let
     djvu2pdf fntsample calibre
     lollypop clementine
   ];
+  # turn off all RGB coloring?
+  no-rgb = pkgs.writeScriptBin "no-rgb" ''
+    #!/bin/sh
+    NUM_DEVICES=$(${pkgs.openrgb}/bin/openrgb --noautoconnect --list-devices | grep -E '^[0-9]+: ' | wc -l)
+
+    for i in $(seq 0 $(($NUM_DEVICES - 1))); do
+      ${pkgs.openrgb}/bin/openrgb --noautoconnect --device $i --mode static --color 000000
+    done
+  '';
 in
 {
   imports = [
@@ -94,10 +103,19 @@ in
     "boot.shell_on_fail"
     "usbcore.autosuspend=-1" # or 120 to wait two minutes, etc
   ];
-  boot.kernelModules = [ "iwlwifi" ];
-  boot.extraModprobeConfig = ''
-    options iwlwifi power_save=0
-  '';
+
+  # turn off all rgb coloring?
+  services.udev.packages = [ pkgs.openrgb ];
+  boot.kernelModules = [ "i2c-dev" ];
+  hardware.i2c.enable = true;
+  systemd.services.no-rgb = {
+    description = "no-rgb";
+    serviceConfig = {
+      ExecStart = "${no-rgb}/bin/no-rgb";
+      Type = "oneshot";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
 
   # better safe than sorry (for having to deal with firmware/driver issues)..?
   hardware.enableAllHardware = true;
@@ -115,8 +133,7 @@ in
   };
   hardware.nvidia.open = false;
 
-  # vaapi (accelerated video playback)
-  # enable vaapi on OS-level
+  # vaapi (accelerated video playback), enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
