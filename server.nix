@@ -238,7 +238,9 @@ in
     execWheelOnly = true;
   };
 
+  # didnt work for my other machine.. :/
   systemd.services.keepalive = {
+    enable = false;
     description = "keep network connections alive";
     after = [ "network.target" ];
     wants = [ "network.target" ];
