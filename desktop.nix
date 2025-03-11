@@ -452,7 +452,7 @@ in
     pulseaudioFull
     pinned-pkgs.open-webui
     quickemu # quickly start VMs
-    zeal
+    zeal dasht
 
     pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
