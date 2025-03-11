@@ -82,7 +82,7 @@ let
     djvu2pdf fntsample calibre
     lollypop clementine
   ];
-  # turn off all RGB coloring?
+  # turn off all rgb coloring?
   no-rgb = pkgs.writeScriptBin "no-rgb" ''
     #!/bin/sh
     NUM_DEVICES=$(${pkgs.openrgb}/bin/openrgb --noautoconnect --list-devices | grep -E '^[0-9]+: ' | wc -l)
