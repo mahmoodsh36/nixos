@@ -29,7 +29,7 @@ let
     chicken
     guile
     racket
-    zeal devdocs-desktop # offline docs
+    devdocs-desktop # offline docs
     # lsp
     haskell-language-server emmet-language-server clojure-lsp llm-ls
     nodePackages.node2nix yaml-language-server postgres-lsp ansible-language-server
@@ -452,6 +452,7 @@ in
     pulseaudioFull
     pinned-pkgs.open-webui
     quickemu # quickly start VMs
+    zeal
 
     pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
