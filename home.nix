@@ -8,26 +8,28 @@ in
     ./vscode.nix
   ];
 
-  # wayland.windowManager.hyprland = {
-  #   enable = true; # enable Hyprland
-  #   package = pkgs.hyprland;
-  #   plugins = [
-  #     pkgs.hyprlandPlugins.hyprfocus
-  #     pkgs.hyprlandPlugins.hyprbars # buggy
-  #
-  #     # pkgs.hyprlandPlugins.hyprscroller
-  #     # pkgs.hyprlandPlugins.hyprspace
-  #     # pkgs.hyprlandPlugins.borders-plus-plus
-  #
-  #     # pkgs.hyprlandPlugins.hypr-dynamic-cursors
-  #     # pkgs.hyprlandPlugins.hy3
-  #     # pkgs.hyprlandPlugins.hyprgrass
-  #     # pkgs.hyprlandPlugins.hyprcursor
-  #     # pkgs.hyprlandPlugins.hyprtrails
-  #     # pkgs.hyprlandPlugins.hyprwinwrap
-  #   ];
-  #   extraConfig = (builtins.readFile ./dots/hyprland.conf);
-  # };
+  wayland.windowManager.hyprland = {
+    enable = true; # enable Hyprland
+    systemd.enable = true;
+    xwayland.enable = true;
+    package = pkgs.hyprland;
+    plugins = [
+      pkgs.hyprlandPlugins.hyprbars # buggy
+
+      # pkgs.hyprlandPlugins.hyprfocus
+      # pkgs.hyprlandPlugins.hyprscroller
+      # pkgs.hyprlandPlugins.hyprspace
+      # pkgs.hyprlandPlugins.borders-plus-plus
+
+      # pkgs.hyprlandPlugins.hypr-dynamic-cursors
+      # pkgs.hyprlandPlugins.hy3
+      # pkgs.hyprlandPlugins.hyprgrass
+      # pkgs.hyprlandPlugins.hyprcursor
+      # pkgs.hyprlandPlugins.hyprtrails
+      # pkgs.hyprlandPlugins.hyprwinwrap
+    ];
+    extraConfig = (builtins.readFile /home/mahmooz/work/otherdots/.config/hypr/hyprland.conf);
+  };
 
   /* the home.stateVersion option does not have a default and must be set */
   home.stateVersion = "24.05";

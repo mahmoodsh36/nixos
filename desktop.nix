@@ -192,11 +192,11 @@ in
       naturalScrolling = false;
     };
   };
-  programs.hyprland = {
-    enable = true;
-    package = pkgs.hyprland;
-    xwayland.enable = true;
-  };
+  # programs.hyprland = {
+  #   enable = true;
+  #   package = pkgs.hyprland;
+  #   xwayland.enable = true;
+  # };
   xdg.portal = {
     # xdgOpenUsePortal = true; # this seems to override my .desktop definitions in home-manager?
     enable = true;
@@ -220,10 +220,10 @@ in
       enable = true;
       user = "mahmooz";
     };
-    sddm.enable = true;
-    sddm.wayland.enable = true;
-    sddm.enableHidpi = true;
-    defaultSession = "hyprland";
+    # sddm.enable = true;
+    # sddm.wayland.enable = true;
+    # sddm.enableHidpi = true;
+    # defaultSession = "hyprland";
     # defaultSession = "gnome";
     # defaultSession = "plasma";
   };
@@ -237,21 +237,6 @@ in
   };
   security.audit.enable = true;
   security.auditd.enable = true;
-
-  # allow the user run a program to poweroff the system.
-  security.polkit = {
-    enable = true;
-    extraConfig = ''
-      polkit.addRule(function(action, subject) {
-          if (action.id == "org.freedesktop.systemd1.manage-units" ||
-              action.id == "org.freedesktop.systemd1.manage-unit-files") {
-              if (action.lookup("unit") == "poweroff.target") {
-                  return polkit.Result.YES;
-              }
-          }
-      });
-    '';
-  };
 
   # ask for password in terminal instead of x11-ash-askpass
   programs.ssh.askPassword = "";
@@ -307,7 +292,7 @@ in
       fantasque-sans-mono
       google-fonts
       cascadia-code
-      nerd-fonts.inconsolata
+      nerd-fonts.inconsolata nerd-fonts.jetbrains-mono nerd-fonts.fira-code nerd-fonts.iosevka
       iosevka
       fira-code
       ubuntu_font_family
@@ -453,6 +438,7 @@ in
     pinned-pkgs.open-webui
     quickemu # quickly start VMs
     zeal dasht
+    material-design-icons
 
     pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
