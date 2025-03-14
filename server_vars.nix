@@ -51,6 +51,7 @@ in rec {
     glances
     openjdk
     gcc clang gdb clang-tools
+    rclone
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
