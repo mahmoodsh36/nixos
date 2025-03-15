@@ -439,6 +439,7 @@ in
     quickemu # quickly start VMs
     zeal dasht
     material-design-icons
+    floorp
 
     pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
