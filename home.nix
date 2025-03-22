@@ -97,7 +97,7 @@ in
 
   # use 'dconf dump /' or 'gsettings list-recursively | less' to get a list of options
   dconf = {
-    enable = false;
+    enable = true;
     settings = {
       "org/gnome/shell" = {
         disable-user-extensions = false;
@@ -187,6 +187,14 @@ in
     theme = {
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
+    cursorTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
     };
   };
 }

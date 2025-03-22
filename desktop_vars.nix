@@ -19,7 +19,20 @@
     # for system
     evdev pyzmq python-magic
   ]));
-  desktop_julia = (pinned-pkgs.julia-bin.withPackages.override({ precompile = false; })([
+  desktop_julia = (pinned-pkgs.julia.withPackages.override({
+    precompile = true;
+    # extraLibs = [
+    #   pkgs.stdenv.cc.cc.lib
+    #   pkgs.libGL
+    #   pkgs.glib
+    #   pkgs.zlib
+    # ];
+    # # cheating so it can compile
+    # makeWrapperArgs = [
+    #   "--set DISPLAY ':0'"
+    #   "--unset WAYLAND_DISPLAY"
+    # ];
+  }) ([
     "OhMyREPL" "Symbolics" "SymbolicUtils"
 
     "Images"

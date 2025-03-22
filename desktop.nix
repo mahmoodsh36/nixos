@@ -446,7 +446,7 @@ in
     # some programming languages/environments
     texlive.combined.scheme-full
     # desktop_vars.desktop_julia
-    julia
+    # julia
     typst
 
     # lsp
