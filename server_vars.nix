@@ -77,6 +77,7 @@ in rec {
     steam-run-free
 
     # ai stuff?
+    python3Packages.huggingface-hub
     aider-chat
     goose-cli # goose ai tool
   ];

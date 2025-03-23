@@ -16,7 +16,7 @@ let
     gnuplot
     lean
     maxima
-    kaggle google-cloud-sdk python3Packages.huggingface-hub python3Packages.datasets
+    kaggle google-cloud-sdk python3Packages.datasets
     (lua.withPackages(ps: with ps; [ busted luafilesystem luarocks ]))
     rustc meson ninja
     typescript
