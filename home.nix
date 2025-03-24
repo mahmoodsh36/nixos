@@ -6,7 +6,7 @@ in
 {
   imports = [
     ./vscode.nix
-    ./zed.nix
+    # ./zed.nix
   ];
 
   wayland.windowManager.hyprland = {
