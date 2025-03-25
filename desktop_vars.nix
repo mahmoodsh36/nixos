@@ -2,19 +2,19 @@
 
 {
   desktop_python = (pinned-pkgs.python3.withPackages (ps: with ps; [
-    matplotlib flask requests numpy pandas sympy
-    beautifulsoup4 seaborn pillow dash rich networkx
+    matplotlib flask requests numpy sympy
+    beautifulsoup4 seaborn pillow dash rich
     python-lsp-server
 
     # would this help for ~/work/widgets?
     pygobject3 pydbus
 
     # machine learning
-    (if (import ./per_machine_vars.nix {}).enable_nvidia
-     then torchWithCuda
-     else torch)
-    transformers
-    datasets
+    # (if (import ./per_machine_vars.nix {}).enable_nvidia
+    #  then torchWithCuda
+    #  else torch)
+    # transformers
+    # datasets
 
     # for system
     evdev pyzmq python-magic
