@@ -435,13 +435,13 @@ in
     libinput
     bluez-tools blueman
     pulseaudioFull
-    pinned-pkgs.open-webui
+    # pinned-pkgs.open-webui
     quickemu # quickly start VMs
     zeal dasht
     material-design-icons
     floorp
 
-    pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
+    # pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
     # some programming languages/environments
     texlive.combined.scheme-full

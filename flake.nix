@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # yet another pinning mechanism (beside the fact that this is a flake..)
-    pinned-pkgs.url = "github:NixOS/nixpkgs/2ff53fe64443980e139eaa286017f53f88336dd0";
+    pinned-pkgs.url = "github:NixOS/nixpkgs/1e5b653dff12029333a6546c11e108ede13052eb";
   };
 
   outputs = {
