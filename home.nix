@@ -8,6 +8,7 @@ in
     ./vscode.nix
     # ./zed.nix
   ];
+  # _module.args = { pinned-pkgs = inputs.pinned-pkgs; };
 
   wayland.windowManager.hyprland = {
     enable = true; # enable Hyprland

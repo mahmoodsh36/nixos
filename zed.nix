@@ -1,8 +1,9 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, pinned-pkgs, ... }:
 
 {
   programs.zed-editor = {
     enable = true;
+    package = pinned-pkgs.zed-editor;
     extensions = ["nix" "toml" "make"];
     # userKeymaps = [
     #   {
