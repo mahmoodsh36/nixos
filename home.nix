@@ -86,10 +86,11 @@ in
   xdg.desktopEntries.add_magnet = {
     name = "add_magnet";
     genericName = "add_magnet";
-    exec = "add_magnet.sh \"%F\"";
+    exec = '' add_magnet.sh %u '';
     terminal = false;
     categories = [];
     mimeType = [ "x-scheme-handler/magnet" ];
+    type = "Application";
   };
 
   programs.firefox = {
