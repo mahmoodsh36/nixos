@@ -31,14 +31,14 @@ in
     networkmanager.enable = false;
     # block some hosts by redirecting to the loopback interface
     extraHosts = ''
-      # 127.0.0.1 youtube.com
-      # 127.0.0.1 www.youtube.com
-      # 127.0.0.1 reddit.com
-      # 127.0.0.1 www.reddit.com
-      # 127.0.0.1 discord.com
-      # 127.0.0.1 www.discord.com
-      # 127.0.0.1 instagram.com
-      # 127.0.0.1 www.instagram.com
+      127.0.0.1 youtube.com
+      127.0.0.1 www.youtube.com
+      127.0.0.1 reddit.com
+      127.0.0.1 www.reddit.com
+      127.0.0.1 discord.com
+      127.0.0.1 www.discord.com
+      127.0.0.1 instagram.com
+      127.0.0.1 www.instagram.com
       # 192.168.1.2 mahmooz2 # this prevents tailscale from identifying mahmooz2
       192.168.1.2 mahmooz2-2
     '';
