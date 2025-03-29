@@ -439,7 +439,8 @@ in
     material-design-icons
     floorp
 
-    # pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
+    # sageWithDoc
+    pinned-pkgs.sage pinned-pkgs.sagetex
 
     # some programming languages/environments
     texlive.combined.scheme-full
