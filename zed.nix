@@ -3,7 +3,7 @@
 {
   programs.zed-editor = {
     enable = true;
-    package = pinned-pkgs.zed-editor;
+    # package = pinned-pkgs.zed-editor;
     extensions = ["nix" "toml" "make"];
     # userKeymaps = [
     #   {

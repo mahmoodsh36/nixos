@@ -6,9 +6,9 @@ in
 {
   imports = [
     ./vscode.nix
-    # ./zed.nix
+    ./zed.nix
   ];
-  # _module.args = { pinned-pkgs = inputs.pinned-pkgs; };
+  _module.args = { pinned-pkgs = inputs.pinned-pkgs; };
 
   wayland.windowManager.hyprland = {
     enable = true; # enable Hyprland
