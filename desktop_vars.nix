@@ -9,24 +9,12 @@
     # would this help for ~/work/widgets?
     pygobject3 pydbus
 
-    # machine learning
-    (if (import ./per_machine_vars.nix {}).enable_nvidia
-     then torchWithCuda
-     else torch)
-    # (transformers.overrideAttrs(attrs: {
-    #   src = pkgs.fetchFromGitHub {
-    #     owner = "huggingface";
-    #     repo = "transformers";
-    #     rev = "5b08db884443fe9446138dd835cb98b0b4ba5c54";
-    #     sha256 = "SNzO9UojH2RIdQBWyhhp0fC7NLV/NGwQULIX3fUi8Rs=";
-    #   };
-    # }))
-    transformers
-    datasets
+    # machine learning?
+    transformers datasets
 
     # for system
     evdev pyzmq python-magic
-  ]));
+  ] ++ lib.optional (import ./per_machine_vars.nix {}).enable_nvidia [ vllm torchWithCuda ]));
   desktop_julia = (pinned-pkgs.julia.withPackages.override({
     precompile = true;
     # extraLibs = [
