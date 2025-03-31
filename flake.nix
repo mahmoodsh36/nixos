@@ -25,7 +25,6 @@
     pkgs = import nixpkgs {
       system = "x86_64-linux";
       config.allowUnfree = true;
-      config.allowBroken = true;
       config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
     };
     pinned-pkgs = import inputs.pinned-pkgs {
