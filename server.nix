@@ -255,5 +255,13 @@ in
     wantedBy = [ "multi-user.target" ];
   };
 
+  # garbage collection
+  nix.settings.auto-optimise-store = true;
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than 30d";
+  # };
+
   system.stateVersion = "24.05"; # dont change
 }
