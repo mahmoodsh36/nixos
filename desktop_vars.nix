@@ -14,7 +14,10 @@
 
     # for system
     evdev pyzmq python-magic
-  ] ++ pkgs.lib.optionals (import ./per_machine_vars.nix {}).enable_nvidia [ torchWithCuda ]));
+  ] ++ pkgs.lib.optionals (import ./per_machine_vars.nix {}).enable_nvidia [
+    torchWithCuda
+    accelerate
+  ]));
   desktop_julia = (pinned-pkgs.julia.withPackages.override({
     precompile = true;
     # extraLibs = [
