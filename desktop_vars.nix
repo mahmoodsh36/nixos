@@ -6,17 +6,13 @@
     beautifulsoup4 seaborn pillow dash rich
     python-lsp-server
 
-    # would this help for ~/work/widgets?
-    pygobject3 pydbus
-
-    # machine learning?
-    transformers datasets
-
-    # for system
-    evdev pyzmq python-magic
+    # for system?
+    evdev python-magic
+    # pyzmq
   ] ++ pkgs.lib.optionals (import ./per_machine_vars.nix {}).enable_nvidia [
-    torchWithCuda
-    accelerate
+    # machine learning
+    torchWithCuda accelerate
+    transformers datasets
   ]));
   desktop_julia = (pinned-pkgs.julia.withPackages.override({
     precompile = true;
