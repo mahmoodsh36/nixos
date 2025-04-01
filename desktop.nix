@@ -376,6 +376,7 @@ in
     '')
 
     inputs.lem.packages.${pkgs.system}.lem-sdl2
+    code-cursor
 
     # media tools
     mpv
