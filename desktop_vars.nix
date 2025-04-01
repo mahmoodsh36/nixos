@@ -11,7 +11,7 @@
     # pyzmq
   ] ++ pkgs.lib.optionals (import ./per_machine_vars.nix {}).enable_nvidia [
     # machine learning
-    torchWithCuda accelerate
+    torchWithCuda accelerate bitsandbytes
     transformers datasets
   ]));
   desktop_julia = (pinned-pkgs.julia.withPackages.override({
