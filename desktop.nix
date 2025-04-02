@@ -389,12 +389,9 @@ in
     spotube # open source spotify client?
     inkscape
 
-    # general tools
     scrcpy
     pavucontrol
     libreoffice
-
-    # commandline tools
     wezterm
     pulsemixer # tui for pulseaudio control
     alsa-utils
@@ -438,16 +435,13 @@ in
     quickemu # quickly start VMs
     zeal dasht
     material-design-icons
-    floorp
-
-    # sageWithDoc
-    pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
     # some programming languages/environments
     texlive.combined.scheme-full
     # desktop_vars.desktop_julia
     # julia
     typst
+    pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
     # lsp
     cmake-language-server
@@ -521,12 +515,6 @@ in
 
   # without this okular is blurry
   environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
-
-  qt = {
-    enable = true;
-    platformTheme = "qt5ct";
-    style = "adwaita-dark";
-  };
 
   services.udev.extraRules = ''
     SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"

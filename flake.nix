@@ -12,7 +12,6 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # yet another pinning mechanism (beside the fact that this is a flake..)
     pinned-pkgs.url = "github:NixOS/nixpkgs/77b584d61ff80b4cef9245829a6f1dfad5afdfa3";
     # pinned-pkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
   };

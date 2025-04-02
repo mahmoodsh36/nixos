@@ -197,26 +197,27 @@ in
       "${XDG_BIN_HOME}"
     ];
     # this one fixes some problems with python matplotlib and probably some other qt applications
-    QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
+    # QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
+    # QT_SCALE_FACTOR = "2";
     PYTHON_HISTORY = "$HOME/brain/python_history";
+
     BRAIN_DIR = server_vars.brain_dir;
     MUSIC_DIR = server_vars.music_dir;
     WORK_DIR = server_vars.work_dir;
     NOTES_DIR = server_vars.notes_dir;
     SCRIPTS_DIR = server_vars.scripts_dir;
     DOTFILES_DIR = server_vars.dotfiles_dir;
-    NIX_CONFIG_DIR = "$HOME/work/nixos/";
+    NIX_CONFIG_DIR = server_vars.nix_config_dir;
     BLOG_DIR = server_vars.blog_dir;
-    # QT_SCALE_FACTOR = "2";
     EDITOR = "nvim";
     BROWSER = "firefox";
-    LIB_PATH = "$HOME/mnt2/my/lib/:$HOME/mnt/vol1/lib/";
     MAIN_SERVER_IP = server_vars.main_server_ip;
     DATA_DIR = server_vars.data_dir;
     MPV_SOCKET_DIR = server_vars.mpv_socket_dir;
     MPV_MAIN_SOCKET_PATH = server_vars.mpv_main_socket_path;
     PERSONAL_WEBSITE = server_vars.personal_website;
     MYGITHUB = server_vars.mygithub;
+    MODELS_DIR = server_vars.models_dir;
   };
 
   # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)

@@ -16,7 +16,7 @@ in
     xwayland.enable = true;
     package = pkgs.hyprland;
     plugins = [
-      pkgs.hyprlandPlugins.hyprbars # buggy
+      pkgs.hyprlandPlugins.hyprbars
 
       # pkgs.hyprlandPlugins.hyprfocus
       # pkgs.hyprlandPlugins.hyprscroller
@@ -199,4 +199,11 @@ in
       package = pkgs.adwaita-icon-theme;
     };
   };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "kde6";
+    style.package = pkgs.adwaita-qt;
+  };
+
 }
