@@ -377,6 +377,7 @@ in
 
     inputs.lem.packages.${pkgs.system}.lem-sdl2
     code-cursor
+    neovide
 
     # media tools
     mpv
@@ -392,7 +393,6 @@ in
     scrcpy
     pavucontrol
     libreoffice
-    neovide
 
     # commandline tools
     wezterm
