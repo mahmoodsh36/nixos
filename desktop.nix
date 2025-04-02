@@ -480,7 +480,7 @@ in
   ]
   ++ server_vars.server_packages
   ++ (pkgs.lib.optionals per_machine_vars.enable_nvidia [
-    cudatoolkit nvtopPackages.full llama-cpp
+    cudatoolkit nvtopPackages.full llama-cpp mistral-rs
   ]);
 
   systemd.services.my_mpv_logger_service = {
