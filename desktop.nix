@@ -441,7 +441,7 @@ in
     floorp
 
     # sageWithDoc
-    pinned-pkgs.sage pinned-pkgs.sagetex
+    pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
 
     # some programming languages/environments
     texlive.combined.scheme-full
