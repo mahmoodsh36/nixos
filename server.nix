@@ -236,7 +236,7 @@ in
   security.sudo = {
     enable = true;
     wheelNeedsPassword = false;
-    execWheelOnly = true;
+    # execWheelOnly = true; # we may want this to be true for security
   };
 
   # didnt work for my other machine.. :/
