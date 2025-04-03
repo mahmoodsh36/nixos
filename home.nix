@@ -10,28 +10,28 @@ in
   ];
   _module.args = { pinned-pkgs = inputs.pinned-pkgs; };
 
-  wayland.windowManager.hyprland = {
-    enable = true; # enable Hyprland
-    systemd.enable = true;
-    xwayland.enable = true;
-    package = pkgs.hyprland;
-    plugins = [
-      pkgs.hyprlandPlugins.hyprbars
-
-      # pkgs.hyprlandPlugins.hyprfocus
-      # pkgs.hyprlandPlugins.hyprscroller
-      # pkgs.hyprlandPlugins.hyprspace
-      # pkgs.hyprlandPlugins.borders-plus-plus
-
-      # pkgs.hyprlandPlugins.hypr-dynamic-cursors
-      # pkgs.hyprlandPlugins.hy3
-      # pkgs.hyprlandPlugins.hyprgrass
-      # pkgs.hyprlandPlugins.hyprcursor
-      # pkgs.hyprlandPlugins.hyprtrails
-      # pkgs.hyprlandPlugins.hyprwinwrap
-    ];
-    extraConfig = (builtins.readFile /home/mahmooz/work/otherdots/.config/hypr/hyprland.conf);
-  };
+  # wayland.windowManager.hyprland = {
+  #   enable = true; # enable Hyprland
+  #   systemd.enable = true;
+  #   xwayland.enable = true;
+  #   package = pkgs.hyprland;
+  #   plugins = [
+  #     pkgs.hyprlandPlugins.hyprbars
+  #
+  #     # pkgs.hyprlandPlugins.hyprfocus
+  #     # pkgs.hyprlandPlugins.hyprscroller
+  #     # pkgs.hyprlandPlugins.hyprspace
+  #     # pkgs.hyprlandPlugins.borders-plus-plus
+  #
+  #     # pkgs.hyprlandPlugins.hypr-dynamic-cursors
+  #     # pkgs.hyprlandPlugins.hy3
+  #     # pkgs.hyprlandPlugins.hyprgrass
+  #     # pkgs.hyprlandPlugins.hyprcursor
+  #     # pkgs.hyprlandPlugins.hyprtrails
+  #     # pkgs.hyprlandPlugins.hyprwinwrap
+  #   ];
+  #   extraConfig = (builtins.readFile /home/mahmooz/work/otherdots/.config/hypr/hyprland.conf);
+  # };
 
   /* the home.stateVersion option does not have a default and must be set */
   home.stateVersion = "24.05";
@@ -205,5 +205,4 @@ in
     platformTheme.name = "kde6";
     style.package = pkgs.adwaita-qt;
   };
-
 }

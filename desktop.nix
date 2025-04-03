@@ -190,11 +190,11 @@ in
       naturalScrolling = false;
     };
   };
-  # programs.hyprland = {
-  #   enable = true;
-  #   package = pkgs.hyprland;
-  #   xwayland.enable = true;
-  # };
+  programs.hyprland = {
+    enable = true;
+    package = pkgs.hyprland;
+    xwayland.enable = true;
+  };
   xdg.portal = {
     # xdgOpenUsePortal = true; # this seems to override my .desktop definitions in home-manager?
     enable = true;
@@ -214,10 +214,10 @@ in
   };
   services.displayManager.sddm.settings.General.DisplayServer = "wayland";
   services.displayManager = {
-    autoLogin = {
-      enable = true;
-      user = "mahmooz";
-    };
+    # autoLogin = {
+    #   enable = true;
+    #   user = "mahmooz";
+    # };
     sddm.enable = true;
     sddm.wayland.enable = true;
     sddm.enableHidpi = true;
