@@ -202,7 +202,7 @@ in
       # pkgs.xdg-desktop-portal-gnome
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-hyprland
-      # pkgs.xdg-desktop-portal-kde
+      pkgs.kdePackages.xdg-desktop-portal-kde
       pkgs.xdg-desktop-portal-wlr
     ];
     config.hyprland = {
@@ -212,18 +212,26 @@ in
       ];
     };
   };
-
+  services.displayManager.sddm.settings.General.DisplayServer = "wayland";
   services.displayManager = {
     autoLogin = {
       enable = true;
       user = "mahmooz";
     };
-    # sddm.enable = true;
-    # sddm.wayland.enable = true;
-    # sddm.enableHidpi = true;
+    sddm.enable = true;
+    sddm.wayland.enable = true;
+    sddm.enableHidpi = true;
     # defaultSession = "hyprland";
     # defaultSession = "gnome";
     # defaultSession = "plasma";
+  };
+  services.desktopManager.plasma6.enable = true;
+  environment = {
+    etc."xdg/baloofilerc".source = (pkgs.formats.ini {}).generate "baloorc" {
+      "Basic Settings" = {
+        "Indexing-Enabled" = false;
+      };
+    };
   };
 
   # tty configs
