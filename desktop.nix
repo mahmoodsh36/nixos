@@ -287,10 +287,11 @@ in
   };
   programs.virt-manager.enable = true;
   virtualisation.docker.enable = true;
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };
+  virtualisation.docker.enableNvidia = per_machine_vars.enable_nvidia;
+  # virtualisation.docker.rootless = {
+  #   enable = true;
+  #   setSocketVariable = true;
+  # };
 
   fonts = {
     enableDefaultPackages = true;
@@ -523,6 +524,26 @@ in
 
   # without this okular is blurry
   environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
+
+  # run vllm through docker (its broken in nixpkgs, but this may be better anyway?)
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers = {
+      vllm = {
+        autoStart = false;
+        image = "vllm/vllm-openai:latest";
+        ports = [ "8000:8000" ];
+        extraOptions = [
+          "--runtime" "nvidia"
+          "--gpus" "all"
+          "--ipc" "host"
+        ];
+        cmd = [
+          "--model" "mistralai/Mistral-7B-v0.1"
+        ];
+      };
+    };
+  };
 
   services.udev.extraRules = ''
     SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
