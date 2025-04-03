@@ -130,6 +130,7 @@ in
     enable32Bit = true;
   };
   hardware.nvidia.open = false;
+  hardware.nvidia-container-toolkit.enable = per_machine_vars.enable_nvidia;
 
   # vaapi (accelerated video playback), enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
@@ -287,7 +288,6 @@ in
   };
   programs.virt-manager.enable = true;
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableNvidia = per_machine_vars.enable_nvidia;
   # virtualisation.docker.rootless = {
   #   enable = true;
   #   setSocketVariable = true;
