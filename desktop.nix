@@ -288,6 +288,7 @@ in
   };
   programs.virt-manager.enable = true;
   virtualisation.docker.enable = true;
+  virtualisation.docker.enableNvidia = per_machine_vars.enable_nvidia;
   # virtualisation.docker.rootless = {
   #   enable = true;
   #   setSocketVariable = true;
