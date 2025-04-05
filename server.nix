@@ -197,7 +197,7 @@ in
       "${XDG_BIN_HOME}"
     ];
     # this one fixes some problems with python matplotlib and probably some other qt applications
-    # QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
+    QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
     # QT_SCALE_FACTOR = "2";
     PYTHON_HISTORY = "$HOME/brain/python_history";
 
