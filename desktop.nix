@@ -222,7 +222,7 @@ in
     sddm.enable = true;
     sddm.wayland.enable = true;
     sddm.enableHidpi = true;
-    # defaultSession = "hyprland";
+    defaultSession = "hyprland";
     # defaultSession = "gnome";
     # defaultSession = "plasma";
   };

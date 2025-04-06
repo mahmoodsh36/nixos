@@ -2,7 +2,7 @@
 
 {
   desktop_python = (pinned-pkgs.python3.withPackages (ps: with ps; [
-    matplotlib flask requests numpy sympy
+    matplotlib flask requests numpy sympy networkx pydot
     beautifulsoup4 seaborn pillow dash rich
     python-lsp-server
 
