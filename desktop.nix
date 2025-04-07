@@ -464,6 +464,7 @@ in
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
     # for widgets
+    # we need to "purify" this..
     (pinned-pkgs.python3Packages.buildPythonPackage rec {
       pname = "widgets";
       format = "other";

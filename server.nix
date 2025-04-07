@@ -6,17 +6,27 @@ let
 in
 {
   imports = [
-    ./hardware-configuration.nix # hardware scan results
   ];
 
   boot.tmp.cleanOnBoot = true;
-  # use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   system.etc.overlay.enable = false;
   time.timeZone = "Asia/Jerusalem";
   # power saving causes my internet to keep disconnecting
   powerManagement.enable = false;
+
+  # use the systemd-boot EFI boot loader.
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+
+  # use grub
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.useOSProber = false;
+  boot.supportedFilesystems = [ "ntfs" ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # not needed with flakes and causes a bunch of warnings
@@ -53,7 +63,7 @@ in
   systemd.network = {
     wait-online.enable = false;
     # static ip for wired ethernet
-    networks."10-wired" = (if per_machine_vars.machine_name == "mahmooz3" then {
+    networks."10-wired" = (if per_machine_vars.machine_name != "mahmooz3" then {
       matchConfig.Type = "ether"; # matches any wired interface
       DHCP = "no";
       address = [ "${per_machine_vars.static_ip}/24" ];

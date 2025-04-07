@@ -14,6 +14,8 @@
     };
     pinned-pkgs.url = "github:NixOS/nixpkgs/77b584d61ff80b4cef9245829a6f1dfad5afdfa3";
     # pinned-pkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -39,6 +41,7 @@
     };
     mkSystem = extraModules:
       nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = {
           inherit inputs;
           inherit system;
@@ -81,12 +84,16 @@
       };
   in {
     nixosConfigurations = {
-      mahmooz = mkSystem [];
+      mahmooz = mkSystem [
+        ./hardware-configuration.nix # hardware scan results
+      ];
       hetzner = mkSystem [
         {
           # otherwise my hetzner server's bootloader wont work
           boot.loader.grub.device = "nodev";
         }
+        inputs.disko.nixosModules.disko
+        ./disko-hetzner.nix
       ];
       myiso = mkSystem [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
