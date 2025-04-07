@@ -53,13 +53,15 @@ in
   systemd.network = {
     wait-online.enable = false;
     # static ip for wired ethernet
-    networks."10-wired" = {
+    networks."10-wired" = (if per_machine_vars.machine_name == "mahmooz3" then {
       matchConfig.Type = "ether"; # matches any wired interface
       DHCP = "no";
       address = [ "${per_machine_vars.static_ip}/24" ];
       # gateway = [ "192.168.1.1" ]; # setting a gateway messes up other connections
       linkConfig.RequiredForOnline = "routable";
-    };
+    } else {
+      # keep default behavior
+    });
     # wireless interface (use DHCP)
     networks."20-wifi" = {
       matchConfig.Type = "wlan";
