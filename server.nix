@@ -85,6 +85,7 @@ in
 
   # enable some programs/services
   services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = true;
   programs.mosh.enable = true;
   programs.zsh.enable = true;
   programs.adb.enable = true;
