@@ -72,6 +72,8 @@
           {
             _module.args = { inherit pinned-pkgs; }; # need to pass it to desktop.nix
           }
+        ] ++ (pkgs.lib.optionals (import ./per_machine_vars.nix {}).is_desktop [
+          # home-manager only enabled if its a desktop
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -80,17 +82,22 @@
             home-manager.backupFileExtension = "hmbkup";
             home-manager.extraSpecialArgs = { inherit inputs; };
           }
-        ] ++ extraModules;
+        ])
+        ++ extraModules;
       };
   in {
     nixosConfigurations = {
       mahmooz = mkSystem [
         ./hardware-configuration.nix # hardware scan results
+        {
+          boot.loader.efi.canTouchEfiVariables = true;
+        }
+        # we use the default networking configs of nixos on hetzner, here we use a custom config
+        ./networking.nix
       ];
       hetzner = mkSystem [
         {
-          # otherwise my hetzner server's bootloader wont work
-          boot.loader.grub.device = "nodev";
+          boot.loader.grub.efiInstallAsRemovable = true;
         }
         inputs.disko.nixosModules.disko
         ./disko-hetzner.nix

@@ -340,6 +340,14 @@ in
 
   documentation.dev.enable = true;
 
+  # helps finding the package that contains a specific file
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+  };
+  programs.command-not-found.enable = false; # needed for nix-index
+
   programs.nix-ld = {
     enable = true;
     libraries = [

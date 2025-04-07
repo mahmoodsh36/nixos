@@ -20,78 +20,18 @@ in
 
   # use grub
   boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.useOSProber = false;
-  boot.supportedFilesystems = [ "ntfs" ];
+  # boot.supportedFilesystems = [ "ntfs" ];
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    # useOSProber = false;
+    device = "nodev";
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # not needed with flakes and causes a bunch of warnings
   nix.channel.enable = false;
-
-  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
-  # networking
-  networking = {
-    hostName = "mahmooz";
-    usePredictableInterfaceNames = true;
-    useDHCP = false;
-    networkmanager.enable = false;
-    # block some hosts by redirecting to the loopback interface
-    extraHosts = ''
-      127.0.0.1 youtube.com
-      127.0.0.1 www.youtube.com
-      127.0.0.1 reddit.com
-      127.0.0.1 www.reddit.com
-      127.0.0.1 discord.com
-      127.0.0.1 www.discord.com
-      127.0.0.1 instagram.com
-      127.0.0.1 www.instagram.com
-      # 192.168.1.2 mahmooz2 # this prevents tailscale from identifying mahmooz2
-      192.168.1.2 mahmooz2-2
-    '';
-  };
-
-  # networkd config
-  systemd.network.enable = true;
-  services.resolved.enable = true;
-  systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
-  # dont wait for interfaces to come online (faster boot)
-  boot.initrd.systemd.network.wait-online.enable = false;
-  systemd.network = {
-    wait-online.enable = false;
-    # static ip for wired ethernet
-    networks."10-wired" = (if per_machine_vars.machine_name != "mahmooz3" then {
-      matchConfig.Type = "ether"; # matches any wired interface
-      DHCP = "no";
-      address = [ "${per_machine_vars.static_ip}/24" ];
-      # gateway = [ "192.168.1.1" ]; # setting a gateway messes up other connections
-      linkConfig.RequiredForOnline = "routable";
-    } else {
-      # keep default behavior
-    });
-    # wireless interface (use DHCP)
-    networks."20-wifi" = {
-      matchConfig.Type = "wlan";
-      DHCP = "yes"; # get IP dynamically
-    };
-  };
-  # `iwd` for wifi management (alternative to wpa_supplicant)
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      General = {
-        EnableNetworkConfiguration = true;
-        EnablePowerSave = false;
-      };
-      Settings = {
-        AutoConnect = true;
-      };
-    };
-  };
-  networking.firewall.enable = false;
 
   # enable some programs/services
   services.tailscale.enable = true;
@@ -141,13 +81,6 @@ in
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz"
   ];
 
-  programs.nix-index = { # helps finding the package that contains a specific file
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = true;
-  };
-  programs.command-not-found.enable = false; # needed for nix-index
-
   # gpg
   services.pcscd.enable = true;
   programs.gnupg.agent = {
@@ -157,7 +90,7 @@ in
   };
 
   services.postgresql = {
-    enable = true;
+    enable = false;
     enableTCPIP = true;
     authentication = pkgs.lib.mkOverride 10 ''
       # generated file; do not edit!
@@ -184,7 +117,7 @@ in
 
   # self-hosted media service
   services.jellyfin = {
-    enable = true;
+    enable = false;
     # openFirewall = true;
     user = "mahmooz"; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
     dataDir = "/home/mahmooz/.jellyfin";
