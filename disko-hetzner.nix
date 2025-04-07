@@ -5,8 +5,7 @@
     disk = {
       main = {
         type = "disk";
-        # !!! ADAPT THIS DEVICE PATH !!!
-        device = "/dev/sda"; # Or /dev/sda, etc.
+        device = "/dev/sda";
         content = {
           type = "gpt";
           partitions = {
@@ -31,25 +30,9 @@
                 mountpoint = "/";
               };
             };
-            # swap = { ... };
           };
         };
       };
     };
-    # nodev."/" = { ... } # Explicit filesystem definitions if needed
-    # nodev."/boot" = { ... }
   };
-
-  # You might still define fileSystems here if Disko doesn't infer
-  # them correctly or you need specific mount options not set in content.
-  # Often, defining them within the partition 'content' is sufficient.
-  # fileSystems."/" = {
-  #   device = "/dev/disk/by-label/root";
-  #   fsType = "ext4";
-  # };
-  # fileSystems."/boot" = {
-  #   device = "/dev/disk/by-label/ESP";
-  #   fsType = "vfat";
-  # };
-  # swapDevices = [ ... ];
 }
