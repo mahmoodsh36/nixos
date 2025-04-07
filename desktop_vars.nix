@@ -1,4 +1,4 @@
-{ pkgs, pinned-pkgs, ... }:
+{ pkgs, config, pinned-pkgs, ... }:
 
 {
   desktop_python = (pinned-pkgs.python3.withPackages (ps: with ps; [
@@ -9,7 +9,7 @@
     # for system?
     evdev python-magic
     # pyzmq
-  ] ++ pkgs.lib.optionals (import ./per_machine_vars.nix {}).enable_nvidia [
+  ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
     # machine learning
     torchWithCuda accelerate bitsandbytes
     transformers datasets

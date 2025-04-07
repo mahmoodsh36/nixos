@@ -22,17 +22,6 @@
     self, nixpkgs, home-manager, ...
   } @inputs: let
     system = "x86_64-linux";
-    # pkgs = nixpkgs.legacyPackages.${system};
-    pkgs = import nixpkgs {
-      system = "x86_64-linux";
-      config.allowUnfree = true;
-      config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
-    };
-    pinned-pkgs = import inputs.pinned-pkgs {
-      system = "x86_64-linux";
-      config.allowUnfree = true;
-      config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
-    };
     isobase = {
       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
       systemd.services.sshd.wantedBy = nixpkgs.lib.mkForce [ "multi-user.target" ];
@@ -40,64 +29,74 @@
       # users.users.root.openssh.authorizedKeys.keys = [ "<my ssh key>" ];
     };
     mkSystem = extraModules:
-      nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs;
-          inherit system;
+      let
+        # pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
         };
-        modules = [
-          {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.config.cudaSupport = (import ./per_machine_vars.nix {}).enable_nvidia;
-          }
-          ({ pkgs, pinned-pkgs, ... }: {
-            nixpkgs.overlays = [
-              # enable pgtk so its not pixelated on wayland
-              (self: super: {
-                my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
-                  imagemagick = pkgs.imagemagickBig;
-                });
-              })
-            ];
-            environment.systemPackages = with pkgs; [
-              ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
-                treesit-grammars.with-all-grammars
-              ]))
-            ];
-          })
-          (if (import ./per_machine_vars.nix {}).is_desktop
-           then ./desktop.nix
-           else ./server.nix)
-          {
-            _module.args = { inherit pinned-pkgs; }; # need to pass it to desktop.nix
-          }
-        ] ++ (pkgs.lib.optionals (import ./per_machine_vars.nix {}).is_desktop [
-          # home-manager only enabled if its a desktop
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.mahmooz = import ./home.nix;
-            home-manager.backupFileExtension = "hmbkup";
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
-        ])
-        ++ extraModules;
-      };
+        pinned-pkgs = import inputs.pinned-pkgs {
+          system = "x86_64-linux";
+        };
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs;
+            inherit system;
+            inherit pinned-pkgs;
+          };
+          modules = [
+            ({ pkgs, pinned-pkgs, ... }: {
+              nixpkgs.overlays = [
+                # enable pgtk so its not pixelated on wayland
+                (self: super: {
+                  my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+                    imagemagick = pkgs.imagemagickBig;
+                  });
+                })
+              ];
+              environment.systemPackages = with pkgs; [
+                ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
+                  treesit-grammars.with-all-grammars
+                ]))
+              ];
+            })
+            ./machine.nix
+            ./machine-config.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.mahmooz = import ./home.nix;
+              home-manager.backupFileExtension = "hmbkup";
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+          ]
+          ++ extraModules;
+        };
   in {
     nixosConfigurations = {
       mahmooz = mkSystem [
         ./hardware-configuration.nix # hardware scan results
-        {
-          boot.loader.efi.canTouchEfiVariables = true;
-        }
+        ({ lib, ... }: {
+          config = {
+            boot.loader.efi.canTouchEfiVariables = true;
+            # config.machine.name = "mahmooz1";
+            machine.is_desktop = true;
+            machine.enable_nvidia = false;
+          };
+        })
         # we use the default networking configs of nixos on hetzner, here we use a custom config
         ./networking.nix
       ];
       hetzner = mkSystem [
         {
-          boot.loader.grub.efiInstallAsRemovable = true;
+          config = {
+            machine.name = "mahmooz3";
+            machine.is_desktop = false;
+            machine.enable_nvidia = false;
+            boot.loader.grub.efiInstallAsRemovable = true;
+          };
         }
         inputs.disko.nixosModules.disko
         ./disko-hetzner.nix
