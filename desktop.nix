@@ -178,6 +178,12 @@ in
 
     # my overlays
     nixpkgs.overlays = [
+      # enable pgtk so its not pixelated on wayland
+      (self: super: {
+        my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+          imagemagick = pkgs.imagemagickBig;
+        });
+      })
     ] ++ server_vars.server_overlays;
 
     # graphical stuff (wayland,x11,etc)
@@ -213,15 +219,17 @@ in
         ];
       };
     };
-    services.displayManager.sddm.settings.General.DisplayServer = "wayland";
     services.displayManager = {
       # autoLogin = {
       #   enable = true;
       #   user = "mahmooz";
       # };
-      sddm.enable = true;
-      sddm.wayland.enable = true;
-      sddm.enableHidpi = true;
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+        enableHidpi = true;
+        settings.General.DisplayServer = "wayland";
+      };
       defaultSession = "hyprland";
       # defaultSession = "gnome";
       # defaultSession = "plasma";
@@ -396,6 +404,10 @@ in
       inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
       neovide
+
+      ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
+        treesit-grammars.with-all-grammars
+      ]))
 
       # media tools
       mpv

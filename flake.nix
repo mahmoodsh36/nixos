@@ -46,21 +46,6 @@
             inherit pinned-pkgs;
           };
           modules = [
-            ({ pkgs, pinned-pkgs, ... }: {
-              nixpkgs.overlays = [
-                # enable pgtk so its not pixelated on wayland
-                (self: super: {
-                  my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
-                    imagemagick = pkgs.imagemagickBig;
-                  });
-                })
-              ];
-              environment.systemPackages = with pkgs; [
-                ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
-                  treesit-grammars.with-all-grammars
-                ]))
-              ];
-            })
             ./machine.nix
             ./machine-config.nix
             home-manager.nixosModules.home-manager
@@ -81,7 +66,7 @@
         ({ lib, ... }: {
           config = {
             boot.loader.efi.canTouchEfiVariables = true;
-            # config.machine.name = "mahmooz1";
+            machine.name = "mahmooz1";
             machine.is_desktop = true;
             machine.enable_nvidia = false;
           };
