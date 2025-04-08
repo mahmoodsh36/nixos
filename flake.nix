@@ -69,7 +69,6 @@
             machine.name = "mahmooz1";
             machine.is_desktop = true;
             machine.enable_nvidia = false;
-            boot.loader.efi.efiSysMountPoint = "/boot";
           };
         })
         # we use the default networking configs of nixos on hetzner, here we use a custom config
@@ -82,7 +81,6 @@
             machine.is_desktop = false;
             machine.enable_nvidia = false;
             boot.loader.grub.efiInstallAsRemovable = true;
-            boot.loader.efi.efiSysMountPoint = "/boot/efi";
           };
         }
         inputs.disko.nixosModules.disko
@@ -96,7 +94,6 @@
             machine.name = "mahmooz1";
             machine.is_desktop = true;
             machine.enable_nvidia = false;
-            boot.loader.efi.efiSysMountPoint = "/boot";
           };
         }
       ];
@@ -109,7 +106,6 @@
             machine.is_desktop = false;
             machine.enable_nvidia = false;
             boot.loader.grub.enable = nixpkgs.lib.mkForce true;
-            boot.loader.efi.efiSysMountPoint = "/boot";
           };
         }
       ];

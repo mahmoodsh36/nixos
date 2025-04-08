@@ -268,7 +268,6 @@ in
       ];
     };
     programs.xfconf.enable = true;
-    programs.dconf.enable = true;
     services.tumbler.enable = lib.mkForce false;
     programs.light.enable = true;
 

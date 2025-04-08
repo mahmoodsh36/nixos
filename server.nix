@@ -20,6 +20,7 @@ in
 
   # use grub
   boot.loader.systemd-boot.enable = false;
+  boot.loader.efi.efiSysMountPoint = "/boot";
   # boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.grub = {
     enable = true;
@@ -53,6 +54,7 @@ in
   programs.wireshark.enable = true;
   # services.atuin.enable = true;
   services.samba.enable = true;
+  programs.dconf.enable = true;
 
   services.mysql = {
     enable = true;
