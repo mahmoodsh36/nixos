@@ -53,7 +53,6 @@ in
   programs.sniffnet.enable = true;
   programs.wireshark.enable = true;
   # services.atuin.enable = true;
-  services.samba.enable = true;
   programs.dconf.enable = true;
 
   services.mysql = {
