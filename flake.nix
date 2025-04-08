@@ -75,6 +75,7 @@
         ./networking.nix
       ];
       hetzner = mkSystem [
+        ./hardware-configuration.nix # hardware scan results
         {
           config = {
             machine.name = "mahmooz3";
