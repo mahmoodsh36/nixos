@@ -56,7 +56,7 @@ in
   programs.dconf.enable = true;
 
   services.mysql = {
-    enable = true;
+    enable = false;
     settings.mysqld.bind-address = "0.0.0.0";
   };
 
@@ -112,8 +112,6 @@ in
       ensureDBOwnership = true;
     }];
   };
-
-  # services.mongodb.enable = true;
 
   # self-hosted media service
   services.jellyfin = {
