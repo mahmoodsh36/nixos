@@ -83,8 +83,8 @@
             boot.loader.grub.efiInstallAsRemovable = true;
           };
         }
-        inputs.disko.nixosModules.disko
-        ./disko-hetzner.nix
+        # inputs.disko.nixosModules.disko
+        # ./disko-hetzner.nix
       ];
       desktop_iso = mkSystem [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
