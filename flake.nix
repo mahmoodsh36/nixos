@@ -26,7 +26,7 @@
       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
       systemd.services.sshd.wantedBy = nixpkgs.lib.mkForce [ "multi-user.target" ];
       networking.wireless.enable = false; # installation-cd-minimal.nix sets that to true
-      # users.users.root.openssh.authorizedKeys.keys = [ "<my ssh key>" ];
+      # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
     mkSystem = extraModules:
       let
@@ -101,9 +101,28 @@
         inputs.disko.nixosModules.disko
         ./disko-hetzner.nix
       ];
-      myiso = mkSystem [
+      desktop_iso = mkSystem [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
         isobase
+        {
+          config = {
+            machine.name = "mahmooz1";
+            machine.is_desktop = true;
+            machine.enable_nvidia = false;
+          };
+        }
+      ];
+      server_iso = mkSystem [
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        isobase
+        {
+          config = {
+            machine.name = "mahmooz3";
+            machine.is_desktop = false;
+            machine.enable_nvidia = false;
+            boot.loader.grub.enable = nixpkgs.lib.mkForce true;
+          };
+        }
       ];
     };
   };

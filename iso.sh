@@ -1,1 +1,1 @@
-nix build .#nixosConfigurations.myiso.config.system.build.isoImage --show-trace --impure
+nix build .#nixosConfigurations.desktop_iso.config.system.build.isoImage --show-trace --impure
