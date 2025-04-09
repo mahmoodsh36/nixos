@@ -33,9 +33,11 @@
         # pkgs = nixpkgs.legacyPackages.${system};
         pkgs = import nixpkgs {
           system = "x86_64-linux";
+          allowUnfree = true;
         };
         pinned-pkgs = import inputs.pinned-pkgs {
           system = "x86_64-linux";
+          allowUnfree = true;
         };
       in
         nixpkgs.lib.nixosSystem {
