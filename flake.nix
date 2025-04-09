@@ -63,7 +63,7 @@
         };
   in {
     nixosConfigurations = {
-      mahmooz = mkSystem [
+      mahmooz1 = mkSystem [
         ./hardware-configuration.nix # hardware scan results
         ({ lib, ... }: {
           config = {
@@ -71,6 +71,21 @@
             machine.name = "mahmooz1";
             machine.is_desktop = true;
             machine.enable_nvidia = false;
+            machine.static_ip = "192.168.1.1";
+          };
+        })
+        # we use the default networking configs of nixos on hetzner, here we use a custom config
+        ./networking.nix
+      ];
+      mahmooz2 = mkSystem [
+        ./hardware-configuration.nix # hardware scan results
+        ({ lib, ... }: {
+          config = {
+            boot.loader.efi.canTouchEfiVariables = true;
+            machine.name = "mahmooz2";
+            machine.is_desktop = true;
+            machine.enable_nvidia = true;
+            machine.static_ip = "192.168.1.2";
           };
         })
         # we use the default networking configs of nixos on hetzner, here we use a custom config
