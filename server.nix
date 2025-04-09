@@ -20,7 +20,6 @@ in
 
   # use grub
   boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.efiSysMountPoint = "/boot";
   # boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.grub = {
     enable = true;
