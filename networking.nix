@@ -20,6 +20,7 @@
       127.0.0.1 www.instagram.com
       # 192.168.1.2 mahmooz2 # this prevents tailscale from identifying mahmooz2
       192.168.1.2 mahmooz2-2
+      95.217.163.31 mahmooz3
     '';
   };
 
