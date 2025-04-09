@@ -509,7 +509,7 @@ in
       })
 
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-      cudatoolkit nvtopPackages.full llama-cpp koboldcp
+      cudatoolkit nvtopPackages.full llama-cpp koboldcpp
     ] ++ server_vars.server_packages;
 
     systemd.services.my_mpv_logger_service = {
