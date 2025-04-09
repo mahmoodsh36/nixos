@@ -2,6 +2,7 @@
 
 let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
+  constants = (import ./constants.nix);
 in
 {
   imports = [
@@ -79,6 +80,17 @@ in
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz"
   ];
+  programs.ssh.extraConfig = ''
+    Host mahmooz2
+        HostName mahmooz2
+        User     mahmooz
+        IdentityFile       ~/brain/keys/hetzner1
+
+    Host mahmooz2-2
+        HostName 192.168.1.2
+        User     mahmooz
+        IdentityFile       ~/brain/keys/hetzner1
+  '';
 
   # gpg
   services.pcscd.enable = true;
@@ -154,13 +166,15 @@ in
     BLOG_DIR = server_vars.blog_dir;
     EDITOR = "nvim";
     BROWSER = "firefox";
-    MAIN_SERVER_IP = server_vars.main_server_ip;
     DATA_DIR = server_vars.data_dir;
     MPV_SOCKET_DIR = server_vars.mpv_socket_dir;
     MPV_MAIN_SOCKET_PATH = server_vars.mpv_main_socket_path;
-    PERSONAL_WEBSITE = server_vars.personal_website;
-    MYGITHUB = server_vars.mygithub;
     MODELS_DIR = server_vars.models_dir;
+    MYGITHUB = constants.mygithub;
+    PERSONAL_WEBSITE = constants.personal_website;
+    MAHMOOZ3_ADDR = constants.mahmooz3_addr;
+    MAHMOOZ2_ADDR = constants.mahmooz2_addr;
+    MAHMOOZ1_ADDR = constants.mahmooz1_addr;
   };
 
   # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)

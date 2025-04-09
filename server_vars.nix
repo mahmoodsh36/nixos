@@ -16,6 +16,7 @@ let
     clingon # command-line options parser
     ironclad # crypto functions
   ]));
+  constants = (import ./constants.nix);
 in rec {
   server_overlays = [
   ];
@@ -68,12 +69,8 @@ in rec {
     # pinned-pkgs.goose-cli # goose ai tool
   ];
 
-  main_server_ipv6 = "2a01:4f9:c012:ad1b::1";
-  main_server_user = "mahmooz";
-  main_server_ip = "95.217.15.125";
-  main_user = "mahmooz";
-  home_dir = "/home/mahmooz";
-  work_dir = "/home/${main_user}/work";
+  home_dir = "/home/${constants.myuser}";
+  work_dir = "/home/${constants.myuser}/work";
   scripts_dir = "${work_dir}/scripts";
   dotfiles_dir = "${work_dir}/otherdots";
   nix_config_dir = "${work_dir}/nixos/";
@@ -85,7 +82,5 @@ in rec {
   models_dir = "${home_dir}/mnt2/my/models";
   mpv_socket_dir = "${data_dir}/mpv_data/sockets";
   mpv_main_socket_path = "${data_dir}/mpv_data/sockets/mpv.socket";
-  personal_website = "https://mahmoodsh36.github.io";
-  mygithub = "https://github.com/mahmoodsh36";
   main_key = "${brain_dir}/keys/hetzner1";
 }

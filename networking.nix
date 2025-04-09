@@ -1,5 +1,8 @@
 { config, pkgs, lib, pinned-pkgs, ... }:
 
+let
+  constants = import ./constants.nix;
+in
 {
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   # networking
@@ -18,9 +21,9 @@
       127.0.0.1 www.discord.com
       127.0.0.1 instagram.com
       127.0.0.1 www.instagram.com
-      # 192.168.1.2 mahmooz2 # this prevents tailscale from identifying mahmooz2
-      192.168.1.2 mahmooz2-2
-      95.217.163.31 mahmooz3
+      # ${constants.mahmooz2_addr} mahmooz2 # this prevents tailscale from identifying mahmooz2
+      ${constants.mahmooz2_addr} mahmooz2-2
+      ${constants.mahmooz3_addr} mahmooz3
     '';
   };
 
