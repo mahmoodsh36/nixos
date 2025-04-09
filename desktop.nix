@@ -508,10 +508,9 @@ in
       '';
       })
 
-      (lib.mkIf config.machine.enable_nvidia
-        cudatoolkit) #  nvtopPackages.full llama-cpp koboldcpp
-    ]
-    ++ server_vars.server_packages;
+    ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+      cudatoolkit nvtopPackages.full llama-cpp koboldcp
+    ] ++ server_vars.server_packages;
 
     systemd.services.my_mpv_logger_service = {
       description = "mpv logger";
