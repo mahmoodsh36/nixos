@@ -75,19 +75,24 @@ in
     ports = [ 22 80 443 2222 7422 ]; # my uni wifi blocks ssh.. maybe using 80 will help
   };
   users.users.mahmooz.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz"
+    constants.ssh_pub_key
   ];
   users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz"
+    constants.ssh_pub_key
   ];
   programs.ssh.extraConfig = ''
     Host mahmooz2
-        HostName mahmooz2
+        HostName ${constants.mahmooz2_addr}
         User     mahmooz
         IdentityFile       ~/brain/keys/hetzner1
 
     Host mahmooz2-2
-        HostName 192.168.1.2
+        HostName ${constants.mahmooz2_addr}
+        User     mahmooz
+        IdentityFile       ~/brain/keys/hetzner1
+
+    Host mahmooz3
+        HostName ${constants.mahmooz3_addr}
         User     mahmooz
         IdentityFile       ~/brain/keys/hetzner1
   '';
