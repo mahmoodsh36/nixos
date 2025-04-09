@@ -22,8 +22,7 @@
               name = "qwq:32b";
               display_name = "qwq 32b";
               max_tokens = 32768;
-            }
-                               ];
+            }];
           };
         };
         assistant = {

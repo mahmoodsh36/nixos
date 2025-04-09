@@ -5,6 +5,7 @@ let
 in
 {
   imports = [
+    ./machine.nix
     ./vscode.nix
     ./zed.nix
   ];
