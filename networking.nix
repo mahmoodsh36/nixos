@@ -114,8 +114,8 @@ in rec
   services.headscale = {
     enable = true;
     address = "0.0.0.0";
-    port = 8080;
-    serverUrl = "https://${constants.mahmooz3_addr}:8080";
+    port = 8443;
+    serverUrl = "https://${constants.mahmooz3_addr}:8443";
     settings = {
       dns = {
         magic_dns = false;
@@ -129,7 +129,7 @@ in rec
     configFile = ''
       ${constants.mahmooz3_addr}/headscale:443 {
         tls internal
-        reverse_proxy localhost:8080
+        reverse_proxy localhost:8443
       }
       ${constants.mahmooz3_addr}/grafana:443 {
         tls internal
