@@ -48,6 +48,7 @@ in rec {
     cryptsetup openssl
     yt-dlp you-get aria
     man-pages man-pages-posix
+    wezterm
 
     # some build systems
     cmake gnumake autoconf

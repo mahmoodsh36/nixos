@@ -377,29 +377,29 @@ in
     # packages
     environment.systemPackages = with pkgs; [
       (pkgs.writeShellScriptBin "python" ''
-      export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-      exec ${mypython}/bin/python "$@"
-    '')
+        export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+        exec ${mypython}/bin/python "$@"
+      '')
       (pkgs.writeShellScriptBin "python3" ''
-      export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-      exec ${mypython}/bin/python "$@"
-    '')
+        export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+        exec ${mypython}/bin/python "$@"
+      '')
 
       # overwrite notify-send to not let anything handle notifications
       (pkgs.writeShellScriptBin "notify-send" ''
-      echo $@ > /tmp/notif
-    '')
+        echo $@ > /tmp/notif
+      '')
 
       (pkgs.writeShellScriptBin "julia" ''
-      export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-                  pkgs.stdenv.cc.cc.lib
-                  pkgs.libGL
-                  pkgs.glib
-                  pkgs.zlib
-                ]}:$LD_LIBRARY_PATH
-      export DISPLAY=:0 # cheating so it can compile
-      exec ${julia}/bin/julia "$@"
-    '')
+        export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+                    pkgs.stdenv.cc.cc.lib
+                    pkgs.libGL
+                    pkgs.glib
+                    pkgs.zlib
+                  ]}:$LD_LIBRARY_PATH
+        export DISPLAY=:0 # cheating so it can compile
+        exec ${julia}/bin/julia "$@"
+      '')
 
       inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
@@ -422,7 +422,6 @@ in
       scrcpy
       pavucontrol
       libreoffice
-      wezterm
       pulsemixer # tui for pulseaudio control
       alsa-utils
       playerctl # media control
