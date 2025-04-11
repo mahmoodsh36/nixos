@@ -44,10 +44,6 @@ in rec
     useRoutingFeatures = "both";
     port = 12345; # (default: 41641)
     authKeyFile = "${constants.home_dir}/brain/keys/headscale1";
-    extraUpFlags = [
-      "--login-server=https://your-instance"
-      "--accept-dns=false"
-    ];
   };
 
   services.headscale = {
