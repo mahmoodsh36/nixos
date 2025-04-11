@@ -14,9 +14,12 @@
     };
     pinned-pkgs.url = "github:NixOS/nixpkgs/c8cd81426f45942bb2906d5ed2fe21d2f19d95b7";
     # pinned-pkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-    tgi.url = "github:huggingface/text-generation-inference";
+    # disko.url = "github:nix-community/disko";
+    # disko.inputs.nixpkgs.follows = "nixpkgs";
+    tgi = {
+      url = "github:huggingface/text-generation-inference";
+      # inputs.nixpkgs.follows = "nixpkgs"; # makes it fail
+    };
   };
 
   outputs = {
