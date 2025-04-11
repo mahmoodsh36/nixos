@@ -124,9 +124,9 @@ in rec
   };
 
   services.caddy = {
-    enable = (config.machine.name == "mahmooz3");
+    enable = true;
     # reverse proxy traffic to headscale
-    configFile = ''
+    configFile = pkgs.writeText "caddyfile" ''
       ${constants.mahmooz3_addr}/headscale:443 {
         tls internal
         reverse_proxy localhost:8443
