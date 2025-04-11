@@ -34,8 +34,6 @@ in
   nix.channel.enable = false;
 
   # enable some programs/services
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "both";
   programs.mosh.enable = true;
   programs.zsh.enable = true;
   programs.adb.enable = true;
@@ -64,38 +62,6 @@ in
   #   enable = true;
   #   interval = "hourly";
   # };
-
-  services.openssh = {
-    enable = true;
-    # require public key authentication for better security
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "yes";
-    settings.GatewayPorts = "clientspecified";
-    ports = [ 22 80 443 2222 7422 ]; # my uni wifi blocks ssh.. maybe using 80 will help
-  };
-  users.users.mahmooz.openssh.authorizedKeys.keys = [
-    constants.ssh_pub_key
-  ];
-  users.users.root.openssh.authorizedKeys.keys = [
-    constants.ssh_pub_key
-  ];
-  programs.ssh.extraConfig = ''
-    Host mahmooz2
-        HostName ${constants.mahmooz2_addr}
-        User     mahmooz
-        IdentityFile       ~/brain/keys/hetzner1
-
-    Host mahmooz2-2
-        HostName ${constants.mahmooz2_addr}
-        User     mahmooz
-        IdentityFile       ~/brain/keys/hetzner1
-
-    Host mahmooz3
-        HostName ${constants.mahmooz3_addr}
-        User     mahmooz
-        IdentityFile       ~/brain/keys/hetzner1
-  '';
 
   # gpg
   services.pcscd.enable = true;
@@ -161,20 +127,20 @@ in
     # QT_SCALE_FACTOR = "2";
     PYTHON_HISTORY = "$HOME/brain/python_history";
 
-    BRAIN_DIR = server_vars.brain_dir;
-    MUSIC_DIR = server_vars.music_dir;
-    WORK_DIR = server_vars.work_dir;
-    NOTES_DIR = server_vars.notes_dir;
-    SCRIPTS_DIR = server_vars.scripts_dir;
-    DOTFILES_DIR = server_vars.dotfiles_dir;
-    NIX_CONFIG_DIR = server_vars.nix_config_dir;
-    BLOG_DIR = server_vars.blog_dir;
+    BRAIN_DIR = constants.brain_dir;
+    MUSIC_DIR = constants.music_dir;
+    WORK_DIR = constants.work_dir;
+    NOTES_DIR = constants.notes_dir;
+    SCRIPTS_DIR = constants.scripts_dir;
+    DOTFILES_DIR = constants.dotfiles_dir;
+    NIX_CONFIG_DIR = constants.nix_config_dir;
+    BLOG_DIR = constants.blog_dir;
     EDITOR = "nvim";
     BROWSER = "firefox";
-    DATA_DIR = server_vars.data_dir;
-    MPV_SOCKET_DIR = server_vars.mpv_socket_dir;
-    MPV_MAIN_SOCKET_PATH = server_vars.mpv_main_socket_path;
-    MODELS_DIR = server_vars.models_dir;
+    DATA_DIR = constants.data_dir;
+    MPV_SOCKET_DIR = constants.mpv_socket_dir;
+    MPV_MAIN_SOCKET_PATH = constants.mpv_main_socket_path;
+    MODELS_DIR = constants.models_dir;
     MYGITHUB = constants.mygithub;
     PERSONAL_WEBSITE = constants.personal_website;
     MAHMOOZ3_ADDR = constants.mahmooz3_addr;

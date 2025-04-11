@@ -2,6 +2,7 @@
 
 let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; config = config; });
+  constants = (import ./constants.nix);
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; config = config; });
   mypython = desktop_vars.desktop_python;
   # packages i dont think i need..
@@ -517,12 +518,12 @@ in
     systemd.services.my_mpv_logger_service = {
       description = "mpv logger";
       wantedBy = [ "multi-user.target" ];
-      script = "${pkgs.dash}/bin/dash ${server_vars.scripts_dir}/mpv_logger.sh";
+      script = "${pkgs.dash}/bin/dash ${constants.scripts_dir}/mpv_logger.sh";
       serviceConfig = {
         User = "mahmooz";
         Restart = "always";
         RuntimeMaxSec = "3600";
-        # ExecStart = "${pkgs.coreutils}/bin/sh ${server_vars.scripts_dir}/mpv_logger.sh";
+        # ExecStart = "${pkgs.coreutils}/bin/sh ${constants.scripts_dir}/mpv_logger.sh";
       };
     };
 

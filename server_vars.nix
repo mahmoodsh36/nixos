@@ -68,19 +68,4 @@ in rec {
     aider-chat
     # pinned-pkgs.goose-cli # goose ai tool
   ];
-
-  home_dir = "/home/${constants.myuser}";
-  work_dir = "/home/${constants.myuser}/work";
-  scripts_dir = "${work_dir}/scripts";
-  dotfiles_dir = "${work_dir}/otherdots";
-  nix_config_dir = "${work_dir}/nixos/";
-  blog_dir = "${work_dir}/blog";
-  brain_dir = "${home_dir}/brain";
-  music_dir = "${home_dir}/music";
-  notes_dir = "${brain_dir}/notes";
-  data_dir = "${home_dir}/data";
-  models_dir = "${home_dir}/mnt2/my/models";
-  mpv_socket_dir = "${data_dir}/mpv_data/sockets";
-  mpv_main_socket_path = "${data_dir}/mpv_data/sockets/mpv.socket";
-  main_key = "${brain_dir}/keys/hetzner1";
 }
