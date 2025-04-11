@@ -482,6 +482,9 @@ in
       # dictionary
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
+      # text-generation-inference
+      inputs.tgi.packages.${pkgs.system}.default
+
       # for widgets
       # we need to "purify" this..
       (pinned-pkgs.python3Packages.buildPythonPackage rec {
@@ -507,7 +510,6 @@ in
         chmod +x $out/bin/*.py
       '';
       })
-
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full llama-cpp koboldcpp
     ] ++ server_vars.server_packages;

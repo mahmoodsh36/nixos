@@ -16,6 +16,7 @@
     # pinned-pkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    tgi.url = "github:huggingface/text-generation-inference";
   };
 
   outputs = {
