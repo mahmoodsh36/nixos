@@ -78,8 +78,7 @@
             machine.static_ip = "192.168.1.1";
           };
         })
-        # we use the default networking configs of nixos on hetzner, here we use a custom config
-        ./networking.nix
+        ./network-local.nix
       ];
       mahmooz2 = mkSystem [
         ./hardware-configuration.nix # hardware scan results
@@ -92,8 +91,7 @@
             machine.static_ip = "192.168.1.2";
           };
         })
-        # we use the default networking configs of nixos on hetzner, here we use a custom config
-        ./networking.nix
+        ./networking-local.nix
       ];
       hetzner = mkSystem [
         ./hardware-configuration.nix # hardware scan results

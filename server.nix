@@ -7,6 +7,7 @@ in
 {
   imports = [
     ./nvidia.nix
+    ./network.nix
   ];
 
   boot.tmp.cleanOnBoot = true;
