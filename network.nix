@@ -75,11 +75,11 @@ in rec
     enable = true;
     # configure some reverse proxy traffic
     # allow connection via public ip?
-    virtualHosts."grafana.${constants.mahmooz3_addr}" = {
-       extraConfig = ''
-         redir https://${grafana_host}{uri} permanent
-       '';
-    };
+    # virtualHosts."grafana.${constants.mahmooz3_addr}" = {
+    #    extraConfig = ''
+    #      redir https://${grafana_host}{uri} permanent
+    #    '';
+    # };
     # for machines that are part of the tailnet
     virtualHosts."${headscale_host}" = {
       extraConfig = ''
