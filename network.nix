@@ -59,7 +59,7 @@ in rec
     settings = {
       server_url = "https://${headscale_host}:${toString headscale_port}";
       dns = {
-        # override_local_dns = true;
+        override_local_dns = true;
         base_domain = private_domain;
         magic_dns = true;
         # domains = [ headscale_host ];
