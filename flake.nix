@@ -91,7 +91,7 @@
             machine.static_ip = "192.168.1.2";
           };
         })
-        ./networking-local.nix
+        ./network-local.nix
       ];
       hetzner = mkSystem [
         ./hardware-configuration.nix # hardware scan results
