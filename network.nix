@@ -49,7 +49,7 @@ in rec
     enable = true;
     useRoutingFeatures = "both";
     port = 12345; # (default: 41641)
-    authKeyFile = "${constants.home_dir}/brain/keys/headscale1";
+    # authKeyFile = "${constants.home_dir}/brain/keys/headscale1";
   };
 
 
