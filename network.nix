@@ -110,8 +110,8 @@ in rec
     checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
   };
 
-  services.grafana = {
-    enable = builtins.pathExists grafana_password_file;
+  services.grafana = lib.mkIf builtins.pathExists grafana_password_file {
+    enable = true;
     settings = {
       security = {
         admin_user = "mahmooz";
