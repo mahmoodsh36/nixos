@@ -3,9 +3,8 @@
 let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   constants = (import ./constants.nix);
-  private_domain = "mahmooz3.lan";
-  headscale_host = "headscale.${private_domain}";
-  grafana_host = "grafana.${private_domain}";
+  headscale_host = "headscale.${constants.private_domain}";
+  grafana_host = "grafana.${constants.private_domain}";
   grafana_port = 3000;
   headscale_port = 8443;
   grafana_password_file = "/etc/nixos/grafana_password";
@@ -61,7 +60,7 @@ in rec
       server_url = "https://${headscale_host}:${toString headscale_port}";
       dns = {
         override_local_dns = true; # without this it fails to build on mahmooz3
-        base_domain = private_domain;
+        base_domain = constants.private_domain;
         magic_dns = true;
         # domains = [ headscale_host ];
         nameservers.global = [
@@ -126,7 +125,7 @@ in rec
       server = {
         http_addr = "0.0.0.0";
         http_port = grafana_port;
-        domain = private_domain;
+        domain = constants.private_domain;
         root_url = grafana_host;
         serve_from_sub_path = true;
       };
