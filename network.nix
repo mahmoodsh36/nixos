@@ -6,7 +6,7 @@ let
   headscale_host = "headscale.${constants.private_domain}";
   grafana_host = "grafana.${constants.private_domain}";
   grafana_port = 3000;
-  headscale_port = 8443;
+  headscale_port = 8080;
   grafana_password_file = "/etc/nixos/grafana_password";
 in rec
 {
@@ -55,7 +55,6 @@ in rec
   services.headscale = {
     enable = true;
     address = "0.0.0.0";
-    # port = 8443;
     settings = {
       server_url = "https://${headscale_host}:${toString headscale_port}";
       dns = {
