@@ -52,7 +52,7 @@ in rec
 
 
   services.headscale = {
-    enable = true;
+    enable = (config.machine.name == "mahmooz3");
     address = "0.0.0.0";
     settings = {
       server_url = "https://${headscale_host}";
