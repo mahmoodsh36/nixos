@@ -8,6 +8,7 @@ let
   grafana_host = "grafana.${private_domain}";
   grafana_port = 3000;
   headscale_port = 8443;
+  grafana_password_file = "/etc/nixos/grafana_password";
 in rec
 {
   services.openssh = {
@@ -59,7 +60,7 @@ in rec
     settings = {
       server_url = "https://${headscale_host}:${toString headscale_port}";
       dns = {
-        override_local_dns = true;
+        override_local_dns = true; # without this it fails to build on mahmooz3
         base_domain = private_domain;
         magic_dns = true;
         # domains = [ headscale_host ];
@@ -110,8 +111,18 @@ in rec
   };
 
   services.grafana = {
-    enable = true;
+    enable = builtins.pathExists grafana_password_file;
     settings = {
+      security = {
+        admin_user = "mahmooz";
+        admin_password = "$__file{${grafana_password_file}}";
+        cookie_secure = true;
+        cookie_samesite = "strict";
+        content_security_policy = true;
+        content_security_policy_template = ''
+          script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';
+        '';
+      };
       server = {
         http_addr = "0.0.0.0";
         http_port = grafana_port;
