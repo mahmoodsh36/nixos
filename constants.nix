@@ -5,7 +5,7 @@ rec {
   mahmooz2_local_addr = "192.168.1.2";
   mahmooz1_addr = "192.168.1.1"; # local for now
   # private_domain = "mahmooz3.lan";
-  private_domain = mahmooz3_addr;
+  mydomain = "mahmoodsh.com";
   mygithub = "https://github.com/mahmoodsh36";
   myuser = "mahmooz";
   personal_website = "https://mahmoodsh36.github.io";

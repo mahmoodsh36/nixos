@@ -3,8 +3,8 @@
 let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   constants = (import ./constants.nix);
-  headscale_host = "headscale.${constants.private_domain}";
-  grafana_host = "grafana.${constants.private_domain}";
+  headscale_host = "${constants.mydomain}/headscale";
+  grafana_host = "${constants.mydomain}/grafana";
   grafana_port = 3000;
   headscale_port = 8080;
   grafana_password_file = "/etc/nixos/grafana_password";
@@ -48,7 +48,6 @@ in rec
     enable = true;
     useRoutingFeatures = "both";
     port = 12345; # (default: 41641)
-    # authKeyFile = "${constants.home_dir}/brain/keys/headscale1";
   };
 
 
@@ -58,10 +57,9 @@ in rec
     settings = {
       server_url = "https://${headscale_host}:${toString headscale_port}";
       dns = {
-        override_local_dns = true; # without this it fails to build on mahmooz3
-        base_domain = constants.private_domain;
+        override_local_dns = true;
+        base_domain = constants.mydomain;
         magic_dns = true;
-        # domains = [ headscale_host ];
         nameservers.global = [
           "1.1.1.1" # cloudflare
           "9.9.9.9" # quad9
@@ -73,28 +71,22 @@ in rec
   services.caddy = {
     enable = true;
     # configure some reverse proxy traffic
-    # allow connection via public ip?
-    # virtualHosts."grafana.${constants.mahmooz3_addr}" = {
-    #    extraConfig = ''
-    #      redir https://${grafana_host}{uri} permanent
-    #    '';
-    # };
-    # for machines that are part of the tailnet
-    virtualHosts."${headscale_host}" = {
-      extraConfig = ''
-        tls internal
-        reverse_proxy localhost:${toString headscale_port}
-      '';
-    };
-    virtualHosts."${grafana_host}" = {
-      extraConfig = ''
-        tls internal
-        reverse_proxy localhost:${toString grafana_port}
-      '';
+    virtualHosts = {
+      "${headscale_host}" = {
+        extraConfig = ''
+          reverse_proxy localhost:${toString headscale_port}
+        '';
+      };
+      "http://${constants.mydomain}" = {
+        extraConfig = "redir https://${constants.mydomain}{uri} permanent";
+      };
+      "${grafana_host}" = {
+        extraConfig = ''
+          reverse_proxy localhost:${toString grafana_port}
+        '';
+      };
     };
   };
-  # allow the caddy user(and service) to edit certs
-  services.tailscale.permitCertUid = "caddy";
 
   networking.firewall = {
     allowedTCPPorts = [
@@ -117,14 +109,11 @@ in rec
         cookie_secure = true;
         cookie_samesite = "strict";
         content_security_policy = true;
-        content_security_policy_template = ''
-          script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src * data:;base-uri 'self';connect-src 'self' grafana.com ws://$ROOT_PATH wss://$ROOT_PATH;manifest-src 'self';media-src 'none';form-action 'self';
-        '';
       };
       server = {
         http_addr = "0.0.0.0";
         http_port = grafana_port;
-        domain = constants.private_domain;
+        domain = constants.mydomain;
         root_url = grafana_host;
         serve_from_sub_path = true;
       };

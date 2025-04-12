@@ -147,7 +147,7 @@ in
     MAHMOOZ3_ADDR = constants.mahmooz3_addr;
     MAHMOOZ2_ADDR = constants.mahmooz2_addr;
     MAHMOOZ1_ADDR = constants.mahmooz1_addr;
-    PRIVATE_DOMAIN = constants.private_domain;
+    MYDOMAIN = constants.mydomain;
   };
 
   # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)
