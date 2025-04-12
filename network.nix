@@ -3,8 +3,8 @@
 let
   server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
   constants = (import ./constants.nix);
-  headscale_host = "${constants.mydomain}/headscale";
-  grafana_host = "${constants.mydomain}/grafana";
+  headscale_host = "headscale.${constants.mydomain}";
+  grafana_host = "grafana.${constants.mydomain}";
   grafana_port = 3000;
   headscale_port = 8080;
   grafana_password_file = "/etc/nixos/grafana_password";
