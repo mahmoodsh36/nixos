@@ -41,7 +41,7 @@ in rec {
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
-    inetutils rclone sshfs
+    inetutils rclone sshfs bind
 
     file zip unzip fzf p7zip unrar-wrapper
     transmission_4 acpi gnupg lm_sensors

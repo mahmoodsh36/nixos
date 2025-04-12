@@ -55,11 +55,11 @@ in rec
     enable = true;
     address = "0.0.0.0";
     settings = {
-      server_url = "https://${headscale_host}:${toString headscale_port}";
+      server_url = "https://${headscale_host}";
       dns = {
-        override_local_dns = true;
-        base_domain = constants.mydomain;
-        magic_dns = true;
+        # override_local_dns = true;
+        base_domain = "https://${constants.mydomain}";
+        # magic_dns = true;
         nameservers.global = [
           "1.1.1.1" # cloudflare
           "9.9.9.9" # quad9
@@ -74,7 +74,7 @@ in rec
     virtualHosts = {
       "${headscale_host}" = {
         extraConfig = ''
-          reverse_proxy localhost:${toString headscale_port}
+          reverse_proxy 127.0.0.1:${toString headscale_port}
         '';
       };
       "http://${constants.mydomain}" = {
@@ -82,7 +82,7 @@ in rec
       };
       "${grafana_host}" = {
         extraConfig = ''
-          reverse_proxy localhost:${toString grafana_port}
+          reverse_proxy 127.0.0.1:${toString grafana_port}
         '';
       };
     };
