@@ -32,7 +32,7 @@ in rec
         IdentityFile       ~/brain/keys/hetzner1
 
     Host mahmooz2-2
-        HostName ${constants.mahmooz2_addr}
+        HostName ${constants.mahmooz2_local_addr}
         User     mahmooz
         IdentityFile       ~/brain/keys/hetzner1
 
