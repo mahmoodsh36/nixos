@@ -52,7 +52,6 @@ in rec
     enable = true;
     useRoutingFeatures = "both";
     port = 12345; # (default: 41641)
-    extraUpFlags = lib.mkIf (config.machine.name == "mahmooz3") [ "--advertise-exit-node" ];
   };
 
 
