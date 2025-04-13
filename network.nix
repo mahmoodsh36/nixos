@@ -52,6 +52,7 @@ in rec
     enable = true;
     useRoutingFeatures = "both";
     port = 12345; # (default: 41641)
+    extraUpFlags = lib.mkIf (config.machine.name == "mahmooz3") [ "--advertise-exit-node" ];
   };
 
 
@@ -63,7 +64,6 @@ in rec
       dns = {
         # override_local_dns = true;
         base_domain = "https://${constants.mydomain}";
-        # magic_dns = true;
         nameservers.global = [
           "1.1.1.1" # cloudflare
           "9.9.9.9" # quad9
