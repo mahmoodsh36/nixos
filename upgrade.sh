@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 conf="$1"
-[ -z "$conf" ] && conf="mahmooz1"
+# [ -z "$conf" ] && conf="mahmooz1"
+if [ -z "$conf" ]; then
+    echo please enter host to build for
+    exit
+fi
 echo -e building for "\e[31m$conf\e[0m"
 cd ~/work/nixos/
 cp /etc/nixos/hardware-configuration.nix .
