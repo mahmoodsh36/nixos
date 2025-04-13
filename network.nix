@@ -93,6 +93,7 @@ in rec
       22 2222 # ssh
       80 # caddy - http
       443 # caddy - https
+      5000
     ];
     enable = true;
     allowedUDPPorts = [ services.tailscale.port ];
