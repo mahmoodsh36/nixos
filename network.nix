@@ -10,6 +10,10 @@ let
   grafana_password_file = "/etc/nixos/grafana_password";
 in rec
 {
+  networking = {
+    hostName = config.machine.name;
+    usePredictableInterfaceNames = true;
+  };
   services.openssh = {
     enable = true;
     # require public key authentication for better security

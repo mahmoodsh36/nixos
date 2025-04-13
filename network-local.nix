@@ -8,8 +8,6 @@ in
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   # networking
   networking = {
-    hostName = "mahmooz";
-    usePredictableInterfaceNames = true;
     useDHCP = false;
     networkmanager.enable = false;
     # block some hosts by redirecting to the loopback interface
