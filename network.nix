@@ -8,6 +8,7 @@ let
   grafana_port = 3000;
   headscale_port = 8080;
   grafana_password_file = "/etc/nixos/grafana_password";
+  is_exit_node = config.machine.name == "mahmooz3";
 in rec
 {
   networking = {
@@ -56,7 +57,7 @@ in rec
 
 
   services.headscale = {
-    enable = (config.machine.name == "mahmooz3");
+    enable = is_exit_node;
     address = "0.0.0.0";
     settings = {
       server_url = "https://${headscale_host}";
@@ -121,6 +122,20 @@ in rec
         root_url = grafana_host;
         serve_from_sub_path = true;
       };
+    };
+  };
+
+  # to improve exit node performance
+  services.networkd-dispatcher = lib.mkIf is_exit_node {
+    enable = true;
+    rules."50-tailscale" = {
+      onState = ["routable"];
+      script = ''
+          IP=${lib.getExe pkgs.iproute2}
+          IFACE=$($IP route | awk '/default/ {print $5}')
+          [ -n "$IFACE" ] || IFACE="enp1s0"  # fallback
+          ${lib.getExe pkgs.ethtool} -K "$IFACE" rx-udp-gro-forwarding on rx-gro-list off
+        '';
     };
   };
 }
