@@ -22,6 +22,7 @@ in
       127.0.0.1 www.instagram.com
       # ${constants.mahmooz2_addr} mahmooz2 # this prevents tailscale from identifying mahmooz2
       ${constants.mahmooz2_addr} mahmooz2-2
+      ${constants.mahmooz1_addr} mahmooz1-2
       ${constants.mahmooz3_addr} mahmooz3
     '';
   };
