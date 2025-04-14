@@ -466,11 +466,11 @@ in
       material-design-icons
 
       # some programming languages/environments
-      texlive.combined.scheme-full
+      (texlive.combined.scheme-full.withPackages((ps: with ps; [ pinned-pkgs.sagetex ])))
       # desktop_vars.desktop_julia
       # julia
       typst
-      pinned-pkgs.sageWithDoc pinned-pkgs.sagetex
+      pinned-pkgs.sageWithDoc
 
       # lsp
       cmake-language-server
