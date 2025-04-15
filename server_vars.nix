@@ -38,11 +38,7 @@ in rec {
     glances btop ncdu
     spotdl
     gcc clang gdb clang-tools
-
-    # networking tools
-    curl wget nmap socat arp-scan tcpdump iftop
-    inetutils rclone sshfs bind
-
+    openjdk
     file zip unzip fzf p7zip unrar-wrapper
     transmission_4 acpi gnupg lm_sensors
     cryptsetup openssl
@@ -50,13 +46,15 @@ in rec {
     man-pages man-pages-posix
     wezterm # we need it installed on the server too, for persistent sessions
 
+    # networking tools
+    curl wget nmap socat arp-scan tcpdump iftop
+    inetutils rclone sshfs bind
+
     # some build systems
     cmake gnumake autoconf
     pkg-config
 
-    openjdk
-
-    # nix specific tools
+    # nix specific stuff
     nixos-generators
     nix-prefetch-git
     nix-tree

@@ -1130,11 +1130,11 @@
         "tgi-nix": "tgi-nix"
       },
       "locked": {
-        "lastModified": 1744704577,
-        "narHash": "sha256-Anh2BjBymwSEjQaKCMfynh+8mhyIGwvPXXqbOOlbjPQ=",
+        "lastModified": 1744713568,
+        "narHash": "sha256-U6RVC2lxdh4tK85ytrVfbxjFXivOtpVkVkMknAJiXn4=",
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "rev": "449cee49ca6eda19ff8fdb30c581a5f27de5c90b",
+        "rev": "4645678ff0ce07c9da3ecfc042f46becf9d4b191",
         "type": "github"
       },
       "original": {
