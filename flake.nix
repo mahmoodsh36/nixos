@@ -93,7 +93,8 @@
         })
         ./network-local.nix
       ];
-      hetzner = mkSystem [
+      # for hetzner etc
+      mahmooz3 = mkSystem [
         ./hardware-configuration.nix # hardware scan results
         {
           config = {
