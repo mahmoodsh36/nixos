@@ -48,7 +48,7 @@ in rec {
     cryptsetup openssl
     yt-dlp you-get aria
     man-pages man-pages-posix
-    wezterm
+    wezterm # we need it installed on the server too, for persistent sessions
 
     # some build systems
     cmake gnumake autoconf
@@ -67,6 +67,6 @@ in rec {
     # ai stuff?
     python3Packages.huggingface-hub
     aider-chat
-    # pinned-pkgs.goose-cli # goose ai tool
+    pinned-pkgs.goose-cli # goose ai tool
   ];
 }
