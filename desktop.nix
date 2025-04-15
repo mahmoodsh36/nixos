@@ -1,120 +1,21 @@
 { config, pkgs, lib, inputs, pinned-pkgs, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; config = config; });
+  server_vars = (import ./server_vars.nix { inherit pkgs pinned-pkgs config; });
   constants = (import ./constants.nix);
-  desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; config = config; });
+  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pinned-pkgs config; });
   mypython = desktop_vars.desktop_python;
-  # packages i dont think i need..
-  other_packages = with pkgs; [
-    stremio
-    syncthing
-    hoarder # wallabag
-    prettierd # for emacs apheleia
-    nodePackages.prettier # for emacs apheleia
-    black
-    gnuplot
-    lean
-    maxima
-    kaggle google-cloud-sdk python3Packages.datasets
-    (lua.withPackages(ps: with ps; [ busted luafilesystem luarocks ]))
-    rustc meson ninja
-    typescript
-    tailwindcss
-    poetry
-    neo4j
-    bun
-    # lisps
-    babashka
-    chicken
-    guile
-    racket
-    devdocs-desktop # offline docs
-    # lsp
-    haskell-language-server emmet-language-server clojure-lsp llm-ls
-    nodePackages.node2nix yaml-language-server postgres-lsp ansible-language-server
-    asm-lsp htmx-lsp lua-language-server java-language-server typst-lsp
-    tailwindcss-language-server
-    texlab
-    sqls
-    ruff-lsp
-    nodePackages_latest.typescript-language-server
-    zoom-us # do i realy want this running natively?
-    hugo
-    sass
-    subversion # git alternative
-    squeekboard
-    flameshot # screenshot util?
-    wofi # dmenu-like for wayland
-    eww # widgets..
-    zenity # gui interfaces from scripts?
-    hyprpicker
-    swappy # for quick snapshot image editing
-    sshpass
-    kitty
-    brave tor-browser-bundle-bin google-chrome
-    jellyfin jellyfin-web jellyfin-ffmpeg jellyfin-media-player jellycli jellyfin-mpv-shim
-    djvulibre
-    krita
-    youtube-music
-    telegram-desktop
-    vlc
-    silver-searcher
-    redis
-    dua duf dust # file size checkers i think
-    distrobox
-    eza
-    ncftp samba
-    vifm
-    pls # alternative to ls
-    ansible
-    bc # for arithmetic in shell
-    ttags
-    diffsitter
-    mongosh
-    unison
-    nodejs yarn
-    deploy-rs
-    zeromq
-    tesseract
-    djvu2pdf fntsample calibre
-    lollypop clementine
-  ];
-  # turn off all rgb coloring?
-  no-rgb = pkgs.writeScriptBin "no-rgb" ''
-    #!/bin/sh
-    NUM_DEVICES=$(${pkgs.openrgb}/bin/openrgb --noautoconnect --list-devices | grep -E '^[0-9]+: ' | wc -l)
-
-    for i in $(seq 0 $(($NUM_DEVICES - 1))); do
-      ${pkgs.openrgb}/bin/openrgb --noautoconnect --device $i --mode static --color 000000
-    done
-  '';
 in
 {
-  imports = [
-  ];
+  imports = [ ];
 
   config = lib.mkIf config.machine.is_desktop {
-
     boot.kernelParams = [
       "quiet"
       "splash"
       "boot.shell_on_fail"
       "usbcore.autosuspend=-1" # or 120 to wait two minutes, etc
     ];
-
-    # turn off all rgb coloring?
-    services.udev.packages = [ pkgs.openrgb ];
-    boot.kernelModules = [ "i2c-dev" ];
-    hardware.i2c.enable = true;
-    systemd.services.no-rgb = {
-      description = "no-rgb";
-      serviceConfig = {
-        ExecStart = "${no-rgb}/bin/no-rgb";
-        Type = "oneshot";
-      };
-      wantedBy = [ "multi-user.target" ];
-    };
 
     # better safe than sorry (for having to deal with firmware/driver issues)..?
     hardware.enableAllHardware = true;
@@ -210,7 +111,7 @@ in
         # pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
         pkgs.xdg-desktop-portal-hyprland
-        pkgs.kdePackages.xdg-desktop-portal-kde
+        (lib.mkIf constants.enable_plasma pkgs.kdePackages.xdg-desktop-portal-kde)
         pkgs.xdg-desktop-portal-wlr
       ];
       config.hyprland = {
@@ -221,10 +122,10 @@ in
       };
     };
     services.displayManager = {
-      # autoLogin = {
-      #   enable = true;
-      #   user = "mahmooz";
-      # };
+      autoLogin = {
+        enable = true;
+        user = "mahmooz";
+      };
       sddm = {
         enable = true;
         wayland.enable = true;
@@ -235,14 +136,14 @@ in
       # defaultSession = "gnome";
       # defaultSession = "plasma";
     };
-    services.desktopManager.plasma6.enable = true;
-    environment = {
-      etc."xdg/baloofilerc".source = (pkgs.formats.ini {}).generate "baloorc" {
+    services.desktopManager.plasma6.enable = constants.enable_plasma;
+    environment.etc."xdg/baloofilerc".source = lib.mkIf constants.enable_plasma (
+      (pkgs.formats.ini {}).generate "baloorc" {
         "Basic Settings" = {
           "Indexing-Enabled" = false;
         };
-      };
-    };
+      }
+    );
 
     # tty configs
     console = {

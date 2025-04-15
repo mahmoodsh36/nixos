@@ -23,4 +23,5 @@ rec {
   mpv_socket_dir = "${data_dir}/mpv_data/sockets";
   mpv_main_socket_path = "${data_dir}/mpv_data/sockets/mpv.socket";
   main_key = "${brain_dir}/keys/hetzner1";
+  enable_plasma = true;
 }
