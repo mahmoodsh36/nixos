@@ -361,7 +361,6 @@ in
       libinput
       bluez-tools blueman
       pulseaudioFull
-      # pinned-pkgs.open-webui
       quickemu # quickly start VMs
       zeal dasht
       material-design-icons
@@ -427,11 +426,16 @@ in
       };
     };
 
-    services.ollama = {
-      enable = config.machine.enable_nvidia;
-      package = pkgs.ollama-cuda;
-      acceleration = "cuda";
-      host = "0.0.0.0";
+    services.open-webui = {
+      package = pkgs.open-webui;
+      enable = true;
+      port = 8083;
+      environment = {
+        WEBUI_AUTH = "False";
+        ANONYMIZED_TELEMETRY = "False";
+        DO_NOT_TRACK = "True";
+        SCARF_NO_ANALYTICS = "True";
+      };
     };
 
     systemd.services.my_keys_py_service = {
