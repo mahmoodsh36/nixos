@@ -362,6 +362,7 @@ in
       bluez-tools blueman
       pulseaudioFull
       quickemu # quickly start VMs
+      spice-gtk # used with quickemu
       zeal dasht
       material-design-icons
 
