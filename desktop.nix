@@ -462,7 +462,7 @@ in
         vllm = {
           autoStart = false;
           image = "vllm/vllm-openai:latest";
-          ports = [ "8000:8000" ];
+          ports = [ "5000:5000" ];
           extraOptions = [
             "--runtime" "nvidia"
             "--gpus" "all"
