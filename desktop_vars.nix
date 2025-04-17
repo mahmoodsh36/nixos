@@ -1,13 +1,5 @@
 { pkgs, config, pinned-pkgs, ... }:
 
-let
-  ggufrepo = pkgs.fetchFromGitHub {
-    owner = "ggerganov";
-    repo = "llama.cpp";
-    rev = "92bc493917d43b83e592349e138b54c90b1c3ea7";
-    sha256 = "03k3rqc2g74h2nb0lx7vg6jw5fdyc9l0dqfi5jlbcn1dhxj1lagk";
-  };
-in
 {
   desktop_python = (pinned-pkgs.python3.withPackages (ps: with ps; [
     matplotlib flask requests numpy sympy networkx pydot
@@ -21,13 +13,7 @@ in
     # machine learning
     torchWithCuda
     transformers datasets
-    (gguf.overrideAttrs {
-      src = "${ggufrepo}/gguf-py" ;
-      doCheck = false;
-      doInstallCheck = false;
-      dontCheck = true;
-      dontCheckRuntimeDeps=true;
-    })
+    gguf
   ]));
   desktop_julia = (pinned-pkgs.julia.withPackages.override({
     precompile = true;
