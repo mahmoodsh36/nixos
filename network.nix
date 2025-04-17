@@ -94,7 +94,7 @@ in rec
       443 # caddy - https
       5000
     ];
-    enable = true;
+    enable = is_exit_node;
     allowedUDPPorts = [ services.tailscale.port ];
     trustedInterfaces = [ config.services.tailscale.interfaceName ];
     checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
