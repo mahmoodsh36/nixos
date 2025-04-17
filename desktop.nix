@@ -7,7 +7,9 @@ let
   mypython = desktop_vars.desktop_python;
 in
 {
-  imports = [ ];
+  imports = [
+    ./sillytavern.nix
+  ];
 
   config = lib.mkIf config.machine.is_desktop {
     boot.kernelParams = [
@@ -427,17 +429,17 @@ in
       };
     };
 
-    services.open-webui = {
-      package = pkgs.open-webui;
-      enable = true;
-      port = 8083;
-      environment = {
-        WEBUI_AUTH = "False";
-        ANONYMIZED_TELEMETRY = "False";
-        DO_NOT_TRACK = "True";
-        SCARF_NO_ANALYTICS = "True";
-      };
-    };
+    # services.open-webui = {
+    #   package = pkgs.open-webui;
+    #   enable = true;
+    #   port = 8083;
+    #   environment = {
+    #     WEBUI_AUTH = "False";
+    #     ANONYMIZED_TELEMETRY = "False";
+    #     DO_NOT_TRACK = "True";
+    #     SCARF_NO_ANALYTICS = "True";
+    #   };
+    # };
 
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";
@@ -465,6 +467,8 @@ in
             "--runtime" "nvidia"
             "--gpus" "all"
             "--ipc" "host"
+            "--pull=always"
+            "--network=host"
           ];
           cmd = [
             "--model" "mistralai/Mistral-7B-v0.1"
