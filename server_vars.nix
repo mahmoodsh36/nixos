@@ -45,6 +45,7 @@ in rec {
     yt-dlp you-get aria
     man-pages man-pages-posix
     wezterm # we need it installed on the server too, for persistent sessions
+    distrobox
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop

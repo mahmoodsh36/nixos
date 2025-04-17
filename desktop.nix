@@ -198,8 +198,18 @@ in
       };
     };
     programs.virt-manager.enable = true;
-    virtualisation.docker.enable = true;
-    virtualisation.docker.enableNvidia = config.machine.enable_nvidia;
+    # virtualisation.docker.enable = true;
+    # virtualisation.docker.enableNvidia = config.machine.enable_nvidia;
+    virtualisation.podman = {
+      enableNvidia = config.machine.enable_nvidia;
+      dockerCompat = true;  # optional, adds `docker` alias
+      enable = true;
+      autoPrune.enable = true;
+      defaultNetwork.settings = { dns_enabled = true; };
+      extraPackages = [
+        pkgs.curl
+      ];
+    };
     # virtualisation.docker.rootless = {
     #   enable = true;
     #   setSocketVariable = true;
@@ -457,7 +467,7 @@ in
 
     # run vllm through docker (its broken in nixpkgs, but this may be better anyway?)
     virtualisation.oci-containers = {
-      backend = "docker";
+      backend = "podman";
       containers = {
         vllm = {
           autoStart = false;

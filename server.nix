@@ -107,7 +107,7 @@ in
   # users
   users.users.mahmooz = {
     isNormalUser = true;
-    extraGroups = [ "audio" "wheel" "docker" ];
+    extraGroups = [ "audio" "wheel" "podman" ];
     shell = pkgs.zsh;
     initialPassword = "123";
     packages = with pkgs; [];
