@@ -8,7 +8,7 @@ let
 in
 {
   imports = [
-    ./sillytavern.nix
+    # ./sillytavern.nix
   ];
 
   config = lib.mkIf config.machine.is_desktop {
