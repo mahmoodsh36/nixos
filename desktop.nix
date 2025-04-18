@@ -423,8 +423,10 @@ in
         chmod +x $out/bin/*.py
       '';
       })
+
+      llama-cpp koboldcpp
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-      cudatoolkit nvtopPackages.full llama-cpp koboldcpp
+      cudatoolkit nvtopPackages.full
     ] ++ server_vars.server_packages;
 
     systemd.services.my_mpv_logger_service = {
