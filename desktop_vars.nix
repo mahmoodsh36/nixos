@@ -13,7 +13,6 @@
     # machine learning
     torchWithCuda
     transformers datasets
-    gguf
   ]));
   desktop_julia = (pinned-pkgs.julia.withPackages.override({
     precompile = true;
