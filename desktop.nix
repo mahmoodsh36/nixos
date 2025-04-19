@@ -397,6 +397,7 @@ in
 
       # text-generation-inference
       inputs.tgi.packages.${pkgs.system}.default
+      inputs.tgi.packages.${pkgs.system}.server
 
       # for widgets
       # we need to "purify" this..
