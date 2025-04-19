@@ -2,7 +2,8 @@
 
 let
   mcp_config = inputs.mcp-servers-nix.lib.mkConfig pkgs {
-    format = "json";
+    # format = "json";
+    flavor = "zed";
     programs = {
       fetch = {
         enable = true;
@@ -41,9 +42,16 @@ let
   };
 in
 {
+  options = with lib; with types; {
+    mcp_config = mkOption {
+      type = attrs;
+    };
+  };
+
   config = lib.mkIf config.machine.is_desktop {
     xdg.configFile."Code/User/cline_mcp_settings.json" = {
       source = mcp_config;
     };
+    mcp_config = mcp_config;
   };
 }

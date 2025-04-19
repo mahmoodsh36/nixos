@@ -1,6 +1,10 @@
 { pkgs, lib, pinned-pkgs, config, ... }:
 
 {
+  imports = [
+    ./mcp-servers.nix
+  ];
+
   config = lib.mkIf config.machine.is_desktop {
     programs.zed-editor = {
       enable = true;
@@ -15,9 +19,10 @@
       #   }
       # ];
       userSettings = {
+        # this wont work because we need to unpack the "mcpServers" attr
         language_models = {
-          ollama = {
-            api_url = "http://mahmooz2:11434";
+          openai = {
+            api_url = "http://mahmooz2:5000";
             available_models = [{
               name = "qwq:32b";
               display_name = "qwq 32b";
@@ -27,10 +32,10 @@
         };
         assistant = {
           enabled = true;
-          version = "2";
+          version = "1";
           default_open_ai_model = null;
           default_model = {
-            provider = "ollama";
+            provider = "openai";
             model = "qwq:32b";
           };
           node = {
@@ -142,7 +147,7 @@
           coloring = "indent_aware";
           background_coloring = "indent_aware";
         };
-      };
+      } // config.mcp_config;
     };
   };
 }
