@@ -88,6 +88,8 @@ in
           imagemagick = pkgs.imagemagickBig;
         });
       })
+
+      inputs.mcp-servers-nix.overlays.default
     ] ++ server_vars.server_overlays;
 
     # graphical stuff (wayland,x11,etc)
@@ -427,6 +429,20 @@ in
       })
 
       llama-cpp koboldcpp
+      aichat
+      # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
+      mcp-server-fetch
+      mcp-server-everything
+      mcp-server-time
+      mcp-server-git
+      mcp-server-sequential-thinking
+      mcp-server-filesystem
+      mcp-server-redis
+      playwright-mcp
+      mcp-server-github github-mcp-server
+      mcp-server-memory
+      mcp-server-brave-search
+      mcp-server-sqlite
       # gpt4all librechat
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
