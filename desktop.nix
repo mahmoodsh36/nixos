@@ -446,7 +446,7 @@ in
 
     services.open-webui = {
       package = pkgs.open-webui;
-      enable = true;
+      enable = false;
       port = 8083;
       environment = {
         WEBUI_AUTH = "False";
