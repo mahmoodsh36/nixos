@@ -434,7 +434,9 @@ in
       })
 
       llama-cpp koboldcpp
-      aichat local-ai shell-gpt # private-gpt
+      aichat shell-gpt
+      # local-ai # nvidia build failure
+      # private-gpt build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
       mcp-server-everything
