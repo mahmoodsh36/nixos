@@ -68,7 +68,7 @@ in
   services.pcscd.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    pinentryPackage = lib.mkForce pkgs.pinentry;
+    # pinentryPackage = lib.mkForce pkgs.pinentry;
     enableSSHSupport = true;
   };
 
