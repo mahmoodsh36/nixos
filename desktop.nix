@@ -429,7 +429,7 @@ in
       })
 
       llama-cpp koboldcpp
-      aichat local-ai private-gpt shell-gpt
+      aichat local-ai shell-gpt # private-gpt
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
       mcp-server-everything
