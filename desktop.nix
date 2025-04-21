@@ -427,7 +427,7 @@ in
       })
 
       llama-cpp koboldcpp
-      gpt4all
+      gpt4all librechat
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
     ] ++ server_vars.server_packages;

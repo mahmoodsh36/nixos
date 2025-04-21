@@ -13,19 +13,22 @@ in {
         {
           title = "mymodel";
           provider = "llama.cpp";
+          # provider = "openai";
           model = "final-THUDM--GLM-Z1-32B-0414.gguf";
-          apiBase = "http://mahmooz2:5000/v1/";
+          apiBase = "http://mahmooz2:5000";
+          # useLegacyCompletionsEndpoint = false;
         }
       ];
       tabAutocompleteModel = {
         title = "mymodel";
         provider = "llama.cpp";
         model = "final-THUDM--GLM-Z1-32B-0414.gguf";
-        apiBase = "http://mahmooz2:5000/v1/";
+        apiBase = "http://mahmooz2:5000";
+        # useLegacyCompletionsEndpoint = false;
       };
-      "tabAutocompleteOptions" = {
-        "useLegacyCompletionsEndpoint" = false;
-      };
+      # tabAutocompleteOptions = {
+      #   useLegacyCompletionsEndpoint = false;
+      # };
       # embeddingsProvider = {
       #   provider = "llama.cpp";
       #   model = "nomic-embed-text";
