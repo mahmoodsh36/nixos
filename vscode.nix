@@ -8,9 +8,33 @@
   extensions = inputs.nix-vscode-extensions.extensions.${pkgs.system};
 in {
   config = lib.mkIf config.machine.is_desktop {
+    home.file.".continue/config.json".text = builtins.toJSON {
+      models = [
+        {
+          title = "mymodel";
+          provider = "llama.cpp";
+          model = "final-THUDM--GLM-Z1-32B-0414.gguf";
+          apiBase = "http://mahmooz2:5000/v1/";
+        }
+      ];
+      tabAutocompleteModel = {
+        title = "mymodel";
+        provider = "llama.cpp";
+        model = "final-THUDM--GLM-Z1-32B-0414.gguf";
+        apiBase = "http://mahmooz2:5000/v1/";
+      };
+      "tabAutocompleteOptions" = {
+        "useLegacyCompletionsEndpoint" = false;
+      };
+      # embeddingsProvider = {
+      #   provider = "llama.cpp";
+      #   model = "nomic-embed-text";
+      # };
+    };
     programs.vscode = {
       enable = true;
       package = pkgs.vscode;
+      # package = pkgs.windsurf;
       profiles.default.enableExtensionUpdateCheck = false;
       profiles.default.enableUpdateCheck = false;
       # extensions = with extensions.vscode-marketplace; [
@@ -33,8 +57,12 @@ in {
         vscodevim.vim
         file-icons.file-icons
         continue.continue
+        rooveterinaryinc.roo-cline
+        julialang.language-julia
+        yzhang.markdown-all-in-one
       ];
       profiles.default.userSettings = {
+        "files.insertFinalNewline" = false;
         "editor.wordWrap" = "on";
         "workbench.startupEditor" = "newUntitledFile";
         "files.autoSave" = "afterDelay";
@@ -45,6 +73,21 @@ in {
         "explorer.confirmDragAndDrop" = false;
         "security.workspace.trust.enabled" = false;
         # "jupyter.askForKernelRestart" = false;
+        "continue.telemetryEnabled" = false;
+        "editor.fontLigatures" = true;
+        "editor.quickSuggestions" = {
+          "other" = true;
+          "comments" = false;
+          "strings" = true;
+        };
+        # "terminal.integrated.defaultProfile.linux" = "zsh";
+        "editor.guides.bracketPairs" = "active";
+        # "windsurf.autoExecutionPolicy" = "off";
+        "windsurf.autocompleteSpeed" = "default";
+        # "windsurf.chatFontSize" = "default";
+        "windsurf.explainAndFixInCurrentConversation" = true;
+        "windsurf.openRecentConversation" = true;
+        "windsurf.rememberLastModelSelection" = true;
       };
       profiles.default.keybindings = [
         # {

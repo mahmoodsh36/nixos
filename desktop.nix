@@ -317,6 +317,7 @@ in
       inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
       neovide
+      windsurf
 
       ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
         treesit-grammars.with-all-grammars
