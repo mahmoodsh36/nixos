@@ -32,6 +32,7 @@ in {
         redhat.vscode-yaml
         vscodevim.vim
         file-icons.file-icons
+        continue.continue
       ];
       profiles.default.userSettings = {
         "editor.wordWrap" = "on";

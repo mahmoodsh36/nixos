@@ -147,7 +147,7 @@
           coloring = "indent_aware";
           background_coloring = "indent_aware";
         };
-      } // config.mcp_config;
+      };
     };
   };
 }
