@@ -39,11 +39,6 @@
           system = "x86_64-linux";
           config.allowUnfree = true;
         };
-        pkgs-pinned = import inputs.pkgs-pinned {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-          # config.cudaSupport = true;
-        };
         # pkgs-master = import inputs.pkgs-master {
         #   system = "x86_64-linux";
         #   config.allowUnfree = true;
@@ -55,7 +50,6 @@
           specialArgs = {
             inherit inputs;
             inherit system;
-            inherit pkgs-pinned;
           };
           modules = [
             ./machine.nix
