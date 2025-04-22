@@ -19,7 +19,10 @@
       url = "github:huggingface/text-generation-inference";
       # inputs.nixpkgs.follows = "nixpkgs"; # makes it fail
     };
-    mcp-servers-nix.url = "github:mahmoodsh36/mcp-servers-nix";
+    mcp-servers-nix = {
+      url = "github:mahmoodsh36/mcp-servers-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
