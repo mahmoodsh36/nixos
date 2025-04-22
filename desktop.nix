@@ -95,6 +95,7 @@ in
       })
 
       inputs.mcp-servers-nix.overlays.default
+      inputs.nix-comfyui.overlays.default
     ] ++ server_vars.server_overlays;
 
     # graphical stuff (wayland,x11,etc)
@@ -406,6 +407,19 @@ in
       # text-generation-inference
       inputs.tgi.packages.${pkgs.system}.default
       inputs.tgi.packages.${pkgs.system}.server
+
+      (pkgs.comfyuiPackages.comfyui.override {
+        extensions = [
+          pkgs.comfyuiPackages.extensions.acly-inpaint
+          pkgs.comfyuiPackages.extensions.acly-tooling
+          pkgs.comfyuiPackages.extensions.cubiq-ipadapter-plus
+          pkgs.comfyuiPackages.extensions.fannovel16-controlnet-aux
+        ];
+        commandLineArgs = [
+          "--preview-method"
+          "auto"
+        ];
+      })
 
       # for widgets
       # we need to "purify" this..

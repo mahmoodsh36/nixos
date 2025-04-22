@@ -29,6 +29,34 @@
             }];
           };
         };
+        context_servers = {
+          mcp-server-filesystem = {
+            command = {
+              path = "mcp-server-filesystem";
+              args = [ "~/.cache/zed/" ];
+              env = {};
+            };
+            # settings = {
+            #   enable_something = true;
+            # };
+          };
+          mcp-tavily-search = {
+            command = {
+              path = "mcp-tavily-search";
+              args = [ "-y" "mcp-tavily-search" ];
+              env = {};
+            };
+          };
+          mcp-server-memory = {
+            command = {
+              path = "mcp-server-memory";
+              args = [];
+              env = {
+                "MEMORY_FILE_PATH" = "/home/mahmooz/.cache/zed/";
+              };
+            };
+          };
+        };
         assistant = {
           enabled = true;
           version = "1";
