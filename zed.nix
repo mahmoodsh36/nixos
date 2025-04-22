@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./mcp-servers.nix
   ];
 
   config = lib.mkIf config.machine.is_desktop {

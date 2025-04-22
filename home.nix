@@ -8,7 +8,6 @@ in
     ./machine.nix
     ./vscode.nix
     ./zed.nix
-    ./mcp-servers.nix
   ];
   _module.args = { pkgs-pinned = inputs.pkgs-pinned; };
 
