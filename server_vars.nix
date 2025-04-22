@@ -49,6 +49,7 @@ in rec {
     djvu2pdf
     nodejs
     python3Packages.playwright playwright playwright-test
+    uv
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
