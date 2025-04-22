@@ -12,7 +12,7 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # pinned-pkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    # pkgs-pinned.url = "github:NixOS/nixpkgs/nixos-24.11";
     pkgs-pinned.url = "github:NixOS/nixpkgs/2631b0b7abcea6e640ce31cd78ea58910d31e650";
     pkgs-master.url = "github:NixOS/nixpkgs/master";
     tgi = {
@@ -42,11 +42,13 @@
         pkgs-pinned = import inputs.pkgs-pinned {
           system = "x86_64-linux";
           config.allowUnfree = true;
+          # config.cudaSupport = true;
         };
-        pkgs-master = import inputs.pkgs-master {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-        };
+        # pkgs-master = import inputs.pkgs-master {
+        #   system = "x86_64-linux";
+        #   config.allowUnfree = true;
+        #   # config.cudaSupport = true;
+        # };
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -54,7 +56,6 @@
             inherit inputs;
             inherit system;
             inherit pkgs-pinned;
-            inherit pkgs-master;
           };
           modules = [
             ./machine.nix
