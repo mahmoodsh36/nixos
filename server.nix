@@ -148,6 +148,9 @@ in
     MAHMOOZ2_ADDR = constants.mahmooz2_addr;
     MAHMOOZ1_ADDR = constants.mahmooz1_addr;
     MYDOMAIN = constants.mydomain;
+
+    PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+    PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
 
   # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)

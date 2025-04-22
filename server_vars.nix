@@ -47,6 +47,8 @@ in rec {
     wezterm # we need it installed on the server too, for persistent sessions
     distrobox
     djvu2pdf
+    nodejs
+    python3Packages.playwright playwright playwright-test
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
