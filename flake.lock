@@ -889,7 +889,23 @@
         "type": "github"
       }
     },
-    "pinned-pkgs": {
+    "pkgs-master": {
+      "locked": {
+        "lastModified": 1745335479,
+        "narHash": "sha256-ee5jfz66PjTvVvxL5H+9i50GbS74pttYjWjYU8YcU3k=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "cc973b6078dbb20d7d88b1eb47ddaa7fe0c61341",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "pkgs-pinned": {
       "locked": {
         "lastModified": 1744463964,
         "narHash": "sha256-LWqduOgLHCFxiTNYi3Uj5Lgz0SR+Xhw3kr/3Xd0GPTM=",
@@ -1020,7 +1036,8 @@
         "lem": "lem",
         "mcp-servers-nix": "mcp-servers-nix",
         "nixpkgs": "nixpkgs_2",
-        "pinned-pkgs": "pinned-pkgs",
+        "pkgs-master": "pkgs-master",
+        "pkgs-pinned": "pkgs-pinned",
         "tgi": "tgi"
       }
     },
