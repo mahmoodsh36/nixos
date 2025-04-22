@@ -1,7 +1,7 @@
-{ config, pkgs, lib, pinned-pkgs, ... }:
+{ config, pkgs, lib, pkgs-pinned, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { pkgs = pkgs; pinned-pkgs = pinned-pkgs; });
+  server_vars = (import ./server_vars.nix { pkgs = pinned; pkgs-pinned = pkgs-pkgs; });
   constants = (import ./constants.nix);
   headscale_host = "headscale.${constants.mydomain}";
   grafana_host = "grafana.${constants.mydomain}";

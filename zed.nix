@@ -1,4 +1,4 @@
-{ pkgs, lib, pinned-pkgs, config, ... }:
+{ pkgs, lib, pkgs-pinned, config, ... }:
 
 {
   imports = [
@@ -8,7 +8,7 @@
   config = lib.mkIf config.machine.is_desktop {
     programs.zed-editor = {
       enable = true;
-      # package = pinned-pkgs.zed-editor;
+      # package = pkgs-pinned.zed-editor;
       extensions = ["nix" "toml" "make"];
       # userKeymaps = [
       #   {

@@ -12,10 +12,9 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pinned-pkgs.url = "github:NixOS/nixpkgs/2631b0b7abcea6e640ce31cd78ea58910d31e650";
     # pinned-pkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    # disko.url = "github:nix-community/disko";
-    # disko.inputs.nixpkgs.follows = "nixpkgs";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/2631b0b7abcea6e640ce31cd78ea58910d31e650";
+    pkgs-master.url = "github:NixOS/nixpkgs/master";
     tgi = {
       url = "github:huggingface/text-generation-inference";
       # inputs.nixpkgs.follows = "nixpkgs"; # makes it fail
@@ -40,7 +39,11 @@
           system = "x86_64-linux";
           config.allowUnfree = true;
         };
-        pinned-pkgs = import inputs.pinned-pkgs {
+        pkgs-pinned = import inputs.pkgs-pinned {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
+        pkgs-master = import inputs.pkgs-master {
           system = "x86_64-linux";
           config.allowUnfree = true;
         };
@@ -50,7 +53,8 @@
           specialArgs = {
             inherit inputs;
             inherit system;
-            inherit pinned-pkgs;
+            inherit pkgs-pinned;
+            inherit pkgs-master;
           };
           modules = [
             ./machine.nix
@@ -105,8 +109,6 @@
             boot.loader.grub.efiInstallAsRemovable = true;
           };
         }
-        # inputs.disko.nixosModules.disko
-        # ./disko-hetzner.nix
       ];
       desktop_iso = mkSystem [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"

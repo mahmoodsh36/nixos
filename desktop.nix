@@ -1,9 +1,9 @@
-{ config, pkgs, lib, inputs, pinned-pkgs, ... }:
+{ config, pkgs, lib, inputs, pkgs-pinned, pkgs-master, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { inherit pkgs pinned-pkgs config; });
+  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
   constants = (import ./constants.nix);
-  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pinned-pkgs config; });
+  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
   mypython = desktop_vars.desktop_python;
 in
 {
@@ -387,11 +387,11 @@ in
       material-design-icons
 
       # some programming languages/environments
-      (texlive.combined.scheme-full.withPackages((ps: with ps; [ pinned-pkgs.sagetex ])))
+      (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
       # desktop_vars.desktop_julia
       # julia
       typst
-      pinned-pkgs.sageWithDoc
+      pkgs-pinned.sageWithDoc
 
       # lsp
       cmake-language-server
@@ -409,7 +409,7 @@ in
 
       # for widgets
       # we need to "purify" this..
-      (pinned-pkgs.python3Packages.buildPythonPackage rec {
+      (pkgs-pinned.python3Packages.buildPythonPackage rec {
         pname = "widgets";
         format = "other";
         version = "1.0";
@@ -418,9 +418,9 @@ in
 
         src = /home/mahmooz/work/widgets;
 
-        nativeBuildInputs = with pinned-pkgs; [ gobject-introspection ];
-        buildInputs = with pinned-pkgs; [ gtk3 gtk-layer-shell wrapGAppsHook ];
-        propagatedBuildInputs = with pinned-pkgs.python3Packages; [
+        nativeBuildInputs = with pkgs-pinned; [ gobject-introspection ];
+        buildInputs = with pkgs-pinned; [ gtk3 gtk-layer-shell wrapGAppsHook ];
+        propagatedBuildInputs = with pkgs-pinned.python3Packages; [
           pydbus
           pygobject3
         ];
@@ -433,7 +433,7 @@ in
       '';
       })
 
-      llama-cpp koboldcpp
+      pkgs-master.llama-cpp pkgs-master.koboldcpp
       aichat shell-gpt
       (lib.mkIf (!config.machine.enable_nvidia) local-ai) # nvidia build failure
       # private-gpt build failure

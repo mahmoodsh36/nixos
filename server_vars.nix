@@ -1,6 +1,6 @@
-{ pkgs, pinned-pkgs, ... }:
+{ pkgs, pkgs-pinned, ... }:
 let
-  mysbcl = (pinned-pkgs.sbcl.withPackages (ps: with ps; [
+  mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
     serapeum
     lparallel
     cl-csv
@@ -70,6 +70,6 @@ in rec {
     # ai stuff?
     python3Packages.huggingface-hub
     aider-chat
-    pinned-pkgs.goose-cli # goose ai tool
+    pkgs-pinned.goose-cli # goose ai tool
   ];
 }

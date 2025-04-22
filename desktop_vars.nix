@@ -1,7 +1,7 @@
-{ pkgs, config, pinned-pkgs, ... }:
+{ pkgs, config, pkgs-pinned, ... }:
 
 {
-  desktop_python = (pinned-pkgs.python3.withPackages (ps: with ps; [
+  desktop_python = (pkgs-pinned.python3.withPackages (ps: with ps; [
     matplotlib flask requests numpy sympy networkx pydot
     beautifulsoup4 seaborn pillow dash rich
     python-lsp-server
@@ -14,7 +14,7 @@
     torchWithCuda
     transformers datasets
   ]));
-  desktop_julia = (pinned-pkgs.julia.withPackages.override({
+  desktop_julia = (pkgs-pinned.julia.withPackages.override({
     precompile = true;
     # extraLibs = [
     #   pkgs.stdenv.cc.cc.lib

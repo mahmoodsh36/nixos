@@ -10,7 +10,7 @@ in
     ./zed.nix
     ./mcp-servers.nix
   ];
-  _module.args = { pinned-pkgs = inputs.pinned-pkgs; };
+  _module.args = { pkgs-pinned = inputs.pkgs-pinned; };
 
   /* the home.stateVersion option does not have a default and must be set */
   home.stateVersion = "24.05";
