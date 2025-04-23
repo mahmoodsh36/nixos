@@ -14,10 +14,14 @@ in
     # for system?
     evdev python-magic
     # pyzmq
+
+    (if config.machine.enable_nvidia
+     then torch
+     else torchWithCuda)
+    transformers
+    datasets
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-    # machine learning
-    torchWithCuda
-    transformers datasets
+    # machine learning with nvidia
   ]));
   desktop_julia = (pkgs-pinned.julia.withPackages.override({
     precompile = true;

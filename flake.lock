@@ -656,11 +656,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1745380081,
-        "narHash": "sha256-bUy25YkdRfdWPxSyx22igWi6g3rd3HXKFg+yL4dfBPY=",
+        "lastModified": 1745427103,
+        "narHash": "sha256-J4v65MKoXt95nmCYr6a7Cdiyl9QmPp6u3+7aJ71zxbk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "1d0e13904bd8c444ab1595f686ede5eff377e881",
+        "rev": "6d1f834ca63700604a96d8c38aa8ac272d95071a",
         "type": "github"
       },
       "original": {
@@ -938,11 +938,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1745407613,
-        "narHash": "sha256-FGqSV1c6+xHzXe9odI0p9r4AiNPL6SsLBHIznNNxZFU=",
+        "lastModified": 1745427060,
+        "narHash": "sha256-dRpFhGZsRnObi/OtJf3M+jM5iYgt9VHH0X4O0gnQoEg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "13c54bde10dec8d815b2cf150791a7757409b3cd",
+        "rev": "7271b3a2c3851fa47d52f03e9d14451ee47aecf9",
         "type": "github"
       },
       "original": {
@@ -954,17 +954,17 @@
     },
     "pkgs-pinned": {
       "locked": {
-        "lastModified": 1744463964,
-        "narHash": "sha256-LWqduOgLHCFxiTNYi3Uj5Lgz0SR+Xhw3kr/3Xd0GPTM=",
+        "lastModified": 1745234285,
+        "narHash": "sha256-GfpyMzxwkfgRVN0cTGQSkTC0OHhEkv3Jf6Tcjm//qZ0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2631b0b7abcea6e640ce31cd78ea58910d31e650",
+        "rev": "c11863f1e964833214b767f4a369c6e6a7aba141",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2631b0b7abcea6e640ce31cd78ea58910d31e650",
+        "rev": "c11863f1e964833214b767f4a369c6e6a7aba141",
         "type": "github"
       }
     },
@@ -1276,11 +1276,11 @@
         "tgi-nix": "tgi-nix"
       },
       "locked": {
-        "lastModified": 1744974438,
-        "narHash": "sha256-KFULsZQ6ko6Kt+T05khvAjqNFM28dq9PAGKgrw42u6I=",
+        "lastModified": 1745421205,
+        "narHash": "sha256-wYetKlUqkMPgvesT4zIQfCzb0RikilSbROqaCvPBlsY=",
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "rev": "8f8819795f55bb5fbbfc44793ea3a1e121365b81",
+        "rev": "02715dc53f7fb4457ba54dd5139022644eb4aa4d",
         "type": "github"
       },
       "original": {

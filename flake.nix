@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # pkgs-pinned.url = "github:NixOS/nixpkgs/nixos-24.11";
-    pkgs-pinned.url = "github:NixOS/nixpkgs/2631b0b7abcea6e640ce31cd78ea58910d31e650";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/c11863f1e964833214b767f4a369c6e6a7aba141";
     pkgs-master.url = "github:NixOS/nixpkgs/master";
     tgi = {
       url = "github:huggingface/text-generation-inference";
