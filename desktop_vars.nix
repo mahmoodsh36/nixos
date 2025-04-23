@@ -15,11 +15,13 @@ in
     evdev python-magic
     # pyzmq
 
+    # ml stuff
     (if config.machine.enable_nvidia
      then torch
      else torchWithCuda)
     transformers
     datasets
+    langchain
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
     # machine learning with nvidia
   ]));
