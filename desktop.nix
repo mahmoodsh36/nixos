@@ -392,7 +392,8 @@ in
       # desktop_vars.desktop_julia
       # julia
       typst
-      pkgs-pinned.sageWithDoc
+      # pkgs-pinned.sageWithDoc
+      (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
 
       # lsp
       cmake-language-server
