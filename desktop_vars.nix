@@ -1,7 +1,12 @@
-{ pkgs, config, pkgs-pinned, ... }:
+{ pkgs, config, pkgs-pinned, pkgs-master, ... }:
 
+let
+  python-pkgs = (if config.machine.name == "mahmooz2"
+                 then pkgs-master
+                 else pkgs-pinned);
+in
 {
-  desktop_python = (pkgs-pinned.python3.withPackages (ps: with ps; [
+  desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
     matplotlib flask requests numpy sympy networkx pydot
     beautifulsoup4 seaborn pillow dash rich
     python-lsp-server
