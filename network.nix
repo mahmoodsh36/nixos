@@ -101,7 +101,7 @@ in rec
     } // {
       # HTTP → HTTPS redirect for the main domain
       "${mydomain}" = {
-        useACMEHost = mydomain;
+        enableACME = mydomain;
         extraConfig = ''
           return 301 https://${mydomain}$request_uri;
         '';
@@ -119,12 +119,12 @@ in rec
         useACMEHost = mydomain;
         forceSSL = true;
       };
-      "${mydomain}".enableACME = true;
     };
   };
   security.acme = {
     acceptTerms = is_exit_node;
     defaults.email = builtins.getEnv "EMAIL";
+    # not needed since we use enableACME above
     # certs."${mydomain}" = {
     #   webroot = "/var/lib/acme/main";
     #   group = "nginx";
