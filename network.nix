@@ -85,9 +85,9 @@ in rec
       base = locations: {
         inherit locations;
         useACMEHost = mydomain;
-        extraConfig = ''
-          proxy_ssl_server_name on;
-        '';
+        # extraConfig = ''
+        #   proxy_ssl_server_name on;
+        # '';
         forceSSL = true;
       };
       proxy = port: base {
@@ -95,9 +95,9 @@ in rec
       };
     in {
       # headscale reverse proxy
-      headscale_host = proxy headscale_port // { default = true; };
+      headscale_host = proxy headscale_port;
       # grafana reverse proxy
-      grafana_host = proxy grafana_port // { default = true; };
+      grafana_host = proxy grafana_port;
     } // {
       # HTTP → HTTPS redirect for the main domain
       "${mydomain}" = {
@@ -338,26 +338,4 @@ in rec
       ];
     };
   };
-
-  # services.nginx = {
-  #   enable = true;
-  #   recommendedGzipSettings = true;
-  #   recommendedOptimisation = true;
-  #   recommendedProxySettings = true;
-  #   recommendedTlsSettings = true;
-  #   virtualHosts = {
-  #     "search.example.com" = {
-  #       forceSSL = true;
-  #       sslCertificate = "...";
-  #       sslCertificateKey = "...";
-  #       locations = {
-  #         "/" = {
-  #           extraConfig = ''
-  #           uwsgi_pass unix:${config.services.searx.uwsgiConfig.socket};
-  #         '';
-  #         };
-  #       };
-  #     };
-  #   };
-  # };
 }
