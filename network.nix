@@ -101,7 +101,7 @@ in rec
     } // {
       # HTTP → HTTPS redirect for the main domain
       "${mydomain}" = {
-        enableACME = mydomain;
+        enableACME = true;
         extraConfig = ''
           return 301 https://${mydomain}$request_uri;
         '';
