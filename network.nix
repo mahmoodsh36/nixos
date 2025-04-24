@@ -101,8 +101,8 @@ in rec
     } // {
       # HTTP → HTTPS redirect for the main domain
       "${mydomain}" = {
-        addSSL = true;
         useACMEHost = mydomain;
+        enableACME = true;
         serverAliases = [ "*.${mydomain}" ];
         extraConfig = ''
           return 301 https://${mydomain}$request_uri;
@@ -124,13 +124,13 @@ in rec
     };
   };
   security.acme = {
-    acceptTerms = is_exit_node;
+    acceptTerms = true;
     defaults.email = builtins.getEnv "EMAIL";
-    certs."${mydomain}" = {
-      webroot = "/var/lib/acme/main";
-      email = builtins.getEnv "EMAIL";
-      group = "nginx";
-    };
+    # certs."${mydomain}" = {
+    #   webroot = "/var/lib/acme/main";
+    #   email = builtins.getEnv "EMAIL";
+    #   group = "nginx";
+    # };
   };
 
   networking.firewall = {
