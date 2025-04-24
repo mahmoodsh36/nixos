@@ -102,10 +102,9 @@ in rec
       # HTTP → HTTPS redirect for the main domain
       "${mydomain}" = {
         useACMEHost = mydomain;
-        enableACME = true;
         serverAliases = [ "*.${mydomain}" ];
         extraConfig = ''
-          return 301 https://${mydomain}$request_uri;
+          return 301 https://$host$request_uri;
         '';
         forceSSL = true;
       };
