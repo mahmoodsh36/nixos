@@ -1,7 +1,7 @@
-{ config, pkgs, lib, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, pkgs-pinned, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { pkgs = pkgs; pkgs-pinned = pkgs-pinned; });
+  server_vars = (import ./server_vars.nix { inherit pkgs; inherit pkgs-pinned; inherit inputs; });
   constants = (import ./constants.nix);
 in
 {
@@ -9,6 +9,7 @@ in
     ./nvidia.nix
     ./network.nix
   ];
+  _module.args = { inherit inputs; };
 
   boot.tmp.cleanOnBoot = true;
   system.etc.overlay.enable = false;

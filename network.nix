@@ -1,16 +1,22 @@
-{ config, pkgs, lib, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, pkgs-pinned, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { pkgs = pkgs; pkgs-pinned = pkgs-pinned; });
+  server_vars = (import ./server_vars.nix { inherit pkgs; inherit inputs; inherit pkgs-pinned; });
   constants = (import ./constants.nix);
-  headscale_host = "headscale.${constants.mydomain}";
-  grafana_host = "grafana.${constants.mydomain}";
+  mydomain = (if is_exit_node then constants.mydomain else "localhost");
+  headscale_host = "headscale.${mydomain}";
+  grafana_host = "grafana.${mydomain}";
+  searxng_host = "search.${mydomain}";
+  searxng_port = 8888;
   grafana_port = 3000;
   headscale_port = 8080;
   grafana_password_file = "/etc/nixos/grafana_password";
   is_exit_node = config.machine.name == "mahmooz3";
 in rec
 {
+  imports = [
+  ];
+
   networking = {
     hostName = config.machine.name;
     usePredictableInterfaceNames = true;
@@ -58,7 +64,7 @@ in rec
       server_url = "https://${headscale_host}";
       dns = {
         # override_local_dns = true;
-        base_domain = "https://${constants.mydomain}";
+        base_domain = "https://${mydomain}";
         nameservers.global = [
           "1.1.1.1" # cloudflare
           "9.9.9.9" # quad9
@@ -67,32 +73,64 @@ in rec
     };
   };
 
-  services.caddy = {
-    enable = true;
-    # configure some reverse proxy traffic
-    virtualHosts = {
-      "${headscale_host}" = {
+  services.nginx = {
+    enable = is_exit_node;
+    # sensible defaults
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+    # Add any further config to match your needs, e.g.:
+    virtualHosts = let
+      base = locations: {
+        inherit locations;
+        useACMEHost = mydomain;
         extraConfig = ''
-          reverse_proxy 127.0.0.1:${toString headscale_port}
+          proxy_ssl_server_name on;
         '';
+        forceSSL = true;
       };
-      "http://${constants.mydomain}" = {
-        extraConfig = "redir https://${constants.mydomain}{uri} permanent";
+      proxy = port: base {
+        "/".proxyPass = "http://127.0.0.1:" + toString(port) + "/";
       };
-      "${grafana_host}" = {
+    in {
+      # headscale reverse proxy
+      headscale_host = proxy headscale_port // { default = true; };
+      # grafana reverse proxy
+      grafana_host = proxy grafana_port // { default = true; };
+    } // {
+      # HTTP → HTTPS redirect for the main domain
+      "${mydomain}" = {
+        useACMEHost = mydomain;
         extraConfig = ''
-          reverse_proxy 127.0.0.1:${toString grafana_port}
+          return 301 https://${mydomain}$request_uri;
         '';
+        forceSSL = true;
+      };
+      # searxng via uwsgi
+      "${searxng_host}" = {
+        locations = {
+          "/" = {
+            extraConfig = ''
+              uwsgi_pass unix:${config.services.searx.uwsgiConfig.socket};
+            '';
+          };
+        };
+        useACMEHost = mydomain;
+        forceSSL = true;
       };
     };
+  };
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = builtins.getEnv "EMAIL";
   };
 
   networking.firewall = {
     allowedTCPPorts = [
       22 2222 # ssh
-      80 # caddy - http
-      443 # caddy - https
-      5000
+      80 # nginx - http
+      443 # nginx - https
     ];
     enable = is_exit_node;
     allowedUDPPorts = [ services.tailscale.port ];
@@ -113,7 +151,7 @@ in rec
       server = {
         http_addr = "0.0.0.0";
         http_port = grafana_port;
-        domain = constants.mydomain;
+        domain = mydomain;
         root_url = grafana_host;
         serve_from_sub_path = true;
       };
@@ -133,4 +171,187 @@ in rec
         '';
     };
   };
+
+  services.searx = {
+    enable = true;
+    redisCreateLocally = true;
+
+    # rate limiting
+    limiterSettings = {
+      real_ip = {
+        x_for = 1;
+        ipv4_prefix = 32;
+        ipv6_prefix = 56;
+      };
+      botdetection = {
+        ip_limit = {
+          filter_link_local = true;
+          link_token = true;
+        };
+      };
+    };
+
+    # UWSGI configuration
+    runInUwsgi = true;
+    uwsgiConfig = {
+      socket = "/run/searx/searx.sock";
+      http = ":8888";
+      chmod-socket = "660";
+    };
+
+    # searx configuration
+    settings = {
+      # instance settings
+      general = {
+        debug = false;
+        instance_name = "mahmooz's searxng instance";
+        donation_url = false;
+        contact_url = false;
+        privacypolicy_url = false;
+        enable_metrics = false;
+      };
+
+      # user interface
+      ui = {
+        static_use_hash = true;
+        default_locale = "en";
+        query_in_title = true;
+        infinite_scroll = false;
+        center_alignment = true;
+        default_theme = "simple";
+        theme_args.simple_style = "auto";
+        search_on_category_select = false;
+        hotkeys = "vim";
+      };
+
+      # search engine settings
+      search = {
+        safe_search = 2;
+        autocomplete_min = 2;
+        autocomplete = "duckduckgo";
+        ban_time_on_fail = 5;
+        max_ban_time_on_fail = 120;
+      };
+
+      # server configuration
+      server = {
+        base_url = "http://${searxng_host}:${toString searxng_port}";
+        port = searxng_port;
+        bind_address = "0.0.0.0";
+        secret_key = builtins.getEnv "SEARXNG_SECRET";
+        limiter = true;
+        public_instance = true;
+        image_proxy = true;
+        method = "GET";
+      };
+
+      # search engines
+      engines = lib.mapAttrsToList (name: value: { inherit name; } // value) {
+        "duckduckgo".disabled = false;
+        "brave".disabled = true;
+        "bing".disabled = false;
+        "mojeek".disabled = true;
+        "mwmbl".disabled = false;
+        "mwmbl".weight = 0.4;
+        "qwant".disabled = true;
+        "crowdview".disabled = false;
+        "crowdview".weight = 0.5;
+        "curlie".disabled = true;
+        "ddg definitions".disabled = false;
+        "ddg definitions".weight = 2;
+        "wikibooks".disabled = false;
+        "wikidata".disabled = false;
+        "wikiquote".disabled = true;
+        "wikisource".disabled = true;
+        "wikispecies".disabled = false;
+        "wikispecies".weight = 0.5;
+        "wikiversity".disabled = false;
+        "wikiversity".weight = 0.5;
+        "wikivoyage".disabled = false;
+        "wikivoyage".weight = 0.5;
+        "currency".disabled = true;
+        "dictzone".disabled = true;
+        "lingva".disabled = true;
+        "bing images".disabled = false;
+        "brave.images".disabled = true;
+        "duckduckgo images".disabled = true;
+        "google images".disabled = false;
+        "qwant images".disabled = true;
+        "1x".disabled = true;
+        "artic".disabled = false;
+        "deviantart".disabled = false;
+        "flickr".disabled = true;
+        "imgur".disabled = false;
+        "library of congress".disabled = false;
+        "material icons".disabled = true;
+        "material icons".weight = 0.2;
+        "openverse".disabled = false;
+        "pinterest".disabled = true;
+        "svgrepo".disabled = false;
+        "unsplash".disabled = false;
+        "wallhaven".disabled = false;
+        "wikicommons.images".disabled = false;
+        "yacy images".disabled = true;
+        "bing videos".disabled = false;
+        "brave.videos".disabled = true;
+        "duckduckgo videos".disabled = true;
+        "google videos".disabled = false;
+        "qwant videos".disabled = false;
+        "dailymotion".disabled = true;
+        "google play movies".disabled = true;
+        "invidious".disabled = true;
+        "odysee".disabled = true;
+        "peertube".disabled = false;
+        "piped".disabled = true;
+        "rumble".disabled = false;
+        "sepiasearch".disabled = false;
+        "vimeo".disabled = true;
+        "youtube".disabled = false;
+        "brave.news".disabled = true;
+        "google news".disabled = true;
+      };
+
+      # outgoing requests
+      outgoing = {
+        request_timeout = 5.0;
+        max_request_timeout = 15.0;
+        pool_connections = 100;
+        pool_maxsize = 15;
+        enable_http2 = true;
+      };
+
+      # enabled plugins
+      enabled_plugins = [
+        "Basic Calculator"
+        "Hash plugin"
+        "Tor check plugin"
+        "Open Access DOI rewrite"
+        "Hostnames plugin"
+        "Unit converter plugin"
+        "Tracker URL remover"
+      ];
+    };
+  };
+
+  # services.nginx = {
+  #   enable = true;
+  #   recommendedGzipSettings = true;
+  #   recommendedOptimisation = true;
+  #   recommendedProxySettings = true;
+  #   recommendedTlsSettings = true;
+  #   virtualHosts = {
+  #     "search.example.com" = {
+  #       forceSSL = true;
+  #       sslCertificate = "...";
+  #       sslCertificateKey = "...";
+  #       locations = {
+  #         "/" = {
+  #           extraConfig = ''
+  #           uwsgi_pass unix:${config.services.searx.uwsgiConfig.socket};
+  #         '';
+  #         };
+  #       };
+  #     };
+  #   };
+  # };
 }

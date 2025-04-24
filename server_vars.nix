@@ -1,4 +1,4 @@
-{ pkgs, pkgs-pinned, ... }:
+{ pkgs, pkgs-pinned, inputs, ... }:
 let
   mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
     serapeum
@@ -19,6 +19,7 @@ let
   constants = (import ./constants.nix);
 in rec {
   server_overlays = [
+    inputs.nix-alien.overlays.default
   ];
 
   server_packages = with pkgs; [

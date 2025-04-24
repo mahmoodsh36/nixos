@@ -1,7 +1,7 @@
-{ config, pkgs, lib, pkgs-pinned, ... }:
+{ config, pkgs, lib, pkgs-pinned, inputs, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { pkgs = pkgs; pkgs-pinned = pkgs-pinned; });
+  server_vars = (import ./server_vars.nix { inherit pkgs; inherit inputs; inherit pkgs-pinned;});
   constants = (import ./constants.nix);
 in
 {
@@ -14,8 +14,8 @@ in
     extraHosts = ''
       127.0.0.1 youtube.com
       127.0.0.1 www.youtube.com
-      127.0.0.1 reddit.com
-      127.0.0.1 www.reddit.com
+      # 127.0.0.1 reddit.com
+      # 127.0.0.1 www.reddit.com
       127.0.0.1 discord.com
       127.0.0.1 www.discord.com
       127.0.0.1 instagram.com

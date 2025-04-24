@@ -27,6 +27,11 @@
       url = "github:dyscorv/nix-comfyui";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-alien = {
+      url = "github:thiagokokada/nix-alien";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # tgi-nix.url = "github:huggingface/text-generation-inference-nix";
   };
 
   outputs = {

@@ -1,14 +1,13 @@
 { config, pkgs, lib, inputs, pkgs-pinned, pkgs-master, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
+  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config pkgs-master inputs; });
   constants = (import ./constants.nix);
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
   mypython = desktop_vars.desktop_python;
 in
 {
   imports = [
-    # ./sillytavern.nix
   ];
 
   config = lib.mkIf config.machine.is_desktop {
@@ -450,6 +449,7 @@ in
 
       pkgs-master.llama-cpp pkgs-master.koboldcpp
       aichat shell-gpt
+      fabric-ai
       (lib.mkIf (!config.machine.enable_nvidia) local-ai) # nvidia build failure
       # private-gpt build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
