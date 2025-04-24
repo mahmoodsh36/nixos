@@ -125,11 +125,11 @@ in rec
   security.acme = {
     acceptTerms = true;
     defaults.email = builtins.getEnv "EMAIL";
-    # certs."${mydomain}" = {
-    #   webroot = "/var/lib/acme/main";
-    #   email = builtins.getEnv "EMAIL";
-    #   group = "nginx";
-    # };
+    certs."${mydomain}" = {
+      webroot = "/var/lib/acme/main";
+      email = builtins.getEnv "EMAIL";
+      group = "nginx";
+    };
   };
 
   networking.firewall = {
