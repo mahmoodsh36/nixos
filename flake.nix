@@ -112,14 +112,17 @@
           };
         }
       ];
-      desktop_iso = mkSystem [
+      mahmooz1_iso = mkSystem [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
         isobase
         {
           config = {
+            boot.loader.efi.canTouchEfiVariables = true;
             machine.name = "mahmooz1";
             machine.is_desktop = true;
             machine.enable_nvidia = false;
+            machine.static_ip = "192.168.1.1";
+            boot.loader.grub.enable = nixpkgs.lib.mkForce false;
           };
         }
       ];
