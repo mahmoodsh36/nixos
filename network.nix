@@ -122,7 +122,7 @@ in rec
       };
     };
   };
-  security.acme = {
+  security.acme = lib.mkIf is_exit_node {
     acceptTerms = true;
     defaults.email = builtins.getEnv "EMAIL";
     certs."${mydomain}" = {
