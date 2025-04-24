@@ -119,11 +119,16 @@ in rec
         useACMEHost = mydomain;
         forceSSL = true;
       };
+      "${mydomain}".enableACME = true;
     };
   };
   security.acme = {
-    acceptTerms = true;
+    acceptTerms = is_exit_node;
     defaults.email = builtins.getEnv "EMAIL";
+    # certs."${mydomain}" = {
+    #   webroot = "/var/lib/acme/main";
+    #   group = "nginx";
+    # };
   };
 
   networking.firewall = {
