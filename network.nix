@@ -7,7 +7,7 @@ let
   mydomain = (if is_exit_node then constants.mydomain else "localhost");
   headscale_host = "headscale.${mydomain}";
   grafana_host = "grafana.${mydomain}";
-  searxng_host = "search.${mydomain}";
+  searxng_host = "searx.${mydomain}";
   searxng_port = 8888;
   grafana_port = 3000;
   headscale_port = 8080;
@@ -82,9 +82,9 @@ in rec
           reverse_proxy 127.0.0.1:${toString headscale_port}
         '';
       };
-      "http://${mydomain}" = {
-        extraConfig = "redir https://${mydomain}{uri} permanent";
-      };
+      # "http://${mydomain}" = {
+      #   extraConfig = "redir https://${mydomain}{uri} permanent";
+      # };
       "${grafana_host}" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString grafana_port}
