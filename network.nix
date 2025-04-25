@@ -126,14 +126,10 @@ in rec
     acceptTerms = true;
     defaults.email = builtins.getEnv "EMAIL";
     certs."${mydomain}" = {
-      # webroot = "/var/lib/acme/main";
+      webroot = "/var/lib/acme/main";
       email = builtins.getEnv "EMAIL";
       group = "nginx";
-      domain = "*.${mydomain}";
-      # for wildcard we have to specify a provider
-      # https://go-acme.github.io/lego/dns/
-      # https://nixos.org/manual/nixos/stable/index.html#module-security-acme-config-dns
-      dnsProvider = "hetzner";
+      extraDomainNames = [ searxng_host headscale_host grafana_host ];
     };
   };
 
