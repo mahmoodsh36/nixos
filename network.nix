@@ -82,8 +82,8 @@ in rec
           reverse_proxy 127.0.0.1:${toString headscale_port}
         '';
       };
-      "http://${constants.mydomain}" = {
-        extraConfig = "redir https://${constants.mydomain}{uri} permanent";
+      "http://${mydomain}" = {
+        extraConfig = "redir https://${mydomain}{uri} permanent";
       };
       "${grafana_host}" = {
         extraConfig = ''
