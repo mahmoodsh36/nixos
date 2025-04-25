@@ -447,7 +447,7 @@ in
       '';
       })
 
-      pkgs.llama-cpp pkgs.koboldcpp
+      pkgs-master.llama-cpp pkgs-master.koboldcpp
       aichat shell-gpt
       fabric-ai
       skypilot

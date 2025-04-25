@@ -1,9 +1,10 @@
 { pkgs, config, pkgs-pinned, pkgs-master, ... }:
 
 let
-  python-pkgs = (if config.machine.name == "mahmooz2"
-                 then pkgs-master
-                 else pkgs-pinned);
+  # python-pkgs = (if config.machine.name == "mahmooz2"
+  #                then pkgs-master
+  #                else pkgs-pinned);
+  python-pkgs = pkgs-pinned;
 in
 {
   desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
