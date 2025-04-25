@@ -211,7 +211,7 @@ in rec
         bind_address = "0.0.0.0";
         secret_key = builtins.getEnv "SEARXNG_SECRET";
         limiter = true;
-        public_instance = true;
+        public_instance = false;
         image_proxy = true;
         method = "GET";
       };
