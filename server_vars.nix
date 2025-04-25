@@ -51,6 +51,7 @@ in rec {
     nodejs
     python3Packages.playwright playwright playwright-test
     uv
+    argc
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
