@@ -102,10 +102,12 @@ in rec
       # HTTP → HTTPS redirect for the main domain
       "${mydomain}" = {
         useACMEHost = mydomain;
-        # serverAliases = [ "*.${mydomain}" ];
         extraConfig = ''
           return 301 https://$host$request_uri;
         '';
+        locations."/.well-known/acme-challenge" = {
+          root = "/var/lib/acme/.challenges";
+        };
         forceSSL = true;
       };
       # searxng via uwsgi
@@ -126,8 +128,11 @@ in rec
     acceptTerms = true;
     defaults.email = builtins.getEnv "EMAIL";
     certs."${mydomain}" = {
-      # may need to be pruned (rm -rf /var/lib/acme) on permission errors
-      webroot = "/var/lib/acme/main2";
+      # may need to be pruned (rm -rf /var/lib/acme) on permission errors, https://github.com/NixOS/nixpkgs/issues/101445#issuecomment-798994876
+    # sudo chown -R nginx:nginx /var/lib/acme
+    # sudo find /var/lib/acme/ -type d -exec chmod 750 {} +
+    # sudo find /var/lib/acme/ -type f -exec chmod 640 {} +
+      webroot = "/var/lib/acme/.challenges";
       email = builtins.getEnv "EMAIL";
       group = "nginx";
       extraDomainNames = [ searxng_host headscale_host grafana_host ];
