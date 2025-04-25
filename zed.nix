@@ -26,6 +26,7 @@
               display_name = "qwq 32b";
               max_tokens = 32768;
             }];
+            version = "1";
           };
         };
         context_servers = {
@@ -55,15 +56,15 @@
         };
         assistant = {
           enabled = true;
-          version = "1";
+          version = "2";
           default_model = {
             provider = "openai";
             model = "final-Qwen--QwQ-32B.gguf";
           };
-          node = {
-            path = lib.getExe pkgs.nodejs;
-            npm_path = lib.getExe' pkgs.nodejs "npm";
-          };
+          # node = {
+          #   path = lib.getExe pkgs.nodejs;
+          #   npm_path = lib.getExe' pkgs.nodejs "npm";
+          # };
         };
         hour_format = "hour24";
         auto_update = false;
