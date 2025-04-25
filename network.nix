@@ -201,7 +201,7 @@ in rec
 
       # search engine settings
       search = {
-        safe_search = 2;
+        safe_search = 0;
         autocomplete_min = 2;
         autocomplete = "duckduckgo";
         ban_time_on_fail = 5;
