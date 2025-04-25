@@ -18,12 +18,11 @@
       #   }
       # ];
       userSettings = {
-        # this wont work because we need to unpack the "mcpServers" attr
         language_models = {
           openai = {
-            api_url = "http://mahmooz2:5000";
+            api_url = "http://mahmooz2:5000/v1";
             available_models = [{
-              name = "qwq:32b";
+              name = "final-Qwen--QwQ-32B.gguf";
               display_name = "qwq 32b";
               max_tokens = 32768;
             }];
@@ -36,9 +35,6 @@
               args = [ "~/.cache/zed/" ];
               env = {};
             };
-            # settings = {
-            #   enable_something = true;
-            # };
           };
           mcp-tavily-search = {
             command = {
@@ -60,10 +56,9 @@
         assistant = {
           enabled = true;
           version = "1";
-          default_open_ai_model = null;
           default_model = {
             provider = "openai";
-            model = "qwq:32b";
+            model = "final-Qwen--QwQ-32B.gguf";
           };
           node = {
             path = lib.getExe pkgs.nodejs;
