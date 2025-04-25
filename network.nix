@@ -126,7 +126,7 @@ in rec
     acceptTerms = true;
     defaults.email = builtins.getEnv "EMAIL";
     certs."${mydomain}" = {
-      webroot = "/var/lib/acme/main";
+      # webroot = "/var/lib/acme/main";
       email = builtins.getEnv "EMAIL";
       group = "nginx";
       domain = "*.${mydomain}";
