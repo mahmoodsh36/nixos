@@ -126,12 +126,14 @@ in rec
     acceptTerms = true;
     defaults.email = builtins.getEnv "EMAIL";
     certs."${mydomain}" = {
-      webroot = "/var/lib/acme/main";
+      webroot = "/var/lib/acme/main"; # may need to be pruned (rm -rf /var/lib/acme) on permission errors
       email = builtins.getEnv "EMAIL";
       group = "nginx";
       extraDomainNames = [ searxng_host headscale_host grafana_host ];
     };
   };
+  # must have otherwise we get permission errors
+  users.users.nginx.extraGroups = [ "acme" ];
 
   networking.firewall = {
     allowedTCPPorts = [
