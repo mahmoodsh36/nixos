@@ -73,73 +73,30 @@ in rec
     };
   };
 
-  services.nginx = {
-    enable = is_exit_node;
-    # sensible defaults
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    # Add any further config to match your needs, e.g.:
-    virtualHosts = let
-      base = locations: {
-        inherit locations;
-        useACMEHost = mydomain;
-        # extraConfig = ''
-        #   proxy_ssl_server_name on;
-        # '';
-        forceSSL = true;
-      };
-      proxy = port: base {
-        "/".proxyPass = "http://127.0.0.1:" + toString(port) + "/";
-      };
-    in {
-      # headscale reverse proxy
-      headscale_host = proxy headscale_port;
-      # grafana reverse proxy
-      grafana_host = proxy grafana_port;
-    } // {
-      # HTTP → HTTPS redirect for the main domain
-      "${mydomain}" = {
-        useACMEHost = mydomain;
+  services.caddy = {
+    enable = true;
+    # configure some reverse proxy traffic
+    virtualHosts = {
+      "${headscale_host}" = {
         extraConfig = ''
-          return 301 https://$host$request_uri;
+          reverse_proxy 127.0.0.1:${toString headscale_port}
         '';
-        locations."/.well-known/acme-challenge" = {
-          root = "/var/lib/acme/.challenges";
-        };
-        forceSSL = true;
       };
-      # searxng via uwsgi
+      "http://${constants.mydomain}" = {
+        extraConfig = "redir https://${constants.mydomain}{uri} permanent";
+      };
+      "${grafana_host}" = {
+        extraConfig = ''
+          reverse_proxy 127.0.0.1:${toString grafana_port}
+        '';
+      };
       "${searxng_host}" = {
-        locations = {
-          "/" = {
-            extraConfig = ''
-              uwsgi_pass unix:${config.services.searx.uwsgiConfig.socket};
-            '';
-          };
-        };
-        useACMEHost = mydomain;
-        forceSSL = true;
+        extraConfig = ''
+          reverse_proxy 127.0.0.1:${toString searxng_port}
+        '';
       };
     };
   };
-  security.acme = lib.mkIf is_exit_node {
-    acceptTerms = true;
-    defaults.email = builtins.getEnv "EMAIL";
-    certs."${mydomain}" = {
-      # may need to be pruned (rm -rf /var/lib/acme) on permission errors, https://github.com/NixOS/nixpkgs/issues/101445#issuecomment-798994876
-    # sudo chown -R nginx:nginx /var/lib/acme
-    # sudo find /var/lib/acme/ -type d -exec chmod 750 {} +
-    # sudo find /var/lib/acme/ -type f -exec chmod 640 {} +
-      webroot = "/var/lib/acme/.challenges";
-      email = builtins.getEnv "EMAIL";
-      group = "nginx";
-      extraDomainNames = [ searxng_host headscale_host grafana_host ];
-    };
-  };
-  # must have otherwise we get permission errors
-  users.users.nginx.extraGroups = [ "acme" ];
 
   networking.firewall = {
     allowedTCPPorts = [
