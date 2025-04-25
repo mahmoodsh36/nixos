@@ -102,7 +102,7 @@ in rec
       # HTTP → HTTPS redirect for the main domain
       "${mydomain}" = {
         useACMEHost = mydomain;
-        serverAliases = [ "*.${mydomain}" ];
+        # serverAliases = [ "*.${mydomain}" ];
         extraConfig = ''
           return 301 https://$host$request_uri;
         '';
@@ -129,6 +129,7 @@ in rec
       webroot = "/var/lib/acme/main";
       email = builtins.getEnv "EMAIL";
       group = "nginx";
+      domain = "*.${mydomain}";
     };
   };
 
