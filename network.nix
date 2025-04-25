@@ -74,6 +74,10 @@ in rec
 
   services.caddy = {
     enable = true;
+    package = pkgs.caddy.withPlugins {
+      plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
+      hash = "sha256-R7KnKzW9J1vF7Xm+67Xz4TUgj6NonZYNaNPSOuGNuPg=";
+    };
     # configure some reverse proxy traffic
     virtualHosts = {
       "${headscale_host}" = {
@@ -148,19 +152,19 @@ in rec
     redisCreateLocally = true;
 
     # rate limiting
-    limiterSettings = {
-      real_ip = {
-        x_for = 1;
-        ipv4_prefix = 32;
-        ipv6_prefix = 56;
-      };
-      botdetection = {
-        ip_limit = {
-          filter_link_local = true;
-          link_token = true;
-        };
-      };
-    };
+    # limiterSettings = {
+    #   real_ip = {
+    #     x_for = 1;
+    #     ipv4_prefix = 32;
+    #     ipv6_prefix = 56;
+    #   };
+    #   botdetection = {
+    #     ip_limit = {
+    #       filter_link_local = true;
+    #       link_token = true;
+    #     };
+    #   };
+    # };
 
     # UWSGI configuration
     runInUwsgi = true;
@@ -210,7 +214,7 @@ in rec
         port = searxng_port;
         bind_address = "0.0.0.0";
         secret_key = builtins.getEnv "SEARXNG_SECRET";
-        limiter = true;
+        limiter = false;
         public_instance = false;
         image_proxy = true;
         method = "GET";
