@@ -528,6 +528,28 @@ in
             "--model" "mistralai/Mistral-7B-v0.1"
           ];
         };
+        openhands-app = {
+          autoStart = true;
+          image = "docker.all-hands.dev/all-hands-ai/openhands:0.34";
+          ports = [ "3000:3000" ];
+          # mounts
+          volumes = [
+            "/var/run/docker.sock:/var/run/docker.sock"
+            # persist openhands state
+            "/home/mahmooz/.openhands-state:/.openhands-state"
+          ];
+          environment = {
+            SANDBOX_RUNTIME_CONTAINER_IMAGE = "docker.all-hands.dev/all-hands-ai/runtime:0.34-nikolaik";
+            LOG_ALL_EVENTS = "true";
+          };
+          extraOptions = [
+            # "--runtime" "nvidia"
+            # "--gpus" "all"
+            "--ipc" "host"
+            "--pull=always"
+            "--network=host"
+          ];
+        };
       };
     };
 

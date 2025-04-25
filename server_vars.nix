@@ -67,6 +67,7 @@ in rec {
     mysbcl
     steam-run-free
     nixos-anywhere
+    nix-init
 
     # ai stuff?
     python3Packages.huggingface-hub
