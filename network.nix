@@ -11,7 +11,6 @@ let
   searxng_port = 8888;
   grafana_port = 3000;
   headscale_port = 8080;
-  grafana_password_file = "/etc/nixos/grafana_password";
 in rec
 {
   imports = [
@@ -110,12 +109,12 @@ in rec
     checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
   };
 
-  services.grafana = lib.mkIf (builtins.pathExists grafana_password_file) {
-    enable = true;
+  services.grafana = {
+    enable = is_exit_node;
     settings = {
       security = {
         admin_user = "mahmooz";
-        admin_password = "$__file{${grafana_password_file}}";
+        admin_password = builtins.getEnv "GRAFANA_PASSWORD";
         cookie_secure = true;
         cookie_samesite = "strict";
         content_security_policy = true;
