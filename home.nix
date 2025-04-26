@@ -8,6 +8,7 @@ in
     ./machine.nix
     ./vscode.nix
     ./zed.nix
+    ./distrobox-config.nix
   ];
   _module.args = { pkgs-pinned = inputs.pkgs-pinned; };
 

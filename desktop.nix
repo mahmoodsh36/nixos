@@ -22,6 +22,8 @@ in
     hardware.enableAllHardware = true;
     hardware.enableAllFirmware = true;
 
+    services.hardware.bolt.enable = true;
+
     # for firmware updates
     services.fwupd.enable = true;
 
@@ -217,10 +219,8 @@ in
         pkgs.curl
       ];
     };
-    # virtualisation.docker.rootless = {
-    #   enable = true;
-    #   setSocketVariable = true;
-    # };
+    virtualisation.incus.enable = true;
+    users.users.mahmooz.extraGroups = [ "incus-admin" ];
 
     fonts = {
       enableDefaultPackages = true;
