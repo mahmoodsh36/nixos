@@ -105,7 +105,6 @@ in {
       home.file = builtins.foldl' (acc: x: acc // x) {} (map mkBoxLinks boxes);
       xdg = {
         configFile = {
-          "mimeapps.list".force = true;
           "distrobox/distrobox.conf".text = ''
             container_always_pull="1"
             container_manager="podman"
