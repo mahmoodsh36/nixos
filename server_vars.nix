@@ -15,6 +15,7 @@ let
     cl-cuda
     clingon # command-line options parser
     ironclad # crypto functions
+    fiveam # tests
   ]));
   constants = (import ./constants.nix);
 in rec {
