@@ -27,6 +27,7 @@ in
     langchain
     diffusers
 
+    docling-parse # paddleocr
     pdf2image
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
     # machine learning with nvidia

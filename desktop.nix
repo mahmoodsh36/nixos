@@ -451,6 +451,7 @@ in
       aichat shell-gpt
       fabric-ai
       skypilot
+      chatbox
       (lib.mkIf (!config.machine.enable_nvidia) local-ai) # nvidia build failure
       # private-gpt build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
@@ -551,6 +552,13 @@ in
           ];
         };
       };
+    };
+
+    # http://localhost:28981
+    environment.etc."paperless-admin-pass".text = "admin";
+    services.paperless = {
+      enable = true;
+      passwordFile = "/etc/paperless-admin-pass";
     };
 
     services.udev.extraRules = ''
