@@ -1,7 +1,7 @@
 {
   description = "nixos flake";
 
-  inputs = rec {
+  inputs = {
     # nixos-unstable branch seems to be the best option (tradeoffs considered) for a native nixos installation.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
