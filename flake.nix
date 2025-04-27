@@ -15,7 +15,7 @@
     # pkgs-pinned.url = "github:NixOS/nixpkgs/nixos-24.11";
     pkgs-pinned.url = "github:NixOS/nixpkgs/c11863f1e964833214b767f4a369c6e6a7aba141";
     # pkgs-master.url = "github:NixOS/nixpkgs/master";
-    pkgs-master.url = nixpkgs.url;
+    pkgs-master.url = "github:NixOS/nixpkgs/nixos-unstable";
     tgi = {
       url = "github:huggingface/text-generation-inference";
       # inputs.nixpkgs.follows = "nixpkgs"; # makes it fail
