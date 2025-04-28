@@ -23,7 +23,7 @@
       fedora = {
         inherit exec symlinks;
         packages = ''
-          nodejs npm poetry gcc python3-devel wl-clipboard
+          nodejs npm poetry gcc wl-clipboard
         '';
         img = "registry.fedoraproject.org/fedora-toolbox:rawhide";
         nixPackages =
@@ -35,7 +35,11 @@
       arch = {
         inherit exec symlinks;
         img = "docker.io/library/archlinux:latest";
-        packages = "base-devel wl-clipboard";
+        packages = ''
+          base-devel wl-clipboard
+          neovim git
+          cmake pkgfile
+        '';
         nixPackages =
           packages
           ++ [
@@ -49,6 +53,9 @@
                 sudo rm -r "$tmpdir"
               fi
               /bin/yay $@
+            '')
+            (pkgs.writeShellScriptBin "install_rest" ''
+              yay -S  --noconfirm python312 python-requests
             '')
           ];
       };
