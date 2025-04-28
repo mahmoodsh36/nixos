@@ -22,7 +22,9 @@
     in {
       fedora = {
         inherit exec symlinks;
-        packages = "nodejs npm poetry gcc python3-devel wl-clipboard";
+        packages = ''
+          nodejs npm poetry gcc python3-devel wl-clipboard
+        '';
         img = "registry.fedoraproject.org/fedora-toolbox:rawhide";
         nixPackages =
           packages
