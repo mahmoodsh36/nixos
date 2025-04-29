@@ -90,7 +90,8 @@ in {
              --home "${config.home.homeDirectory}/${box.home}" \
              --image "${box.img}" \
              --init-hooks "${box.init}" \
-             --additional-packages "${box.packages}" ${(if config.machine.enable_nvidia then "--nvidia" else "")}
+             --nvidia \
+             --additional-packages "${box.packages}"
         fi
 
         if [ $# -eq 0 ]; then
