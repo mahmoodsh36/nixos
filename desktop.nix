@@ -452,6 +452,7 @@ in
       fabric-ai
       skypilot
       chatbox
+      jan
       (lib.mkIf (!config.machine.enable_nvidia) local-ai) # nvidia build failure
       # private-gpt build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix

@@ -1335,11 +1335,11 @@
         "tgi-nix": "tgi-nix"
       },
       "locked": {
-        "lastModified": 1745508212,
-        "narHash": "sha256-TcviCz2fRALCTGEjGxS6D9YNCt9MQPOv8xVAxlSmYwA=",
+        "lastModified": 1745936966,
+        "narHash": "sha256-FDZ+naKR2PvBIB/onFs4Gdg0PipMjlGgJ0LZsSu5PlE=",
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "rev": "39cfe232fd580d681ba13f57d2324257157cdc44",
+        "rev": "e7329fec18b9ec05bc751e28132d33fc74f2b838",
         "type": "github"
       },
       "original": {
