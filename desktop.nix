@@ -487,6 +487,7 @@ in
       local-ai
       librechat
       streamlit
+      mistral-rs
       # gpt4all private-gpt # build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
