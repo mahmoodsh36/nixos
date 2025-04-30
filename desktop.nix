@@ -318,10 +318,10 @@ in
       ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
         # pkgs.zfs_unstable.latestCompatibleLinuxPackages.nvidia_x11
         pkgs.linuxPackages.nvidia_x11
-        pkgs.cudaPackages_12_1.cudatoolkit
-        pkgs.cudaPackages_12_1.cudnn
-        pkgs.cudaPackages_12_1.cuda_cudart
-        pkgs.cudaPackages_12_1.cuda_cudart.static
+        pkgs.cudaPackages.cudatoolkit
+        pkgs.cudaPackages.cudnn
+        pkgs.cudaPackages.cuda_cudart
+        pkgs.cudaPackages.cuda_cudart.static
       ];
     };
 
