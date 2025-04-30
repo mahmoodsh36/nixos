@@ -14,8 +14,6 @@ in
   boot.tmp.cleanOnBoot = true;
   system.etc.overlay.enable = false;
   time.timeZone = "Asia/Jerusalem";
-  # power saving causes my internet to keep disconnecting
-  powerManagement.enable = false;
 
   # use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;

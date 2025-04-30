@@ -108,6 +108,9 @@ in
         tappingDragLock = false;
         accelSpeed = "0.9";
         naturalScrolling = false;
+        additionalOptions = ''
+          Option "PalmDetection" "on"
+        '';
       };
     };
     programs.hyprland = {
@@ -488,6 +491,14 @@ in
       librechat
       streamlit
       mistral-rs
+      # (pkgs-master.mistral-rs.overrideAttrs (previousAttrs: {
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "EricLBuehler";
+      #     repo = "mistral.rs";
+      #     rev = "d2e6c03f27422964a45e17e00186eae029a53625";
+      #     sha256 = "sha256-qvHB4p3QqSCJKWFCoa7GXC2GLbCtw6PdZzbFPYGQO8g=";
+      #   };
+      # }))
       # gpt4all private-gpt # build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
@@ -607,5 +618,11 @@ in
       SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
       SUBSYSTEM=="block", ENV{ID_FS_UUID}=="be5af23f-da6d-42ee-a346-5ad3af1a299a", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt2" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt2", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
   '';
+
+    powerManagement = {
+      enable = true;
+      powertop.enable = true;
+      cpuFreqGovernor = "ondemand";
+    };
   };
 }
