@@ -291,6 +291,37 @@ in
         pkgs.vulkan-headers
         pkgs.vulkan-loader
         pkgs.vulkan-tools
+        pkgs.libGL
+        pkgs.stdenv.cc.cc.lib
+        pkgs.glib
+        pkgs.ncurses5
+        pkgs.libzip
+        pkgs.cmake
+        pkgs.llvm_18
+        pkgs.zstd
+        pkgs.attr
+        pkgs.libssh
+        pkgs.bzip2
+        pkgs.libaio
+        pkgs.file
+        pkgs.libxml2
+        pkgs.acl
+        pkgs.libsodium
+        pkgs.util-linux
+        pkgs.binutils
+        pkgs.xz
+        pkgs.systemd
+        pkgs.glibc_multi
+        pkgs.pkg-config
+        pkgs.glibc
+        pkgs.pythonManylinuxPackages.manylinux2014Package
+      ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+        # pkgs.zfs_unstable.latestCompatibleLinuxPackages.nvidia_x11
+        pkgs.linuxPackages.nvidia_x11
+        pkgs.cudaPackages_12_1.cudatoolkit
+        pkgs.cudaPackages_12_1.cudnn
+        pkgs.cudaPackages_12_1.cuda_cudart
+        pkgs.cudaPackages_12_1.cuda_cudart.static
       ];
     };
 

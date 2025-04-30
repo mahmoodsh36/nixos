@@ -50,7 +50,7 @@ in rec {
     djvu2pdf
     nodejs
     python3Packages.playwright playwright playwright-test
-    uv
+    uv # rustc cargo
     argc
 
     # networking tools
