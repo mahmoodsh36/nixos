@@ -484,8 +484,10 @@ in
       skypilot
       chatbox
       jan
-      (lib.mkIf (!config.machine.enable_nvidia) local-ai) # nvidia build failure
-      # private-gpt build failure
+      local-ai
+      librechat
+      streamlit
+      # gpt4all private-gpt # build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
       mcp-server-everything
@@ -499,7 +501,6 @@ in
       mcp-server-memory
       mcp-server-brave-search
       mcp-server-sqlite
-      # gpt4all librechat
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
     ] ++ server_vars.server_packages;
