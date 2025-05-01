@@ -39,6 +39,7 @@
           base-devel wl-clipboard
           neovim git
           cmake pkgfile
+          uv
         '';
         nixPackages =
           packages

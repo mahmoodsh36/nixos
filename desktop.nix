@@ -487,7 +487,7 @@ in
       skypilot
       chatbox
       jan
-      local-ai
+      # local-ai # i dont think i have any use for this
       librechat
       streamlit
       # (pkgs-master.mistral-rs.overrideAttrs (previousAttrs: {
