@@ -481,7 +481,7 @@ in
       '';
       })
 
-      llama-cpp koboldcpp
+      pkgs-master.llama-cpp pkgs-master.koboldcpp pkgs-master.mistral-rs
       aichat shell-gpt
       fabric-ai
       skypilot
@@ -490,7 +490,6 @@ in
       local-ai
       librechat
       streamlit
-      mistral-rs
       # (pkgs-master.mistral-rs.overrideAttrs (previousAttrs: {
       #   src = pkgs.fetchFromGitHub {
       #     owner = "EricLBuehler";
