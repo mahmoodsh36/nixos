@@ -482,6 +482,7 @@ in
       })
 
       pkgs-master.llama-cpp pkgs-master.koboldcpp pkgs-master.mistral-rs
+      code2prompt
       aichat shell-gpt
       fabric-ai
       skypilot
@@ -495,7 +496,7 @@ in
       #   src = pkgs.fetchFromGitHub {
       #     owner = "EricLBuehler";
       #     repo = "mistral.rs";
-      #     rev = "d2e6c03f27422964a45e17e00186eae029a53625";
+      #     rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
       #     sha256 = "sha256-qvHB4p3QqSCJKWFCoa7GXC2GLbCtw6PdZzbFPYGQO8g=";
       #   };
       # }))
