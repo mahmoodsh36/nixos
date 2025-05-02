@@ -43,6 +43,8 @@
       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
       systemd.services.sshd.wantedBy = nixpkgs.lib.mkForce [ "multi-user.target" ];
       networking.wireless.enable = false; # installation-cd-minimal.nix sets that to true
+      # to fix another error when generating iso
+      boot.kernel.sysctl."vm.overcommit_memory" = nixpkgs.lib.mkForce "1";
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
     mkSystem = extraModules:

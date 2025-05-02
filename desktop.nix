@@ -508,7 +508,7 @@ in
       mcp-server-git
       mcp-server-sequential-thinking
       mcp-server-filesystem
-      mcp-server-redis
+      # mcp-server-redis
       playwright-mcp
       mcp-server-github github-mcp-server
       mcp-server-memory
