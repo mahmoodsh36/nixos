@@ -487,6 +487,7 @@ in
       skypilot
       chatbox
       jan
+      lmstudio
       # local-ai # i dont think i have any use for this
       librechat
       streamlit
