@@ -39,6 +39,7 @@
           base-devel wl-clipboard
           neovim git
           cmake pkgfile
+          cuda
           uv
         '';
         nixPackages =
@@ -56,7 +57,7 @@
               /bin/yay $@
             '')
             (pkgs.writeShellScriptBin "install_rest" ''
-              yay -S  --noconfirm python312 python-requests
+              yay -S  --noconfirm python312
             '')
           ];
       };
