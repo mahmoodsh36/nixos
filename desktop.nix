@@ -5,7 +5,7 @@ let
   constants = (import ./constants.nix);
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
   main_python = desktop_vars.desktop_python;
-  keys_python = pkgs.python3.withPackages (ps: with ps; [ evdev ]);
+  keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
 in
 {
   imports = [

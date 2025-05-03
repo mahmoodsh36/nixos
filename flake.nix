@@ -12,7 +12,7 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # pkgs-pinned.url = "github:NixOS/nixpkgs/nixos-24.11";
+    # pkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     pkgs-pinned.url = "github:NixOS/nixpkgs/c11863f1e964833214b767f4a369c6e6a7aba141";
     # pkgs-master.url = "github:NixOS/nixpkgs/master";
     pkgs-master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
