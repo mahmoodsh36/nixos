@@ -95,6 +95,20 @@ in
           imagemagick = pkgs.imagemagickBig;
         });
       })
+      (self: super: {
+        cudaPackages = super.cudaPackages // {
+          tensorrt = super.cudaPackages.tensorrt.overrideAttrs
+            (oldAttrs: rec {
+              dontCheckForBrokenSymlinks = true;
+              outputs = [ "out" ];
+              fixupPhase = ''
+              ${
+                oldAttrs.fixupPhase or ""
+              } # Remove broken symlinks in the main output
+               find $out -type l ! -exec test -e \{} \; -delete || true'';
+            });
+        };
+      })
 
       inputs.mcp-servers-nix.overlays.default
       inputs.nix-comfyui.overlays.default
