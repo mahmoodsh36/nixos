@@ -481,7 +481,7 @@ in
       '';
       })
 
-      pkgs-master.llama-cpp pkgs-master.koboldcpp pkgs-master.mistral-rs
+      pkgs-master.llama-cpp pkgs-master.koboldcpp # pkgs-master.mistral-rs
       code2prompt
       aichat shell-gpt
       fabric-ai
@@ -492,14 +492,20 @@ in
       # local-ai # i dont think i have any use for this
       librechat
       streamlit
-      # (pkgs-master.mistral-rs.overrideAttrs (previousAttrs: {
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "EricLBuehler";
-      #     repo = "mistral.rs";
-      #     rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
-      #     sha256 = "sha256-qvHB4p3QqSCJKWFCoa7GXC2GLbCtw6PdZzbFPYGQO8g=";
-      #   };
-      # }))
+      (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
+        # version = "..."; # change this
+        src = pkgs.fetchFromGitHub {
+          owner = "EricLBuehler";
+          repo = "mistral.rs";
+          rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
+          sha256 = "sha256-qvHB4p3QqSCJKWFCoa7GXC2GLbCtw6PdZzbFPYGQO8g=";
+        };
+        cargoHash = "sha256-no538CXkPmFRfFOGrhUEdx9fnRvMD+jZRtn89/UM77M=";
+        cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+          inherit (finalAttrs) pname src version;
+          hash = finalAttrs.cargoHash;
+        };
+      }))
       # gpt4all private-gpt # build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
