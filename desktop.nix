@@ -505,6 +505,7 @@ in
           inherit (finalAttrs) pname src version;
           hash = finalAttrs.cargoHash;
         };
+        buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
       }))
       # gpt4all private-gpt # build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
