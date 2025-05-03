@@ -27,7 +27,7 @@ in
     datasets
     langchain
     diffusers
-    tensorrt
+    # tensorrt
     llm-gguf
     llm
 
