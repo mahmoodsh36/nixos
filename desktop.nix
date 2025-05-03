@@ -4,7 +4,8 @@ let
   server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config pkgs-master inputs; });
   constants = (import ./constants.nix);
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
-  mypython = desktop_vars.desktop_python;
+  main_python = desktop_vars.desktop_python;
+  keys_python = pkgs.python3.withPackages (ps: with ps; [ evdev ]);
 in
 {
   imports = [
@@ -332,11 +333,11 @@ in
     environment.systemPackages = with pkgs; [
       (pkgs.writeShellScriptBin "python" ''
         export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        exec ${mypython}/bin/python "$@"
+        exec ${main_python}/bin/python "$@"
       '')
       (pkgs.writeShellScriptBin "python3" ''
         export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        exec ${mypython}/bin/python "$@"
+        exec ${main_python}/bin/python "$@"
       '')
 
       # overwrite notify-send to not let anything handle notifications
@@ -346,11 +347,11 @@ in
 
       (pkgs.writeShellScriptBin "julia" ''
         export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-                    pkgs.stdenv.cc.cc.lib
-                    pkgs.libGL
-                    pkgs.glib
-                    pkgs.zlib
-                  ]}:$LD_LIBRARY_PATH
+          pkgs.stdenv.cc.cc.lib
+          pkgs.libGL
+          pkgs.glib
+          pkgs.zlib
+        ]}:$LD_LIBRARY_PATH
         export DISPLAY=:0 # cheating so it can compile
         exec ${julia}/bin/julia "$@"
       '')
@@ -481,7 +482,8 @@ in
       '';
       })
 
-      pkgs-master.llama-cpp pkgs-master.koboldcpp # pkgs-master.mistral-rs
+      pkgs-master.llama-cpp pkgs-master.koboldcpp
+      llm
       code2prompt
       aichat shell-gpt
       fabric-ai
@@ -523,6 +525,7 @@ in
       mcp-server-sqlite
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
+      tensorrt
     ] ++ server_vars.server_packages;
 
     systemd.services.my_mpv_logger_service = {
@@ -553,7 +556,7 @@ in
       description = "service for keys.py";
       wantedBy = [ "multi-user.target" ];
       # run it with a shell so it has access to all binaries as usual in $PATH
-      script = "${pkgs.zsh}/bin/zsh -c '${mypython}/bin/python /home/mahmooz/work/keys/keys.py -d'";
+      script = "${pkgs.zsh}/bin/zsh -c '${keys_python}/bin/python /home/mahmooz/work/keys/keys.py -d'";
       serviceConfig = {
         # User = "mahmooz";
         Restart = "always";

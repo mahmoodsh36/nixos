@@ -7,6 +7,7 @@ let
   python-pkgs = pkgs-pinned;
 in
 {
+
   desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
     matplotlib flask requests numpy sympy networkx pydot
     beautifulsoup4 seaborn pillow dash rich
@@ -26,6 +27,9 @@ in
     datasets
     langchain
     diffusers
+    tensorrt
+    llm-gguf
+    llm
 
     docling-parse # paddleocr
     pdf2image
