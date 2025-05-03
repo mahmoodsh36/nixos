@@ -500,7 +500,7 @@ in
           rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
           sha256 = "sha256-jz0Eav7Rjd7fFmRrCsOyZ0+CaFzg05bDbHYr5fLA2eA=";
         };
-        cargoHash = "sha256-no538CXkPmFRfFOGrhUEdx9fnRvMD+jZRtn89/UM77M=";
+        cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
         cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
           inherit (finalAttrs) pname src version;
           hash = finalAttrs.cargoHash;
