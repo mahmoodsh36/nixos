@@ -525,7 +525,7 @@ in
       mcp-server-sqlite
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
-      cudaPackages.tensorrt
+      # cudaPackages.tensorrt
     ] ++ server_vars.server_packages;
 
     systemd.services.my_mpv_logger_service = {
