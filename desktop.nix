@@ -493,12 +493,12 @@ in
       librechat
       streamlit
       (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
-        # version = "..."; # change this
+        # version = "";
         src = pkgs.fetchFromGitHub {
           owner = "EricLBuehler";
           repo = "mistral.rs";
           rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
-          sha256 = "sha256-qvHB4p3QqSCJKWFCoa7GXC2GLbCtw6PdZzbFPYGQO8g=";
+          sha256 = "sha256-jz0Eav7Rjd7fFmRrCsOyZ0+CaFzg05bDbHYr5fLA2eA=";
         };
         cargoHash = "sha256-no538CXkPmFRfFOGrhUEdx9fnRvMD+jZRtn89/UM77M=";
         cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
