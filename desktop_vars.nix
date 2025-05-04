@@ -28,6 +28,8 @@ in
     mcp
     llm-gguf llm
     bitsandbytes gguf
+    # llama-index-cli llama-index
+    # llama-parse
 
     docling-parse # paddleocr
     pdf2image

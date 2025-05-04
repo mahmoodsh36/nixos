@@ -498,6 +498,7 @@ in
 
       pkgs-master.llama-cpp pkgs-master.koboldcpp
       llm
+      # openllm
       code2prompt
       aichat shell-gpt
       fabric-ai
