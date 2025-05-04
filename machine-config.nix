@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   pkgs-master = import inputs.pkgs-master {
@@ -17,7 +17,7 @@ in
     ./desktop.nix
     ./server.nix
   ];
-  _module.args = { inherit pkgs-pinned pkgs-master; }; # need to pass it to desktop.nix
+  _module.args = { inherit pkgs-pinned pkgs-master; };
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.cudaSupport = config.machine.enable_nvidia;
