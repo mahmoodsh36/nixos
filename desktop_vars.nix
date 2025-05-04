@@ -20,7 +20,6 @@ in
     # ml stuff
     torch
     torchvision
-    torchao
     accelerate
     transformers datasets
     langchain
