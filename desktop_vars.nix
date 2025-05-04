@@ -10,8 +10,7 @@ in
 
   desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
     matplotlib flask requests numpy sympy networkx pydot
-    beautifulsoup4 seaborn pillow dash rich
-    pandas
+    beautifulsoup4 seaborn pillow dash rich pandas
     python-lsp-server
 
     # for system?
@@ -19,23 +18,21 @@ in
     # pyzmq
 
     # ml stuff
-    (if config.machine.enable_nvidia
-     then torch
-     else torchWithCuda)
-    # accelerate
-    transformers
-    datasets
+    torch
+    torchvision
+    torchao
+    accelerate
+    transformers datasets
     langchain
     diffusers
     # tensorrt
-    llm-gguf
-    llm
     mcp
+    llm-gguf llm
+    bitsandbytes gguf
 
     docling-parse # paddleocr
     pdf2image
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-    # machine learning with nvidia
   ]));
   desktop_julia = (pkgs-pinned.julia.withPackages.override({
     precompile = true;
