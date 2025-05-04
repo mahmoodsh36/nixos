@@ -30,6 +30,7 @@ in
     # tensorrt
     llm-gguf
     llm
+    mcp
 
     docling-parse # paddleocr
     pdf2image
