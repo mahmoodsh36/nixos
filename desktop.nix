@@ -6,6 +6,32 @@ let
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
   main_python = desktop_vars.desktop_python;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
+  gtk_python_env = (pkgs-pinned.python3.withPackages (ps: with ps; [
+    pygobject3
+    pydbus
+  ]));
+  gtkpython = pkgs.stdenv.mkDerivation rec {
+    pname = "gtkpython";
+    version = "1.0";
+
+    nativeBuildInputs = [
+      pkgs.gobject-introspection
+      pkgs.wrapGAppsHook
+    ];
+
+    buildInputs = with pkgs; [
+      gtk_python_env
+      gtk3
+    ];
+
+    dontUnpack = true;
+
+    installPhase = ''
+      mkdir -p $out/bin
+      cp ${gtk_python_env}/bin/python $out/bin/gtkpython
+      chmod +x $out/bin/gtkpython
+    '';
+  };
 in
 {
   imports = [
@@ -354,6 +380,8 @@ in
         exec ${main_python}/bin/python "$@"
       '')
 
+      gtkpython
+
       # overwrite notify-send to not let anything handle notifications
       (pkgs.writeShellScriptBin "notify-send" ''
         echo $@ > /tmp/notif
@@ -468,32 +496,6 @@ in
           "--preview-method"
           "auto"
         ];
-      })
-
-      # for widgets
-      # we need to "purify" this..
-      (pkgs-pinned.python3Packages.buildPythonPackage rec {
-        pname = "widgets";
-        format = "other";
-        version = "1.0";
-        dontBuild = true;
-        dontUnpack = true;
-
-        src = /home/mahmooz/work/widgets;
-
-        nativeBuildInputs = with pkgs-pinned; [ gobject-introspection ];
-        buildInputs = with pkgs-pinned; [ gtk3 gtk-layer-shell wrapGAppsHook ];
-        propagatedBuildInputs = with pkgs-pinned.python3Packages; [
-          pydbus
-          pygobject3
-        ];
-
-        installPhase = ''
-        mkdir -p $out/bin
-        cp ${src}/*.py $out/bin/
-        cp ${src}/main.css $out/bin/
-        chmod +x $out/bin/*.py
-      '';
       })
 
       pkgs-master.llama-cpp pkgs-master.koboldcpp
