@@ -693,11 +693,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1745578667,
-        "narHash": "sha256-/WAWwkDM7kAVRWcst4Bw1DPbW/NeJVpApLR1QtSYpww=",
+        "lastModified": 1746480234,
+        "narHash": "sha256-zeCoIWZF1PQbSYoYJzgUBr5wIHHjNHp+TWF06nfSB4E=",
         "owner": "lem-project",
         "repo": "lem",
-        "rev": "5fd512c8bab9de9a62709ac858fbb56337260cd5",
+        "rev": "96aec3ab957607e0ff35ff018d5e05ec4d52faa0",
         "type": "github"
       },
       "original": {
@@ -1335,11 +1335,11 @@
         "tgi-nix": "tgi-nix"
       },
       "locked": {
-        "lastModified": 1746112251,
-        "narHash": "sha256-2NPJVVT1k1gCl71G0GRqlibfGj0OeGOg22EPt3nb1MI=",
+        "lastModified": 1746521372,
+        "narHash": "sha256-nAviGcjqIzE3lwj1um0ReKm55vaarRCm6+bpfCKC65g=",
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "rev": "7253be349a906e544b8d685344a0faced65ac8d5",
+        "rev": "533eee50dc0def256bb7032e1940267ed56d5554",
         "type": "github"
       },
       "original": {
