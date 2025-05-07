@@ -510,7 +510,7 @@ in
       lmstudio
       # local-ai # i dont think i have any use for this
       librechat
-      streamlit
+      pkgs-pinned.streamlit
       (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
         # version = "";
         src = pkgs.fetchFromGitHub {
