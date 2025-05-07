@@ -136,6 +136,7 @@
             boot.loader.grub.enable = nixpkgs.lib.mkForce false;
           };
         }
+        ./network-local.nix
       ];
       server_iso = mkSystem [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
