@@ -25,9 +25,11 @@ in
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
-    # useOSProber = false;
-    device = "nodev";
+    useOSProber = true;
+    devices = [ "nodev" ];
+    copyKernels = true;
   };
+  boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # not needed with flakes and causes a bunch of warnings

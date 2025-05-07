@@ -11,4 +11,4 @@ cd ~/work/nixos/
 # cp /etc/nixos/hardware-configuration.nix .
 # sudo nixos-rebuild switch --upgrade --flake .#mahmooz --option eval-cache false --refresh --show-trace --impure "$@"
 # sudo nixos-rebuild switch --upgrade --flake .#mahmooz --show-trace --impure --option eval-cache false --refresh
-sudo -E nixos-rebuild switch --upgrade --flake .#"$conf" --show-trace --impure
+sudo -E nixos-rebuild switch --upgrade --flake .#"$conf" --show-trace --impure --install-bootloader

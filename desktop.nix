@@ -10,16 +10,16 @@ let
     pygobject3
     pydbus
   ]));
-  gtkpython = pkgs.stdenv.mkDerivation rec {
+  gtkpython = pkgs-pinned.stdenv.mkDerivation rec {
     pname = "gtkpython";
     version = "1.0";
 
     nativeBuildInputs = [
-      pkgs.gobject-introspection
-      pkgs.wrapGAppsHook
+      pkgs-pinned.gobject-introspection
+      pkgs-pinned.wrapGAppsHook
     ];
 
-    buildInputs = with pkgs; [
+    buildInputs = with pkgs-pinned; [
       gtk_python_env
       gtk3
     ];

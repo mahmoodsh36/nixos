@@ -41,6 +41,7 @@
     system = "x86_64-linux";
     isobase = {
       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
+      isoImage.forceTextMode = true; # to avoid some issues? https://discourse.nixos.org/t/nix-iso-unable-to-boot-in-uefi-mode-but-other-distros-can/16473/53
       systemd.services.sshd.wantedBy = nixpkgs.lib.mkForce [ "multi-user.target" ];
       networking.wireless.enable = false; # installation-cd-minimal.nix sets that to true
       # to fix another error when generating iso
@@ -116,7 +117,9 @@
             machine.name = "mahmooz3";
             machine.is_desktop = false;
             machine.enable_nvidia = false;
+            # needed for virtual machines
             boot.loader.grub.efiInstallAsRemovable = true;
+            boot.loader.efi.canTouchEfiVariables = false;
           };
         }
       ];
