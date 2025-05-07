@@ -2,6 +2,51 @@
 
 let
   desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; inputs = inputs; });
+  constants = (import ./constants.nix);
+
+  dots = if builtins.pathExists "${config.home.homeDirectory}/work/otherdots"
+         then "${config.home.homeDirectory}/work/otherdots"
+         else (builtins.fetchGit {
+           url = "${constants.mygithub}/otherdots.git";
+           rev = "master";
+         }).outPath;
+
+  nvim_dots = if builtins.pathExists "${config.home.homeDirectory}/work/nvim"
+         then "${config.home.homeDirectory}/work/nvim"
+         else (builtins.fetchGit {
+           url = "${constants.mygithub}/nvim.git";
+           rev = "master";
+         }).outPath;
+
+  config_names = [
+    "mimeapps.list" "mpv" "vifm" "user-dirs.dirs" "zathura" "wezterm"
+    "xournalpp" "imv" "hypr" "goose" "aichat"
+  ];
+  config_entries = lib.listToAttrs (builtins.map (cfg_name: {
+    name = ".config/${cfg_name}";
+    value = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dots}/.config/${cfg_name}";
+      force = true;
+    };
+  }) config_names);
+
+  scripts_dir = if builtins.pathExists "${config.home.homeDirectory}/work/scripts"
+         then "${config.home.homeDirectory}/work/scripts"
+         else (builtins.fetchGit {
+           url = "${constants.mygithub}/scripts.git";
+           rev = "master";
+         }).outPath;
+  scripts = builtins.attrNames (builtins.readDir scripts_dir);
+  script_files = builtins.filter (name: builtins.match ".*\\.(py|sh|el)$" name != null) scripts;
+
+  script_entries = lib.listToAttrs (builtins.map (fname: {
+    name  = ".local/bin/${fname}";
+    value = {
+      source = config.lib.file.mkOutOfStoreSymlink "${scripts_dir}/${fname}";
+      force = true;
+      # executable = true;
+    };
+  }) script_files);
 in
 {
   imports = [
@@ -14,6 +59,18 @@ in
 
   /* the home.stateVersion option does not have a default and must be set */
   home.stateVersion = "24.05";
+
+  home.file = config_entries // script_entries // {
+    ".zshrc" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dots}/.zshrc";
+    };
+    ".zprofile" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dots}/.zprofile";
+    };
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink nvim_dots;
+    };
+  };
 
   programs.home-manager.enable = true;
 
