@@ -499,7 +499,22 @@ in
         ];
       })
 
-      pkgs-master.llama-cpp pkgs-master.koboldcpp
+      # (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
+      #   # version = "";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "EricLBuehler";
+      #     repo = "mistral.rs";
+      #     rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
+      #     sha256 = "sha256-jz0Eav7Rjd7fFmRrCsOyZ0+CaFzg05bDbHYr5fLA2eA=";
+      #   };
+      #   cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
+      #   cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+      #     inherit (finalAttrs) pname src version;
+      #     hash = finalAttrs.cargoHash;
+      #   };
+      #   buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
+      # }))
+      pkgs-master.llama-cpp pkgs-master.koboldcpp pkgs-master.mistral-rs
       llm
       # openllm
       code2prompt
@@ -512,21 +527,6 @@ in
       # local-ai # i dont think i have any use for this
       librechat
       pkgs-pinned.streamlit
-      (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
-        # version = "";
-        src = pkgs.fetchFromGitHub {
-          owner = "EricLBuehler";
-          repo = "mistral.rs";
-          rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
-          sha256 = "sha256-jz0Eav7Rjd7fFmRrCsOyZ0+CaFzg05bDbHYr5fLA2eA=";
-        };
-        cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
-        cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-          inherit (finalAttrs) pname src version;
-          hash = finalAttrs.cargoHash;
-        };
-        buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
-      }))
       # gpt4all private-gpt # build failure
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
