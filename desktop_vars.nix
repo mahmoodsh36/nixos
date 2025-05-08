@@ -32,6 +32,7 @@ in
     bitsandbytes gguf
     # llama-index-cli llama-index
     # llama-parse
+    huggingface-hub
 
     docling-parse # paddleocr
     pdf2image
