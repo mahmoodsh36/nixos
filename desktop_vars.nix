@@ -25,7 +25,6 @@ in
     transformers datasets
     langchain
     diffusers
-    tiktoken
     # tensorrt
     mcp
     llm-gguf llm
@@ -33,6 +32,8 @@ in
     # llama-index-cli llama-index
     # llama-parse
     huggingface-hub
+
+    timm einops tiktoken # some models require these
 
     docling-parse # paddleocr
     pdf2image
