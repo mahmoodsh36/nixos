@@ -24,6 +24,7 @@ in
     transformers datasets
     langchain
     diffusers
+    tiktoken
     # tensorrt
     mcp
     llm-gguf llm
