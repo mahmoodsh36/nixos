@@ -504,7 +504,7 @@ in
         src = pkgs.fetchFromGitHub {
           owner = "EricLBuehler";
           repo = "mistral.rs";
-          rev = "a63da3c03f52db350a04b15a1c8775dcb8d5033f";
+          rev = "11b2718b3dd1f33c24a8ee38ce722a30745b28d3";
           sha256 = "sha256-jz0Eav7Rjd7fFmRrCsOyZ0+CaFzg05bDbHYr5fLA2eA=";
         };
         cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
