@@ -33,10 +33,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # tgi-nix.url = "github:huggingface/text-generation-inference-nix";
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs = {
-    self, nixpkgs, home-manager, ...
+    self, nixpkgs, home-manager, plasma-manager, ...
   } @inputs: let
     system = "x86_64-linux";
     isobase = {
@@ -77,6 +82,7 @@
               home-manager.users.mahmooz = import ./home.nix;
               home-manager.backupFileExtension = "hmbkup";
               home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
             }
           ]
           ++ extraModules;

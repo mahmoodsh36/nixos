@@ -54,6 +54,7 @@ in
     ./vscode.nix
     ./zed.nix
     ./distrobox-config.nix
+    ./plasma.nix
   ];
   _module.args = { pkgs-pinned = inputs.pkgs-pinned; };
 
