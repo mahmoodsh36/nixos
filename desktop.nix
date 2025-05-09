@@ -505,7 +505,7 @@ in
           owner = "EricLBuehler";
           repo = "mistral.rs";
           rev = "e1672b7e60a9a88ce5a20d3824745d2a070890a3";
-          sha256 = "sha256-jz0Eav7Rjd7fFmRrCsOyZ0+CaFzg05bDbHYr5fLA2eA=";
+          sha256 = "sha256-HKlExxnaMKP/p0L5gy1f7s52N47zsAfZhN/qzKZxMMQ=";
         };
         cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
         cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
