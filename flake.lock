@@ -108,7 +108,7 @@
         "crate2nix_stable": "crate2nix_stable",
         "devshell": "devshell_3",
         "flake-compat": "flake-compat_5",
-        "flake-parts": "flake-parts_4",
+        "flake-parts": "flake-parts_5",
         "nix-test-runner": "nix-test-runner_3",
         "nixpkgs": [
           "tgi",
@@ -137,7 +137,7 @@
         "crate2nix_stable": "crate2nix_stable_2",
         "devshell": "devshell_2",
         "flake-compat": "flake-compat_4",
-        "flake-parts": "flake-parts_3",
+        "flake-parts": "flake-parts_4",
         "nix-test-runner": "nix-test-runner_2",
         "nixpkgs": "nixpkgs_6",
         "pre-commit-hooks": "pre-commit-hooks_2"
@@ -163,7 +163,7 @@
         "crate2nix_stable": "crate2nix_stable_3",
         "devshell": "devshell",
         "flake-compat": "flake-compat_3",
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts_3",
         "nix-test-runner": "nix-test-runner",
         "nixpkgs": "nixpkgs_5",
         "pre-commit-hooks": "pre-commit-hooks"
@@ -382,6 +382,24 @@
     },
     "flake-parts_2": {
       "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_2"
+      },
+      "locked": {
+        "lastModified": 1730504689,
+        "narHash": "sha256-hgmguH29K2fvs9szpq2r3pz2/8cJd2LPS+b4tfNFCwE=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "506278e768c2a08bec68eb62932193e341f55c90",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_3": {
+      "inputs": {
         "nixpkgs-lib": [
           "tgi",
           "crate2nix",
@@ -404,7 +422,7 @@
         "type": "github"
       }
     },
-    "flake-parts_3": {
+    "flake-parts_4": {
       "inputs": {
         "nixpkgs-lib": [
           "tgi",
@@ -427,7 +445,7 @@
         "type": "github"
       }
     },
-    "flake-parts_4": {
+    "flake-parts_5": {
       "inputs": {
         "nixpkgs-lib": [
           "tgi",
@@ -671,11 +689,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1746727295,
-        "narHash": "sha256-0364XVBdfEA8rWfqEPvsgBqGFfq5r9LAo9CS9tvT7tg=",
+        "lastModified": 1746798521,
+        "narHash": "sha256-axfz/jBEH9XHpS7YSumstV7b2PrPf7L8bhWUtLBv3nA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a51598236f23c89e59ee77eb8e0614358b0e896c",
+        "rev": "e95a7c5b6fa93304cd2fd78cf676c4f6d23c422c",
         "type": "github"
       },
       "original": {
@@ -703,6 +721,27 @@
       "original": {
         "owner": "lem-project",
         "repo": "lem",
+        "type": "github"
+      }
+    },
+    "llama-cpp-flake": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1746804848,
+        "narHash": "sha256-9WzYXULrL+oayQz+EiFy6b0sgWXvTFHCmyljkoXgRds=",
+        "owner": "ggml-org",
+        "repo": "llama.cpp",
+        "rev": "17512a94d636c4b6c1332370acb3e5af3ca70918",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ggml-org",
+        "repo": "llama.cpp",
         "type": "github"
       }
     },
@@ -893,6 +932,18 @@
       }
     },
     "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1730504152,
+        "narHash": "sha256-lXvH/vOfb4aGYyvFmZK/HlsNsr/0CVWlwYvo2rxJk3s=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
+      }
+    },
+    "nixpkgs-lib_2": {
       "locked": {
         "lastModified": 1730504152,
         "narHash": "sha256-lXvH/vOfb4aGYyvFmZK/HlsNsr/0CVWlwYvo2rxJk3s=",
@@ -1193,6 +1244,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "lem": "lem",
+        "llama-cpp-flake": "llama-cpp-flake",
         "mcp-servers-nix": "mcp-servers-nix",
         "nix-alien": "nix-alien",
         "nix-comfyui": "nix-comfyui",
@@ -1359,11 +1411,11 @@
         "tgi-nix": "tgi-nix"
       },
       "locked": {
-        "lastModified": 1746547319,
-        "narHash": "sha256-gFI1pchsFd7CyezQUO3Arh5YqMcCSlh66Weuc50CDk0=",
+        "lastModified": 1746798629,
+        "narHash": "sha256-sexdO8oNygkX0QRt7ebkMn0b5NkLV+72baCyKCTbPsI=",
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "rev": "329f612e55829adca0d36e88296e8b48990960b9",
+        "rev": "56c81894672f2630c77fed8e20ab6cf3342da319",
         "type": "github"
       },
       "original": {
