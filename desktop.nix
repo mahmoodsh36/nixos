@@ -518,6 +518,7 @@ in
       koboldcpp llama-cpp # pkgs-master.mistral-rs
       # inputs.llama-cpp-flake.packages.${pkgs.system}.default
       llm
+      mlflow-server
       # openllm
       code2prompt
       aichat shell-gpt

@@ -32,6 +32,7 @@ in
     # llama-index-cli llama-index
     # llama-parse
     huggingface-hub
+    mlflow
 
     timm einops tiktoken # some models require these
 
