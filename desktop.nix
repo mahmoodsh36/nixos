@@ -514,8 +514,8 @@ in
         };
         buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
       }))
-      koboldcpp # pkgs-master.mistral-rs # llama-cpp
-      inputs.llama-cpp-flake.packages.${pkgs.system}.default
+      koboldcpp llama-cpp # pkgs-master.mistral-rs
+      # inputs.llama-cpp-flake.packages.${pkgs.system}.default
       llm
       # openllm
       code2prompt
