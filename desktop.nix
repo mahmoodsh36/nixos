@@ -463,6 +463,7 @@ in
       zeal dasht
       material-design-icons
       ventoy
+      djvulibre
 
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
