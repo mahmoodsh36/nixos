@@ -464,6 +464,7 @@ in
       material-design-icons
       # ventoy
       djvulibre djvu2pdf
+      czkawka czkawka-full # file dupe finder/cleaner? has a gui too
 
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
