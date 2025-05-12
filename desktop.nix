@@ -462,7 +462,7 @@ in
       spice-gtk # used with quickemu
       zeal dasht
       material-design-icons
-      ventoy
+      # ventoy
       djvulibre djvu2pdf
 
       # some programming languages/environments
