@@ -516,8 +516,10 @@ in
         };
         buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
       }))
-      koboldcpp llama-cpp # pkgs-master.mistral-rs
-      # inputs.llama-cpp-flake.packages.${pkgs.system}.default
+      pkgs-master.koboldcpp # llama-cpp # pkgs-master.mistral-rs
+      (if config.machine.enable_nvidia
+       then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
+       else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
       llm
       mlflow-server
       # openllm
