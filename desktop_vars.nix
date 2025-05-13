@@ -36,7 +36,7 @@ in
 
     timm einops tiktoken # some models require these
 
-    docling-parse # paddleocr
+    docling-parse docling # paddleocr
     pdf2image
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
   ]));
