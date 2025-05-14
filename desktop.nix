@@ -535,7 +535,7 @@ in
       librechat
       pkgs-pinned.streamlit
       # gpt4all private-gpt # build failure
-      docling
+      # docling
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
