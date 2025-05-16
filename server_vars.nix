@@ -16,6 +16,7 @@ let
     clingon # command-line options parser
     ironclad # crypto functions
     fiveam # tests
+    closer-mop
   ]));
   constants = (import ./constants.nix);
 in rec {
