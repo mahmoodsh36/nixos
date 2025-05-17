@@ -502,22 +502,23 @@ in
         ];
       })
 
-      (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
-        # version = "";
-        src = pkgs.fetchFromGitHub {
-          owner = "EricLBuehler";
-          repo = "mistral.rs";
-          rev = "e1672b7e60a9a88ce5a20d3824745d2a070890a3";
-          sha256 = "sha256-HKlExxnaMKP/p0L5gy1f7s52N47zsAfZhN/qzKZxMMQ=";
-        };
-        cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
-        cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-          inherit (finalAttrs) pname src version;
-          hash = finalAttrs.cargoHash;
-        };
-        buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
-      }))
+      # (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
+      #   # version = "";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "EricLBuehler";
+      #     repo = "mistral.rs";
+      #     rev = "e1672b7e60a9a88ce5a20d3824745d2a070890a3";
+      #     sha256 = "sha256-HKlExxnaMKP/p0L5gy1f7s52N47zsAfZhN/qzKZxMMQ=";
+      #   };
+      #   cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
+      #   cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+      #     inherit (finalAttrs) pname src version;
+      #     hash = finalAttrs.cargoHash;
+      #   };
+      #   buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
+      # }))
       pkgs-master.koboldcpp # llama-cpp # pkgs-master.mistral-rs
+      koboldcpp mistral-rs
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
