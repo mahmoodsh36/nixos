@@ -534,7 +534,8 @@ in
       # local-ai # i dont think i have any use for this
       librechat
       pkgs-pinned.streamlit
-      # gpt4all private-gpt # build failure
+      private-gpt
+      # gpt4all # build failure
       # docling
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
