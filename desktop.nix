@@ -517,7 +517,6 @@ in
       #   };
       #   buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
       # }))
-      pkgs-master.koboldcpp # llama-cpp # pkgs-master.mistral-rs
       koboldcpp mistral-rs
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
