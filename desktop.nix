@@ -466,6 +466,7 @@ in
       # ventoy
       djvulibre djvu2pdf
       czkawka czkawka-full # file dupe finder/cleaner? has a gui too
+      python3Packages.chromadb
 
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))

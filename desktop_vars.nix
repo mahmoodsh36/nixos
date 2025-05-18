@@ -33,6 +33,7 @@ in
     # llama-parse
     huggingface-hub
     mlflow
+    chromadb
 
     timm einops tiktoken # some models require these
 
