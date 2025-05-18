@@ -97,7 +97,6 @@
         ./hardware-configuration.nix # hardware scan results
         ({ lib, ... }: {
           config = {
-            boot.loader.efi.canTouchEfiVariables = true;
             machine.name = "mahmooz1";
             machine.is_desktop = true;
             machine.enable_nvidia = false;
@@ -110,7 +109,6 @@
         ./hardware-configuration.nix # hardware scan results
         ({ lib, ... }: {
           config = {
-            boot.loader.efi.canTouchEfiVariables = true;
             machine.name = "mahmooz2";
             machine.is_desktop = true;
             machine.enable_nvidia = true;
@@ -129,7 +127,8 @@
             machine.enable_nvidia = false;
             # needed for virtual machines
             boot.loader.grub.efiInstallAsRemovable = true;
-            boot.loader.efi.canTouchEfiVariables = false;
+            boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
+            boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
           };
         }
       ];
