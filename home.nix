@@ -129,7 +129,7 @@ in
 
     # use 'dconf dump /' or 'gsettings list-recursively | less' to get a list of options
     dconf = {
-      enable = config.machine.is_desktop;
+      enable = true;
       settings = {
         "org/gnome/shell" = {
           disable-user-extensions = false;
