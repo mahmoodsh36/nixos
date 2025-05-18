@@ -8,14 +8,14 @@ let
          then "${config.home.homeDirectory}/work/otherdots"
          else (builtins.fetchGit {
            url = "${constants.mygithub}/otherdots.git";
-           rev = "master";
+           ref = "master";
          }).outPath;
 
   nvim_dots = if builtins.pathExists "${config.home.homeDirectory}/work/nvim"
          then "${config.home.homeDirectory}/work/nvim"
          else (builtins.fetchGit {
            url = "${constants.mygithub}/nvim.git";
-           rev = "master";
+           ref = "master";
          }).outPath;
 
   config_names = [
@@ -34,7 +34,7 @@ let
          then "${config.home.homeDirectory}/work/scripts"
          else (builtins.fetchGit {
            url = "${constants.mygithub}/scripts.git";
-           rev = "master";
+           ref = "master";
          }).outPath;
   scripts = builtins.attrNames (builtins.readDir scripts_dir);
   script_files = builtins.filter (name: builtins.match ".*\\.(py|sh|el)$" name != null) scripts;
