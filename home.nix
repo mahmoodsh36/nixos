@@ -94,7 +94,9 @@ in
     services.playerctld.enable = config.machine.is_desktop;
     services.parcellite.enable = config.machine.is_desktop;
 
-    home.packages = [
+    home.packages = with pkgs; [
+      # to avoid some errors
+      dconf
     ];
 
     programs.git = {
