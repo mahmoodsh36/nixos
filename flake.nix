@@ -144,6 +144,7 @@
             machine.enable_nvidia = false;
             machine.static_ip = "192.168.1.1";
             boot.loader.grub.enable = nixpkgs.lib.mkForce false;
+            boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
           };
         }
         ./network-local.nix

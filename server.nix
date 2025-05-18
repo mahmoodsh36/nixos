@@ -38,8 +38,6 @@ in
   # enable some programs/services
   programs.mosh.enable = true;
   programs.zsh.enable = true;
-  programs.adb.enable = true;
-  services.mysql.package = pkgs.mariadb;
   programs.traceroute.enable = true;
   programs.direnv.enable = true;
   programs.git = {
@@ -49,16 +47,7 @@ in
   };
   programs.htop.enable = true;
   programs.iotop.enable = true;
-  programs.java.enable = true;
-  programs.sniffnet.enable = true;
-  programs.wireshark.enable = true;
   # services.atuin.enable = true;
-  programs.dconf.enable = true;
-
-  services.mysql = {
-    enable = false;
-    settings.mysqld.bind-address = "0.0.0.0";
-  };
 
   # services.locate = {
   #   enable = true;
@@ -71,30 +60,6 @@ in
     enable = true;
     # pinentryPackage = lib.mkForce pkgs.pinentry;
     enableSSHSupport = true;
-  };
-
-  services.postgresql = {
-    enable = false;
-    enableTCPIP = true;
-    authentication = pkgs.lib.mkOverride 10 ''
-      # generated file; do not edit!
-      # TYPE  DATABASE        USER            ADDRESS                 METHOD
-      local   all             all                                     trust
-      host    all             all             127.0.0.1/32            trust
-      host    all             all             ::1/128                 trust
-      '';
-    package = pkgs.postgresql_16;
-    ensureDatabases = [ "mahmooz" ];
-    # port = 5432;
-    initialScript = pkgs.writeText "backend-initScript" ''
-      CREATE ROLE mahmooz WITH LOGIN PASSWORD 'mahmooz' CREATEDB;
-      CREATE DATABASE test;
-      GRANT ALL PRIVILEGES ON DATABASE test TO mahmooz;
-    '';
-    ensureUsers = [{
-      name = "mahmooz";
-      ensureDBOwnership = true;
-    }];
   };
 
   # self-hosted media service

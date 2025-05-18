@@ -6,7 +6,7 @@
   imports = [ ./distrobox.nix ];
 
   programs.mydistrobox = {
-    enable = true;
+    enable = config.machine.is_desktop;
 
     boxes = let
       exec = "${pkgs.zsh}/bin/zsh";

@@ -461,12 +461,35 @@ in
       pulseaudioFull
       quickemu # quickly start VMs
       spice-gtk # used with quickemu
-      zeal dasht
+      zeal dasht # code docs?
       material-design-icons
       # ventoy
       djvulibre djvu2pdf
       czkawka czkawka-full # file dupe finder/cleaner? has a gui too
-      python3Packages.chromadb
+      python3Packages.chromadb # vector database
+      nodePackages.prettier
+      nodejs
+      exiftool
+      spotdl
+      openjdk
+      transmission_4 acpi lm_sensors
+      yt-dlp you-get aria
+      python3Packages.playwright playwright playwright-test
+      uv
+      argc
+      cryptsetup
+      imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
+      ffmpeg-full.bin # untrunc-anthwlock
+      pandoc
+      pigz # for compression
+
+      # nix specific
+      nixos-generators
+      nix-prefetch-git
+      nix-tree
+      nixos-anywhere
+      nix-init
+      steam-run-free
 
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
@@ -502,6 +525,10 @@ in
           "auto"
         ];
       })
+
+      python3Packages.huggingface-hub
+      aider-chat
+      pkgs-pinned.goose-cli # goose ai tool
 
       # (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
       #   # version = "";
@@ -660,6 +687,41 @@ in
   '';
 
     services.guix.enable = true;
+    programs.adb.enable = true;
+    programs.java.enable = true;
+    programs.sniffnet.enable = true;
+    programs.wireshark.enable = true;
+    programs.dconf.enable = true;
+
+    services.mysql = {
+      enable = false;
+      settings.mysqld.bind-address = "0.0.0.0";
+      package = pkgs.mariadb;
+    };
+
+    services.postgresql = {
+      enable = false;
+      enableTCPIP = true;
+      authentication = pkgs.lib.mkOverride 10 ''
+      # generated file; do not edit!
+      # TYPE  DATABASE        USER            ADDRESS                 METHOD
+      local   all             all                                     trust
+      host    all             all             127.0.0.1/32            trust
+      host    all             all             ::1/128                 trust
+      '';
+      package = pkgs.postgresql_16;
+      ensureDatabases = [ "mahmooz" ];
+      # port = 5432;
+      initialScript = pkgs.writeText "backend-initScript" ''
+      CREATE ROLE mahmooz WITH LOGIN PASSWORD 'mahmooz' CREATEDB;
+      CREATE DATABASE test;
+      GRANT ALL PRIVILEGES ON DATABASE test TO mahmooz;
+    '';
+      ensureUsers = [{
+        name = "mahmooz";
+        ensureDBOwnership = true;
+      }];
+    };
 
     powerManagement = {
       enable = true;
