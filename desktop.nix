@@ -108,11 +108,6 @@ in
       serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
     };
 
-
-    # will this help prevent the dbus org.freedesktop.secrets error when using goose-cli?
-    services.gnome.gnome-keyring.enable = true;
-    security.pam.services.sddm.enableGnomeKeyring = true;
-
     # my overlays
     nixpkgs.overlays = [
       # enable pgtk so its not pixelated on wayland

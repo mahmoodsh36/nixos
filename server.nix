@@ -166,5 +166,10 @@ in
     options = "--delete-older-than 30d";
   };
 
+  # will this help prevent the dbus org.freedesktop.secrets error when using goose-cli?
+  # may also need it to avoid other issues
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
+
   system.stateVersion = "24.05"; # dont change
 }
