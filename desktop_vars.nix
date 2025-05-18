@@ -1,4 +1,4 @@
-{ pkgs, config, pkgs-pinned, pkgs-master, ... }:
+{ pkgs, config, pkgs-pinned, ... }:
 
 let
   # python-pkgs = (if config.machine.name == "mahmooz2"

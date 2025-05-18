@@ -689,11 +689,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747559278,
-        "narHash": "sha256-10VfcILI2zYY1/ZlOx/cakDmpJgSEJYEG3gMrjzFREY=",
+        "lastModified": 1747565775,
+        "narHash": "sha256-B6jmKHUEX1jxxcdoYHl7RVaeohtAVup8o3nuVkzkloA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "ee85cfc5c132e2cf956a7b5ab156ddaedaefcbbc",
+        "rev": "97118a310eb8e13bc1b9b12d67267e55b7bee6c8",
         "type": "github"
       },
       "original": {
@@ -1045,22 +1045,6 @@
         "type": "github"
       }
     },
-    "pkgs-master": {
-      "locked": {
-        "lastModified": 1747467164,
-        "narHash": "sha256-JBXbjJ0t6T6BbVc9iPVquQI9XSXCGQJD8c8SgnUquus=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "3fcbdcfc707e0aa42c541b7743e05820472bdaec",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "pkgs-pinned": {
       "locked": {
         "lastModified": 1747327360,
@@ -1249,7 +1233,6 @@
         "nix-alien": "nix-alien",
         "nix-comfyui": "nix-comfyui",
         "nixpkgs": "nixpkgs",
-        "pkgs-master": "pkgs-master",
         "pkgs-pinned": "pkgs-pinned",
         "plasma-manager": "plasma-manager",
         "tgi": "tgi"

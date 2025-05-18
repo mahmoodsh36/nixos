@@ -1,9 +1,9 @@
-{ config, pkgs, lib, inputs, pkgs-pinned, pkgs-master, ... }:
+{ config, pkgs, lib, inputs, pkgs-pinned, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config pkgs-master inputs; });
+  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ./constants.nix);
-  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config pkgs-master; });
+  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config; });
   main_python = desktop_vars.desktop_python;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
   gtk_python_env = (pkgs-pinned.python3.withPackages (ps: with ps; [
