@@ -507,6 +507,7 @@ in
       # text-generation-inference
       inputs.tgi.packages.${pkgs.system}.default
       inputs.tgi.packages.${pkgs.system}.server
+      inputs.tei.packages.${pkgs.system}.default
 
       (pkgs.comfyuiPackages.comfyui.override {
         extensions = [
