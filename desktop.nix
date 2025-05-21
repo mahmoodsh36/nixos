@@ -506,6 +506,9 @@ in
       inputs.tgi.packages.${pkgs.system}.server
       # inputs.tei.packages.${pkgs.system}.default
 
+      # vllm
+      inputs.vllm-flake.packages.${pkgs.system}.vllm
+
       (pkgs.comfyuiPackages.comfyui.override {
         extensions = [
           pkgs.comfyuiPackages.extensions.acly-inpaint
