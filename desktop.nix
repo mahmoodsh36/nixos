@@ -466,7 +466,7 @@ in
       openjdk
       transmission_4 acpi lm_sensors
       yt-dlp you-get aria
-      python3Packages.playwright playwright playwright-test
+      pkgs-pinned.playwright
       uv
       argc
       cryptsetup
