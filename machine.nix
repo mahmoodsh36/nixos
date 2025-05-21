@@ -12,11 +12,11 @@
       type = lib.types.str;
       default = "192.168.1.100";
     };
-    machine.remote_tunnel_port = lib.mkOption {
-      type = lib.types.str;
-      default = "5001";
-    };
     machine.enable_nvidia = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
+    machine.is_home_server = lib.mkOption {
       type = lib.types.bool;
       default = false;
     };
