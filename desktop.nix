@@ -6,6 +6,9 @@ let
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config; });
   main_python = desktop_vars.desktop_python;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
+  emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+    imagemagick = pkgs.imagemagickBig;
+  });
   gtk_python_env = (pkgs-pinned.python3.withPackages (ps: with ps; [
     pygobject3
     pydbus
@@ -110,12 +113,6 @@ in
 
     # my overlays
     nixpkgs.overlays = [
-      # enable pgtk so its not pixelated on wayland
-      (self: super: {
-        my_emacs = (super.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
-          imagemagick = pkgs.imagemagickBig;
-        });
-      })
       (self: super: {
         cudaPackages = super.cudaPackages // {
           tensorrt = super.cudaPackages.tensorrt.overrideAttrs
@@ -398,7 +395,7 @@ in
       neovide
       windsurf
 
-      ((emacsPackagesFor my_emacs).emacsWithPackages(epkgs: with epkgs; [
+      ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
         treesit-grammars.with-all-grammars
       ]))
 
@@ -507,7 +504,7 @@ in
       # text-generation-inference
       inputs.tgi.packages.${pkgs.system}.default
       inputs.tgi.packages.${pkgs.system}.server
-      # inputs.tei.packages.${pkgs.system}.default
+      inputs.tei.packages.${pkgs.system}.default
 
       (pkgs.comfyuiPackages.comfyui.override {
         extensions = [
