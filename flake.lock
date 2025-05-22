@@ -151,7 +151,7 @@
         "nix-test-runner": "nix-test-runner_3",
         "nixpkgs": [
           "tgi",
-          "tgi-nix",
+          "hf-nix",
           "nixpkgs"
         ],
         "pre-commit-hooks": "pre-commit-hooks_3"
@@ -989,6 +989,26 @@
         "type": "github"
       }
     },
+    "hf-nix": {
+      "inputs": {
+        "flake-compat": "flake-compat_6",
+        "flake-utils": "flake-utils_9",
+        "nixpkgs": "nixpkgs_8"
+      },
+      "locked": {
+        "lastModified": 1747919133,
+        "narHash": "sha256-VvF1naQOvv7yulQ5/cDiaxkNxlh1Y84QMZnderv1szk=",
+        "owner": "huggingface",
+        "repo": "hf-nix",
+        "rev": "9c71e026d6c7c8588ef85a5f7c77f57d598e038c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "huggingface",
+        "repo": "hf-nix",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -1112,11 +1132,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747914883,
-        "narHash": "sha256-Y+agJE9PQR0pvc+qlwULngvBy/Za7zEft/cM8ITQ4uM=",
+        "lastModified": 1747920819,
+        "narHash": "sha256-+ZwpMXfiALsQDhC0j8ddI4HWbPqkgMv2ek+1UjNS1D4=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "d394a9aedc50a13b7f6373416f7c1ccabfe79c32",
+        "rev": "cc74d5be990e37f201591fd868a92e64abdbf902",
         "type": "github"
       },
       "original": {
@@ -1689,16 +1709,16 @@
     },
     "nixpkgs_8": {
       "locked": {
-        "lastModified": 1746711195,
-        "narHash": "sha256-bSpM2ySq12PBOVN7jZdzXsc99iRoYOyolh5wz43+CjQ=",
+        "lastModified": 1747820358,
+        "narHash": "sha256-fTqsZsUX6M3yeEvgyQvXcbGmT2CaRVyVwsi8eK29Oj4=",
         "owner": "danieldk",
         "repo": "nixpkgs",
-        "rev": "6b7a66b06ccb09ac95872ac6ddf952e0660672ab",
+        "rev": "d3c1681180717528068082103bf323147de6ab0b",
         "type": "github"
       },
       "original": {
         "owner": "danieldk",
-        "ref": "kernel-builder-cuda-12.9.0",
+        "ref": "cudatoolkit-12.9-kernel-builder",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -2094,7 +2114,7 @@
       "inputs": {
         "nixpkgs": [
           "tgi",
-          "tgi-nix",
+          "hf-nix",
           "nixpkgs"
         ]
       },
@@ -2407,47 +2427,26 @@
       "inputs": {
         "crate2nix": "crate2nix",
         "flake-utils": "flake-utils_8",
+        "hf-nix": "hf-nix",
         "nix-filter": "nix-filter",
         "nixpkgs": [
           "tgi",
-          "tgi-nix",
+          "hf-nix",
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_2",
-        "tgi-nix": "tgi-nix"
+        "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1747899835,
-        "narHash": "sha256-dSoFcBX4N3hX7OaIDOlxEIRql8AdECqDmuhObYmQe5A=",
+        "lastModified": 1747926555,
+        "narHash": "sha256-Ty6jn1GsEV5COUPv8fR+c8ioE3g9XmXoQG0He9iVN2A=",
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "rev": "674c514d448b4ca7346e1fe18731aa70dc78acb5",
+        "rev": "f58d7cf50e78f3430e1efa0608189b960d23db74",
         "type": "github"
       },
       "original": {
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "type": "github"
-      }
-    },
-    "tgi-nix": {
-      "inputs": {
-        "flake-compat": "flake-compat_6",
-        "flake-utils": "flake-utils_9",
-        "nixpkgs": "nixpkgs_8"
-      },
-      "locked": {
-        "lastModified": 1747733488,
-        "narHash": "sha256-LYov4H9zvqXXlFKdytcVcDioH416c+LWfyw/HWta0qw=",
-        "owner": "huggingface",
-        "repo": "text-generation-inference-nix",
-        "rev": "61c730990efa58e64c652bf15253aae47dd0f7dd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "huggingface",
-        "ref": "merge-with-kernel-builder",
-        "repo": "text-generation-inference-nix",
         "type": "github"
       }
     },
