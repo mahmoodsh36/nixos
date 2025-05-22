@@ -75,7 +75,7 @@ in
     # users
     users.users.mahmooz = {
       isNormalUser = true;
-      extraGroups = [ "audio" "wheel" "podman" ];
+      extraGroups = [ "audio" "wheel" "podman" "incus-admin" "libvirtd" ];
       shell = pkgs.zsh;
       initialPassword = "123";
       packages = with pkgs; [];

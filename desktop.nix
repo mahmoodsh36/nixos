@@ -242,7 +242,6 @@ in
         swtpm.enable = true;
       };
     };
-    programs.virt-manager.enable = true;
     # virtualisation.docker.enable = true;
     # virtualisation.docker.enableNvidia = config.machine.enable_nvidia;
     virtualisation.podman = {
@@ -256,7 +255,10 @@ in
       ];
     };
     virtualisation.incus.enable = true;
-    users.users.mahmooz.extraGroups = [ "incus-admin" ];
+
+    programs.virt-manager.enable = true;
+    users.groups.libvirtd.members = [ constants.myuser ];
+    virtualisation.spiceUSBRedirection.enable = true;
 
     fonts = {
       enableDefaultPackages = true;

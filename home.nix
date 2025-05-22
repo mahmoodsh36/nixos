@@ -133,6 +133,12 @@ in
     dconf = {
       enable = true;
       settings = {
+        # for virt-manager, https://nixos.wiki/wiki/Virt-manager
+        "org/virt-manager/virt-manager/connections" = {
+          autoconnect = [ "qemu:///system" ];
+          uris = [ "qemu:///system" ];
+        };
+
         "org/gnome/shell" = {
           disable-user-extensions = false;
           enabled-extensions = with pkgs.gnomeExtensions; [
