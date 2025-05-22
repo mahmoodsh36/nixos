@@ -476,6 +476,7 @@ in
       ffmpeg-full.bin # untrunc-anthwlock
       pandoc
       pigz # for compression
+      virt-viewer
 
       # nix specific
       nixos-generators
