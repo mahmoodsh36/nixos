@@ -510,15 +510,7 @@ in
       # inputs.tei.packages.${pkgs.system}.default
 
       # vllm
-      # inputs.vllm-flake.packages.${pkgs.system}.vllm
-      (inputs.vllm-flake.packages.${pkgs.system}.vllm.overrideAttrs (finalAttrs: prevAttrs: {
-        src = pkgs.fetchFromGitHub {
-          owner = "vllm-project";
-          repo = "vllm";
-          rev = "d0bc2f810b7a34247154b078c2429bf62519e9ca";
-          sha256 = "sha256-jxH0KTwQfzZY9c6l3W37wBdmnHTLvZXIYGQ57CFgvwQ=";
-        };
-      }))
+      inputs.vllm-flake.packages.${pkgs.system}.vllm
 
       (pkgs.comfyuiPackages.comfyui.override {
         extensions = [
