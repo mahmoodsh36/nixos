@@ -40,6 +40,7 @@ in rec {
     openssl
     man-pages man-pages-posix
     wezterm # we need it installed on the server too, for persistent sessions
+    fdupes
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
