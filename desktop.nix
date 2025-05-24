@@ -354,7 +354,6 @@ in
         pkgs.glibc
         pkgs.pythonManylinuxPackages.manylinux2014Package
       ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-        # pkgs.zfs_unstable.latestCompatibleLinuxPackages.nvidia_x11
         pkgs.linuxPackages.nvidia_x11
         pkgs.cudaPackages.cudatoolkit
         pkgs.cudaPackages.cudnn
