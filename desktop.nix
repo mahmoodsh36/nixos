@@ -508,9 +508,6 @@ in
       inputs.tgi.packages.${pkgs.system}.server
       # inputs.tei.packages.${pkgs.system}.default
 
-      # vllm
-      inputs.vllm-flake.packages.${pkgs.system}.vllm
-
       (pkgs.comfyuiPackages.comfyui.override {
         extensions = [
           pkgs.comfyuiPackages.extensions.acly-inpaint
@@ -620,25 +617,9 @@ in
     # without this okular is blurry
     environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
 
-    # run vllm through docker (its broken in nixpkgs, but this may be better anyway?)
     virtualisation.oci-containers = {
       backend = "podman";
       containers = {
-        vllm = {
-          autoStart = false;
-          image = "vllm/vllm-openai:latest";
-          ports = [ "5000:5000" ];
-          extraOptions = [
-            "--runtime" "nvidia"
-            "--gpus" "all"
-            "--ipc" "host"
-            "--pull=always"
-            "--network=host"
-          ];
-          cmd = [
-            "--model" "mistralai/Mistral-7B-v0.1"
-          ];
-        };
         # openhands-app = {
         #   autoStart = true;
         #   image = "docker.all-hands.dev/all-hands-ai/openhands:0.34";
