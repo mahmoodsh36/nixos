@@ -64,6 +64,28 @@ in
       enableSSHSupport = true;
     };
 
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+    hardware.nvidia.open = false;
+    hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
+
+    # vaapi (accelerated video playback), enable vaapi on OS-level
+    # nixpkgs.config.packageOverrides = pkgs: {
+    #   vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    # };
+    hardware.graphics = {
+      extraPackages = with pkgs; [
+        # intel-media-driver
+        # vaapiVdpau
+        # intel-compute-runtime # openCL filter support (hardware tonemapping and subtitle burn-in)
+        # vpl-gpu-rt # QSV on 11th gen or newer
+      ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+        nvidia-vaapi-driver
+      ];
+    };
+
     # self-hosted media service
     services.jellyfin = {
       enable = config.machine.is_home_server;
@@ -119,6 +141,13 @@ in
 
       # PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
       # PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+    } // lib.mkIf config.machine.enable_nvidia  {
+      # do we really need these? hopefully it makes things work with jellyfin/firefox?
+      LIBVA_DRIVER_NAME = "nvidia";
+      VDPAU_DRIVER = "nvidia";
+      GBM_BACKEND = "nvidia-drm";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      MOZ_DISABLE_RDD_SANDBOX= "1" ;
     };
 
     # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)

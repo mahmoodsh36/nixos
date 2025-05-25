@@ -41,6 +41,7 @@ in rec {
     man-pages man-pages-posix
     wezterm # we need it installed on the server too, for persistent sessions
     fdupes
+    libva-utils
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop

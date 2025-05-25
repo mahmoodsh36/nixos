@@ -60,28 +60,6 @@ in
     # automatic screen rotation?
     hardware.sensor.iio.enable = true;
 
-    hardware.graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-    hardware.nvidia.open = false;
-    hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
-
-    # vaapi (accelerated video playback), enable vaapi on OS-level
-    nixpkgs.config.packageOverrides = pkgs: {
-      vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-    };
-    hardware.graphics = {
-      # accelerated video playback
-      extraPackages = with pkgs; [
-        intel-media-driver
-        vaapiVdpau
-        intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
-        vpl-gpu-rt # QSV on 11th gen or newer
-        intel-media-sdk # QSV up to 11th gen
-      ];
-    };
-
     # enable sound and bluetooth
     # services.blueman.enable = true;
     hardware.bluetooth = {
