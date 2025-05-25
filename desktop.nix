@@ -532,7 +532,7 @@ in
       chatbox
       jan
       lmstudio
-      # local-ai # i dont think i have any use for this
+      local-ai # i dont think i have any use for this
       librechat
       pkgs-pinned.streamlit
       private-gpt
