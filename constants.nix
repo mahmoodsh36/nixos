@@ -19,6 +19,7 @@ rec {
   music_dir = "${home_dir}/music";
   notes_dir = "${brain_dir}/notes";
   data_dir = "${home_dir}/data";
+  extra_storage_dir = "${home_dir}/mnt2/my";
   models_dir = "${home_dir}/mnt2/my/models";
   mpv_socket_dir = "${data_dir}/mpv_data/sockets";
   mpv_main_socket_path = "${data_dir}/mpv_data/sockets/mpv.socket";

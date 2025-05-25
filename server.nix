@@ -3,6 +3,9 @@
 let
   server_vars = (import ./server_vars.nix { inherit pkgs; inherit pkgs-pinned; inherit inputs; });
   constants = (import ./constants.nix);
+  jellyfin_dir = if builtins.pathExists "${constants.extra_storage_dir}"
+                 then "${constants.extra_storage_dir}/jellyfin"
+                 else "/home/${constants.myuser}/.jellyfin";
 in
 {
   imports = [
@@ -90,8 +93,8 @@ in
     services.jellyfin = {
       enable = config.machine.is_home_server;
       # openFirewall = true;
-      user = "mahmooz"; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
-      dataDir = "/home/mahmooz/.jellyfin";
+      user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
+      dataDir = jellyfin_dir;
     };
 
     # users
