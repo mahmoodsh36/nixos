@@ -144,14 +144,14 @@ in
 
       # PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
       # PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-    } // lib.mkIf config.machine.enable_nvidia  {
+    } // (if config.machine.enable_nvidia then {
       # do we really need these? hopefully it makes things work with jellyfin/firefox?
       LIBVA_DRIVER_NAME = "nvidia";
       VDPAU_DRIVER = "nvidia";
       GBM_BACKEND = "nvidia-drm";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       MOZ_DISABLE_RDD_SANDBOX= "1" ;
-    };
+    } else {});
 
     # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)
     nix.settings.substituters = [
