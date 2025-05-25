@@ -75,7 +75,7 @@ in
       };
       powerOnBoot = true;
     };
-    security.rtkit.enable = true; # realtime audio support
+    security.rtkit.enable = true; # realtime audio support, do i need this?
     services.pipewire = {
       enable = true;
       alsa.enable = true;
@@ -200,10 +200,10 @@ in
 
     # hybrid sleep when press power button
     services.logind.extraConfig = ''
-    HandlePowerKey=ignore
-    IdleAction=ignore
-    IdleActionSec=1m
-  '';
+      HandlePowerKey=ignore
+      IdleAction=ignore
+      IdleActionSec=1m
+    '';
     # dont hibernate when lid is closed
     # services.logind.lidSwitch = "ignore";
 
@@ -234,6 +234,7 @@ in
     };
     virtualisation.incus.enable = true;
 
+    # spice-gtk?
     programs.virt-manager.enable = true;
     users.groups.libvirtd.members = [ constants.myuser ];
     virtualisation.spiceUSBRedirection.enable = true;
@@ -292,53 +293,53 @@ in
     };
     programs.command-not-found.enable = false; # needed for nix-index
 
-    programs.nix-ld = {
-      enable = true;
-      libraries = [
-        pkgs.stdenv.cc.cc
-        pkgs.zlib
-        pkgs.fuse3
-        pkgs.icu
-        pkgs.nss
-        pkgs.openssl
-        pkgs.curl
-        pkgs.expat
-        pkgs.xorg.libX11
-        pkgs.vulkan-headers
-        pkgs.vulkan-loader
-        pkgs.vulkan-tools
-        pkgs.libGL
-        pkgs.stdenv.cc.cc.lib
-        pkgs.glib
-        pkgs.ncurses5
-        pkgs.libzip
-        pkgs.cmake
-        pkgs.llvm_18
-        pkgs.zstd
-        pkgs.attr
-        pkgs.libssh
-        pkgs.bzip2
-        pkgs.libaio
-        pkgs.file
-        pkgs.libxml2
-        pkgs.acl
-        pkgs.libsodium
-        pkgs.util-linux
-        pkgs.binutils
-        pkgs.xz
-        pkgs.systemd
-        pkgs.glibc_multi
-        pkgs.pkg-config
-        pkgs.glibc
-        pkgs.pythonManylinuxPackages.manylinux2014Package
-      ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-        pkgs.linuxPackages.nvidia_x11
-        pkgs.cudaPackages.cudatoolkit
-        pkgs.cudaPackages.cudnn
-        pkgs.cudaPackages.cuda_cudart
-        pkgs.cudaPackages.cuda_cudart.static
-      ];
-    };
+    # programs.nix-ld = {
+    #   enable = true;
+    #   libraries = [
+    #     pkgs.stdenv.cc.cc
+    #     pkgs.zlib
+    #     pkgs.fuse3
+    #     pkgs.icu
+    #     pkgs.nss
+    #     pkgs.openssl
+    #     pkgs.curl
+    #     pkgs.expat
+    #     pkgs.xorg.libX11
+    #     pkgs.vulkan-headers
+    #     pkgs.vulkan-loader
+    #     pkgs.vulkan-tools
+    #     pkgs.libGL
+    #     pkgs.stdenv.cc.cc.lib
+    #     pkgs.glib
+    #     pkgs.ncurses5
+    #     pkgs.libzip
+    #     pkgs.cmake
+    #     pkgs.llvm_18
+    #     pkgs.zstd
+    #     pkgs.attr
+    #     pkgs.libssh
+    #     pkgs.bzip2
+    #     pkgs.libaio
+    #     pkgs.file
+    #     pkgs.libxml2
+    #     pkgs.acl
+    #     pkgs.libsodium
+    #     pkgs.util-linux
+    #     pkgs.binutils
+    #     pkgs.xz
+    #     pkgs.systemd
+    #     pkgs.glibc_multi
+    #     pkgs.pkg-config
+    #     pkgs.glibc
+    #     pkgs.pythonManylinuxPackages.manylinux2014Package
+    #   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+    #     pkgs.linuxPackages.nvidia_x11
+    #     pkgs.cudaPackages.cudatoolkit
+    #     pkgs.cudaPackages.cudnn
+    #     pkgs.cudaPackages.cuda_cudart
+    #     pkgs.cudaPackages.cuda_cudart.static
+    #   ];
+    # };
 
     # packages
     environment.systemPackages = with pkgs; [
@@ -562,7 +563,7 @@ in
       wantedBy = [ "multi-user.target" ];
       script = "${pkgs.dash}/bin/dash ${constants.scripts_dir}/mpv_logger.sh";
       serviceConfig = {
-        User = "mahmooz";
+        User = constants.myuser;
         Restart = "always";
         RuntimeMaxSec = "3600";
         # ExecStart = "${pkgs.coreutils}/bin/sh ${constants.scripts_dir}/mpv_logger.sh";
@@ -571,7 +572,7 @@ in
 
     services.open-webui = {
       package = pkgs.open-webui;
-      enable = false;
+      enable = true;
       port = 8083;
       environment = {
         WEBUI_AUTH = "False";
@@ -585,10 +586,11 @@ in
       description = "service for keys.py";
       wantedBy = [ "multi-user.target" ];
       # run it with a shell so it has access to all binaries as usual in $PATH
-      script = "${pkgs.zsh}/bin/zsh -c '${keys_python}/bin/python /home/mahmooz/work/keys/keys.py -d'";
+      script = "${pkgs.zsh}/bin/zsh -c '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d'";
       serviceConfig = {
         # User = "mahmooz";
         Restart = "always";
+        ConditionPathExists = "${constants.work_dir}/keys/keys.py";
       };
     };
 
@@ -670,10 +672,10 @@ in
       ensureDatabases = [ "mahmooz" ];
       # port = 5432;
       initialScript = pkgs.writeText "backend-initScript" ''
-      CREATE ROLE mahmooz WITH LOGIN PASSWORD 'mahmooz' CREATEDB;
-      CREATE DATABASE test;
-      GRANT ALL PRIVILEGES ON DATABASE test TO mahmooz;
-    '';
+        CREATE ROLE mahmooz WITH LOGIN PASSWORD 'mahmooz' CREATEDB;
+        CREATE DATABASE test;
+        GRANT ALL PRIVILEGES ON DATABASE test TO mahmooz;
+      '';
       ensureUsers = [{
         name = "mahmooz";
         ensureDBOwnership = true;

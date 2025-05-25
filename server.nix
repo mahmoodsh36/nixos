@@ -187,7 +187,7 @@ in
         RestartSec = 10;
         User = "mahmooz";
         NoNewPrivileges = true;
-        ConditionPathExists = "/home/mahmooz/work/scripts/keepalive.py";  # only run if script exists
+        ConditionPathExists = "/home/mahmooz/work/scripts/keepalive.py";
       };
       wantedBy = [ "multi-user.target" ];
     };
