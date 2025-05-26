@@ -42,6 +42,7 @@ in rec {
     wezterm # we need it installed on the server too, for persistent sessions
     fdupes
     libva-utils
+    jellyfin-web jellyfin-ffmpeg jellyfin
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
