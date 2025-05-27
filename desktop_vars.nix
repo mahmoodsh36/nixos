@@ -40,7 +40,7 @@ in
     bitsandbytes gguf
     # llama-index-cli llama-index
     # llama-parse
-    huggingface-hub
+    huggingface-hub hf-ext # latter is needed(preferred) for former
 
     mlflow chromadb
     llm-gguf llm
