@@ -26,5 +26,5 @@ rec {
   enable_plasma = true;
   models_dir = if builtins.pathExists "${extra_storage_dir}"
                then "${extra_storage_dir}"
-               else "/home/${myuser}/.jellyfin";
+               else "/home/${myuser}/.hf_models";
 }
