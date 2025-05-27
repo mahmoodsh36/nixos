@@ -37,14 +37,16 @@ in
     diffusers
     # tensorrt
     mcp
-    llm-gguf llm
     bitsandbytes gguf
     # llama-index-cli llama-index
     # llama-parse
     huggingface-hub
-    mlflow
-    chromadb
-    gradio
+
+    mlflow chromadb
+    llm-gguf llm
+
+    # for hosting?
+    uvicorn fastapi pydantic
 
     timm einops tiktoken # some models require these
 
