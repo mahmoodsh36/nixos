@@ -21,7 +21,7 @@ in
 
     # ml stuff
     torch
-    torchvision
+    torchvision torchaudio
     accelerate
     # transformers
     datasets
