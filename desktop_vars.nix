@@ -23,8 +23,8 @@ in
     torch
     torchvision torchaudio
     accelerate
-    # transformers
     datasets
+    # transformers
     (transformers.overrideAttrs (finalAttrs: prevAttrs: {
       src = pkgs.fetchFromGitHub {
         owner = "huggingface";
@@ -40,7 +40,7 @@ in
     bitsandbytes gguf
     # llama-index-cli llama-index
     # llama-parse
-    huggingface-hub hf-ext # latter is needed(preferred) for former
+    huggingface-hub hf_ext # latter is needed(preferred) for former
 
     mlflow chromadb
     llm-gguf llm
