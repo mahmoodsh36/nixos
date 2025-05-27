@@ -37,10 +37,11 @@ in
     diffusers
     # tensorrt
     mcp
-    bitsandbytes gguf
+    bitsandbytes
     # llama-index-cli llama-index
     # llama-parse
     huggingface-hub hf-xet # latter is needed(preferred) for former
+    gguf
 
     mlflow chromadb
     llm-gguf llm

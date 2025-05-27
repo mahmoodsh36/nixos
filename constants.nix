@@ -25,6 +25,6 @@ rec {
   main_key = "${brain_dir}/keys/hetzner1";
   enable_plasma = true;
   models_dir = if builtins.pathExists "${extra_storage_dir}"
-               then "${extra_storage_dir}/jellyfin"
+               then "${extra_storage_dir}"
                else "/home/${myuser}/.jellyfin";
 }
