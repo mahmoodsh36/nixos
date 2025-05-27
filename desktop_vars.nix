@@ -44,6 +44,7 @@ in
     huggingface-hub
     mlflow
     chromadb
+    gradio
 
     timm einops tiktoken # some models require these
 

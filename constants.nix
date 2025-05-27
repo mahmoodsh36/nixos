@@ -20,9 +20,11 @@ rec {
   notes_dir = "${brain_dir}/notes";
   data_dir = "${home_dir}/data";
   extra_storage_dir = "${home_dir}/mnt2/my";
-  models_dir = "${home_dir}/mnt2/my/models";
   mpv_socket_dir = "${data_dir}/mpv_data/sockets";
   mpv_main_socket_path = "${data_dir}/mpv_data/sockets/mpv.socket";
   main_key = "${brain_dir}/keys/hetzner1";
   enable_plasma = true;
+  models_dir = if builtins.pathExists "${extra_storage_dir}"
+               then "${extra_storage_dir}/jellyfin"
+               else "/home/${myuser}/.jellyfin";
 }
