@@ -158,11 +158,13 @@ in
       "https://nix-community.cachix.org"
       "https://cache.nixos.org/"
       "https://text-generation-inference.cachix.org"
+      "https://llama-cpp.cachix.org"
     ];
     nix.settings.trusted-public-keys = [
       # compare to the key published at https://nix-community.org/cache
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "text-generation-inference.cachix.org-1:xdQ8eIf9LuIwS0n0/5ZmOHLaCXC6yy7MgzQNK/y+R1c="
+      "llama-cpp.cachix.org-1:H75X+w83wUKTIPSO1KWy9ADUrzThyGs8P5tmAbkWhQc="
     ];
 
     environment.systemPackages = server_vars.server_packages;
