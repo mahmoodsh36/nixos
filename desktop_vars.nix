@@ -42,6 +42,7 @@ in
     # llama-parse
     huggingface-hub hf-xet # latter is needed(preferred) for former
     gguf
+    fschat
 
     mlflow chromadb
     llm-gguf llm
