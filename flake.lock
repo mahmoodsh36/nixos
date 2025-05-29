@@ -785,11 +785,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1748499301,
-        "narHash": "sha256-P9n60qJxi62ecEwBFGp0auf9ofU7xcpIKYrJPKEOyJw=",
+        "lastModified": 1748510323,
+        "narHash": "sha256-AIRGX3nQQOSg2y7zoOd73B7rbO+s035k2qi8K7HyWLo=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "6385b843a8dc8e15b8362196039720c58dd79fa2",
+        "rev": "dd8ba93416f492c168f7e20f0b1434c08ebeaeb5",
         "type": "github"
       },
       "original": {
@@ -1521,11 +1521,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1748436860,
-        "narHash": "sha256-JiqRWRpRpvxCEJo/atPvweoxImI1ogVnayvFzCgx2rA=",
+        "lastModified": 1748511524,
+        "narHash": "sha256-9TrVOmvJkbbmr6Aeoh+1vAo8nRaL9mOim/hw3Ynngvw=",
         "owner": "huggingface",
         "repo": "text-generation-inference",
-        "rev": "f14044009a59e6524a0a317c3a455d188997dbb4",
+        "rev": "6b6e30a6f680b45884cdd144d57ac5115d69090e",
         "type": "github"
       },
       "original": {
