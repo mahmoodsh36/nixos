@@ -3,7 +3,7 @@
 let
   server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ./constants.nix);
-  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config; });
+  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   main_python = desktop_vars.desktop_python;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
   emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {

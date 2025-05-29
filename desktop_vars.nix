@@ -1,4 +1,4 @@
-{ pkgs, config, pkgs-pinned, ... }:
+{ inputs, pkgs, config, pkgs-pinned, ... }:
 
 let
   # python-pkgs = (if config.machine.name == "mahmooz2"
@@ -44,6 +44,7 @@ in
     gguf
     fschat
     smolagents
+    inputs.hf-nix.packages.${pkgs.system}.python3Packages.flash-attn
 
     mlflow chromadb
     llm-gguf llm
