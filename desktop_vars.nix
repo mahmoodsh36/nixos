@@ -44,6 +44,7 @@ in
     gguf
     fschat
     smolagents
+    # flash-attn
 
     mlflow chromadb
     llm-gguf llm
