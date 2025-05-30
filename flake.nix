@@ -45,7 +45,6 @@
       url = "github:ggml-org/llama.cpp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hf-nix.url = "github:huggingface/hf-nix";
   };
 
   outputs = {

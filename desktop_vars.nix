@@ -6,10 +6,6 @@ let
   #                else pkgs-pinned);
   # python-pkgs = pkgs-pinned;
   python-pkgs = pkgs;
-  hf-pkgs = import inputs.nixpkgs {
-    inherit (python-pkgs) system config;
-    overlays = [ inputs.hf-nix.overlays.default ];
-  };
 in
 {
   desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
@@ -48,7 +44,6 @@ in
     gguf
     fschat
     smolagents
-    hf-pkgs.python3Packages.flash-attn
 
     mlflow chromadb
     llm-gguf llm
