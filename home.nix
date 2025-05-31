@@ -192,15 +192,16 @@ in
           tap-to-click = true;
           two-finger-scrolling-enabled = true;
         };
-        "org/gnome/desktop/interface" = {
-          clock-show-seconds = true;
-          clock-show-weekday = true;
-          color-scheme = "prefer-dark";
-          gtk-theme = "Adwaita-dark";
-          scaling-factor = lib.hm.gvariant.mkUint32 0; # 0 to automatically detect
-          enable-hot-corners = false;
-          show-battery-percentage = true;
-        };
+        # could be creating .gtkrc-2 and interfering with plasma-manager, not sure
+        # "org/gnome/desktop/interface" = {
+        #   clock-show-seconds = true;
+        #   clock-show-weekday = true;
+        #   color-scheme = "prefer-dark";
+        #   gtk-theme = "Adwaita-dark";
+        #   scaling-factor = lib.hm.gvariant.mkUint32 0; # 0 to automatically detect
+        #   enable-hot-corners = false;
+        #   show-battery-percentage = true;
+        # };
         "org/gnome/settings-daemon/plugins/media-keys" = {
           custom-keybindings = [
             "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
