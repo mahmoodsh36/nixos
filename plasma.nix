@@ -75,10 +75,10 @@
               config = {
                 General = {
                   launchers = [
-                    "applications:org.kde.dolphin.desktop"
                     "applications:org.kde.konsole.desktop"
                   ];
                 };
+                showOnlyCurrentDesktop = false;
               };
             }
             "org.kde.plasma.marginsseparator"
@@ -200,26 +200,27 @@
         }
       ];
 
-      # powerdevil = {
-      #   AC = {
-      #     powerButtonAction = "lockScreen";
-      #     autoSuspend = {
-      #       action = "shutDown";
-      #       idleTimeout = 1000;
-      #     };
-      #     turnOffDisplay = {
-      #       idleTimeout = 1000;
-      #       idleTimeoutWhenLocked = "immediately";
-      #     };
-      #   };
-      #   battery = {
-      #     powerButtonAction = "sleep";
-      #     whenSleepingEnter = "standbyThenHibernate";
-      #   };
-      #   lowBattery = {
-      #     whenLaptopLidClosed = "hibernate";
-      #   };
-      # };
+      powerdevil = {
+        AC = {
+          powerButtonAction = "lockScreen";
+          autoSuspend = {
+            action = "shutDown";
+            # idleTimeout = 1000;
+            idleTimeout = 600000;
+          };
+          turnOffDisplay = {
+            idleTimeout = 1000;
+            idleTimeoutWhenLocked = "immediately";
+          };
+        };
+        battery = {
+          powerButtonAction = "sleep";
+          whenSleepingEnter = "standbyThenHibernate";
+        };
+        lowBattery = {
+          whenLaptopLidClosed = "hibernate";
+        };
+      };
 
       kwin = {
         edgeBarrier = 0; # disables the edge-barriers introduced in plasma 6.1
@@ -255,7 +256,7 @@
           "Window to Desktop 3" =  "Meta+Shift+3";
           "Window to Desktop 4" =  "Meta+Shift+4";
           "Overview" = "Meta+W";
-          "Kill Window" = "Meta+q";
+          "Window Close" = "Meta+q";
         };
       };
 
@@ -266,7 +267,7 @@
         "kwinrc"."Effect-blurplus"."BlurMenus" = true;
         "kwinrc"."Effect-blurplus"."BlurStrength" = 8;
         "kwinrc"."Effect-blurplus"."TopCornerRadius" = 2;
-        "kwinrc"."Effect-blurplus"."DockCornerRadius" = 2;
+        "kwinbottomrc"."Effect-blurplus"."DockCornerRadius" = 2;
         "kwinrc"."Effect-blurplus"."MenuCornerRadius" = 2;
 
         "kdeglobals"."General"."AllowKDEAppsToRememberWindowPositions" = true;

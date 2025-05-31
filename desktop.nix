@@ -157,9 +157,9 @@ in
         enableHidpi = true;
         settings.General.DisplayServer = "wayland";
       };
-      defaultSession = "hyprland";
+      # defaultSession = "hyprland";
       # defaultSession = "gnome";
-      # defaultSession = "plasma";
+      defaultSession = "plasma";
     };
     services.desktopManager.plasma6.enable = constants.enable_plasma;
     environment.etc."xdg/baloofilerc".source = lib.mkIf constants.enable_plasma (
