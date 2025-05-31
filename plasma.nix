@@ -15,11 +15,11 @@
         wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/Patak/contents/images/1080x1920.png";
       };
 
-      hotkeys.commands."launch-konsole" = {
-        name = "Launch Konsole";
-        key = "Meta+Alt+K";
-        command = "konsole";
-      };
+      # hotkeys.commands."launch-konsole" = {
+      #   name = "Launch Konsole";
+      #   key = "Meta+Alt+K";
+      #   command = "konsole";
+      # };
 
       fonts = {
         general = {
@@ -251,10 +251,10 @@
           "Switch to Desktop 2" = "Meta+2";
           "Switch to Desktop 3" = "Meta+3";
           "Switch to Desktop 4" = "Meta+4";
-          "Window to Desktop 1" =  "Meta+Shift+1";
-          "Window to Desktop 2" =  "Meta+Shift+2";
-          "Window to Desktop 3" =  "Meta+Shift+3";
-          "Window to Desktop 4" =  "Meta+Shift+4";
+          "Window to Desktop 1" = "Meta+Shift+1";
+          "Window to Desktop 2" = "Meta+Shift+2";
+          "Window to Desktop 3" = "Meta+Shift+3";
+          "Window to Desktop 4" = "Meta+Shift+4";
           "Overview" = "Meta+W";
           "Window Close" = "Meta+q";
         };
