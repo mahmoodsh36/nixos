@@ -658,6 +658,14 @@ in
       package = pkgs.mariadb;
     };
 
+    services.mongodb = {
+      enable = true;
+      # package = "mongodb-5_0";
+      # enableAuth = true;
+      # initialRootPasswordFile = "123";
+      bind_ip = "0.0.0.0";
+    };
+
     services.postgresql = {
       enable = false;
       enableTCPIP = true;
