@@ -60,6 +60,8 @@ in
     # automatic screen rotation?
     hardware.sensor.iio.enable = true;
 
+    services.hardware.openrgb.enable = true;
+
     # enable sound and bluetooth
     # services.blueman.enable = true;
     hardware.bluetooth = {
@@ -455,6 +457,7 @@ in
       pandoc
       pigz # for compression
       virt-viewer
+      openrgb-with-all-plugins
 
       # nix specific
       nixos-generators
