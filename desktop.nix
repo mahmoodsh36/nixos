@@ -60,7 +60,9 @@ in
     # automatic screen rotation?
     hardware.sensor.iio.enable = true;
 
+    # openrgb for controlling rgb lighting
     services.hardware.openrgb.enable = true;
+    hardware.i2c.enable = true;
 
     # enable sound and bluetooth
     # services.blueman.enable = true;
