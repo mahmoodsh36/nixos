@@ -537,7 +537,7 @@ in
       skypilot
       chatbox
       jan
-      lmstudio
+      # lmstudio
       local-ai # i dont think i have any use for this
       librechat
       pkgs-pinned.streamlit
