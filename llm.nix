@@ -15,7 +15,6 @@ in
             "--gpus" "all"
             "--ipc" "host"
             "--pull=always"
-            "--pull-timeout=6000"
             "-v ${constants.models_dir}:/cache"
             "--network=host"
           ];
@@ -39,7 +38,6 @@ in
             "--gpus" "all"
             "--ipc" "host"
             "--pull=always"
-            "--pull-timeout=6000"
             "-v ${constants.models_dir}:/cache"
             "--network=host"
           ];
