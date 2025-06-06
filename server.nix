@@ -11,6 +11,7 @@ in
   imports = [
     ./nvidia.nix
     ./network.nix
+    ./llm.nix
   ];
   config = {
 
