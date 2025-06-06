@@ -460,6 +460,7 @@ in
       pigz # for compression
       virt-viewer
       openrgb-with-all-plugins
+      tor-browser
 
       # nix specific
       nixos-generators
