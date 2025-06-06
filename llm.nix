@@ -20,7 +20,7 @@ in
           ];
           cmd = [
             "--model" "Qwen/Qwen3-14B"
-            "--max-model-len" "$((2 ** 16))"
+            "--max-model-len" "65536"
             "--gpu-memory-utilization" "0.9"
             "--enable-reasoning"
             "--quantization" "bitsandbytes"
@@ -44,7 +44,7 @@ in
           ];
           cmd = [
             "--model" "Qwen/Qwen3-Embedding-0.6B"
-            "--max-model-len" "$((2 ** 15))"
+            "--max-model-len" "32768"
             # "--gpu-memory-utilization" "0.9" # default
             # "--quantization" "bitsandbytes"
             "--download-dir" "/cache"
