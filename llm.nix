@@ -14,7 +14,7 @@ in
           extraOptions = [
             "--gpus" "all"
             "--ipc" "host"
-            "--pull=always"
+            # "--pull=always"
             "-v ${constants.models_dir}:/cache"
             "--network=host"
           ];
@@ -37,7 +37,7 @@ in
           extraOptions = [
             "--gpus" "all"
             "--ipc" "host"
-            "--pull=always"
+            # "--pull=always"
             "-v ${constants.models_dir}:/cache"
             "--network=host"
           ];
