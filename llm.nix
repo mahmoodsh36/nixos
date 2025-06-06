@@ -15,7 +15,7 @@ in
             "--gpus" "all"
             "--ipc" "host"
             # "--pull=always"
-            "-v ${constants.models_dir}:/cache"
+            "-v" "${constants.models_dir}:/cache"
             "--network=host"
           ];
           cmd = [
@@ -38,7 +38,7 @@ in
             "--gpus" "all"
             "--ipc" "host"
             # "--pull=always"
-            "-v ${constants.models_dir}:/cache"
+            "-v" "${constants.models_dir}:/cache"
             "--network=host"
           ];
           cmd = [
