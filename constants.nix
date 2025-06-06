@@ -24,7 +24,8 @@ rec {
   mpv_main_socket_path = "${data_dir}/mpv_data/sockets/mpv.socket";
   main_key = "${brain_dir}/keys/hetzner1";
   enable_plasma = true;
-  models_dir = if builtins.pathExists "${extra_storage_dir}"
-               then "${extra_storage_dir}/models"
-               else "/home/${myuser}/.hf_models";
+  # models_dir = if builtins.pathExists "${extra_storage_dir}"
+  #              then "${extra_storage_dir}/models"
+  #              else "/home/${myuser}/.hf_models";
+  models_dir = "${extra_storage_dir}/models";
 }
