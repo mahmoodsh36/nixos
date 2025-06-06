@@ -100,10 +100,6 @@ in
     systemd.services.jellyfin.unitConfig = {
       ConditionPathExists = constants.extra_storage_dir;
     };
-    systemd.services.jellyfin.serviceConfig = {
-      Restart = "always";
-      TimeoutStartSec = "300";
-    };
 
     # users
     users.users.mahmooz = {
