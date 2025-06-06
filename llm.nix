@@ -30,7 +30,7 @@ in
             "--seed" "2"
             "--host" "0.0.0.0"
             "--port" "5000"
-            "--rope-scaling" "{'rope_type':'yarn','factor':2.0,'original_max_position_embeddings':32768}"
+            "--rope-scaling" ''{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}''
           ];
         };
         vllm-qwen3-embed = {
