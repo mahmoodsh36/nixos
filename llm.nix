@@ -43,12 +43,13 @@ in
           ];
           cmd = [
             "--model" "Qwen/Qwen3-Embedding-0.6B"
-            "--max-model-len" "$((2 ** 14))"
+            "--max-model-len" "$((2 ** 15))"
             # "--gpu-memory-utilization" "0.9" # default
             # "--quantization" "bitsandbytes"
             "--download-dir" "/cache"
             "--host" "0.0.0.0"
             "--port" "5001"
+            "--task" "embedding"
           ];
         };
       };
