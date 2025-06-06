@@ -12,7 +12,6 @@ in
           autoStart = true;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
-            "--runtime" "nvidia"
             "--gpus" "all"
             "--ipc" "host"
             "--pull=always"
@@ -36,7 +35,6 @@ in
           autoStart = true;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
-            "--runtime" "nvidia"
             "--gpus" "all"
             "--ipc" "host"
             "--pull=always"
@@ -45,7 +43,7 @@ in
           ];
           cmd = [
             "--model" "Qwen/Qwen3-Embedding-0.6B"
-            "--max-model-len" "$((2 ** 15))"
+            "--max-model-len" "$((2 ** 14))"
             # "--gpu-memory-utilization" "0.9" # default
             # "--quantization" "bitsandbytes"
             "--download-dir" "/cache"
