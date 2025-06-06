@@ -20,17 +20,18 @@ in
           ];
           cmd = [
             "--model" "Qwen/Qwen3-14B"
-            "--max-model-len" "65536"
+            # "--max-model-len" "65536"
+            "--max-model-len" "32768"
             "--gpu-memory-utilization" "0.9"
             "--enable-reasoning"
             "--quantization" "bitsandbytes"
             "--enable-auto-tool-choice"
             "--tool-call-parser" "hermes"
             "--download-dir" "/cache"
+            "--rope-scaling" ''{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}''
             "--seed" "2"
             "--host" "0.0.0.0"
             "--port" "5000"
-            "--rope-scaling" ''{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}''
           ];
         };
         vllm-qwen3-embed = {
