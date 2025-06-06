@@ -27,6 +27,7 @@ in
             "--enable-auto-tool-choice"
             "--tool-call-parser" "hermes"
             "--download-dir" "/cache"
+            "--seed" "2"
             "--host" "0.0.0.0"
             "--port" "5000"
           ];
@@ -47,9 +48,10 @@ in
             # "--gpu-memory-utilization" "0.9" # default
             # "--quantization" "bitsandbytes"
             "--download-dir" "/cache"
+            "--seed" "2"
+            "--task" "embedding"
             "--host" "0.0.0.0"
             "--port" "5001"
-            "--task" "embedding"
           ];
         };
       };
