@@ -24,15 +24,15 @@ in
     torchvision torchaudio
     accelerate
     datasets
-    # transformers
-    (transformers.overrideAttrs (finalAttrs: prevAttrs: {
-      src = pkgs.fetchFromGitHub {
-        owner = "huggingface";
-        repo = "transformers";
-        rev = "38f9c5b15b71243a9f4befee6f20b0fd55a9ba30";
-        sha256 = "1fl2ac372nykb4vy0cyg490p4jn098xbhibm1jlpz574ylppscy3";
-      };
-    }))
+    transformers
+    # (transformers.overrideAttrs (finalAttrs: prevAttrs: {
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "huggingface";
+    #     repo = "transformers";
+    #     rev = "38f9c5b15b71243a9f4befee6f20b0fd55a9ba30";
+    #     sha256 = "1fl2ac372nykb4vy0cyg490p4jn098xbhibm1jlpz574ylppscy3";
+    #   };
+    # }))
     langchain
     diffusers
     # tensorrt
