@@ -97,8 +97,12 @@ in
       user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
       dataDir = jellyfin_dir;
     };
+    systemd.services.jellyfin.unitConfig = {
+      ConditionPathExists = constants.extra_storage_dir;
+    };
     systemd.services.jellyfin.serviceConfig = {
-      ConditionPathExists = constants.models_dir;
+      Restart = "always";
+      TimeoutStartSec = "300";
     };
 
     # users

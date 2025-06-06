@@ -53,10 +53,10 @@ in
         };
       };
     };
-    systemd.services.vllm-qwen3.serviceConfig = {
+    systemd.services.vllm-qwen3.unitConfig = {
       ConditionPathExists = constants.models_dir;
     };
-    systemd.services.vllm-qwen3-embed.serviceConfig = {
+    systemd.services.vllm-qwen3-embed.unitConfig = {
       ConditionPathExists = constants.models_dir;
     };
   };
