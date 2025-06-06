@@ -5,7 +5,7 @@
     # nixos-unstable branch seems to be the best option (tradeoffs considered) for a native nixos installation.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {

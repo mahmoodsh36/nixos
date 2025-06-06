@@ -8,7 +8,7 @@ in
     virtualisation.oci-containers = {
       backend = "podman";
       containers = {
-        vllm = {
+        vllm-qwen3 = {
           autoStart = true;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
@@ -32,6 +32,37 @@ in
             "--port" "5000"
           ];
         };
+        vllm-qwen3-embed = {
+          autoStart = true;
+          image = "vllm/vllm-openai:latest";
+          extraOptions = [
+            "--runtime" "nvidia"
+            "--gpus" "all"
+            "--ipc" "host"
+            "--pull=always"
+            "-v ${constants.models_dir}:/cache"
+            "--network=host"
+          ];
+          cmd = [
+            "--model" "Qwen/Qwen3-Embedding-0.6B"
+            "--max-model-len" "$((2 ** 15))"
+            # "--gpu-memory-utilization" "0.9" # default
+            # "--quantization" "bitsandbytes"
+            "--download-dir" "/cache"
+            "--host" "0.0.0.0"
+            "--port" "5001"
+          ];
+        };
+      };
+    };
+    systemd.services.vllm-qwen3 = {
+      serviceConfig = {
+        ConditionPathExists = constants.models_dir;
+      };
+    };
+    systemd.services.vllm-qwen3-embed = {
+      serviceConfig = {
+        ConditionPathExists = constants.models_dir;
       };
     };
   };

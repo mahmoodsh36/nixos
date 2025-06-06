@@ -96,6 +96,9 @@ in
       # openFirewall = true;
       user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
       dataDir = jellyfin_dir;
+      serviceConfig = {
+        ConditionPathExists = constants.models_dir;
+      };
     };
 
     # users
