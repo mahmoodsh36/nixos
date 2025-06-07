@@ -9,7 +9,7 @@ in
       backend = "podman";
       containers = {
         vllm-qwen3 = {
-          autoStart = false;
+          autoStart = true;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
             "--gpus" "all"
@@ -57,7 +57,7 @@ in
           ];
         };
         vllm-mimo-vl = {
-          autoStart = true;
+          autoStart = false;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
             "--gpus" "all"
