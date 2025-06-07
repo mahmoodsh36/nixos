@@ -393,6 +393,7 @@ in
       spotube # open source spotify client?
       inkscape
       nyxt
+      youtube-music
 
       scrcpy
       pavucontrol
