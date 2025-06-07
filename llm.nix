@@ -67,7 +67,7 @@ in
           ];
           cmd = [
             "--model" "XiaomiMiMo/MiMo-VL-7B-RL"
-            "--max-model-len" "27000"
+            "--max-model-len" "24000"
             "--gpu-memory-utilization" "1"
             "--enable-reasoning"
             "--enable-auto-tool-choice"
