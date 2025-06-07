@@ -9,7 +9,7 @@ in
       backend = "podman";
       containers = {
         vllm-qwen3 = {
-          autoStart = true;
+          autoStart = false;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
             "--gpus" "all"
@@ -28,7 +28,7 @@ in
             "--enable-auto-tool-choice"
             "--tool-call-parser" "hermes"
             "--download-dir" "/cache"
-            "--rope-scaling" ''{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}''
+            # "--rope-scaling" ''{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}''
             "--seed" "2"
             "--host" "0.0.0.0"
             "--port" "5000"
@@ -56,12 +56,37 @@ in
             "--port" "5001"
           ];
         };
+        vllm-mimo-vl = {
+          autoStart = true;
+          image = "vllm/vllm-openai:latest";
+          extraOptions = [
+            "--gpus" "all"
+            "--ipc" "host"
+            "-v" "${constants.models_dir}:/cache"
+            "--network=host"
+          ];
+          cmd = [
+            "--model" "XiaomiMiMo/MiMo-VL-7B-RL"
+            "--max-model-len" "25000"
+            "--gpu-memory-utilization" "1"
+            "--enable-reasoning"
+            "--enable-auto-tool-choice"
+            "--tool-call-parser" "hermes"
+            "--download-dir" "/cache"
+            "--seed" "2"
+            "--host" "0.0.0.0"
+            "--port" "5000"
+          ];
+        };
       };
     };
     systemd.services.vllm-qwen3.unitConfig = {
       ConditionPathExists = constants.models_dir;
     };
     systemd.services.vllm-qwen3-embed.unitConfig = {
+      ConditionPathExists = constants.models_dir;
+    };
+    systemd.services.vllm-mimo-vl.unitConfig = {
       ConditionPathExists = constants.models_dir;
     };
   };
