@@ -6,7 +6,7 @@ let
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   main_python = desktop_vars.desktop_python;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
-  emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = true; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+  emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = false; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
     imagemagick = pkgs.imagemagickBig;
   });
   gtk_python_env = (pkgs-pinned.python3.withPackages (ps: with ps; [

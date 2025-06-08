@@ -4,8 +4,8 @@ let
   # python-pkgs = (if config.machine.name == "mahmooz2"
   #                then pkgs-master
   #                else pkgs-pinned);
-  # python-pkgs = pkgs-pinned;
-  python-pkgs = pkgs;
+  python-pkgs = pkgs-pinned;
+  # python-pkgs = pkgs;
 in
 {
   desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
