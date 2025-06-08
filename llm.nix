@@ -95,7 +95,7 @@ in
         "LLAMA_CACHE" = constants.models_dir;
       };
       wantedBy = [ "multi-user.target" ];
-      script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -m ${constants.model_dir}/final-Qwen--Qwen3-14B.gguf --jinja -ngl 99 -fa --temp 0.6 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.5 -c 85000 --seed 2";
+      script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -m ${constants.models_dir}/final-Qwen--Qwen3-14B.gguf --jinja -ngl 99 -fa --temp 0.6 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.5 -c 85000 --seed 2";
       serviceConfig = {
         Restart = "always";
         ConditionPathExists = constants.models_dir;
