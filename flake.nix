@@ -45,6 +45,10 @@
       url = "github:ggml-org/llama.cpp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    youtube-music-flake = {
+      url = "github:h-banii/youtube-music-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -89,7 +93,10 @@
               home-manager.users.mahmooz = import ./home.nix;
               home-manager.backupFileExtension = "hmbkup";
               home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+              home-manager.sharedModules = [
+                plasma-manager.homeManagerModules.plasma-manager
+                inputs.youtube-music-flake.homeManagerModules.default
+              ];
             }
           ]
           ++ extraModules;

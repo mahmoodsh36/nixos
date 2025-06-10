@@ -94,6 +94,29 @@ in
     services.playerctld.enable = config.machine.is_desktop;
     services.parcellite.enable = config.machine.is_desktop;
 
+    programs.youtube-music = {
+      enable = config.machine.is_desktop;
+      options = {
+        tray = true;
+        trayClickPlayPause = true;
+        resumeOnStart = false;
+        # themes = [];
+        autoUpdates = false;
+      };
+      plugins = {
+        downloader.enabled = true;
+        scrobbler.enabled = true;
+        shortcuts.enabled = true;
+        synced-lyrics.enabled = true;
+        lyrics-genius.enabled = true;
+        adblocker.enabled = true;
+        in-app-menu.enabled = true;
+        video-toggle.enabled = true;
+        picture-in-picture.enabled = true;
+        album-color-theme.enabled = true;
+      };
+    };
+
     home.packages = with pkgs; [
       # to avoid some errors
       dconf
