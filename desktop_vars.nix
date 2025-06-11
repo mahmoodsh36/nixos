@@ -54,16 +54,17 @@ in
 
     timm einops tiktoken # some models require these
     moviepy av librosa # for omni-qwen
+    torchlibrosa # could this be used instead of other librosa?
 
     # docling-parse docling docling-core # paddleocr
     pdf2image
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
   ]));
-  desktop_julia = (pkgs-pinned.julia.withPackages.override({
+  desktop_julia = (pkgs-pinned.julia.withpackages.override({
     precompile = true;
-    # extraLibs = [
+    # extralibs = [
     #   pkgs.stdenv.cc.cc.lib
-    #   pkgs.libGL
+    #   pkgs.libgl
     #   pkgs.glib
     #   pkgs.zlib
     # ];
