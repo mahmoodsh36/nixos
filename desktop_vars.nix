@@ -53,7 +53,7 @@ in
     uvicorn fastapi pydantic
 
     timm einops tiktoken # some models require these
-    moviepy
+    moviepy av
 
     # docling-parse docling docling-core # paddleocr
     pdf2image
