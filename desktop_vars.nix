@@ -45,6 +45,7 @@ in
     fschat
     smolagents
     # flash-attn
+    # dspy
 
     mlflow chromadb
     llm-gguf llm
