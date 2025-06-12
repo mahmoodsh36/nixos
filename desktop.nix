@@ -511,22 +511,24 @@ in
       aider-chat
       pkgs-pinned.goose-cli # goose ai tool
 
-      # (pkgs-master.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
-      #   # version = "";
+      # (pkgs.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
+      #   version = "";
       #   src = pkgs.fetchFromGitHub {
       #     owner = "EricLBuehler";
       #     repo = "mistral.rs";
-      #     rev = "e1672b7e60a9a88ce5a20d3824745d2a070890a3";
-      #     sha256 = "sha256-HKlExxnaMKP/p0L5gy1f7s52N47zsAfZhN/qzKZxMMQ=";
+      #     rev = "f3b1afa84161a55980fa1167884633c4538e76f2";
+      #     sha256 = "sha256-AGOTfEAqhSJXOgBq0h9zqnZVlLZF1krExoc0tNzfZvU=";
       #   };
-      #   cargoHash = "sha256-qUfZ39TjFCSQkzAaJEaCet300WdSQVCQ5ctDDVBlpzo=";
+      #   cargoHash = "sha256-gwotO786FcbK0TDuBrGAM1FVf4dV9RxZ+vrRC1mdyhE=";
       #   cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
       #     inherit (finalAttrs) pname src version;
       #     hash = finalAttrs.cargoHash;
       #   };
       #   buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
+      #   patchPhase = "true";
+      #   patches = [];
       # }))
-      koboldcpp mistral-rs
+      koboldcpp
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
