@@ -57,7 +57,7 @@ in
           ];
         };
         vllm-mimo-vl = {
-          autoStart = false;
+          autoStart = true;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
             "--gpus" "all"
@@ -90,6 +90,7 @@ in
       ConditionPathExists = constants.models_dir;
     };
     systemd.services.llamacpp_service = {
+      enable = false;
       description = "service for llama-cpp";
       environment = {
         "LLAMA_CACHE" = constants.models_dir;
