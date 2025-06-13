@@ -528,7 +528,7 @@ in
       #   patchPhase = "true";
       #   patches = [];
       # }))
-      koboldcpp
+      koboldcpp mistral-rs
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
