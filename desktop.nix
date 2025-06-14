@@ -227,7 +227,7 @@ in
     # virtualisation.docker.enable = true;
     # virtualisation.docker.enableNvidia = config.machine.enable_nvidia;
     virtualisation.podman = {
-      enableNvidia = config.machine.enable_nvidia;
+      # enableNvidia = config.machine.enable_nvidia;
       dockerCompat = true;  # optional, adds `docker` alias
       enable = true;
       autoPrune.enable = true;
@@ -237,6 +237,7 @@ in
       ];
     };
     virtualisation.incus.enable = true;
+    hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
 
     # spice-gtk?
     programs.virt-manager.enable = true;
