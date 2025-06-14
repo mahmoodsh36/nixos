@@ -46,7 +46,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jpet-flake = {
-      url = "github:jpetrucciani/nix";
+      url = "github:jpetrucciani/nix/67e9584bc472d94662d3a8deb1cc261e3ac8f6cd";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
