@@ -12,7 +12,8 @@ in
           autoStart = false;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
-            "--gpus" "all"
+            # "--gpus" "all"
+            "--device" "nvidia.com/gpu=all"
             "--ipc" "host"
             # "--pull=always"
             "-v" "${constants.models_dir}:/cache"
@@ -38,7 +39,8 @@ in
           autoStart = true;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
-            "--gpus" "all"
+            # "--gpus" "all"
+            "--device" "nvidia.com/gpu=all"
             "--ipc" "host"
             # "--pull=always"
             "-v" "${constants.models_dir}:/cache"
@@ -60,7 +62,8 @@ in
           autoStart = true;
           image = "vllm/vllm-openai:latest";
           extraOptions = [
-            "--gpus" "all"
+            # "--gpus" "all"
+            "--device" "nvidia.com/gpu=all"
             "--ipc" "host"
             "-v" "${constants.models_dir}:/cache"
             "--network=host"
