@@ -227,14 +227,15 @@ in
     # virtualisation.docker.enable = true;
     # virtualisation.docker.enableNvidia = config.machine.enable_nvidia;
     virtualisation.podman = {
-      # enableNvidia = config.machine.enable_nvidia;
-      dockerCompat = true;  # optional, adds `docker` alias
+      enableNvidia = config.machine.enable_nvidia;
+      dockerCompat = true; # optional, adds `docker` alias
       enable = true;
       autoPrune.enable = true;
       defaultNetwork.settings = { dns_enabled = true; };
       extraPackages = [
         pkgs.curl
       ];
+      package = pkgs-pinned.podman;
     };
     virtualisation.incus.enable = true;
     hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
