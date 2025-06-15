@@ -93,7 +93,7 @@ in
       ConditionPathExists = constants.models_dir;
     };
     systemd.services.llamacpp_service = {
-      enable = false;
+      enable = true;
       description = "service for llama-cpp";
       environment = {
         "LLAMA_CACHE" = constants.models_dir;
