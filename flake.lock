@@ -1134,11 +1134,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1749137544,
-        "narHash": "sha256-6gXFLkAAhWrngaAnwOEVI4N2SSNn+nYmBPPV9huFlXs=",
+        "lastModified": 1750102142,
+        "narHash": "sha256-cEx2dTJgg7ocdNYFJqmAhoezFDjHwhG3I38VJMozHMU=",
         "owner": "lem-project",
         "repo": "lem",
-        "rev": "99a53db24ededa4f2e27ef82e072f1cd9eba31bf",
+        "rev": "4dbde381d647e2010a7cc898c2ef089395426429",
         "type": "github"
       },
       "original": {
@@ -1155,11 +1155,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1750058459,
-        "narHash": "sha256-AZ1abAb0J6tKSQy/+hqqW81/qNeu/QmsRo1sjEzCTAE=",
+        "lastModified": 1750103922,
+        "narHash": "sha256-pCvpuwgjmEK9argXZYX5sX0aibdMrJO+3pE4h40b3VE=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "4ad243677bca6c97f14dbc187b2116b51fcb7ffd",
+        "rev": "e434e69183fd9e1031f4445002083178c331a28b",
         "type": "github"
       },
       "original": {
@@ -2417,11 +2417,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1750056137,
-        "narHash": "sha256-K0HiiRjpAKAj2ZPa7nWwA87Dp5tCKgB6e33/f+3rN58=",
+        "lastModified": 1750103406,
+        "narHash": "sha256-8bVDQ8SQq6cGy/j06p1Qoi2q7vKmng5egY3oPuo6yyo=",
         "owner": "huggingface",
         "repo": "text-embeddings-inference",
-        "rev": "a69cc2ee285ca87a8c7a6b8fc9abc1be360f8335",
+        "rev": "d1d65cf34d7a079b12428ba78d5c9216666e4979",
         "type": "github"
       },
       "original": {

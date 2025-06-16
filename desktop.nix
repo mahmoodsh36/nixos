@@ -452,7 +452,7 @@ in
       spotdl
       openjdk
       transmission_4 acpi lm_sensors
-      yt-dlp you-get aria
+      yt-dlp you-get aria ytdl-sub
       pkgs-pinned.playwright
       uv
       argc
@@ -534,6 +534,8 @@ in
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
+      inputs.jpet-flake.packages.${pkgs.system}.mcpo
+      inputs.jpet-flake.packages.${pkgs.system}.vllm
       llm
       mlflow-server
       # openllm
@@ -550,7 +552,6 @@ in
       private-gpt
       # gpt4all # build failure
       # docling
-      inputs.jpet-flake.packages.${pkgs.system}.mcpo
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-fetch
