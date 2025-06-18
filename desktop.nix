@@ -549,7 +549,7 @@ in
       local-ai # i dont think i have any use for this
       librechat
       pkgs-pinned.streamlit
-      private-gpt
+      # private-gpt
       # gpt4all # build failure
       # docling
 
@@ -640,7 +640,7 @@ in
     # http://localhost:28981
     environment.etc."paperless-admin-pass".text = "admin";
     services.paperless = {
-      enable = true;
+      # enable = true;
       passwordFile = "/etc/paperless-admin-pass";
     };
 
