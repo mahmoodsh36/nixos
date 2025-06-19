@@ -1,7 +1,7 @@
-{ yt-dlp, perl }:
+{ pkgs }:
 
-yt-dlp.overrideAttrs (old: {
-  nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ perl ];
+pkgs.python3Packages.yt-dlp.overrideAttrs (old: {
+  nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.perl ];
 
   patchPhase = ''
     ${old.patchPhase or ""}
