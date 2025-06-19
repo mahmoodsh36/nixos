@@ -123,15 +123,12 @@ in
               "--network=host"
               "--name=open-webui"
             ];
-            cmd = [
-              "serve"
-              "--port" "8083"
-            ];
             environment = {
               WEBUI_AUTH = "False";
               ANONYMIZED_TELEMETRY = "False";
               DO_NOT_TRACK = "True";
               SCARF_NO_ANALYTICS = "True";
+              PORT = "8083";
             };
           };
           # openhands-app = {
