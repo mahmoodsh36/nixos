@@ -47,10 +47,6 @@ in
     # flash-attn
     # dspy
 
-    (callPackage ./pkgs/autogen-core.nix )
-    (callPackage ./pkgs/autogen-ext.nix )
-    (callPackage ./pkgs/autogen-agentchat.nix )
-
     mlflow chromadb
     llm-gguf llm
 
