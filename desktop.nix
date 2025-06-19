@@ -351,11 +351,11 @@ in
     environment.systemPackages = with pkgs; [
       (pkgs.writeShellScriptBin "python" ''
         export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        exec ${main_python}/bin/python "$@"
+        exec ${main_python}/bin/ipython --no-confirm-exit "$@"
       '')
       (pkgs.writeShellScriptBin "python3" ''
         export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        exec ${main_python}/bin/python "$@"
+        exec ${main_python}/bin/ipython --no-confirm-exit "$@"
       '')
 
       gtkpython
@@ -583,16 +583,16 @@ in
       };
     };
 
-    services.open-webui = {
-      enable = !config.machine.enable_nvidia;
-      port = 8083;
-      environment = {
-        WEBUI_AUTH = "False";
-        ANONYMIZED_TELEMETRY = "False";
-        DO_NOT_TRACK = "True";
-        SCARF_NO_ANALYTICS = "True";
-      };
-    };
+    # services.open-webui = {
+    #   enable = !config.machine.enable_nvidia;
+    #   port = 8083;
+    #   environment = {
+    #     WEBUI_AUTH = "False";
+    #     ANONYMIZED_TELEMETRY = "False";
+    #     DO_NOT_TRACK = "True";
+    #     SCARF_NO_ANALYTICS = "True";
+    #   };
+    # };
 
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";
@@ -608,34 +608,6 @@ in
 
     # without this okular is blurry
     environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
-
-    virtualisation.oci-containers = {
-      backend = "podman";
-      containers = {
-        # openhands-app = {
-        #   autoStart = true;
-        #   image = "docker.all-hands.dev/all-hands-ai/openhands:0.34";
-        #   ports = [ "3000:3000" ];
-        #   # mounts
-        #   volumes = [
-        #     "/var/run/docker.sock:/var/run/docker.sock"
-        #     # persist openhands state
-        #     "/home/mahmooz/.openhands-state:/.openhands-state"
-        #   ];
-        #   environment = {
-        #     SANDBOX_RUNTIME_CONTAINER_IMAGE = "docker.all-hands.dev/all-hands-ai/runtime:0.34-nikolaik";
-        #     LOG_ALL_EVENTS = "true";
-        #   };
-        #   extraOptions = [
-        #     # "--runtime" "nvidia"
-        #     # "--gpus" "all"
-        #     "--ipc" "host"
-        #     "--pull=always"
-        #     "--network=host"
-        #   ];
-        # };
-      };
-    };
 
     # http://localhost:28981
     environment.etc."paperless-admin-pass".text = "admin";

@@ -13,6 +13,8 @@ in
     beautifulsoup4 seaborn pillow dash rich pandas
     python-lsp-server
 
+    ipython
+
     scikit-learn
 
     # for system?

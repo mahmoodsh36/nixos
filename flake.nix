@@ -49,6 +49,8 @@
       url = "github:jpetrucciani/nix/67e9584bc472d94662d3a8deb1cc261e3ac8f6cd";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # ml-pkgs.url = "github:nixvital/ml-pkgs/archive/25.05";
+    # ml-pkgs.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
