@@ -452,7 +452,7 @@ in
       spotdl
       openjdk
       transmission_4 acpi lm_sensors
-      yt-dlp you-get aria ytdl-sub
+      you-get aria ytdl-sub (pkgs.callPackage ./pkgs/yt-dlp.nix)
       pkgs-pinned.playwright
       uv
       argc
