@@ -107,9 +107,10 @@ in
         script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Qwen3-30B-A3B-GGUF:Q8_0 --jinja -ngl 99 -fa --temp 0.7 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 20000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0 --reasoning-format deepseek";
         serviceConfig = {
           Restart = "always";
+        };
+        unitConfig = {
           ConditionPathExists = constants.models_dir;
         };
-        ConditionPathExists = constants.models_dir;
       };
     })
     {
