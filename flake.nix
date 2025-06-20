@@ -27,10 +27,6 @@
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-comfyui = {
-      url = "github:dyscorv/nix-comfyui";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-alien = {
       url = "github:thiagokokada/nix-alien";
       inputs.nixpkgs.follows = "nixpkgs";

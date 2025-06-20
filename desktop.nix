@@ -111,7 +111,6 @@ in
       })
 
       inputs.mcp-servers-nix.overlays.default
-      inputs.nix-comfyui.overlays.default
     ] ++ server_vars.server_overlays;
 
     # graphical stuff (wayland,x11,etc)
@@ -350,12 +349,13 @@ in
     # packages
     environment.systemPackages = with pkgs; [
       (pkgs.writeShellScriptBin "python" ''
-        export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+        # may not need LD_* here
+        # export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
         exec ${main_python}/bin/ipython --no-confirm-exit "$@"
       '')
       (pkgs.writeShellScriptBin "python3" ''
         export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        exec ${main_python}/bin/ipython --no-confirm-exit "$@"
+        # exec ${main_python}/bin/ipython --no-confirm-exit "$@"
       '')
 
       gtkpython
@@ -478,8 +478,8 @@ in
       # desktop_vars.desktop_julia
       # julia
       typst
-      # pkgs-pinned.sageWithDoc
-      (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
+      # (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
+      # (lib.mkIf (!config.machine.enable_nvidia) pkgs.sage)
 
       # lsp
       cmake-language-server
@@ -496,75 +496,42 @@ in
       inputs.tgi.packages.${pkgs.system}.server
       # inputs.tei.packages.${pkgs.system}.default
 
-      # (pkgs.comfyuiPackages.comfyui.override {
-      #   extensions = [
-      #     pkgs.comfyuiPackages.extensions.acly-inpaint
-      #     pkgs.comfyuiPackages.extensions.acly-tooling
-      #     pkgs.comfyuiPackages.extensions.cubiq-ipadapter-plus
-      #     pkgs.comfyuiPackages.extensions.fannovel16-controlnet-aux
-      #   ];
-      #   commandLineArgs = [
-      #     "--preview-method"
-      #     "auto"
-      #   ];
-      # })
-
       python3Packages.huggingface-hub
       aider-chat
-      pkgs-pinned.goose-cli # goose ai tool
+      goose-cli # goose ai tool
 
-      # (pkgs.mistral-rs.overrideAttrs (finalAttrs: prevAttrs: {
-      #   version = "";
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "EricLBuehler";
-      #     repo = "mistral.rs";
-      #     rev = "f3b1afa84161a55980fa1167884633c4538e76f2";
-      #     sha256 = "sha256-AGOTfEAqhSJXOgBq0h9zqnZVlLZF1krExoc0tNzfZvU=";
-      #   };
-      #   cargoHash = "sha256-gwotO786FcbK0TDuBrGAM1FVf4dV9RxZ+vrRC1mdyhE=";
-      #   cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-      #     inherit (finalAttrs) pname src version;
-      #     hash = finalAttrs.cargoHash;
-      #   };
-      #   buildFeatures = (if config.machine.enable_nvidia then [ "cuda" "flash-attn" "cudnn" ] else []);
-      #   patchPhase = "true";
-      #   patches = [];
-      # }))
       koboldcpp mistral-rs
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
       python312Packages.vllm
-      llm
-      mlflow-server
-      # openllm
-      code2prompt
-      aichat shell-gpt
-      fabric-ai
-      skypilot
-      chatbox
+      aichat
       jan
+
+      # i dont think i have any use for these
+      # llm
+      # local-ai
+      # librechat streamlit chatbox skypilot fabric-ai code2prompt
+      # mlflow-server shell-gpt
       # lmstudio
-      local-ai # i dont think i have any use for this
-      librechat
-      pkgs-pinned.streamlit
       # private-gpt
       # gpt4all # build failure
       # docling
+      # openllm
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       # mcp-server-fetch
-      # mcp-server-everything
-      # mcp-server-time
-      # mcp-server-git
-      # mcp-server-sequential-thinking
-      # mcp-server-filesystem
+      mcp-server-everything
+      mcp-server-time
+      mcp-server-git
+      mcp-server-sequential-thinking
+      mcp-server-filesystem
       # mcp-server-redis
-      # playwright-mcp
-      # mcp-server-github github-mcp-server
-      # mcp-server-memory
-      # mcp-server-brave-search
-      # mcp-server-sqlite
+      playwright-mcp
+      mcp-server-github github-mcp-server
+      mcp-server-memory
+      mcp-server-brave-search
+      mcp-server-sqlite
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       # cudaPackages.tensorrt
