@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # pkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-    pkgs-pinned.url = "github:NixOS/nixpkgs/2f9173bde1d3fbf1ad26ff6d52f952f9e9da52ea";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/08f22084e6085d19bcfb4be30d1ca76ecb96fe54";
     # pkgs-master.url = "github:NixOS/nixpkgs/master";
     # pkgs-master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     tgi = {
@@ -43,10 +43,6 @@
     };
     llama-cpp-flake = {
       url = "github:ggml-org/llama.cpp";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    jpet-flake = {
-      url = "github:jpetrucciani/nix/67e9584bc472d94662d3a8deb1cc261e3ac8f6cd";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # ml-pkgs.url = "github:nixvital/ml-pkgs/archive/25.05";

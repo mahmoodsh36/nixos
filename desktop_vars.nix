@@ -8,7 +8,7 @@ let
   # python-pkgs = pkgs;
 in
 {
-  desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
+  desktop_python = (python-pkgs.python312.withPackages (ps: with ps; [
     matplotlib flask requests numpy sympy networkx pydot
     beautifulsoup4 seaborn pillow dash rich pandas
     python-lsp-server
@@ -48,6 +48,7 @@ in
     smolagents
     # flash-attn
     # dspy
+    vllm
 
     mlflow chromadb
     llm-gguf llm

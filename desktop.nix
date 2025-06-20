@@ -394,7 +394,7 @@ in
       imv # nice image viewer
       spotube # open source spotify client?
       inkscape
-      nyxt
+      # nyxt
       youtube-music
 
       scrcpy
@@ -496,18 +496,18 @@ in
       inputs.tgi.packages.${pkgs.system}.server
       # inputs.tei.packages.${pkgs.system}.default
 
-      (pkgs.comfyuiPackages.comfyui.override {
-        extensions = [
-          pkgs.comfyuiPackages.extensions.acly-inpaint
-          pkgs.comfyuiPackages.extensions.acly-tooling
-          pkgs.comfyuiPackages.extensions.cubiq-ipadapter-plus
-          pkgs.comfyuiPackages.extensions.fannovel16-controlnet-aux
-        ];
-        commandLineArgs = [
-          "--preview-method"
-          "auto"
-        ];
-      })
+      # (pkgs.comfyuiPackages.comfyui.override {
+      #   extensions = [
+      #     pkgs.comfyuiPackages.extensions.acly-inpaint
+      #     pkgs.comfyuiPackages.extensions.acly-tooling
+      #     pkgs.comfyuiPackages.extensions.cubiq-ipadapter-plus
+      #     pkgs.comfyuiPackages.extensions.fannovel16-controlnet-aux
+      #   ];
+      #   commandLineArgs = [
+      #     "--preview-method"
+      #     "auto"
+      #   ];
+      # })
 
       python3Packages.huggingface-hub
       aider-chat
@@ -534,8 +534,7 @@ in
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
-      inputs.jpet-flake.packages.${pkgs.system}.mcpo
-      inputs.jpet-flake.packages.${pkgs.system}.vllm
+      python312Packages.vllm
       llm
       mlflow-server
       # openllm
@@ -554,18 +553,18 @@ in
       # docling
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
-      mcp-server-fetch
-      mcp-server-everything
-      mcp-server-time
-      mcp-server-git
-      mcp-server-sequential-thinking
-      mcp-server-filesystem
+      # mcp-server-fetch
+      # mcp-server-everything
+      # mcp-server-time
+      # mcp-server-git
+      # mcp-server-sequential-thinking
+      # mcp-server-filesystem
       # mcp-server-redis
-      playwright-mcp
-      mcp-server-github github-mcp-server
-      mcp-server-memory
-      mcp-server-brave-search
-      mcp-server-sqlite
+      # playwright-mcp
+      # mcp-server-github github-mcp-server
+      # mcp-server-memory
+      # mcp-server-brave-search
+      # mcp-server-sqlite
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       # cudaPackages.tensorrt
