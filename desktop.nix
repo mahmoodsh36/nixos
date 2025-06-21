@@ -535,6 +535,8 @@ in
       mcp-server-memory
       mcp-server-brave-search
       mcp-server-sqlite
+
+      gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       # cudaPackages.tensorrt
