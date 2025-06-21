@@ -104,7 +104,7 @@ in
         # script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Qwen3-32B-GGUF:Q4_K_M --jinja -ngl 99 -fa --temp 0.7 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 20000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0 --reasoning-format deepseek";
         # script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Magistral-Small-2506-GGUF:UD-Q4_K_XL --jinja --temp 0.7 --top-k 20 -ngl 99 -fa --top-p 0.95 -c 30000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0";
         # script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf Qwen/Qwen3-14B-GGUF:Q8_0 --jinja -ngl 99 -fa --temp 0.6 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 50000 --seed 2";
-        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Qwen3-30B-A3B-GGUF:Q8_0 --jinja -ngl 99 -fa --temp 0.7 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 20000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0 --reasoning-format deepseek";
+        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Qwen3-30B-A3B-GGUF:Q4_K_M --jinja -ngl 99 -fa --temp 0.7 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 20000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0 --reasoning-format deepseek";
         serviceConfig = {
           Restart = "always";
         };
@@ -119,7 +119,7 @@ in
           "LLAMA_CACHE" = constants.models_dir;
         };
         wantedBy = [ "multi-user.target" ];
-        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 -ngl 99 -fa -c 32768 --seed 2 --rope-scaling yarn --rope-freq-scale .75 --embedding --ubatch-size 2000";
+        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q4_K_M -ngl 99 -fa -c 32768 --seed 2 --rope-scaling yarn --rope-freq-scale .75 --embedding --ubatch-size 2000";
         serviceConfig = {
           Restart = "always";
         };
