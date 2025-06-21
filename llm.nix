@@ -119,7 +119,7 @@ in
           "LLAMA_CACHE" = constants.models_dir;
         };
         wantedBy = [ "multi-user.target" ];
-        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 -ngl 99 -fa -c 8000 --seed 2 --embedding --pooling last -ub 8192";
+        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 -ngl 99 -fa -c 6000 --seed 2 --embedding --pooling last -ub 6000";
         serviceConfig = {
           Restart = "always";
         };
