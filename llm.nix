@@ -37,7 +37,7 @@ in
             ];
           };
           vllm-qwen3-embed = {
-            autoStart = true;
+            autoStart = false;
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               # "--gpus" "all"
@@ -93,7 +93,7 @@ in
       systemd.services.vllm-mimo-vl.unitConfig = {
         ConditionPathExists = constants.models_dir;
       };
-      systemd.services.llamacpp_service = {
+      systemd.services.llamacpp_llm_service = {
         enable = true;
         description = "service for llama-cpp";
         environment = {
@@ -112,12 +112,27 @@ in
           ConditionPathExists = constants.models_dir;
         };
       };
+      systemd.services.llamacpp_embed_service = {
+        enable = true;
+        description = "service for embeddings generation through llama-cpp";
+        environment = {
+          "LLAMA_CACHE" = constants.models_dir;
+        };
+        wantedBy = [ "multi-user.target" ];
+        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 -ngl 99 -fa -c 32768 --seed 2 --rope-scaling yarn --rope-freq-scale .75 --embedding --ubatch-size 2000";
+        serviceConfig = {
+          Restart = "always";
+        };
+        unitConfig = {
+          ConditionPathExists = constants.models_dir;
+        };
+      };
     })
     {
       virtualisation.oci-containers = {
         containers = {
           open-webui = {
-            autoStart = true;
+            autoStart = false;
             image = "ghcr.io/open-webui/open-webui:main";
             extraOptions = [
               "--ipc" "host"
