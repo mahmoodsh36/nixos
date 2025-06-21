@@ -478,7 +478,7 @@ in
       # desktop_vars.desktop_julia
       # julia
       typst
-      # (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
+      (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
       # (lib.mkIf (!config.machine.enable_nvidia) pkgs.sage)
 
       # lsp
