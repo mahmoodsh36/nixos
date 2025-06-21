@@ -16,7 +16,7 @@ in
               # "--gpus" "all"
               "--device" "nvidia.com/gpu=all"
               "--ipc" "host"
-              "--pull=newer"
+              # "--pull=newer"
               "-v" "${constants.models_dir}:/cache"
               "--network=host"
             ];
@@ -43,7 +43,7 @@ in
               # "--gpus" "all"
               "--device" "nvidia.com/gpu=all"
               "--ipc" "host"
-              "--pull=newer"
+              # "--pull=newer"
               "-v" "${constants.models_dir}:/cache"
               "--network=host"
             ];
@@ -121,7 +121,7 @@ in
             image = "ghcr.io/open-webui/open-webui:main";
             extraOptions = [
               "--ipc" "host"
-              "--pull=newer"
+              # "--pull=newer"
               "-v" "${constants.home_dir}/.open-webui:/app/backend/data"
               "--network=host"
               "--name=open-webui"
