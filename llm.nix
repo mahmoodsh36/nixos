@@ -16,7 +16,7 @@ in
               # "--gpus" "all"
               "--device" "nvidia.com/gpu=all"
               "--ipc" "host"
-              # "--pull=always"
+              "--pull=newer"
               "-v" "${constants.models_dir}:/cache"
               "--network=host"
             ];
@@ -43,7 +43,7 @@ in
               # "--gpus" "all"
               "--device" "nvidia.com/gpu=all"
               "--ipc" "host"
-              # "--pull=always"
+              "--pull=newer"
               "-v" "${constants.models_dir}:/cache"
               "--network=host"
             ];

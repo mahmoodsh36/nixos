@@ -173,7 +173,7 @@ in
       }
     );
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
-      spectacle
+      spectacle # to avoid building opencv
     ];
 
     # tty configs
@@ -233,6 +233,7 @@ in
       dockerCompat = true; # optional, adds `docker` alias
       enable = true;
       autoPrune.enable = true;
+      enableOnBoot = true;
       defaultNetwork.settings = { dns_enabled = true; };
       extraPackages = [
         pkgs.curl
