@@ -233,12 +233,11 @@ in
       dockerCompat = true; # optional, adds `docker` alias
       enable = true;
       autoPrune.enable = true;
-      enableOnBoot = true;
       defaultNetwork.settings = { dns_enabled = true; };
       extraPackages = [
         pkgs.curl
       ];
-      package = pkgs-pinned.podman;
+      package = pkgs.podman;
     };
     virtualisation.incus.enable = true;
     hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
