@@ -37,7 +37,7 @@ in
             ];
           };
           vllm-qwen3-embed = {
-            autoStart = false;
+            autoStart = true;
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               # "--gpus" "all"
@@ -49,7 +49,8 @@ in
             ];
             cmd = [
               "--model" "Qwen/Qwen3-Embedding-0.6B"
-              "--max-model-len" "32768"
+              # "--max-model-len" "32768"
+              "--max-model-len" "16000"
               # "--gpu-memory-utilization" "0.9" # default
               "--quantization" "bitsandbytes"
               "--download-dir" "/cache"
@@ -113,7 +114,7 @@ in
         };
       };
       systemd.services.llamacpp_embed_service = {
-        enable = true;
+        enable = false;
         description = "service for embeddings generation through llama-cpp";
         environment = {
           "LLAMA_CACHE" = constants.models_dir;
@@ -132,7 +133,7 @@ in
       virtualisation.oci-containers = {
         containers = {
           open-webui = {
-            autoStart = false;
+            autoStart = true;
             image = "ghcr.io/open-webui/open-webui:main";
             extraOptions = [
               "--ipc" "host"
