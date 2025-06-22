@@ -74,10 +74,10 @@ in rec
 
   services.caddy = {
     enable = true;
-    # package = pkgs.caddy.withPlugins {
-    #   plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
-    #   hash = "sha256-gn+FDt9GJ6bM1AJMUuBpLZqf/PXr5qYPHqB1kVy8ovQ=";
-    # };
+    package = pkgs.caddy.withPlugins {
+      plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
+      hash = "sha256-KqyS8qX0LWkP2HylFX34hLDbifkQePYoVrJOubr/cbQ=";
+    };
     # configure some reverse proxy traffic
     virtualHosts = {
       "${headscale_host}" = {
