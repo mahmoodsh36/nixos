@@ -748,11 +748,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1750165421,
-        "narHash": "sha256-ueSHXhxrkOHGZoqsQzFCDB5hZAxM522R/WoshhTefuU=",
+        "lastModified": 1750595378,
+        "narHash": "sha256-HFVN0ovjazcTJ4GxUsnKGcexAyO73wF2ujGfdrvko0Q=",
         "owner": "lem-project",
         "repo": "lem",
-        "rev": "24d864fba2902ba4f21941468263d54190b25e72",
+        "rev": "b0b80943f5a7a73ca5417e79347e0a15188b1741",
         "type": "github"
       },
       "original": {
@@ -769,11 +769,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1750486632,
-        "narHash": "sha256-qdMiietGs8eytuUGUzoTyClFxABljZa31kB//EkAAbg=",
+        "lastModified": 1750603883,
+        "narHash": "sha256-8dau8TxCzTQnQDu3dw8zq1r+uECadUW/0CZaGL2gReY=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "bb16041caef45cd4348cd6f84906b5dfec7a1f6a",
+        "rev": "af3373f1adfca56119f3e4de0e6a0a8df8edf3d9",
         "type": "github"
       },
       "original": {
