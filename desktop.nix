@@ -237,7 +237,7 @@ in
       extraPackages = [
         pkgs.curl
       ];
-      package = pkgs.podman;
+      package = pkgs-pinned.podman;
     };
     virtualisation.incus.enable = true;
     hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
