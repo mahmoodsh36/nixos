@@ -37,7 +37,7 @@ in
             ];
           };
           vllm-qwen3-embed = {
-            autoStart = true;
+            autoStart = false;
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               # "--gpus" "all"
@@ -61,7 +61,7 @@ in
             ];
           };
           vllm-mimo-vl = {
-            autoStart = false;
+            autoStart = true;
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               # "--gpus" "all"
@@ -95,7 +95,7 @@ in
         ConditionPathExists = constants.models_dir;
       };
       systemd.services.llamacpp_llm_service = {
-        enable = true;
+        enable = false;
         description = "service for llama-cpp";
         environment = {
           "LLAMA_CACHE" = constants.models_dir;
