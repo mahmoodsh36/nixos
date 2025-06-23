@@ -513,17 +513,6 @@ in
       aichat
       jan
 
-      # i dont think i have any use for these
-      # llm
-      # local-ai
-      # librechat streamlit chatbox skypilot fabric-ai code2prompt
-      # mlflow-server shell-gpt
-      # lmstudio
-      # private-gpt
-      # gpt4all # build failure
-      # docling
-      # openllm
-
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       # mcp-server-fetch
       mcp-server-everything
@@ -555,17 +544,6 @@ in
         # ExecStart = "${pkgs.coreutils}/bin/sh ${constants.scripts_dir}/mpv_logger.sh";
       };
     };
-
-    # services.open-webui = {
-    #   enable = !config.machine.enable_nvidia;
-    #   port = 8083;
-    #   environment = {
-    #     WEBUI_AUTH = "False";
-    #     ANONYMIZED_TELEMETRY = "False";
-    #     DO_NOT_TRACK = "True";
-    #     SCARF_NO_ANALYTICS = "True";
-    #   };
-    # };
 
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";
