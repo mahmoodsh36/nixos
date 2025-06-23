@@ -50,7 +50,7 @@ in
             cmd = [
               "--model" "Qwen/Qwen3-Embedding-0.6B"
               # "--max-model-len" "32768"
-              "--max-model-len" "16000"
+              "--max-model-len" "10000"
               # "--gpu-memory-utilization" "0.9" # default
               "--quantization" "bitsandbytes"
               "--download-dir" "/cache"
