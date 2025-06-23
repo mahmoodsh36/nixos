@@ -354,11 +354,13 @@ in
       (pkgs.writeShellScriptBin "python" ''
         # may not need LD_* here
         # export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        exec ${main_python}/bin/ipython --no-confirm-exit "$@"
+        exec ${main_python}/bin/python "$@"
       '')
       (pkgs.writeShellScriptBin "python3" ''
-        export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        # exec ${main_python}/bin/ipython --no-confirm-exit "$@"
+        exec ${main_python}/bin/python "$@"
+      '')
+      (pkgs.writeShellScriptBin "ipython" ''
+        exec ${main_python}/bin/ipython --no-confirm-exit "$@"
       '')
 
       gtkpython
