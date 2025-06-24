@@ -637,5 +637,5 @@ in
       powertop.enable = true;
       cpuFreqGovernor = "ondemand";
     };
-};
+  };
 }
