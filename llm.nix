@@ -132,7 +132,7 @@ in
     {
       virtualisation.oci-containers = {
         containers = {
-          open-webui = lib.mkIf config.machine.enable_nvidia {
+          open-webui = lib.mkIf config.machine.is_desktop {
             autoStart = true;
             image = "ghcr.io/open-webui/open-webui:main";
             extraOptions = [
