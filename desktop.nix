@@ -458,7 +458,7 @@ in
       openjdk
       transmission_4 acpi lm_sensors
       you-get aria ytdl-sub (import ./pkgs/yt-dlp.nix { pkgs = pkgs; })
-      pkgs-pinned.playwright
+      playwright
       uv
       argc
       cryptsetup
