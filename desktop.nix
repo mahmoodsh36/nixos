@@ -548,11 +548,18 @@ in
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";
       wantedBy = [ "multi-user.target" ];
+      # path = [ pkgs.coreutils pkgs.libinput keys_python pkgs.gawk pkgs.gnugrep pkgs.sudo pkgs.dash ];
       # run it with a shell so it has access to all binaries as usual in $PATH
-      script = "${pkgs.zsh}/bin/zsh -c '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d'";
+      # script = "${pkgs.zsh}/bin/zsh -c '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d'";
+      # choose glove80 if its present
+      script = ''
+        export kbd=$(${pkgs.libinput}/bin/libinput list-devices | ${pkgs.gnugrep}/bin/grep glove80 -i -A 10 | ${pkgs.gnugrep}/bin/grep Kernel: | ${pkgs.gawk}/bin/awk '{print $2}'); [ -z '$kbd' ] && ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d' || ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d -p $kbd'
+      '';
       serviceConfig = {
         # User = "mahmooz";
         Restart = "always";
+      };
+      unitConfig = {
         ConditionPathExists = "${constants.work_dir}/keys/keys.py";
       };
     };
@@ -630,5 +637,5 @@ in
       powertop.enable = true;
       cpuFreqGovernor = "ondemand";
     };
-  };
+};
 }
