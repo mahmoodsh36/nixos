@@ -509,7 +509,14 @@ in
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
-      whisper-cpp
+      (whisper-cpp.overrideAttrs (old: {
+        src = pkgs.fetchFromGitHub {
+          owner = "ggml-org";
+          repo = "whisper.cpp";
+          rev = "c85b1ae84eecbf797f77a76a30e648c5054ee663";
+          sha256 = "sha256-ABgsfkT7ghOGe2KvcnyP98J7mDI18BWtJGb1WheAduE=";
+        };
+      }))
       # python312Packages.vllm
       aichat
       jan
