@@ -517,7 +517,7 @@ in
           sha256 = "sha256-ABgsfkT7ghOGe2KvcnyP98J7mDI18BWtJGb1WheAduE=";
         };
       }))
-      vllm
+      # vllm
       aichat
       jan
 
