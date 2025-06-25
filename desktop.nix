@@ -561,7 +561,7 @@ in
       # script = "${pkgs.zsh}/bin/zsh -c '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d'";
       # choose glove80 if its present
       script = ''
-        export kbd=$(${pkgs.libinput}/bin/libinput list-devices | ${pkgs.gnugrep}/bin/grep glove80 -i -A 10 | ${pkgs.gnugrep}/bin/grep Kernel: | ${pkgs.gawk}/bin/awk '{print $2}'); [ -z '$kbd' ] && ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d' || ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d -p $kbd'
+        export kbd=$(${pkgs.libinput}/bin/libinput list-devices | ${pkgs.gnugrep}/bin/grep glove80 -i -A 10 | ${pkgs.gnugrep}/bin/grep Kernel: | ${pkgs.gawk}/bin/awk '{print $2}'); [ -z "$kbd" ] && ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d' || ${pkgs.dash}/bin/dash -lc "${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d -p $kbd"
       '';
       serviceConfig = {
         # User = "mahmooz";
