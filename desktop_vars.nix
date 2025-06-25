@@ -48,7 +48,7 @@ in
     smolagents
     # flash-attn
     # dspy
-    # vllm
+    vllm
 
     mlflow chromadb
     llm-gguf llm
