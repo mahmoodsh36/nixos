@@ -504,6 +504,7 @@ in
       python3Packages.huggingface-hub
       aider-chat
       goose-cli # goose ai tool
+      # gemini-cli
 
       koboldcpp mistral-rs
       (if config.machine.enable_nvidia
