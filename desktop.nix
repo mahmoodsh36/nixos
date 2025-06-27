@@ -510,6 +510,9 @@ in
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
+      (if config.machine.enable_nvidia
+       then inputs.ikllamacpp.packages.${pkgs.system}.cuda
+       else inputs.ikllamacpp.packages.${pkgs.system}.default)
       (whisper-cpp.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
           owner = "ggml-org";
