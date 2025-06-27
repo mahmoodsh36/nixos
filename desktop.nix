@@ -521,6 +521,7 @@ in
       # vllm
       aichat
       jan
+      llm
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       # mcp-server-fetch
