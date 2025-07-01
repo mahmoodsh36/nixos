@@ -401,6 +401,7 @@ in
       inkscape
       # nyxt
       youtube-music
+      telegram-desktop
 
       scrcpy
       pavucontrol
