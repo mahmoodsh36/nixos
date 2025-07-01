@@ -470,6 +470,7 @@ in
       virt-viewer
       openrgb-with-all-plugins
       tor-browser
+      jellyfin-tui jellycli jellytui
 
       # nix specific
       nixos-generators

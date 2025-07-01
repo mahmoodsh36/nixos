@@ -3,9 +3,7 @@
 let
   server_vars = (import ./server_vars.nix { inherit pkgs; inherit pkgs-pinned; inherit inputs; });
   constants = (import ./constants.nix);
-  jellyfin_dir = if builtins.pathExists "${constants.extra_storage_dir}"
-                 then "${constants.extra_storage_dir}/jellyfin"
-                 else "/home/${constants.myuser}/.jellyfin";
+  jellyfin_dir = "${constants.extra_storage_dir}/jellyfin";
 in
 {
   imports = [
@@ -92,14 +90,18 @@ in
 
     # self-hosted media service
     services.jellyfin = {
-      enable = config.machine.is_home_server;
+      # enable = config.machine.is_home_server;
+      enable = builtins.pathExists constants.extra_storage_dir;
       # openFirewall = true;
       user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
+      # this causes the directory to be created automatically even if my extra storage dir isnt mounted, which would then later prevent it from being mounted because the path is taken
       dataDir = jellyfin_dir;
     };
     systemd.services.jellyfin.unitConfig = {
       ConditionPathExists = constants.extra_storage_dir;
     };
+    # need to set this up
+    # services.jellyseerr.enable = true;
 
     # users
     users.users.mahmooz = {
