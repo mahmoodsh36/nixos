@@ -41,6 +41,10 @@
       url = "github:ggml-org/llama.cpp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ikllamacpp = {
+      url = "github:ikawrakow/ik_llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # ml-pkgs.url = "github:nixvital/ml-pkgs/archive/25.05";
     # ml-pkgs.inputs.nixpkgs.follows = "nixpkgs";
   };

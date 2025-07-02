@@ -363,6 +363,15 @@ in
         exec ${main_python}/bin/ipython --no-confirm-exit "$@"
       '')
 
+      (let
+        ikllamacpp_pkg = (if config.machine.enable_nvidia
+                          then inputs.ikllamacpp.packages.${pkgs.system}.cuda
+                          else inputs.ikllamacpp.packages.${pkgs.system}.default);
+      in
+        (pkgs.writeShellScriptBin "ik-llamacpp-server" ''
+        exec ${ikllamacpp_pkg}/bin/llama-server "$@"
+      ''))
+
       gtkpython
 
       # overwrite notify-send to not let anything handle notifications
