@@ -49,6 +49,7 @@ in
     # flash-attn
     # dspy
     # vllm
+    ray
 
     mlflow chromadb
     llm-gguf llm
