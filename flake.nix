@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # pkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-    pkgs-pinned.url = "github:NixOS/nixpkgs/4684fd6b0c01e4b7d99027a34c93c2e09ecafee2";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/3016b4b15d13f3089db8a41ef937b13a9e33a8df";
     # pkgs-master.url = "github:NixOS/nixpkgs/master";
     # pkgs-master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     tgi = {
