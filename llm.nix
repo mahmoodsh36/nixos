@@ -88,11 +88,23 @@ in
       systemd.services.vllm-qwen3.unitConfig = {
         ConditionPathExists = constants.models_dir;
       };
+      systemd.services.vllm-qwen3.serviceConfig = {
+        Restart = "always";
+        User = constants.myuser;
+      };
       systemd.services.vllm-qwen3-embed.unitConfig = {
         ConditionPathExists = constants.models_dir;
       };
+      systemd.services.vllm-qwen3-embed.serviceConfig = {
+        Restart = "always";
+        User = constants.myuser;
+      };
       systemd.services.vllm-mimo-vl.unitConfig = {
         ConditionPathExists = constants.models_dir;
+      };
+      systemd.services.vllm-mimo-vl.serviceConfig = {
+        Restart = "always";
+        User = constants.myuser;
       };
       systemd.services.llamacpp_llm_service = {
         enable = true;
@@ -124,6 +136,7 @@ in
         script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 -ngl 99 -fa -c 6000 --seed 2 --embedding --pooling last -ub 6000";
         serviceConfig = {
           Restart = "always";
+          User = constants.myuser;
         };
         unitConfig = {
           ConditionPathExists = constants.models_dir;
