@@ -43,6 +43,10 @@
     };
     # ml-pkgs.url = "github:nixvital/ml-pkgs/archive/25.05";
     # ml-pkgs.inputs.nixpkgs.follows = "nixpkgs";
+    arion = {
+      url = "github:hercules-ci/arion";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -81,6 +85,7 @@
             ./machine.nix
             ./machine-config.nix
             home-manager.nixosModules.home-manager
+            inputs.arion.nixosModules.arion
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;

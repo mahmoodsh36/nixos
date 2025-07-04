@@ -231,16 +231,27 @@ in
     virtualisation.podman = {
       enableNvidia = config.machine.enable_nvidia;
       dockerCompat = true; # optional, adds `docker` alias
+      dockerSocket.enable = true;
+      defaultNetwork.settings.dns_enabled = true;
       enable = true;
       autoPrune.enable = true;
-      defaultNetwork.settings = { dns_enabled = true; };
       extraPackages = [
         pkgs.curl
       ];
-      package = pkgs-pinned.podman;
+      # package = pkgs.podman;
     };
-    virtualisation.incus.enable = true;
-    hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
+    # virtualisation.containers.enable = true;
+    # virtualisation.incus.enable = true;
+
+    virtualisation.arion = {
+      backend = "podman-socket";
+      projects.open-notebook = {
+        # serviceName = "open-notebook";
+        settings = {
+          imports = [ ./arion-open-notebook.nix ];
+        };
+      };
+    };
 
     # spice-gtk?
     programs.virt-manager.enable = true;
@@ -533,6 +544,7 @@ in
       aichat
       jan
       llm
+      fabric-ai
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       # mcp-server-fetch
