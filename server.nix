@@ -237,7 +237,6 @@ in
     virtualisation.arion = {
       backend = "podman-socket";
       projects.open-notebook = {
-        # serviceName = "open-notebook";
         settings = {
           imports = [ ./arion-open-notebook.nix ];
         };
