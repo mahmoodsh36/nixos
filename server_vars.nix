@@ -44,6 +44,8 @@ in rec {
     libva-utils
     jellyfin-web jellyfin-ffmpeg jellyfin
 
+    podman-compose
+
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
     inetutils rclone sshfs bind
@@ -54,5 +56,6 @@ in rec {
 
     # nix specific stuff
     mysbcl
+    compose2nix
   ];
 }

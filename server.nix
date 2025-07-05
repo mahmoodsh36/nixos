@@ -12,7 +12,6 @@ in
     ./llm.nix
   ];
   config = {
-
     _module.args = { inherit inputs; };
 
     boot.tmp.cleanOnBoot = true;

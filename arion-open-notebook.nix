@@ -14,12 +14,12 @@ in
       service.ports = [ "8000:8003" ];
       service.command = [
         "start"
-        "--user" "mahmooz"
-        "--pass" "mahmooz"
+        "--user" "root"
+        "--pass" "root"
         "rocksdb:/mydata/mydatabase.db"
       ];
       service.volumes = [ "${constants.home_dir}/.surrealdb:/mydata" ];
-      service.user = "mahmooz";
+      service.user = "root";
     };
 
     open_notebook = {
@@ -33,8 +33,8 @@ in
         OPENAI_API_KEY = builtins.getEnv "none";
         SURREAL_ADDRESS = "surrealdb";
         SURREAL_PORT = "8003";
-        SURREAL_USER = "mahmooz";
-        SURREAL_PASS = "mahmooz";
+        SURREAL_USER = "root";
+        SURREAL_PASS = "root";
         SURREAL_NAMESPACE = "open_notebook";
         SURREAL_DATABASE = "open_notebook";
       };
