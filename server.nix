@@ -207,6 +207,44 @@ in
       options = "--delete-older-than 30d";
     };
 
+    # virtualization
+    virtualisation.libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        ovmf = {
+          enable = true;
+          packages = with pkgs; [ OVMFFull.fd ];
+        };
+        swtpm.enable = true;
+      };
+    };
+    virtualisation.podman = {
+      enableNvidia = config.machine.enable_nvidia;
+      dockerCompat = true;
+      dockerSocket.enable = true;
+      defaultNetwork.settings.dns_enabled = true;
+      enable = true;
+      autoPrune.enable = true;
+      extraPackages = [
+        pkgs.curl
+      ];
+      # package = pkgs.podman;
+    };
+    # virtualisation.containers.enable = true;
+    # virtualisation.incus.enable = true;
+
+    virtualisation.arion = {
+      backend = "podman-socket";
+      projects.open-notebook = {
+        # serviceName = "open-notebook";
+        settings = {
+          imports = [ ./arion-open-notebook.nix ];
+        };
+      };
+    };
+
     # will this help prevent the dbus org.freedesktop.secrets error when using goose-cli?
     # may also need it to avoid other issues
     services.gnome.gnome-keyring.enable = true;

@@ -213,46 +213,6 @@ in
     # dont hibernate when lid is closed
     # services.logind.lidSwitch = "ignore";
 
-    # virtualization
-    virtualisation.libvirtd = {
-      enable = true;
-      qemu = {
-        package = pkgs.qemu_kvm;
-        runAsRoot = true;
-        ovmf = {
-          enable = true;
-          packages = with pkgs; [ OVMFFull.fd ];
-        };
-        swtpm.enable = true;
-      };
-    };
-    # virtualisation.docker.enable = true;
-    # virtualisation.docker.enableNvidia = config.machine.enable_nvidia;
-    virtualisation.podman = {
-      enableNvidia = config.machine.enable_nvidia;
-      dockerCompat = true; # optional, adds `docker` alias
-      dockerSocket.enable = true;
-      defaultNetwork.settings.dns_enabled = true;
-      enable = true;
-      autoPrune.enable = true;
-      extraPackages = [
-        pkgs.curl
-      ];
-      # package = pkgs.podman;
-    };
-    # virtualisation.containers.enable = true;
-    # virtualisation.incus.enable = true;
-
-    virtualisation.arion = {
-      backend = "podman-socket";
-      projects.open-notebook = {
-        # serviceName = "open-notebook";
-        settings = {
-          imports = [ ./arion-open-notebook.nix ];
-        };
-      };
-    };
-
     # spice-gtk?
     programs.virt-manager.enable = true;
     users.groups.libvirtd.members = [ constants.myuser ];
@@ -544,7 +504,8 @@ in
       aichat
       jan
       llm
-      fabric-ai
+
+      # fabric-ai ragflow dify
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       # mcp-server-fetch
