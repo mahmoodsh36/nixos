@@ -236,7 +236,7 @@ in
 
     virtualisation.arion = {
       backend = "podman-socket";
-      projects.open-notebook = {
+      projects.open-notebook = lib.mkIf config.machine.is_desktop {
         settings = {
           imports = [ ./arion-open-notebook.nix ];
         };

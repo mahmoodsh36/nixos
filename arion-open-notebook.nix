@@ -31,8 +31,8 @@ in
       service.depends_on = [ "surrealdb" ];
       service.environment = {
         # OPENAI_API_KEY = builtins.getEnv "OPENAI_API_KEY";
-        OPENAI_API_KEY = builtins.getEnv "none";
-        SURREAL_ADDRESS = "surrealdb";
+        OPENAI_API_KEY = "none";
+        SURREAL_ADDRESS = "localhost";
         SURREAL_PORT = "8000";
         SURREAL_USER = "root";
         SURREAL_PASS = "root";
