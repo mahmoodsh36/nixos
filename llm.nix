@@ -117,8 +117,28 @@ in
         # script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Qwen3-32B-GGUF:Q4_K_M --jinja -ngl 99 -fa --temp 0.7 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 20000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0 --reasoning-format deepseek";
         # script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Magistral-Small-2506-GGUF:UD-Q4_K_XL --jinja --temp 0.7 --top-k 20 -ngl 99 -fa --top-p 0.95 -c 30000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0";
         # script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf Qwen/Qwen3-32B-GGUF:Q4_K_M --jinja -ngl 99 -fa --temp 0.6 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 130000 --seed 2 --no-kv-offload";
-        script = '' ${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/llama-server --host 0.0.0.0 --port 5000 -hf bullerwins/Hunyuan-A13B-Instruct-GGUF:Q4_K_M --jinja -ngl 99 -fa --temp 0.7 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 --seed 2 --no-kv-offload --cache-type-k q8_0 --cache-type-v q8_0 --override-tensor "\.(1[4-9]|[2-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU" -c 260000 '';
         # script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5000 -hf unsloth/Qwen3-30B-A3B-GGUF:Q4_K_M --jinja -ngl 99 -fa --temp 0.7 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 20000 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0 --reasoning-format deepseek";
+        script = ''
+          ${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/llama-server\
+            --host 0.0.0.0\
+            --port 5000\
+            -hf bullerwins/Hunyuan-A13B-Instruct-GGUF:Q4_K_M\
+            --jinja\
+            -ngl 99\
+            -fa\
+            --temp 0.7\
+            --top-k 20\
+            --top-p 0.95\
+            --min-p 0\
+            --presence-penalty 1.4\
+            --seed 2\
+            --no-kv-offload\
+            --cache-type-k q8_0\
+            --cache-type-v q8_0\
+            --override-tensor "\.(1[4-9]|[2-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU"\
+            -c 260000\
+            --threads 25
+        '';
         serviceConfig = {
           Restart = "always";
           User = constants.myuser;
