@@ -38,7 +38,6 @@ in
           };
           vllm-qwen3-embed = {
             autoStart = true;
-            user = constants.myuser;
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               # "--gpus" "all"
