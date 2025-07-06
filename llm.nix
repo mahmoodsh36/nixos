@@ -41,6 +41,8 @@ in
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               # "--gpus" "all"
+              # https://github.com/NixOS/nixpkgs/issues/420638#issuecomment-3015134430
+              "--cdi-spec-dir=/run/cdi"
               "--device" "nvidia.com/gpu=all"
               "--ipc" "host"
               # "--pull=newer"
