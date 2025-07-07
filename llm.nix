@@ -14,6 +14,7 @@ in
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               # "--gpus" "all"
+              "--cdi-spec-dir=/run/cdi"
               "--device" "nvidia.com/gpu=all"
               "--ipc" "host"
               # "--pull=newer"
