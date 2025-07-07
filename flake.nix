@@ -2,7 +2,6 @@
   description = "nixos flake";
 
   inputs = {
-    # nixos-unstable branch seems to be the best option (tradeoffs considered) for a native nixos installation.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -12,17 +11,7 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # pkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     pkgs-pinned.url = "github:NixOS/nixpkgs/3016b4b15d13f3089db8a41ef937b13a9e33a8df";
-    # pkgs-master.url = "github:NixOS/nixpkgs/master";
-    # pkgs-master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    tgi = {
-      url = "github:huggingface/text-generation-inference";
-      # inputs.nixpkgs.follows = "nixpkgs"; # makes it fail
-    };
-    tei = {
-      url = "github:huggingface/text-embeddings-inference";
-    };
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +20,6 @@
       url = "github:thiagokokada/nix-alien";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # tgi-nix.url = "github:huggingface/text-generation-inference-nix";
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,8 +29,6 @@
       url = "github:ggml-org/llama.cpp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # ml-pkgs.url = "github:nixvital/ml-pkgs/archive/25.05";
-    # ml-pkgs.inputs.nixpkgs.follows = "nixpkgs";
     arion = {
       url = "github:hercules-ci/arion";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,16 +50,10 @@
     };
     mkSystem = extraModules:
       let
-        # pkgs = nixpkgs.legacyPackages.${system};
         pkgs = import nixpkgs {
           system = "x86_64-linux";
           config.allowUnfree = true;
         };
-        # pkgs-master = import inputs.pkgs-master {
-        #   system = "x86_64-linux";
-        #   config.allowUnfree = true;
-        #   # config.cudaSupport = true;
-        # };
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -114,7 +94,7 @@
         ./network-local.nix
       ];
       mahmooz2 = mkSystem [
-        ./hardware-configuration.nix # hardware scan results
+        ./hardware-configuration.nix
         ({ lib, ... }: {
           config = {
             machine.name = "mahmooz2";
@@ -128,7 +108,7 @@
       ];
       # for hetzner etc
       mahmooz3 = mkSystem [
-        ./hardware-configuration.nix # hardware scan results
+        ./hardware-configuration.nix
         {
           config = {
             machine.name = "mahmooz3";

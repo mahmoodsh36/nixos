@@ -50,18 +50,11 @@ in
     };
     programs.htop.enable = true;
     programs.iotop.enable = true;
-    # services.atuin.enable = true;
-
-    # services.locate = {
-    #   enable = true;
-    #   interval = "hourly";
-    # };
 
     # gpg
     services.pcscd.enable = true;
     programs.gnupg.agent = {
       enable = true;
-      # pinentryPackage = lib.mkForce pkgs.pinentry;
       enableSSHSupport = true;
     };
 
@@ -72,16 +65,8 @@ in
     hardware.nvidia.open = false;
     hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
 
-    # vaapi (accelerated video playback), enable vaapi on OS-level
-    # nixpkgs.config.packageOverrides = pkgs: {
-    #   vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-    # };
     hardware.graphics = {
       extraPackages = with pkgs; [
-        # intel-media-driver
-        # vaapiVdpau
-        # intel-compute-runtime # openCL filter support (hardware tonemapping and subtitle burn-in)
-        # vpl-gpu-rt # QSV on 11th gen or newer
       ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
         nvidia-vaapi-driver
       ];
@@ -90,7 +75,6 @@ in
     # self-hosted media service
     services.jellyfin = {
       enable = config.machine.is_home_server;
-      # openFirewall = true;
       user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
       # this causes the directory to be created automatically even if my extra storage dir isnt mounted, which would then later prevent it from being mounted because the path is taken
       dataDir = lib.mkIf (builtins.pathExists constants.extra_storage_dir) jellyfin_dir;
@@ -146,8 +130,6 @@ in
       MAHMOOZ1_ADDR = constants.mahmooz1_addr;
       MYDOMAIN = constants.mydomain;
 
-      # PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
-      # PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
     } // (if config.machine.enable_nvidia then {
       # do we really need these? hopefully it makes things work with jellyfin/firefox?
       LIBVA_DRIVER_NAME = "nvidia";
@@ -231,10 +213,7 @@ in
       extraPackages = [
         pkgs.curl
       ];
-      # package = pkgs.podman;
     };
-    # virtualisation.containers.enable = true;
-    # virtualisation.incus.enable = true;
 
     virtualisation.arion = {
       backend = "podman-socket";
