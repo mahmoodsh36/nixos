@@ -621,7 +621,7 @@ in
       cpuFreqGovernor = "ondemand";
     };
 
-    services.open-webui = {
+    services.open-webui = lib.mkIf config.machine.is_desktop {
       enable = true;
       host = "0.0.0.0";
       port = 8083;
