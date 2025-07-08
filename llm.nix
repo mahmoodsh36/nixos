@@ -169,7 +169,7 @@ in
       virtualisation.oci-containers = {
         containers = {
           open-webui = lib.mkIf config.machine.is_desktop {
-            autoStart = true;
+            autoStart = false;
             image = "ghcr.io/open-webui/open-webui:main";
             extraOptions = [
               "--ipc" "host"
