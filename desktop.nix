@@ -621,7 +621,7 @@ in
       cpuFreqGovernor = "ondemand";
     };
 
-    services.open-webui = lib.mkIf config.machine.is_desktop {
+    services.open-webui = lib.mkIf (lib.and config.machine.is_desktop config.machine.enable_nvidia) {
       enable = true;
       host = "0.0.0.0";
       port = 8083;
