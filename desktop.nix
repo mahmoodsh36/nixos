@@ -620,5 +620,17 @@ in
       powertop.enable = true;
       cpuFreqGovernor = "ondemand";
     };
+
+    services.open-webui = {
+      enable = true;
+      host = "0.0.0.0";
+      port = 8083;
+      environment = {
+        WEBUI_AUTH = "False";
+        ANONYMIZED_TELEMETRY = "False";
+        DO_NOT_TRACK = "True";
+        SCARF_NO_ANALYTICS = "True";
+      };
+    };
   };
 }
