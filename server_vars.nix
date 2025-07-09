@@ -43,6 +43,7 @@ in rec {
     fdupes
     libva-utils
     jellyfin-web jellyfin-ffmpeg jellyfin
+    miller
 
     podman-compose
 
