@@ -32,7 +32,6 @@ in
     #     sha256 = "1fl2ac372nykb4vy0cyg490p4jn098xbhibm1jlpz574ylppscy3";
     #   };
     # }))
-    langchain
     diffusers
     # tensorrt
     mcp
@@ -43,10 +42,10 @@ in
     gguf
     fschat
     smolagents
-    # flash-attn
-    # dspy
     # vllm
     ray
+
+    langchain langgraph langgraph-cli langsmith # langflow
 
     mlflow chromadb
     llm-gguf llm
