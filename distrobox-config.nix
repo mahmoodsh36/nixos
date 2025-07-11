@@ -57,7 +57,7 @@
               /bin/yay $@
             '')
             (pkgs.writeShellScriptBin "install_rest" ''
-              yay -S  --noconfirm python312
+              yay -S --noconfirm python312
             '')
           ];
       };
