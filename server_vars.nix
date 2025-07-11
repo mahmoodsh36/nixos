@@ -44,6 +44,7 @@ in rec {
     libva-utils
     jellyfin-web jellyfin-ffmpeg jellyfin
     miller
+    bc # used for some arithmetic in shell scripts
 
     podman-compose
 
