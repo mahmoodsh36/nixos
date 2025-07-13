@@ -38,7 +38,7 @@ in
             ];
           };
           vllm-qwen3-embed = {
-            autoStart = true;
+            autoStart = false;
             image = "vllm/vllm-openai:latest";
             extraOptions = [
               "--cdi-spec-dir=/run/cdi"
@@ -52,7 +52,7 @@ in
               "--model" "Qwen/Qwen3-Embedding-0.6B"
               # "--max-model-len" "32768"
               "--max-model-len" "10000"
-              # "--gpu-memory-utilization" "0.9" # default
+              "--gpu-memory-utilization" "0.1"
               "--quantization" "bitsandbytes"
               "--download-dir" "/cache"
               "--seed" "2"
@@ -149,13 +149,13 @@ in
         };
       };
       systemd.services.llamacpp_embed_service = {
-        enable = false;
+        enable = true;
         description = "service for embeddings generation through llama-cpp";
         environment = {
           "LLAMA_CACHE" = constants.models_dir;
         };
         wantedBy = [ "multi-user.target" ];
-        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 -ngl 99 -fa -c 6000 --seed 2 --embedding --pooling last -ub 6000";
+        script = "${inputs.llama-cpp-flake.packages.${pkgs.system}.cuda}/bin/llama-server --host 0.0.0.0 --port 5001 -hf Qwen/Qwen3-Embedding-0.6B-GGUF:Q8_0 -ngl 99 -fa -c 16000 --seed 2 --embedding --pooling last -ub 16000 --no-kv-offload";
         serviceConfig = {
           Restart = "always";
           User = constants.myuser;
