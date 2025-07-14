@@ -219,7 +219,16 @@ in
       backend = "podman-socket";
       projects.open-notebook = lib.mkIf config.machine.is_desktop {
         settings = {
-          imports = [ ./arion-open-notebook.nix ];
+          imports = [
+            ./arion-open-notebook.nix
+          ];
+        };
+      };
+      projects.mykhoj = lib.mkIf config.machine.is_desktop {
+        settings = {
+          imports = [
+            ./khoj.nix
+          ];
         };
       };
     };

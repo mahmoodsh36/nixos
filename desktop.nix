@@ -353,15 +353,6 @@ in
         exec ${main_python}/bin/ipython --no-confirm-exit "$@"
       '')
 
-      # (let
-      #   ikllamacpp_pkg = (if config.machine.enable_nvidia
-      #                     then inputs.ikllamacpp.packages.${pkgs.system}.cuda
-      #                     else inputs.ikllamacpp.packages.${pkgs.system}.default);
-      # in
-      #   (pkgs.writeShellScriptBin "ik-llamacpp-server" ''
-      #   exec ${ikllamacpp_pkg}/bin/llama-server "$@"
-      # ''))
-
       gtkpython
 
       # overwrite notify-send to not let anything handle notifications
@@ -485,7 +476,6 @@ in
       # julia
       typst
       (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
-      # (lib.mkIf (!config.machine.enable_nvidia) pkgs.sage)
 
       # lsp
       cmake-language-server
@@ -516,25 +506,19 @@ in
       }))
       # vllm
       aichat
-      jan
-      llm
 
-      private-gpt
-
+      # private-gpt jan llm
       # fabric-ai ragflow dify
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
-      # mcp-server-fetch
       mcp-server-everything
       mcp-server-time
       mcp-server-git
       mcp-server-sequential-thinking
       mcp-server-filesystem
-      # mcp-server-redis
       playwright-mcp
       mcp-server-github github-mcp-server
       mcp-server-memory
-      mcp-server-brave-search
       mcp-server-sqlite
 
       gitingest
@@ -556,7 +540,6 @@ in
         User = constants.myuser;
         Restart = "always";
         RuntimeMaxSec = "3600";
-        # ExecStart = "${pkgs.coreutils}/bin/sh ${constants.scripts_dir}/mpv_logger.sh";
       };
     };
 
@@ -568,7 +551,6 @@ in
         export kbd=$(${pkgs.libinput}/bin/libinput list-devices | ${pkgs.gnugrep}/bin/grep glove80 -i -A 10 | ${pkgs.gnugrep}/bin/grep Kernel: | ${pkgs.gawk}/bin/awk '{print $2}'); [ -z "$kbd" ] && ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d' || ${pkgs.dash}/bin/dash -lc "${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d -p $kbd"
       '';
       serviceConfig = {
-        # User = "mahmooz";
         Restart = "always";
       };
       unitConfig = {
