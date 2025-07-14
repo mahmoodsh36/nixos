@@ -519,6 +519,8 @@ in
       jan
       llm
 
+      private-gpt
+
       # fabric-ai ragflow dify
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
@@ -540,6 +542,10 @@ in
       cudatoolkit nvtopPackages.full
       # cudaPackages.tensorrt
     ] ++ server_vars.server_packages;
+
+    services.qdrant = {
+      enable = true;
+    };
 
     systemd.services.my_mpv_logger_service = {
       description = "mpv logger";
