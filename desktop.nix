@@ -543,8 +543,9 @@ in
       # cudaPackages.tensorrt
     ] ++ server_vars.server_packages;
 
+    # vector database for RAG
     services.qdrant = {
-      enable = true;
+      enable = config.machine.is_desktop;
     };
 
     systemd.services.my_mpv_logger_service = {
