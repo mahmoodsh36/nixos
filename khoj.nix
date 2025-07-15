@@ -37,32 +37,32 @@ in
       };
     };
 
-    sandbox = {
-      image.enableRecommendedContents = true;
-      service.useHostStore = true;
-      service.image = "ghcr.io/khoj-ai/terrarium:latest";
-      service.network_mode = "host";
-      service.ports = [ "8080:8080" ];
-      service.healthcheck = {
-        test = [ "CMD" "curl" "-f" "http://localhost:8080/health" ];
-        interval = "30s";
-        timeout = "10s";
-        retries = 2;
-      };
-    };
+    # sandbox = {
+    #   image.enableRecommendedContents = true;
+    #   service.useHostStore = true;
+    #   service.image = "ghcr.io/khoj-ai/terrarium:latest";
+    #   service.network_mode = "host";
+    #   service.ports = [ "8081:8081" ];
+    #   service.healthcheck = {
+    #     test = [ "CMD" "curl" "-f" "http://localhost:8081/health" ];
+    #     interval = "30s";
+    #     timeout = "10s";
+    #     retries = 2;
+    #   };
+    # };
 
-    search = {
-      image.enableRecommendedContents = true;
-      service.useHostStore = true;
-      service.image = "docker.io/searxng/searxng:latest";
-      service.network_mode = "host";
-      service.ports = [ "8088:8088" ];
-      service.environment = {
-        "SEARXNG_PORT" = "8088";
-        "SEARXNG_BASE_URL" = "http://localhost:8088/";
-      };
-      service.volumes = [ "${khojDataRoot}/search:/etc/searxng" ];
-    };
+    # search = {
+    #   image.enableRecommendedContents = true;
+    #   service.useHostStore = true;
+    #   service.image = "docker.io/searxng/searxng:latest";
+    #   service.network_mode = "host";
+    #   service.ports = [ "8082:8082" ];
+    #   service.environment = {
+    #     "SEARXNG_PORT" = "8082";
+    #     "SEARXNG_BASE_URL" = "http://localhost:8082/";
+    #   };
+    #   service.volumes = [ "${khojDataRoot}/search:/etc/searxng" ];
+    # };
 
     server = {
       image.enableRecommendedContents = true;
@@ -76,18 +76,19 @@ in
         FIRECRAWL_API_KEY = builtins.getEnv "FIRECRAWL_API_KEY";
         KHOJ_ADMIN_EMAIL = "username@example.com";
         KHOJ_ADMIN_PASSWORD = "password";
-        KHOJ_DEBUG = "False";
+        KHOJ_DEBUG = "True";
         KHOJ_DEFAULT_CHAT_MODEL = "qwen3";
         KHOJ_DJANGO_SECRET_KEY = "secret";
-        KHOJ_OPERATOR_ENABLED = "True";
-        KHOJ_SEARXNG_URL = "http://localhost:8088";
-        KHOJ_TERRARIUM_URL = "http://localhost:8080";
+        # KHOJ_OPERATOR_ENABLED = "True";
+        # KHOJ_SEARXNG_URL = "http://localhost:8082";
+        # KHOJ_TERRARIUM_URL = "http://localhost:8081";
         OPENAI_BASE_URL = "http://mahmooz2:5000/v1/";
         POSTGRES_DB = "postgres";
         POSTGRES_HOST = "localhost";
         POSTGRES_PASSWORD = "postgres";
         POSTGRES_PORT = "5432";
         POSTGRES_USER = "postgres";
+        KHOJ_TELEMETRY_DISABLE = "True";
       };
       service.volumes = [
         "/var/run/docker.sock:/var/run/docker.sock"
@@ -95,6 +96,7 @@ in
         "${khojDataRoot}/models:/root/.cache/huggingface"
       ];
       service.extra_hosts = [ "host.docker.internal:host-gateway" ];
+      service.working_dir = "/app";
     };
   };
 }
