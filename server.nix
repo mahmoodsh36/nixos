@@ -212,6 +212,7 @@ in
       autoPrune.enable = true;
       extraPackages = [
         pkgs.curl
+        pkgs.neovim
       ];
     };
 

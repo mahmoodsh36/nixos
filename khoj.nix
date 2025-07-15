@@ -88,7 +88,7 @@ in
         POSTGRES_PASSWORD = "postgres";
         POSTGRES_PORT = "5432";
         POSTGRES_USER = "postgres";
-        KHOJ_TELEMETRY_DISABLE = "True";
+        # KHOJ_TELEMETRY_DISABLE = "True";
         KHOJ_ALLOWED_DOMAIN = "mahmooz2";
       };
       service.volumes = [
