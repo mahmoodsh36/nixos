@@ -23,7 +23,6 @@ in
       ${constants.mahmooz2_addr} mahmooz2-2
       ${constants.mahmooz1_addr} mahmooz1-2
       ${constants.mahmooz3_addr} mahmooz3
-      ${constants.mahmooz2_addr} test.com
     '';
   };
 

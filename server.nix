@@ -224,13 +224,13 @@ in
       #     ];
       #   };
       # };
-      projects.mykhoj = lib.mkIf config.machine.is_desktop {
-        settings = {
-          imports = [
-            ./khoj.nix
-          ];
-        };
-      };
+      # projects.mykhoj = lib.mkIf config.machine.is_desktop {
+      #   settings = {
+      #     imports = [
+      #       ./khoj.nix
+      #     ];
+      #   };
+      # };
     };
 
     # will this help prevent the dbus org.freedesktop.secrets error when using goose-cli?
