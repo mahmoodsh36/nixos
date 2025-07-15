@@ -82,7 +82,7 @@ in
         # KHOJ_OPERATOR_ENABLED = "True";
         # KHOJ_SEARXNG_URL = "http://localhost:8082";
         # KHOJ_TERRARIUM_URL = "http://localhost:8081";
-        OPENAI_BASE_URL = "http://mahmooz2:5000/v1/";
+        OPENAI_BASE_URL = "http://mahmooz2:5000/v1";
         POSTGRES_DB = "postgres";
         POSTGRES_HOST = "localhost";
         POSTGRES_PASSWORD = "postgres";
