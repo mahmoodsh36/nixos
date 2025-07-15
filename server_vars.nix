@@ -45,8 +45,10 @@ in rec {
     jellyfin-web jellyfin-ffmpeg jellyfin
     miller
     bc # used for some arithmetic in shell scripts
+    postgresql
 
     podman-compose
+    arion
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
