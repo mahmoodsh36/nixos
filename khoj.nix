@@ -89,6 +89,7 @@ in
         POSTGRES_PORT = "5432";
         POSTGRES_USER = "postgres";
         KHOJ_TELEMETRY_DISABLE = "True";
+        KHOJ_ALLOWED_DOMAIN = "mahmooz2";
       };
       service.volumes = [
         "/var/run/docker.sock:/var/run/docker.sock"
