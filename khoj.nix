@@ -96,7 +96,7 @@ in
         "${khojDataRoot}/config:/root/.khoj"
         "${khojDataRoot}/models:/root/.cache/huggingface"
       ];
-      service.extra_hosts = [ "mahmooz2" ];
+      service.extra_hosts = [ "mahmooz2:host-gateway" ];
       service.working_dir = "/app";
     };
   };
