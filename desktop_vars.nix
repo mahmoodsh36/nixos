@@ -12,6 +12,8 @@ in
 
     ipython
 
+    qdrant-client
+
     scikit-learn
 
     # for system?
