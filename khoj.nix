@@ -96,7 +96,7 @@ in
         "${khojDataRoot}/config:/root/.khoj"
         "${khojDataRoot}/models:/root/.cache/huggingface"
       ];
-      service.extra_hosts = [ "host.docker.internal:host-gateway" ];
+      service.extra_hosts = [ "mahmooz2" ];
       service.working_dir = "/app";
     };
   };
