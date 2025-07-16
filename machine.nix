@@ -1,4 +1,4 @@
-{ config, lib, ... }: rec {
+{ config, lib, pkgs, ... }: rec {
   options = {
     machine.is_desktop = lib.mkOption {
       type = lib.types.bool;
@@ -19,6 +19,13 @@
     machine.is_home_server = lib.mkOption {
       type = lib.types.bool;
       default = false;
+    };
+
+    machine.llama-cpp = {
+      pkg = lib.mkOption {
+        type = lib.types.package;
+        default = pkgs.llama-cpp;
+      };
     };
   };
 

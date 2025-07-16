@@ -493,9 +493,7 @@ in
       gemini-cli
 
       koboldcpp mistral-rs
-      # (if config.machine.enable_nvidia
-      #  then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
-      #  else inputs.llama-cpp-flake.packages.${pkgs.system}.default)
+      config.machine.llama-cpp.pkg
       (whisper-cpp.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
           owner = "ggml-org";
@@ -581,7 +579,7 @@ in
       SUBSYSTEM=="block", ENV{ID_FS_UUID}=="be5af23f-da6d-42ee-a346-5ad3af1a299a", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt2" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt2", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
   '';
 
-    services.guix.enable = true;
+    # services.guix.enable = true;
     programs.adb.enable = true;
     programs.java.enable = true;
     programs.sniffnet.enable = true;
