@@ -359,16 +359,16 @@ in
         echo $@ > /tmp/notif
       '')
 
-      (pkgs.writeShellScriptBin "julia" ''
-        export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-          pkgs.stdenv.cc.cc.lib
-          pkgs.libGL
-          pkgs.glib
-          pkgs.zlib
-        ]}:$LD_LIBRARY_PATH
-        export DISPLAY=:0 # cheating so it can compile
-        exec ${main_julia}/bin/julia "$@"
-      '')
+      # (pkgs.writeShellScriptBin "julia" ''
+      #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+      #     pkgs.stdenv.cc.cc.lib
+      #     pkgs.libGL
+      #     pkgs.glib
+      #     pkgs.zlib
+      #   ]}:$LD_LIBRARY_PATH
+      #   export DISPLAY=:0 # cheating so it can compile
+      #   exec ${main_julia}/bin/julia "$@"
+      # '')
 
       inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
