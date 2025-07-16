@@ -92,24 +92,6 @@
         "type": "github"
       }
     },
-    "flake-parts_3": {
-      "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib_2"
-      },
-      "locked": {
-        "lastModified": 1730504689,
-        "narHash": "sha256-hgmguH29K2fvs9szpq2r3pz2/8cJd2LPS+b4tfNFCwE=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "506278e768c2a08bec68eb62932193e341f55c90",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "haskell-flake": {
       "locked": {
         "lastModified": 1675296942,
@@ -155,37 +137,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1752585727,
-        "narHash": "sha256-itw/2jW813XFEUuQJRaFRH7DY6Hp/hATlN6uZbvRb2I=",
+        "lastModified": 1752683370,
+        "narHash": "sha256-KjYPww0rA4mkG7AnJMB4joWSh5SeAK32vLwdO7uMo58=",
         "owner": "lem-project",
         "repo": "lem",
-        "rev": "38bae05a03bd6e6394819873fe5414b38da4753d",
+        "rev": "2404b66b588440b7200515e7a5816b8eceeade04",
         "type": "github"
       },
       "original": {
         "owner": "lem-project",
         "repo": "lem",
-        "type": "github"
-      }
-    },
-    "llama-cpp-flake": {
-      "inputs": {
-        "flake-parts": "flake-parts_3",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1752679131,
-        "narHash": "sha256-UFRPIwkowei1119sKEnBPoXEjJ180QkTeBiTJiqF1x4=",
-        "owner": "ggml-org",
-        "repo": "llama.cpp",
-        "rev": "21c021745d781edf9c44b4972ef6cbbf53b0ecff",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ggml-org",
-        "repo": "llama.cpp",
         "type": "github"
       }
     },
@@ -280,18 +241,6 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
       }
     },
-    "nixpkgs-lib_2": {
-      "locked": {
-        "lastModified": 1730504152,
-        "narHash": "sha256-lXvH/vOfb4aGYyvFmZK/HlsNsr/0CVWlwYvo2rxJk3s=",
-        "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/cc2f28000298e1269cea6612cd06ec9979dd5d7f.tar.gz"
-      }
-    },
     "pkgs-pinned": {
       "locked": {
         "lastModified": 1751271578,
@@ -336,7 +285,6 @@
         "arion": "arion",
         "home-manager": "home-manager",
         "lem": "lem",
-        "llama-cpp-flake": "llama-cpp-flake",
         "mcp-servers-nix": "mcp-servers-nix",
         "nix-alien": "nix-alien",
         "nixpkgs": "nixpkgs",
