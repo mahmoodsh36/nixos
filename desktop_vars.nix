@@ -47,10 +47,10 @@ in
     # vllm
     ray
 
-    langchain langgraph langgraph-cli langsmith # langflow
+    # langchain langgraph langgraph-cli langsmith # langflow
 
-    mlflow chromadb
-    llm-gguf llm
+    # mlflow chromadb
+    # llm-gguf llm
 
     # for hosting?
     uvicorn fastapi pydantic
