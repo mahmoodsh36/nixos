@@ -7,7 +7,7 @@ in
   project.name = "mykhoj";
 
   services = {
-    # The khoj-computer service
+    # the khoj-computer service
     "khoj-computer" = {
       image.enableRecommendedContents = true;
       service.useHostStore = true;

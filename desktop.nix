@@ -361,16 +361,16 @@ in
         echo $@ > /tmp/notif
       '')
 
-      (pkgs.writeShellScriptBin "julia" ''
-        export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-          pkgs.stdenv.cc.cc.lib
-          pkgs.libGL
-          pkgs.glib
-          pkgs.zlib
-        ]}:$LD_LIBRARY_PATH
-        export DISPLAY=:0 # cheating so it can compile
-        exec ${main_julia}/bin/julia "$@"
-      '')
+      # (pkgs.writeShellScriptBin "julia" ''
+      #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+      #     pkgs.stdenv.cc.cc.lib
+      #     pkgs.libGL
+      #     pkgs.glib
+      #     pkgs.zlib
+      #   ]}:$LD_LIBRARY_PATH
+      #   export DISPLAY=:0 # cheating so it can compile
+      #   exec ${main_julia}/bin/julia "$@"
+      # '')
 
       inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
@@ -475,7 +475,7 @@ in
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
       typst
-      (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
+      # (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
 
       # lsp
       cmake-language-server
