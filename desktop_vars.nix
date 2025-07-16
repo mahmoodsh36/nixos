@@ -12,7 +12,7 @@ in
 
     ipython
 
-    qdrant-client
+    qdrant-client fastembed
 
     scikit-learn
 
