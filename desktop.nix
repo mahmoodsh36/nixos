@@ -508,14 +508,13 @@ in
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       # mcp-server-everything
-      # mcp-server-time
-      # mcp-server-git
-      # mcp-server-sequential-thinking
-      # mcp-server-filesystem
-      # playwright-mcp
-      # mcp-server-github github-mcp-server
-      # mcp-server-memory
-      # mcp-server-sqlite
+      mcp-server-time
+      mcp-server-git
+      mcp-server-sequential-thinking
+      mcp-server-filesystem
+      playwright-mcp
+      mcp-server-github github-mcp-server
+      mcp-server-sqlite
 
       gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
