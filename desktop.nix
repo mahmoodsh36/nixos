@@ -5,6 +5,7 @@ let
   constants = (import ./constants.nix);
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   main_python = desktop_vars.desktop_python;
+  main_julia = desktop_vars.desktop_julia;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
   emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = false; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
     imagemagick = pkgs.imagemagickBig;
@@ -368,7 +369,7 @@ in
           pkgs.zlib
         ]}:$LD_LIBRARY_PATH
         export DISPLAY=:0 # cheating so it can compile
-        exec ${julia}/bin/julia "$@"
+        exec ${main_julia}/bin/julia "$@"
       '')
 
       inputs.lem.packages.${pkgs.system}.lem-sdl2
@@ -473,8 +474,6 @@ in
 
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
-      # desktop_vars.desktop_julia
-      # julia
       typst
       (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
 

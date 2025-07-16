@@ -64,14 +64,14 @@ in
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
   ]));
   desktop_julia = (pkgs-pinned.julia.withpackages.override({
-    precompile = true;
+    precompile = false;
     # extralibs = [
     #   pkgs.stdenv.cc.cc.lib
     #   pkgs.libgl
     #   pkgs.glib
     #   pkgs.zlib
     # ];
-    # # cheating so it can compile
+    # # cheating so it can compile, but doesnt work?
     # makeWrapperArgs = [
     #   "--set DISPLAY ':0'"
     #   "--unset WAYLAND_DISPLAY"
@@ -94,6 +94,6 @@ in
     "GraphPlot" "Compose"
     # "SGtSNEpi" "Karnak"
 
-    # "LogicCircuits" # causes compilation error :(
+    "LogicCircuits" # causes compilation error :(
   ]));
 }
