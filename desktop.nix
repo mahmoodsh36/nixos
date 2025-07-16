@@ -486,7 +486,7 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       python3Packages.huggingface-hub
-      aider-chat
+      # aider-chat
       # goose-cli # goose ai tool
       gemini-cli
 
