@@ -291,53 +291,53 @@ in
     };
     programs.command-not-found.enable = false; # needed for nix-index
 
-    programs.nix-ld = {
-      enable = true;
-      libraries = [
-        pkgs.stdenv.cc.cc
-        pkgs.zlib
-        pkgs.fuse3
-        pkgs.icu
-        pkgs.nss
-        pkgs.openssl
-        pkgs.curl
-        pkgs.expat
-        pkgs.xorg.libX11
-        pkgs.vulkan-headers
-        pkgs.vulkan-loader
-        pkgs.vulkan-tools
-        pkgs.libGL
-        pkgs.stdenv.cc.cc.lib
-        pkgs.glib
-        pkgs.ncurses5
-        pkgs.libzip
-        pkgs.cmake
-        pkgs.llvm_18
-        pkgs.zstd
-        pkgs.attr
-        pkgs.libssh
-        pkgs.bzip2
-        pkgs.libaio
-        pkgs.file
-        pkgs.libxml2
-        pkgs.acl
-        pkgs.libsodium
-        pkgs.util-linux
-        pkgs.binutils
-        pkgs.xz
-        pkgs.systemd
-        pkgs.glibc_multi
-        pkgs.pkg-config
-        pkgs.glibc
-        pkgs.pythonManylinuxPackages.manylinux2014Package
-      ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-        pkgs.linuxPackages.nvidia_x11
-        pkgs.cudaPackages.cudatoolkit
-        pkgs.cudaPackages.cudnn
-        pkgs.cudaPackages.cuda_cudart
-        pkgs.cudaPackages.cuda_cudart.static
-      ];
-    };
+    # programs.nix-ld = {
+    #   enable = true;
+    #   libraries = [
+    #     pkgs.stdenv.cc.cc
+    #     pkgs.zlib
+    #     pkgs.fuse3
+    #     pkgs.icu
+    #     pkgs.nss
+    #     pkgs.openssl
+    #     pkgs.curl
+    #     pkgs.expat
+    #     pkgs.xorg.libX11
+    #     pkgs.vulkan-headers
+    #     pkgs.vulkan-loader
+    #     pkgs.vulkan-tools
+    #     pkgs.libGL
+    #     pkgs.stdenv.cc.cc.lib
+    #     pkgs.glib
+    #     pkgs.ncurses5
+    #     pkgs.libzip
+    #     pkgs.cmake
+    #     pkgs.llvm_18
+    #     pkgs.zstd
+    #     pkgs.attr
+    #     pkgs.libssh
+    #     pkgs.bzip2
+    #     pkgs.libaio
+    #     pkgs.file
+    #     pkgs.libxml2
+    #     pkgs.acl
+    #     pkgs.libsodium
+    #     pkgs.util-linux
+    #     pkgs.binutils
+    #     pkgs.xz
+    #     pkgs.systemd
+    #     pkgs.glibc_multi
+    #     pkgs.pkg-config
+    #     pkgs.glibc
+    #     pkgs.pythonManylinuxPackages.manylinux2014Package
+    #   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+    #     pkgs.linuxPackages.nvidia_x11
+    #     pkgs.cudaPackages.cudatoolkit
+    #     pkgs.cudaPackages.cudnn
+    #     pkgs.cudaPackages.cuda_cudart
+    #     pkgs.cudaPackages.cuda_cudart.static
+    #   ];
+    # };
 
     # packages
     environment.systemPackages = with pkgs; [
@@ -461,6 +461,7 @@ in
       openrgb-with-all-plugins
       tor-browser
       jellyfin-tui jellycli jellytui
+      kando
 
       # nix specific
       nixos-generators
