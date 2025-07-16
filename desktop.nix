@@ -504,7 +504,6 @@ in
       }))
       # vllm
       aichat
-      lobe-chat
 
       # private-gpt jan llm
       # fabric-ai ragflow dify
