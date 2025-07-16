@@ -168,24 +168,24 @@ in
     {
       virtualisation.oci-containers = {
         containers = {
-          # open-webui = lib.mkIf config.machine.is_desktop {
-          #   autoStart = false;
-          #   image = "ghcr.io/open-webui/open-webui:main";
-          #   extraOptions = [
-          #     "--ipc" "host"
-          #     # "--pull=newer"
-          #     "-v" "${constants.home_dir}/.open-webui:/app/backend/data"
-          #     "--network=host"
-          #     "--name=open-webui"
-          #   ];
-          #   environment = {
-          #     WEBUI_AUTH = "False";
-          #     ANONYMIZED_TELEMETRY = "False";
-          #     DO_NOT_TRACK = "True";
-          #     SCARF_NO_ANALYTICS = "True";
-          #     PORT = "8083";
-          #   };
-          # };
+          open-webui = lib.mkIf config.machine.is_desktop {
+            autoStart = false;
+            image = "ghcr.io/open-webui/open-webui:main";
+            extraOptions = [
+              "--ipc" "host"
+              # "--pull=newer"
+              "-v" "${constants.home_dir}/.open-webui:/app/backend/data"
+              "--network=host"
+              "--name=open-webui"
+            ];
+            environment = {
+              WEBUI_AUTH = "False";
+              ANONYMIZED_TELEMETRY = "False";
+              DO_NOT_TRACK = "True";
+              SCARF_NO_ANALYTICS = "True";
+              PORT = "8083";
+            };
+          };
           # openhands-app = {
           #   autoStart = true;
           #   image = "docker.all-hands.dev/all-hands-ai/openhands:0.34";

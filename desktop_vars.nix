@@ -63,7 +63,7 @@ in
     pdf2image
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
   ]));
-  desktop_julia = (pkgs-pinned.julia.withpackages.override({
+  desktop_julia = (pkgs-pinned.julia.withPackages.override({
     precompile = false;
     # extralibs = [
     #   pkgs.stdenv.cc.cc.lib
