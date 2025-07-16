@@ -504,6 +504,7 @@ in
       }))
       # vllm
       aichat
+      lobe-chat
 
       # private-gpt jan llm
       # fabric-ai ragflow dify
@@ -628,7 +629,7 @@ in
     };
 
     services.open-webui = lib.mkIf (lib.and config.machine.is_desktop (!config.machine.enable_nvidia)) {
-      enable = true;
+      enable = false;
       host = "0.0.0.0";
       port = 8083;
       environment = {

@@ -48,7 +48,6 @@ in rec {
     postgresql
 
     podman-compose
-    arion
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
@@ -61,5 +60,7 @@ in rec {
     # nix specific stuff
     mysbcl
     compose2nix
+    nvfetcher
+    arion
   ];
 }
