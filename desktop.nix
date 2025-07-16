@@ -359,16 +359,16 @@ in
         echo $@ > /tmp/notif
       '')
 
-      # (pkgs.writeShellScriptBin "julia" ''
-      #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-      #     pkgs.stdenv.cc.cc.lib
-      #     pkgs.libGL
-      #     pkgs.glib
-      #     pkgs.zlib
-      #   ]}:$LD_LIBRARY_PATH
-      #   export DISPLAY=:0 # cheating so it can compile
-      #   exec ${main_julia}/bin/julia "$@"
-      # '')
+      (pkgs.writeShellScriptBin "julia" ''
+        export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+          pkgs.stdenv.cc.cc.lib
+          pkgs.libGL
+          pkgs.glib
+          pkgs.zlib
+        ]}:$LD_LIBRARY_PATH
+        export DISPLAY=:0 # cheating so it can compile
+        exec ${main_julia}/bin/julia "$@"
+      '')
 
       inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
@@ -440,7 +440,7 @@ in
       # ventoy
       djvulibre djvu2pdf
       czkawka czkawka-full # file dupe finder/cleaner? has a gui too
-      python3Packages.chromadb # vector database
+      # python3Packages.chromadb # vector database
       nodePackages.prettier
       nodejs
       exiftool
@@ -490,7 +490,7 @@ in
       # goose-cli # goose ai tool
       gemini-cli
 
-      koboldcpp mistral-rs
+      # koboldcpp mistral-rs
       config.machine.llama-cpp.pkg
       (whisper-cpp.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
