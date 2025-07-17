@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
-      url = "github:lem-project/lem/8134492b778a9f82a27a557e2636ffcb3a710915#lem-sdl2";
+      url = "github:lem-project/lem/8134492b778a9f82a27a557e2636ffcb3a710915";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pkgs-pinned.url = "github:NixOS/nixpkgs/dab3a6e781554f965bde3def0aa2fda4eb8f1708";
