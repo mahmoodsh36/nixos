@@ -370,7 +370,7 @@ in
       #   exec ${main_julia}/bin/julia "$@"
       # '')
 
-      inputs.lem.packages.${pkgs.system}.lem-sdl2
+      # inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
       neovide
       windsurf
