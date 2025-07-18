@@ -442,7 +442,7 @@ in
       czkawka czkawka-full # file dupe finder/cleaner? has a gui too
       # python3Packages.chromadb # vector database
       nodePackages.prettier
-      nodejs
+      nodejs pnpm
       exiftool
       spotdl
       openjdk
