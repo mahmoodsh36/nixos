@@ -471,6 +471,7 @@ in
       steam-run-free
 
       # some programming languages/environments
+      julia
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
       typst
       # (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
@@ -490,7 +491,7 @@ in
       # goose-cli # goose ai tool
       gemini-cli
 
-      # koboldcpp mistral-rs
+      koboldcpp mistral-rs
       config.machine.llama-cpp.pkg
       (whisper-cpp.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
