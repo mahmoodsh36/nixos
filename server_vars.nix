@@ -1,5 +1,25 @@
 { pkgs, pkgs-pinned, inputs, ... }:
 let
+  cltpt = pkgs-pinned.sbcl.buildASDFSystem rec {
+    pname = "cltpt";
+    version = "0.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "mahmoodsh36";
+      repo = "cltpt";
+      rev = "37ede3f4f36c130ac674232876bd07956ab968aa";
+      sha256 = "sha256-Edxc99oVJEDApOObfSkUIggUolxdg2ipkAo2FkhlSZs=";
+    };
+    systems = [ "cltpt" ];
+    lispLibs = with pkgs-pinned.sbcl.pkgs; [
+      clingon
+      ironclad
+      fiveam
+      # uiop
+      str
+      cl-fad
+      cl-ppcre
+    ];
+  };
   mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
     serapeum
     lparallel
@@ -17,11 +37,17 @@ let
     ironclad # crypto functions
     fiveam # tests
     closer-mop
+    cltpt
   ]));
   constants = (import ./constants.nix);
 in rec {
   server_overlays = [
     inputs.nix-alien.overlays.default
+    (final: prev:
+      {
+        sbcl = mysbcl;
+      }
+    )
   ];
 
   server_packages = with pkgs; [
@@ -58,7 +84,7 @@ in rec {
     pkg-config
 
     # nix specific stuff
-    mysbcl
+    sbcl
     compose2nix
     nvfetcher
     arion
