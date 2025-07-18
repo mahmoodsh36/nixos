@@ -12,12 +12,15 @@ in
     ./desktop.nix
     ./server.nix
   ];
-  _module.args = { inherit pkgs-pinned; };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = config.machine.enable_nvidia;
-  # config.machine.llama-cpp.pkg =
-  #   (if config.machine.enable_nvidia
-  #    then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
-  #    else inputs.llama-cpp-flake.packages.${pkgs.system}.default);
+  config = {
+    _module.args = { inherit pkgs-pinned; };
+
+    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.cudaSupport = config.machine.enable_nvidia;
+    machine.llama-cpp.pkg =
+      (if config.machine.enable_nvidia
+       then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
+       else inputs.llama-cpp-flake.packages.${pkgs.system}.default);
+  };
 }

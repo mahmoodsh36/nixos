@@ -26,10 +26,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    # llama-cpp-flake = {
-    #   url = "github:ggml-org/llama.cpp";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    llama-cpp-flake = {
+      url = "github:ggml-org/llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     arion = {
       url = "github:hercules-ci/arion";
       inputs.nixpkgs.follows = "nixpkgs";
