@@ -9,6 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
+      # url = "github:lem-project/lem";
       # url = "github:mahmoodsh36/lem";
       url = "github:lem-project/lem/38bae05a03bd6e6394819873fe5414b38da4753d";
       inputs.nixpkgs.follows = "nixpkgs";
