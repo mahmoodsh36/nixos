@@ -9,6 +9,7 @@ in
     matplotlib flask requests numpy sympy networkx pydot
     beautifulsoup4 seaborn pillow dash rich pandas
     python-lsp-server
+    graphviz
 
     ipython
 
