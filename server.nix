@@ -78,7 +78,7 @@ in
       enable = true;
       user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
       # this causes the directory to be created automatically even if my extra storage dir isnt mounted, which would then later prevent it from being mounted because the path is taken
-      dataDir = lib.mkIf (builtins.pathExists constants.extra_storage_dir) jellyfin_dir;
+      # dataDir = lib.mkIf (builtins.pathExists constants.extra_storage_dir) jellyfin_dir;
     };
     systemd.services.jellyfin.unitConfig = {
       ConditionPathExists = constants.extra_storage_dir;
