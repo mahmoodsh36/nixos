@@ -50,7 +50,8 @@ in
     # llama-index-cli llama-index
     # llama-parse
 
-    # langchain langgraph langgraph-cli langsmith # langflow
+    langchain langgraph langgraph-cli langsmith langchain-community # langflow
+    openai
 
     # mlflow chromadb
     # llm-gguf llm
