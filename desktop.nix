@@ -526,6 +526,7 @@ in
     # vector database for RAG
     services.qdrant = {
       enable = config.machine.is_desktop;
+      settings.service.host = "0.0.0.0";
     };
 
     systemd.services.my_mpv_logger_service = {
