@@ -6,27 +6,26 @@ let
 in
 {
   desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
-    matplotlib flask requests numpy sympy networkx pydot
-    beautifulsoup4 seaborn pillow dash rich pandas
-    python-lsp-server
-    graphviz
-
+    # essentials
+    requests beautifulsoup4
     ipython
+    matplotlib numpy sympy networkx pydot
+    seaborn pillow dash rich pandas graphviz
+    python-lsp-server
+    flask
 
-    qdrant-client fastembed
-
-    scikit-learn
-
-    # for system?
+    # for system/scripts etc
     evdev python-magic
+    pdf2image
     # pyzmq
 
-    # ml stuff
+    # ml/ai stuff
     torch
     torchvision torchaudio
     accelerate
     datasets
     transformers
+    sentence-transformers # for embeddings
     # (transformers.overrideAttrs (finalAttrs: prevAttrs: {
     #   src = pkgs.fetchFromGitHub {
     #     owner = "huggingface";
@@ -36,17 +35,20 @@ in
     #   };
     # }))
     diffusers
-    # tensorrt
     mcp
     bitsandbytes
-    # llama-index-cli llama-index
-    # llama-parse
     huggingface-hub hf-xet # latter is needed(preferred) for former
+    qdrant-client
+
+    # more?
     gguf
     fschat
     smolagents
     # vllm
     ray
+    # tensorrt
+    # llama-index-cli llama-index
+    # llama-parse
 
     # langchain langgraph langgraph-cli langsmith # langflow
 
@@ -54,14 +56,12 @@ in
     # llm-gguf llm
 
     # for hosting?
-    uvicorn fastapi pydantic
+    # uvicorn fastapi pydantic
 
-    timm einops tiktoken # some models require these
-    moviepy av librosa # for omni-qwen
-    torchlibrosa # could this be used instead of other librosa?
+    # timm einops tiktoken # some models require these
+    # moviepy av librosa # for omni-qwen
 
     # docling-parse docling docling-core # paddleocr
-    pdf2image
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
   ]));
   desktop_julia = (pkgs-pinned.julia.withPackages.override({
