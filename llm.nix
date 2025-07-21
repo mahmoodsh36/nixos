@@ -149,7 +149,7 @@ in
         };
       };
       systemd.services.llamacpp_embed_service = {
-        enable = true;
+        enable = false;
         description = "service for embeddings generation through llama-cpp";
         environment = {
           "LLAMA_CACHE" = constants.models_dir;
