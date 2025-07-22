@@ -130,6 +130,16 @@ in
         });
       })
 
+      (self: super: {
+        python3 = super.python3.override {
+          packageOverrides = pyself: pysuper: {
+            einops = pysuper.einops.overrideAttrs (_: {
+              doCheck = false;
+            });
+          };
+        };
+      })
+
       inputs.mcp-servers-nix.overlays.default
     ] ++ server_vars.server_overlays;
 
