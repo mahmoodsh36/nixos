@@ -111,7 +111,7 @@ in
           contentType = "music";
           pathInfos = [ "${constants.extra_storage_dir}/music" ];
         };
-      }
+      };
       # hardware acceleration
       encoding = lib.mkIf config.machine.enable_nvidia {
         enableHardwareEncoding = true;
