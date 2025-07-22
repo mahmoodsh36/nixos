@@ -91,22 +91,22 @@ in
         password = "mahmooz";
       };
       libraries = {
-        Movies = {
+        Movies = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/movies") {
           enabled = true;
           contentType = "movies";
           pathInfos = [ "${constants.extra_storage_dir}/movies" ];
         };
-        Shows = {
+        Shows = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/shows") {
           enabled = true;
           contentType = "tvshows";
           pathInfos = [ "${constants.extra_storage_dir}/shows" ];
         };
-        Books = {
+        Books = lib.mkIf (builtins.pathExists "${constants.brain_dir}/resources" ) {
           enabled = true;
           contentType = "books";
           pathInfos = [ "${constants.brain_dir}/resources" ];
         };
-        Music = {
+        Music = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/music" ) {
           enabled = true;
           contentType = "music";
           pathInfos = [ "${constants.extra_storage_dir}/music" ];
