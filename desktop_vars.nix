@@ -1,11 +1,11 @@
 { inputs, pkgs, config, pkgs-pinned, ... }:
 
 let
-  python-pkgs = pkgs-pinned;
-  # python-pkgs = pkgs;
+  # python-pkgs = pkgs-pinned;
+  python-pkgs = pkgs;
 in
 {
-  desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
+  desktop_python = (python-pkgs.python312.withPackages (ps: with ps; [
     # essentials
     requests beautifulsoup4
     ipython
@@ -44,7 +44,7 @@ in
     gguf
     fschat
     smolagents
-    # vllm
+    vllm
     ray
     # tensorrt
     # llama-index-cli llama-index

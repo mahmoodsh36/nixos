@@ -73,16 +73,85 @@ in
     };
 
     # self-hosted media service
-    services.jellyfin = {
+    services.declarative-jellyfin = {
       # enable = config.machine.is_home_server;
       enable = true;
-      user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
+      system = {
+        serverName = "My Declarative Jellyfin Server";
+        # use hardware acceleration for trickplay image generation
+        trickplayOptions = lib.mkIf config.machine.enable_nvidia {
+          enableHwAcceleration = true;
+          enableHwEncoding = true;
+        };
+        UICulture = "en";
+      };
+      users.mahmooz = {
+        mutable = false; # overwrite user settings
+        permissions.isAdministrator = true;
+        password = "mahmooz";
+      };
+      libraries = {
+        Movies = {
+          enabled = true;
+          contentType = "movies";
+          pathInfos = [ "${constants.extra_storage_dir}/movies" ];
+        };
+        Shows = {
+          enabled = true;
+          contentType = "tvshows";
+          pathInfos = [ "${constants.extra_storage_dir}/shows" ];
+        };
+        Books = {
+          enabled = true;
+          contentType = "books";
+          pathInfos = [ "${constants.brain_dir}/resources" ];
+        };
+        Music = {
+          enabled = true;
+          contentType = "music";
+          pathInfos = [ "${constants.extra_storage_dir}/music" ];
+        };
+      }
+      # hardware acceleration
+      encoding = lib.mkIf config.machine.enable_nvidia {
+        enableHardwareEncoding = true;
+        hardwareAccelerationType = "vaapi";
+        enableDecodingColorDepth10Hevc = true;
+        allowHevcEncoding = true;
+        allowAv1Encoding = true;
+        hardwareDecodingCodecs = [
+          "h264"
+          "hevc"
+          "mpeg2video"
+          "vc1"
+          "vp9"
+          "av1"
+        ];
+      };
+      plugins = [
+        {
+          name = "intro skipper";
+          url = "https://github.com/intro-skipper/intro-skipper/releases/download/10.10/v1.10.10.19/intro-skipper-v1.10.10.19.zip";
+          version = "1.10.10.19";
+          targetAbi = "10.10.7.0"; # required as intro-skipper doesn't provide a meta.json file
+          sha256 = "sha256:12hby8vkb6q2hn97a596d559mr9cvrda5wiqnhzqs41qg6i8p2fd";
+        }
+        {
+          name = "jellyfin-plugin-listenbrainz";
+          url = "https://github.com/lyarenei/jellyfin-plugin-listenbrainz/releases/download/5.2.0.4/listenbrainz_5.2.0.4.zip";
+          version = "5.2.0.4";
+          targetAbi = "10.10.0.0";
+          sha256 = "sha256:1fbh0ajjvgm879jkj3y77jy49axyax0gh2kiqp9m7phsb1330qvl";
+        }
+      ];
+      # this is from older config of builtin jellyfin service
+      # user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
       # this causes the directory to be created automatically even if my extra storage dir isnt mounted, which would then later prevent it from being mounted because the path is taken
       # dataDir = lib.mkIf (builtins.pathExists constants.extra_storage_dir) jellyfin_dir;
     };
-    systemd.services.jellyfin.unitConfig = {
-      ConditionPathExists = constants.extra_storage_dir;
-    };
+    # systemd.services.jellyfin.unitConfig = {
+    #   ConditionPathExists = constants.extra_storage_dir;
+    # };
     # need to set this up
     # services.jellyseerr.enable = true;
 
