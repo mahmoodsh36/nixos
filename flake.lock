@@ -31,11 +31,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1753129757,
-        "narHash": "sha256-FcC6x83Sg1zeisvBu2LtYfvjbaBOFY/lvfg0GEZWP14=",
+        "lastModified": 1753298700,
+        "narHash": "sha256-7OB72HvcHZJkICgccBOk882EzAWg5uutvrCIFi9do2E=",
         "owner": "Sveske-Juice",
         "repo": "declarative-jellyfin",
-        "rev": "0db29e87ddcfd2c2a5ec7890ee8e05fc9dcaf4e6",
+        "rev": "6c63601951e2865ef146462b6cb19715a690dd0b",
         "type": "github"
       },
       "original": {
@@ -155,11 +155,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1753056897,
-        "narHash": "sha256-AVVMBFcuOXqIgmShvRv9TED3fkiZhQ0ZvlhsPoFfkNE=",
+        "lastModified": 1753294394,
+        "narHash": "sha256-1Dfgq09lHZ8AdYB2Deu/mYP1pMNpob8CgqT5Mzo44eI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "13a83d1b6545b7f0e8f7689bad62e7a3b1d63771",
+        "rev": "1fde6fb1be6cd5dc513dc1c287d69e4eb2de973e",
         "type": "github"
       },
       "original": {
@@ -199,11 +199,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1753097740,
-        "narHash": "sha256-5XvnHwRbZk9ijRWTuifPvHdTTQWEh+KGjUkLPT1mSeU=",
+        "lastModified": 1753287750,
+        "narHash": "sha256-NwgX1F5PzMeZgi9z4Wai+6J51VVxyjeNnj4wNnaQEJ0=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "c2e058f1b4e799f1be085560c1bcef95b7b5ed02",
+        "rev": "b284197df426fb189cdcfe56a43c863a788ac756",
         "type": "github"
       },
       "original": {
