@@ -44,7 +44,7 @@ in
     gguf
     fschat
     smolagents
-    vllm
+    # vllm
     ray
     # tensorrt
     # llama-index-cli llama-index
