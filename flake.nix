@@ -112,15 +112,6 @@
               plasma-manager.homeManagerModules.plasma-manager
             ];
           }
-
-          # embed executable for mlpython
-          {
-            environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
-              (uvpkgs.writeShellScriptBin "mlpython" ''
-                exec ${mlvenv}/bin/python "$@"
-              '')
-            ];
-          }
         ]
         ++ extraModules;
       };
@@ -147,6 +138,12 @@
             machine.enable_nvidia = true;
             machine.static_ip = "192.168.1.2";
             machine.is_home_server = true;
+            # embed executable for mlpython
+            environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
+              (uvpkgs.writeShellScriptBin "mlpython" ''
+                exec ${mlvenv}/bin/python "$@"
+              '')
+            ];
           };
         })
         ./network-local.nix
