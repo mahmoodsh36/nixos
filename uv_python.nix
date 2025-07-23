@@ -37,7 +37,6 @@ let
     autoPatchelfIgnoreMissingDeps = [
       "libtorch_cuda.so"
       "libc10_cuda.so"
-      "libcudnn.so.8"
     ];
   };
   pyprojectOverrides = final: prev: {
@@ -50,47 +49,112 @@ let
     quantile-python = prev.quantile-python.overrideAttrs (old: { nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; }; });
 
     # cuda support
-    torch = prev.torch.overrideAttrs cudaPatch;
+    # torch = prev.torch.overrideAttrs cudaPatch;
     nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs cudaPatch;
     nvidia-cusparse-cu12 = prev.nvidia-cusparse-cu12.overrideAttrs cudaPatch;
     nvidia-cufile-cu12 = prev.nvidia-cufile-cu12.overrideAttrs cudaPatch;
-    torchvision = prev.torchvision.overrideAttrs cudaPatch;
-    cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs cudaPatch;
-
-    torchaudio = prev.torchaudio.overrideAttrs (old: cudaPatch old // {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
-      autoPatchelfIgnoreMissingDeps = [
-        "libavfilter.so.7"
-        "libavutil.so.56"
-        "libavcodec.so.58"
-        "libavformat.so.58"
-        "libavutil.so.58"
-        "libavcodec.so.60"
-        "libavformat.so.60"
-        "libavfilter.so.9"
-        "libavutil.so.57"
-        "libavcodec.so.59"
-        "libavutil.so.57"
-        "libavcodec.so.59"
-        "libavdevice.so.58"
-        "libavformat.so.59"
-        "libavdevice.so.59"
-        "libavfilter.so.8"
-      ];
+    # torchvision = prev.torchvision.overrideAttrs cudaPatch;
+    # cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs cudaPatch;
+    triton = prev.triton.overrideAttrs (_: {
+      postInstall = ''
+        sed -i -E 's#minor == 6#minor >= 6#g' $out/${python.sitePackages}/triton/backends/nvidia/compiler.py
+      '';
     });
 
-    xformers = prev.xformers.overrideAttrs (old: cudaPatch old // {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
-      autoPatchelfIgnoreMissingDeps = [
-        "libtorch_cuda.so"
-        "libc10_cuda.so"
+    cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs (old: {
+      buildInputs = with pkgs.cudaPackages; [
+        cuda_nvrtc
+        cudnn_8_9
+        cutensor
+        libcufft
+        libcurand
+        libcusolver
+        libcusparse
+        nccl
       ];
+      postFixup = ''
+        addAutoPatchelfSearchPath "${final.nvidia-cusparselt-cu12}"
+      '';
     });
-    vllm = prev.vllm.overrideAttrs (old: cudaPatch old // {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
-      # vllm's setup.py specifically looks for this environment variable.
-      preConfigure = ''
-        export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
+    torch =
+      let
+        baseInputs = (python.pkgs.torch.override { cudaSupport = true; }).buildInputs;
+      in
+        prev.torch.overrideAttrs (_: {
+          buildInputs = baseInputs ++ (with pkgs.cudaPackages; [ libcufile ]);
+          postFixup = ''
+            addAutoPatchelfSearchPath "${final.nvidia-cusparselt-cu12}"
+          '';
+        });
+
+    # torchaudio = prev.torchaudio.overrideAttrs (old: cudaPatch old // {
+    #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
+    #   autoPatchelfIgnoreMissingDeps = [
+    #     "libavfilter.so.7"
+    #     "libavutil.so.56"
+    #     "libavcodec.so.58"
+    #     "libavformat.so.58"
+    #     "libavutil.so.58"
+    #     "libavcodec.so.60"
+    #     "libavformat.so.60"
+    #     "libavfilter.so.9"
+    #     "libavutil.so.57"
+    #     "libavcodec.so.59"
+    #     "libavutil.so.57"
+    #     "libavcodec.so.59"
+    #     "libavdevice.so.58"
+    #     "libavformat.so.59"
+    #     "libavdevice.so.59"
+    #     "libavfilter.so.8"
+    #   ];
+    # });
+    torchaudio =
+    let
+      FFMPEG_ROOT = pkgs.symlinkJoin {
+        name = "ffmpeg";
+        paths = with pkgs; [
+          ffmpeg_6-full.bin
+          ffmpeg_6-full.dev
+          ffmpeg_6-full.lib
+        ];
+      };
+    in
+    prev.torchaudio.overrideAttrs (old: {
+      buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.sox ];
+      inherit FFMPEG_ROOT;
+      autoPatchelfIgnoreMissingDeps = true;
+      postFixup = ''
+        addAutoPatchelfSearchPath "${final.torch}/${python.sitePackages}/torch/lib"
+      '';
+    });
+  torchvision = prev.torchvision.overrideAttrs (_: {
+    postFixup = ''
+      addAutoPatchelfSearchPath "${final.torch}/${python.sitePackages}/torch/lib"
+    '';
+  });
+
+    # xformers = prev.xformers.overrideAttrs (old: cudaPatch old // {
+    #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
+    #   autoPatchelfIgnoreMissingDeps = [
+    #     "libtorch_cuda.so"
+    #     "libc10_cuda.so"
+    #   ];
+    # });
+    # vllm = prev.vllm.overrideAttrs (old: cudaPatch old // {
+    #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
+    #   # vllm's setup.py specifically looks for this environment variable.
+    #   preConfigure = ''
+    #     export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
+    #   '';
+    # });
+    vllm = prev.vllm.overrideAttrs (_: {
+      postFixup = ''
+        addAutoPatchelfSearchPath "${final.torch}"
+      '';
+    });
+    xformers = prev.xformers.overrideAttrs (_: {
+      postFixup = ''
+        addAutoPatchelfSearchPath "${final.torch}"
       '';
     });
     numba = prev.numba.overrideAttrs (old: {
@@ -121,4 +185,4 @@ let
     venvIgnoreCollisions = [ "*bin/fastapi" ];
   });
 in
-venv
+venvv
