@@ -12,7 +12,7 @@ let
       (old.buildInputs or [ ]) ++ (with pkgs; [
         libtorch-bin
         (lib.getOutput "cxxdev" python.pkgs.torchWithCuda)
-        ffmpeg.dev
+        ffmpeg_6-full.lib
       ]) ++ (with pkgs.cudaPackages; [
         cuda_cccl
         cuda_cudart
@@ -50,9 +50,32 @@ let
     nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs cudaPatch;
     nvidia-cusparse-cu12 = prev.nvidia-cusparse-cu12.overrideAttrs cudaPatch;
     nvidia-cufile-cu12 = prev.nvidia-cufile-cu12.overrideAttrs cudaPatch;
-    torchaudio = prev.torchaudio.overrideAttrs cudaPatch;
     torchvision = prev.torchvision.overrideAttrs cudaPatch;
     cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs cudaPatch;
+
+    torchaudio = prev.torchaudio.overrideAttrs (old: cudaPatch old // {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
+      autoPatchelfIgnoreMissingDeps = [
+        "libavfilter.so.7"
+        "libavutil.so.56"
+        "libavcodec.so.58"
+        "libavformat.so.58"
+        "libavutil.so.58"
+        "libavcodec.so.60"
+        "libavformat.so.60"
+        "libavfilter.so.9"
+        "libavutil.so.57"
+        "libavcodec.so.59"
+        "libavformat.so.59"
+        "libavdevice.so.59"
+        "libavutil.so.57"
+        "libavcodec.so.59"
+        "libavformat.so.59"
+        "libavdevice.so.58"
+        "libavformat.so.59"
+        "libavdevice.so.59"
+      ];
+    });
 
     xformers = prev.xformers.overrideAttrs (old: cudaPatch old // {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
