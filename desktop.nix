@@ -130,26 +130,26 @@ in
         });
       })
 
-      (self: super: {
-        python312 = super.python312.override {
-          packageOverrides = pyself: pysuper: {
-            einops = pysuper.einops.overrideAttrs (_: {
-              doCheck = false;
-              checkPhase = "echo 'Skipping tests'";
-            });
-          };
-        };
-      })
-      (self: super: {
-        python312Packages = super.python312Packages // {
-          vllm = super.python312Packages.vllm.overridePythonAttrs (old: {
-            propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [
-              self.python312Packages.torch
-              self.python312Packages.torchvision
-            ];
-          });
-        };
-      })
+      # (self: super: {
+      #   python312 = super.python312.override {
+      #     packageOverrides = pyself: pysuper: {
+      #       einops = pysuper.einops.overrideAttrs (_: {
+      #         doCheck = false;
+      #         checkPhase = "echo 'Skipping tests'";
+      #       });
+      #     };
+      #   };
+      # })
+      # (self: super: {
+      #   python312Packages = super.python312Packages // {
+      #     vllm = super.python312Packages.vllm.overridePythonAttrs (old: {
+      #       propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [
+      #         self.python312Packages.torch
+      #         self.python312Packages.torchvision
+      #       ];
+      #     });
+      #   };
+      # })
 
       inputs.mcp-servers-nix.overlays.default
     ] ++ server_vars.server_overlays;

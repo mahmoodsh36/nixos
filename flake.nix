@@ -40,12 +40,33 @@
       url = "github:Sveske-Juice/declarative-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # for python
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "pkgs-pinned";
+    };
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs.nixpkgs.follows = "pkgs-pinned";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+    };
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs.nixpkgs.follows = "pkgs-pinned";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.uv2nix.follows = "uv2nix";
+    };
   };
 
   outputs = {
     self, nixpkgs, home-manager, plasma-manager, ...
   } @inputs: let
     system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
+    };
     isobase = {
       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
       isoImage.forceTextMode = true; # to avoid some issues? https://discourse.nixos.org/t/nix-iso-unable-to-boot-in-uefi-mode-but-other-distros-can/16473/53
@@ -55,38 +76,53 @@
       boot.kernel.sysctl."vm.overcommit_memory" = nixpkgs.lib.mkForce "1";
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
+    uvpkgs = import inputs.pkgs-pinned {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
+    };
+    uvpython = uvpkgs.python312;
+    mlvenv = (import ./uv_python.nix {
+      pkgs = uvpkgs;
+      pyproject-nix = inputs.pyproject-nix;
+      uv2nix = inputs.uv2nix;
+      pyproject-build-systems = inputs.pyproject-build-systems;
+      python = uvpython;
+    });
     mkSystem = extraModules:
-      let
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-        };
-      in
-        nixpkgs.lib.nixosSystem {
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
           inherit system;
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-          };
-          modules = [
-            ./machine.nix
-            ./machine-config.nix
-            home-manager.nixosModules.home-manager
-            inputs.arion.nixosModules.arion
-            inputs.declarative-jellyfin.nixosModules.default
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.mahmooz = import ./home.nix;
-              home-manager.backupFileExtension = "hmbkup";
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.sharedModules = [
-                plasma-manager.homeManagerModules.plasma-manager
-              ];
-            }
-          ]
-          ++ extraModules;
         };
+        modules = [
+          ./machine.nix
+          ./machine-config.nix
+          home-manager.nixosModules.home-manager
+          inputs.arion.nixosModules.arion
+          inputs.declarative-jellyfin.nixosModules.default
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.mahmooz = import ./home.nix;
+            home-manager.backupFileExtension = "hmbkup";
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.sharedModules = [
+              plasma-manager.homeManagerModules.plasma-manager
+            ];
+          }
+
+          # embed executable for mlpython
+          {
+            environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
+              (uvpkgs.writeShellScriptBin "mlpython" ''
+                exec ${mlvenv}/bin/python "$@"
+              '')
+            ];
+          }
+        ]
+        ++ extraModules;
+      };
   in {
     nixosConfigurations = {
       mahmooz1 = mkSystem [
@@ -157,6 +193,24 @@
           };
         }
       ];
+    };
+    devShells = {
+      ml = uvpkgs.mkShell {
+        packages = [
+          mlvenv
+        ];
+      };
+      uv = pkgs.mkShell {
+        packages = with uvpkgs; [
+          uvpython
+          uv
+        ];
+        env = {
+          UV_PYTHON = uvpython.interpreter;
+          UV_PYTHON_DOWNLOADS = "never";
+          UV_NO_SYNC = "1";
+        };
+      };
     };
   };
 }
