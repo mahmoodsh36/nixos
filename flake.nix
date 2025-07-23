@@ -203,6 +203,7 @@
         env = {
           CUDA_PATH = "${uvpkgs.cudatoolkit}";
         };
+        # vllm doesnt really work :/
         shellHook = ''
           export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${with uvpkgs; lib.makeSearchPath "lib" [
           addDriverRunpath.driverLink
