@@ -64,7 +64,7 @@
   } @inputs: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
-      system = "x86_64-linux";
+      inherit system;
       config.allowUnfree = true;
     };
     isobase = {
@@ -77,8 +77,9 @@
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
     uvpkgs = import inputs.pkgs-pinned {
-      system = "x86_64-linux";
+      inherit system;
       config.allowUnfree = true;
+      config.cudaSupport = true;
     };
     uvpython = uvpkgs.python312;
     mlvenv = (import ./uv_python.nix {
@@ -194,7 +195,7 @@
         }
       ];
     };
-    devShells = {
+    devShells."${system}" = {
       ml = uvpkgs.mkShell {
         packages = [
           mlvenv

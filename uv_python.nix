@@ -9,10 +9,11 @@ let
         cudaPackages.cuda_nvcc
       ]);
     buildInputs =
-      (old.buildInputs or [ ]) ++ [ # for xformers?
-        pkgs.libtorch-bin
-        (pkgs.lib.getOutput "cxxdev" pkgs.python312.pkgs.torchWithCuda)
-      ] ++ (with pkgs.cudaPackages; [
+      (old.buildInputs or [ ]) ++ (with pkgs; [
+        libtorch-bin
+        (lib.getOutput "cxxdev" python.pkgs.torchWithCuda)
+        ffmpeg.dev
+      ]) ++ (with pkgs.cudaPackages; [
         cuda_cccl
         cuda_cudart
         cuda_cupti
@@ -30,6 +31,10 @@ let
         libcufile
         nccl
       ]);
+    autoPatchelfIgnoreMissingDeps = [
+      "libtorch_cuda.so"
+      "libc10_cuda.so"
+    ];
   };
   pyprojectOverrides = final: prev: {
     english-words = prev.english-words.overrideAttrs (old: {
@@ -45,6 +50,9 @@ let
     nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs cudaPatch;
     nvidia-cusparse-cu12 = prev.nvidia-cusparse-cu12.overrideAttrs cudaPatch;
     nvidia-cufile-cu12 = prev.nvidia-cufile-cu12.overrideAttrs cudaPatch;
+    torchaudio = prev.torchaudio.overrideAttrs cudaPatch;
+    torchvision = prev.torchvision.overrideAttrs cudaPatch;
+    cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs cudaPatch;
 
     xformers = prev.xformers.overrideAttrs (old: cudaPatch old // {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
@@ -57,8 +65,16 @@ let
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
       # vllm's setup.py specifically looks for this environment variable.
       preConfigure = ''
-              export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
-            '';
+        export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
+      '';
+    });
+    numba = prev.numba.overrideAttrs (old: {
+      buildInputs = with pkgs; [
+        gomp
+      ];
+      autoPatchelfIgnoreMissingDeps = [
+        "libtbb.so.12"
+      ];
     });
   };
 
