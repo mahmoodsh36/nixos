@@ -200,8 +200,21 @@
         packages = [
           mlvenv
         ];
+        env = {
+          CUDA_PATH = "${uvpkgs.cudatoolkit}";
+        };
+        shellHook = ''
+          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${with uvpkgs; lib.makeSearchPath "lib" [
+          addDriverRunpath.driverLink
+          cudaPackages.libcublas.lib
+        ]}:/usr/lib64:${uvpkgs.cudaPackages.cudatoolkit}/lib:${uvpkgs.cudaPackages.cudnn}/lib:${uvpkgs.cudaPackages.nccl}/lib";
+          export LIBRARY_PATH=$LIBRARY_PATH:${uvpkgs.cudaPackages.cudatoolkit}/lib:${uvpkgs.cudaPackages.cudnn}/lib:${uvpkgs.cudaPackages.nccl}/lib
+          export CUDA_PATH=${uvpkgs.cudaPackages.cudatoolkit}
+          export CUDNN_PATH=${uvpkgs.cudaPackages.cudnn}
+          export NCCL_PATH=${uvpkgs.cudaPackages.nccl}
+        '';
       };
-      uv = pkgs.mkShell {
+      uv = uvpkgs.mkShell {
         packages = with uvpkgs; [
           uvpython
           uv

@@ -13,6 +13,7 @@ let
         libtorch-bin
         (lib.getOutput "cxxdev" python.pkgs.torchWithCuda)
         ffmpeg_6-full.lib
+        sox
       ]) ++ (with pkgs.cudaPackages; [
         cuda_cccl
         cuda_cudart
@@ -22,6 +23,7 @@ let
         cuda_nvrtc
         cuda_nvtx
         cudnn
+        cutensor
         libcublas
         libcufft
         libcurand
@@ -30,10 +32,12 @@ let
         cusparselt
         libcufile
         nccl
+        cudatoolkit
       ]);
     autoPatchelfIgnoreMissingDeps = [
       "libtorch_cuda.so"
       "libc10_cuda.so"
+      "libcudnn.so.8"
     ];
   };
   pyprojectOverrides = final: prev: {
@@ -66,14 +70,12 @@ let
         "libavfilter.so.9"
         "libavutil.so.57"
         "libavcodec.so.59"
-        "libavformat.so.59"
-        "libavdevice.so.59"
         "libavutil.so.57"
         "libavcodec.so.59"
-        "libavformat.so.59"
         "libavdevice.so.58"
         "libavformat.so.59"
         "libavdevice.so.59"
+        "libavfilter.so.8"
       ];
     });
 
@@ -115,6 +117,8 @@ let
           pyprojectOverrides
         ]
       );
-  venv = pythonSet.mkVirtualEnv "venv" workspace.deps.default;
+  venv = (pythonSet.mkVirtualEnv "venv" workspace.deps.default).overrideAttrs(old: {
+    venvIgnoreCollisions = [ "*bin/fastapi" ];
+  });
 in
 venv
