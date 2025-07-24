@@ -141,6 +141,9 @@
             # embed executable for mlpython
             environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
               (uvpkgs.writeShellScriptBin "mlpython" ''
+                export LD_LIBRARY_PATH=/run/opengl-driver/lib
+                export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
+                export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
                 exec ${mlvenv}/bin/python "$@"
               '')
             ];
@@ -200,7 +203,6 @@
         env = {
           CUDA_PATH = "${uvpkgs.cudatoolkit}";
         };
-        # vllm doesnt really work :/
         shellHook = ''
           export LD_LIBRARY_PATH=/run/opengl-driver/lib
           export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
