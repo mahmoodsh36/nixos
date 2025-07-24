@@ -40,14 +40,6 @@ let
     ];
   };
   pyprojectOverrides = final: prev: {
-    english-words = prev.english-words.overrideAttrs (old: {
-      nativeBuildInputs = old.nativeBuildInputs ++ final.resolveBuildSystem { setuptools = [ ]; };
-    });
-    html2text = prev.html2text.overrideAttrs (old: {
-      nativeBuildInputs = old.nativeBuildInputs ++ final.resolveBuildSystem { setuptools = [ ]; };
-    });
-    quantile-python = prev.quantile-python.overrideAttrs (old: { nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; }; });
-
     # cuda support
     # torch = prev.torch.overrideAttrs cudaPatch;
     nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs cudaPatch;
@@ -67,7 +59,7 @@ let
         libcusparse
       ];
       postFixup = ''
-        addAutoPatchelfSearchPath "${pkgs.nvidia-cusparselt-cu12}"
+        addAutoPatchelfSearchPath "${final.nvidia-cusparselt-cu12}"
       '';
       autoPatchelfIgnoreMissingDeps = [
         "libcudart.so.11.0"
@@ -143,11 +135,11 @@ let
         addAutoPatchelfSearchPath "${final.torch}/${python.sitePackages}/torch/lib"
       '';
     });
-  torchvision = prev.torchvision.overrideAttrs (_: {
-    postFixup = ''
-      addAutoPatchelfSearchPath "${final.torch}/${python.sitePackages}/torch/lib"
-    '';
-  });
+    torchvision = prev.torchvision.overrideAttrs (_: {
+      postFixup = ''
+        addAutoPatchelfSearchPath "${final.torch}/${python.sitePackages}/torch/lib"
+      '';
+    });
 
     # xformers = prev.xformers.overrideAttrs (old: cudaPatch old // {
     #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
