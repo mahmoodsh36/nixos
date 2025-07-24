@@ -37,6 +37,7 @@ let
     ironclad # crypto functions
     fiveam # tests
     closer-mop
+    local-time
   ]));
   constants = (import ./constants.nix);
 in rec {
