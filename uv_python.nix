@@ -60,6 +60,22 @@ let
         sed -i -E 's#minor == 6#minor >= 6#g' $out/${python.sitePackages}/triton/backends/nvidia/compiler.py
       '';
     });
+    bitsandbytes = prev.bitsandbytes.overrideAttrs (_: {
+      buildInputs = with pkgs.cudaPackages; [
+        cuda_cudart
+        libcublas
+        libcusparse
+      ];
+      postFixup = ''
+        addAutoPatchelfSearchPath "${pkgs.nvidia-cusparselt-cu12}"
+      '';
+      autoPatchelfIgnoreMissingDeps = [
+        "libcudart.so.11.0"
+        "libcublas.so.11"
+        "libcublasLt.so.11"
+        "libcusparse.so.11"
+      ];
+    });
 
     cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs (old: {
       buildInputs = with pkgs.cudaPackages; [
