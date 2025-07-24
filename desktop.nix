@@ -317,6 +317,7 @@ in
     programs.nix-ld = {
       enable = true;
       libraries = [
+        pkgs.python3Packages.torch.lib
         pkgs.stdenv.cc.cc
         pkgs.zlib
         pkgs.fuse3
@@ -356,6 +357,21 @@ in
         pkgs.cudaPackages.cudnn
         pkgs.cudaPackages.cuda_cudart
         pkgs.cudaPackages.cuda_cudart.static
+        pkgs.cudaPackages.cuda_cccl
+        pkgs.cudaPackages.cuda_cupti
+        pkgs.cudaPackages.cuda_nvcc
+        pkgs.cudaPackages.cuda_nvml_dev
+        pkgs.cudaPackages.cuda_nvrtc
+        pkgs.cudaPackages.cuda_nvtx
+        pkgs.cudaPackages.cutensor
+        pkgs.cudaPackages.libcublas
+        pkgs.cudaPackages.libcufft
+        pkgs.cudaPackages.libcurand
+        pkgs.cudaPackages.libcusolver
+        pkgs.cudaPackages.libcusparse
+        pkgs.cudaPackages.cusparselt
+        pkgs.cudaPackages.libcufile
+        pkgs.cudaPackages.nccl
       ];
     };
 
