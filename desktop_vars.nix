@@ -13,6 +13,7 @@ in
     seaborn pillow dash rich pandas graphviz
     python-lsp-server
     flask
+    imageio
 
     # for system/scripts etc
     evdev python-magic
