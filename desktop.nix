@@ -5,7 +5,8 @@ let
   constants = (import ./constants.nix);
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   main_python = desktop_vars.desktop_python;
-  main_julia = desktop_vars.desktop_julia;
+  # main_julia = desktop_vars.desktop_julia;
+  main_julia = pkgs.julia;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
   emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = false; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
     imagemagick = pkgs.imagemagickBig;
@@ -96,20 +97,6 @@ in
 
     # my overlays
     nixpkgs.overlays = [
-      (self: super: {
-        cudaPackages = super.cudaPackages // {
-          tensorrt = super.cudaPackages.tensorrt.overrideAttrs
-            (oldAttrs: rec {
-              dontCheckForBrokenSymlinks = true;
-              outputs = [ "out" ];
-              fixupPhase = ''
-              ${
-                oldAttrs.fixupPhase or ""
-              } # Remove broken symlinks in the main output
-               find $out -type l ! -exec test -e \{} \; -delete || true'';
-            });
-        };
-      })
       (final: prev: {
         yt-dlp = prev.yt-dlp.overrideAttrs (old: {
           nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.perl ];
@@ -129,27 +116,6 @@ in
   '';
         });
       })
-
-      # (self: super: {
-      #   python312 = super.python312.override {
-      #     packageOverrides = pyself: pysuper: {
-      #       einops = pysuper.einops.overrideAttrs (_: {
-      #         doCheck = false;
-      #         checkPhase = "echo 'Skipping tests'";
-      #       });
-      #     };
-      #   };
-      # })
-      # (self: super: {
-      #   python312Packages = super.python312Packages // {
-      #     vllm = super.python312Packages.vllm.overridePythonAttrs (old: {
-      #       propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [
-      #         self.python312Packages.torch
-      #         self.python312Packages.torchvision
-      #       ];
-      #     });
-      #   };
-      # })
 
       inputs.mcp-servers-nix.overlays.default
     ] ++ server_vars.server_overlays;
@@ -396,16 +362,16 @@ in
         echo $@ > /tmp/notif
       '')
 
-      # (pkgs.writeShellScriptBin "julia" ''
-      #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-      #     pkgs.stdenv.cc.cc.lib
-      #     pkgs.libGL
-      #     pkgs.glib
-      #     pkgs.zlib
-      #   ]}:$LD_LIBRARY_PATH
-      #   export DISPLAY=:0 # cheating so it can compile
-      #   exec ${main_julia}/bin/julia "$@"
-      # '')
+      (pkgs.writeShellScriptBin "julia" ''
+        export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+          pkgs.stdenv.cc.cc.lib
+          pkgs.libGL
+          pkgs.glib
+          pkgs.zlib
+        ]}:$LD_LIBRARY_PATH
+        export DISPLAY=:0 # cheating so it can compile
+        exec ${main_julia}/bin/julia "$@"
+      '')
 
       inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
@@ -508,7 +474,7 @@ in
       steam-run-free
 
       # some programming languages/environments
-      julia
+      # julia
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
       typst
       (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
@@ -540,6 +506,7 @@ in
       }))
       # vllm
       aichat
+      opencode
 
       # private-gpt jan llm
       # fabric-ai ragflow dify
@@ -557,7 +524,6 @@ in
       gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
-      # cudaPackages.tensorrt
     ] ++ server_vars.server_packages;
 
     # vector database for RAG
