@@ -40,30 +40,12 @@ in
     bitsandbytes
     huggingface-hub hf-xet # latter is needed(preferred) for former
     qdrant-client
-
-    # more?
-    gguf
-    fschat
-    smolagents
     # vllm
-    ray
-    # tensorrt
-    # llama-index-cli llama-index
-    # llama-parse
 
     langchain langgraph langgraph-cli langsmith langchain-community # langflow
     openai
 
-    # mlflow chromadb
-    # llm-gguf llm
-
-    # for hosting?
-    # uvicorn fastapi pydantic
-
     # timm einops tiktoken # some models require these
-    # moviepy av librosa # for omni-qwen
-
-    # docling-parse docling docling-core # paddleocr
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
   ]));
   desktop_julia = (pkgs-pinned.julia.withPackages.override({
