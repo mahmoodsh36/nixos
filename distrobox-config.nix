@@ -40,7 +40,8 @@
           base-devel wl-clipboard
           neovim git
           cmake pkgfile
-          cuda
+          cuda nvidia cuda-tools
+          gcc-libs
           uv
         '';
         nixPackages =
