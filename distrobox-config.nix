@@ -18,6 +18,7 @@
         pkgs.neovim
         pkgs.nix
         pkgs.git
+        pkgs.python312
       ];
     in {
       fedora = {
@@ -56,9 +57,9 @@
               fi
               /bin/yay $@
             '')
-            (pkgs.writeShellScriptBin "install_rest" ''
-              yay -S --noconfirm python312
-            '')
+            # (pkgs.writeShellScriptBin "install_rest" ''
+            #   yay -S --noconfirm python312
+            # '')
           ];
       };
     };
