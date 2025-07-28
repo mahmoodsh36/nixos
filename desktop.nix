@@ -512,7 +512,7 @@ in
       # fabric-ai ragflow dify
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
-      # mcp-server-everything
+      mcp-server-everything
       mcp-server-time
       mcp-server-git
       mcp-server-sequential-thinking

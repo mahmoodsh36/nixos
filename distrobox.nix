@@ -84,13 +84,15 @@ in {
       pkgs.writeShellScriptBin box.alias ''
         if ! ${db} list | grep ${box.alias}; then
            ${db} create ${box.flags} \
-             --pull \
-             --yes \
-             --name "${box.alias}" \
-             --home "${config.home.homeDirectory}/${box.home}" \
-             --image "${box.img}" \
-             --init-hooks "${box.init}" \
-             --nvidia \
+             --pull\
+             --yes\
+             --name "${box.alias}"\
+             --home "${config.home.homeDirectory}/${box.home}"\
+             --image "${box.img}"\
+             --init-hooks "${box.init}"\
+             --nvidia\
+             --cdi-spec-dir=/run/cdi\
+             --device=nvidia.com/gpu=all\
              --additional-packages "${box.packages}"
         fi
 
