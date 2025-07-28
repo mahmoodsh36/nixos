@@ -91,7 +91,7 @@ in {
              --image "${box.img}"\
              --init-hooks "${box.init}"\
              --nvidia\
-             --cdi-spec-dir=/run/cdi\
+             --additional-flags "--cdi-spec-dir=/run/cdi"\
              --device=nvidia.com/gpu=all\
              --additional-packages "${box.packages}"
         fi
