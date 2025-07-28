@@ -5,7 +5,7 @@ let
   python-pkgs = pkgs;
 in
 {
-  desktop_python = (python-pkgs.python312.withPackages (ps: with ps; [
+  desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
     # essentials
     requests beautifulsoup4
     ipython
