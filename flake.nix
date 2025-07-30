@@ -139,14 +139,14 @@
             machine.static_ip = "192.168.1.2";
             machine.is_home_server = true;
             # embed executable for mlpython
-            # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
-            #   (uvpkgs.writeShellScriptBin "mlpython" ''
-            #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
-            #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
-            #     export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
-            #     exec ${mlvenv}/bin/python "$@"
-            #   '')
-            # ];
+            environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
+              (uvpkgs.writeShellScriptBin "mlpython" ''
+                export LD_LIBRARY_PATH=/run/opengl-driver/lib
+                export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
+                export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
+                exec ${mlvenv}/bin/python "$@"
+              '')
+            ];
           };
         })
         ./network-local.nix
