@@ -196,19 +196,19 @@
       ];
     };
     devShells."${system}" = {
-      # ml = uvpkgs.mkShell {
-      #   packages = [
-      #     mlvenv
-      #   ];
-      #   env = {
-      #     CUDA_PATH = "${uvpkgs.cudatoolkit}";
-      #   };
-      #   shellHook = ''
-      #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
-      #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
-      #     export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
-      #   '';
-      # };
+      ml = uvpkgs.mkShell {
+        packages = [
+          mlvenv
+        ];
+        env = {
+          CUDA_PATH = "${uvpkgs.cudatoolkit}";
+        };
+        shellHook = ''
+          export LD_LIBRARY_PATH=/run/opengl-driver/lib
+          export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
+          export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
+        '';
+      };
       uv = uvpkgs.mkShell {
         packages = with uvpkgs; [
           uvpython

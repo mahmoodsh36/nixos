@@ -42,9 +42,19 @@ let
   pyprojectOverrides = final: prev: {
     # cuda support
     # torch = prev.torch.overrideAttrs cudaPatch;
-    nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs cudaPatch;
-    nvidia-cusparse-cu12 = prev.nvidia-cusparse-cu12.overrideAttrs cudaPatch;
-    nvidia-cufile-cu12 = prev.nvidia-cufile-cu12.overrideAttrs cudaPatch;
+    nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs (_: {
+      buildInputs = [ pkgs.cudatoolkit pkgs.cudaPackages.libnvjitlink ];
+    });
+    nvidia-cusparse-cu12 = prev.nvidia-cusparse-cu12.overrideAttrs (_: {
+      buildInputs = [ pkgs.cudaPackages.libnvjitlink ];
+    });
+    nvidia-cufile-cu12 = prev.nvidia-cufile-cu12.overrideAttrs (_: {
+      autoPatchelfIgnoreMissingDeps = [
+        "libmlx5.so.1"
+        "librdmacm.so.1"
+        "libibverbs.so.1"
+      ];
+    });
     # torchvision = prev.torchvision.overrideAttrs cudaPatch;
     # cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs cudaPatch;
     triton = prev.triton.overrideAttrs (_: {
@@ -67,6 +77,13 @@ let
         "libcublasLt.so.11"
         "libcusparse.so.11"
       ];
+    });
+
+    # https://github.com/jpetrucciani/nix/blob/d288481be9ee6b2060df4fc58fe2b321b2fd46e2/mods/py_madness.nix#L292C1-L296C16
+    soundfile = prev.soundfile.overrideAttrs (_: {
+      postInstall = ''
+        substituteInPlace $out/lib/python*/site-packages/soundfile.py --replace "_find_library('sndfile')" "'${pkgs.libsndfile.out}/lib/libsndfile${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}'"
+      '';
     });
 
     cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs (old: {
