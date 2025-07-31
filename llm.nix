@@ -121,7 +121,7 @@ in
         script = ''
           ${config.machine.llama-cpp.pkg}/bin/llama-server\
             -hf unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF:Q4_K_XL\
-            --jinja -ngl 99 --threads 8 --ctx-size $((2 ** 18 * 3))\
+            --jinja -ngl 99 --threads 8 --ctx-size $((2 ** 18 * 2))\
             -fa --temp 0.7 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.5\
             --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2'';
         # script = "${config.machine.llama-cpp.pkg}/bin/llama-server --host 0.0.0.0 --port 5000 -hf Qwen/Qwen3-14B-GGUF:Q4_K_M --jinja -ngl 99 -fa --temp 0.6 --top-k 20 --top-p 0.95 --min-p 0 --presence-penalty 1.4 -c 95000 --seed 2 --threads 25";
