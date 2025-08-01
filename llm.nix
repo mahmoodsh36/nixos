@@ -186,53 +186,6 @@ in
               "-v" "${constants.home_dir}/.lobe-chat:/app/backend/data"
             ];
           };
-          crawl4ai = {
-            image = "unclecode/crawl4ai:0.7";
-            extraOptions = [
-              "--network=host"
-              "--name=crawl4ai"
-            ];
-          };
-          # open-webui = lib.mkIf config.machine.is_desktop {
-          #   autoStart = false;
-          #   image = "ghcr.io/open-webui/open-webui:main";
-          #   extraOptions = [
-          #     "--ipc" "host"
-          #     # "--pull=newer"
-          #     "-v" "${constants.home_dir}/.open-webui:/app/backend/data"
-          #     "--network=host"
-          #     "--name=open-webui"
-          #   ];
-          #   environment = {
-          #     WEBUI_AUTH = "False";
-          #     ANONYMIZED_TELEMETRY = "False";
-          #     DO_NOT_TRACK = "True";
-          #     SCARF_NO_ANALYTICS = "True";
-          #     PORT = "8083";
-          #   };
-          # };
-          # openhands-app = {
-          #   autoStart = true;
-          #   image = "docker.all-hands.dev/all-hands-ai/openhands:0.34";
-          #   ports = [ "3000:3000" ];
-          #   # mounts
-          #   volumes = [
-          #     "/var/run/docker.sock:/var/run/docker.sock"
-          #     # persist openhands state
-          #     "/home/mahmooz/.openhands-state:/.openhands-state"
-          #   ];
-          #   environment = {
-          #     SANDBOX_RUNTIME_CONTAINER_IMAGE = "docker.all-hands.dev/all-hands-ai/runtime:0.34-nikolaik";
-          #     LOG_ALL_EVENTS = "true";
-          #   };
-          #   extraOptions = [
-          #     # "--runtime" "nvidia"
-          #     # "--gpus" "all"
-          #     "--ipc" "host"
-          #     "--pull=always"
-          #     "--network=host"
-          #   ];
-          # };
         };
       };
     }
