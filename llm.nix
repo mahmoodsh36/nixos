@@ -186,6 +186,13 @@ in
               "-v" "${constants.home_dir}/.lobe-chat:/app/backend/data"
             ];
           };
+          crawl4ai = {
+            image = "unclecode/crawl4ai:0.7";
+            extraOptions = [
+              "--network=host"
+              "--name=crawl4ai"
+            ];
+          };
           # open-webui = lib.mkIf config.machine.is_desktop {
           #   autoStart = false;
           #   image = "ghcr.io/open-webui/open-webui:main";
