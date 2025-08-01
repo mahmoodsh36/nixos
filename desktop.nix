@@ -25,6 +25,7 @@ let
         system = builtins.currentSystem;
         config = {
           cudaSupport = config.machine.enable_nvidia;
+          allowUnfree = true;
         };
       };
     in
