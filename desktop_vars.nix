@@ -14,6 +14,7 @@ in
     python-lsp-server
     flask
     imageio
+    musicbrainzngs
 
     # for system/scripts etc
     evdev python-magic
