@@ -537,15 +537,6 @@ in
       mcp-server-github github-mcp-server
       mcp-server-sqlite
 
-      # (let
-      #   pkgs2 = import (pkgs.fetchFromGitHub {
-      #     owner = "NixOS";
-      #     repo = "nixpkgs";
-      #     rev = "f06333d605155b2b8abdba95892a2e6b31ea16b9";
-      #     sha256 = "sha256:1clp1w5n6605ws5vlgbnj8llar9s7civqlag6dyaa46ghbbhdqk1";
-      #   }) {};
-      # in
-      #   pkgs2.mistral-rs)
       (packageFromCommit {
         rev = "f06333d605155b2b8abdba95892a2e6b31ea16b9";
         packageName = "mistral-rs";

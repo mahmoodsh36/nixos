@@ -281,6 +281,7 @@ in
       extraPackages = [
         pkgs.curl
         pkgs.neovim
+        pkgs.git
       ];
     };
 
