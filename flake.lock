@@ -132,6 +132,24 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "haskell-flake": {
       "locked": {
         "lastModified": 1675296942,
@@ -400,6 +418,31 @@
         "type": "github"
       }
     },
+    "python-flexseal": {
+      "inputs": {
+        "flake-utils": [
+          "stable-diffusion-webui-nix",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "stable-diffusion-webui-nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1751898758,
+        "narHash": "sha256-8EmTPdfOymvvHhmHYWiyO3cwZ4gtLo5uBFm3CU5vySo=",
+        "owner": "Janrupf",
+        "repo": "python-flexseal",
+        "rev": "af318e1fd047abbefcc68d0292a4d902179c95fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Janrupf",
+        "repo": "python-flexseal",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "arion": "arion",
@@ -414,7 +457,31 @@
         "plasma-manager": "plasma-manager",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",
+        "stable-diffusion-webui-nix": "stable-diffusion-webui-nix",
         "uv2nix": "uv2nix"
+      }
+    },
+    "stable-diffusion-webui-nix": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "python-flexseal": "python-flexseal"
+      },
+      "locked": {
+        "lastModified": 1752083525,
+        "narHash": "sha256-SGJG1kkaXZSRdTCG2vQ5EF/26U9EaonUzyJLXJ3Gq3Y=",
+        "owner": "Janrupf",
+        "repo": "stable-diffusion-webui-nix",
+        "rev": "937786d7124fa060e39dc57097371c44f581309c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Janrupf",
+        "ref": "main",
+        "repo": "stable-diffusion-webui-nix",
+        "type": "github"
       }
     },
     "systems": {
@@ -429,6 +496,21 @@
       "original": {
         "id": "systems",
         "type": "indirect"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
       }
     },
     "treefmt-nix": {
