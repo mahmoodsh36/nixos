@@ -134,6 +134,7 @@ in
   #     })
 
       inputs.mcp-servers-nix.overlays.default
+      inputs.stable-diffusion-webui-nix.overlays.default
     ] ++ server_vars.server_overlays;
 
     # graphical stuff (wayland,x11,etc)
@@ -545,6 +546,8 @@ in
       gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
+      pkgs.stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
+      pkgs.stable-diffusion-webui.comfy.cuda # for ComfyUI
     ] ++ server_vars.server_packages;
 
     # vector database for RAG

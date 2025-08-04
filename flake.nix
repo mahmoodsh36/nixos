@@ -40,6 +40,10 @@
       url = "github:Sveske-Juice/declarative-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stable-diffusion-webui-nix = {
+      url = "github:Janrupf/stable-diffusion-webui-nix/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for python
     pyproject-nix = {
