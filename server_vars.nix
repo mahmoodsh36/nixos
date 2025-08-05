@@ -72,6 +72,7 @@ in rec {
     miller
     bc # used for some arithmetic in shell scripts
     postgresql
+    (pkgs.callPackage ./vend.nix {})
 
     podman-compose
 
