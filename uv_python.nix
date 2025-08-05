@@ -182,6 +182,11 @@ let
         addAutoPatchelfSearchPath "${final.torch}"
       '';
     });
+    flash-attn = prev.flash-attn.overrideAttrs {
+      postFixup = ''
+        addAutoPatchelfSearchPath "${final.torch}"
+      '';
+    };
     numba = prev.numba.overrideAttrs (old: {
       buildInputs = with pkgs; [
         gomp
