@@ -187,6 +187,9 @@ let
       postFixup = ''
         addAutoPatchelfSearchPath "${final.torch}"
       '';
+      preConfigure = ''
+        export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
+      '';
     });
     numba = prev.numba.overrideAttrs (old: {
       buildInputs = with pkgs; [
