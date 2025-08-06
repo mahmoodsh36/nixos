@@ -183,7 +183,7 @@ let
       '';
     });
     flash-attn = prev.flash-attn.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; psutil = []; };
       postFixup = ''
         addAutoPatchelfSearchPath "${final.torch}"
       '';
