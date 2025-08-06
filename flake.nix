@@ -206,7 +206,7 @@
         ];
         env = {
           CUDA_PATH = "${uvpkgs.cudatoolkit}";
-          CUDA_HOME = "${uvpkgs.cudatoolkit}"
+          CUDA_HOME = "${uvpkgs.cudatoolkit}";
         };
         shellHook = ''
           export LD_LIBRARY_PATH=/run/opengl-driver/lib
