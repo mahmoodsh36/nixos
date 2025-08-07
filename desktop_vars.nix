@@ -14,10 +14,10 @@ in
     python-lsp-server
     flask
     imageio
-    musicbrainzngs ytmusicapi
 
     # for system/scripts etc
-    evdev python-magic
+    musicbrainzngs ytmusicapi tinytag python-magic
+    evdev
     pdf2image
     # pyzmq
 
