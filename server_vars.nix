@@ -48,6 +48,19 @@ in rec {
     #     sbcl = mysbcl;
     #   }
     # )
+    # there is an issue with distrobox+cdi
+    # https://github.com/NixOS/nixpkgs/issues/412324
+    (final: prev: {
+      distrobox = prev.distrobox.overrideAttrs (oldAttrs: {
+        version = "master";
+        src = prev.fetchFromGitHub {
+          owner = "89luca89";
+          repo = "distrobox";
+          rev = "main";
+          sha256 = "sha256-GsIahsaIETM9ZtSOvnyiu/zeccDJuqGra4oUH4hYbWY=";
+        };
+      });
+    })
   ];
 
   server_packages = with pkgs; [
