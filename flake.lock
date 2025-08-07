@@ -31,11 +31,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1754441179,
-        "narHash": "sha256-jW0xo65U+975eAmSXZBqQWw+Fje3Ai/ZUiIOlPeOSm0=",
+        "lastModified": 1754577725,
+        "narHash": "sha256-kJCvRyOu4VvmCBlMV+PB8FHAthwo+OB//Axl5OWFLUw=",
         "owner": "Sveske-Juice",
         "repo": "declarative-jellyfin",
-        "rev": "5b453d5d65e93a20f15833d32dcc91ec2b9bfeb9",
+        "rev": "a1019f001ee8367276bd94587b65ee781d01016b",
         "type": "github"
       },
       "original": {
@@ -173,11 +173,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754457347,
-        "narHash": "sha256-QN9yZ1L5EmR16NNM+hNNzMjARk+FPjUeSE/ds4Kms0E=",
+        "lastModified": 1754575993,
+        "narHash": "sha256-0ut8TM76DeMnexgwNyMx2c5flhp4IPtqQ79XR0hpmY0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "ad5d2b4aa770fdc74c80fd682fee0b00a8ad7991",
+        "rev": "d8a475e179888553b6863204a93295da6ee13eb4",
         "type": "github"
       },
       "original": {
@@ -217,11 +217,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754473710,
-        "narHash": "sha256-UDz5T8YmohArrTd8N95Fu00rZFGnN9SdMYYN5b9Rfu0=",
+        "lastModified": 1754577854,
+        "narHash": "sha256-2txwmWNpBqUWojrdxahVCIoBNosIrUFKS/zZP62PDX8=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "25726898e855ec6dffba227f2233a63c57184036",
+        "rev": "7ad67ba9fe2b909e271dd31b99c5fce3aba35899",
         "type": "github"
       },
       "original": {
@@ -295,11 +295,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1754214453,
-        "narHash": "sha256-Q/I2xJn/j1wpkGhWkQnm20nShYnG7TI99foDBpXm1SY=",
+        "lastModified": 1754498491,
+        "narHash": "sha256-erbiH2agUTD0Z30xcVSFcDHzkRvkRXOQ3lb887bcVrs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
+        "rev": "c2ae88e026f9525daf89587f3cbee584b92b6134",
         "type": "github"
       },
       "original": {
@@ -359,11 +359,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754372727,
-        "narHash": "sha256-1lHtwGBmRoc9TkKG1EL9DhPkB82ozEJYSDffnpd1fHQ=",
+        "lastModified": 1754501628,
+        "narHash": "sha256-FExJ54tVB5iu7Dh2tLcyCSWpaV+lmUzzWKZUkemwXvo=",
         "owner": "nix-community",
         "repo": "plasma-manager",
-        "rev": "88e41436997e9badacafa057969a2bea3a55e48c",
+        "rev": "cca090f8115c4172b9aef6c5299ae784bdd5e133",
         "type": "github"
       },
       "original": {
