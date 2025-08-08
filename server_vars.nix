@@ -73,7 +73,7 @@ in rec {
     bc # used for some arithmetic in shell scripts
     postgresql
     (pkgs.callPackage ./vend.nix {})
-
+    devenv
     podman-compose
 
     # networking tools
