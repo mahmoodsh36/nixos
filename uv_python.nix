@@ -191,6 +191,27 @@ let
         export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
       '';
     });
+    rouge-score = prev.rouge-score.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    oumi = prev.oumi.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    sqlitedict = prev.sqlitedict.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    word2number = prev.word2number.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    torchdata = prev.torchdata.overrideAttrs (old: {
+      buildInputs = with pkgs; [
+        curl
+        openssl
+      ];
+    });
+    torchao = prev.torchao.overrideAttrs (old: cudaPatch old // {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
     numba = prev.numba.overrideAttrs (old: {
       buildInputs = with pkgs; [
         gomp

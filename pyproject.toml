@@ -5,6 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "torch>=2.7.1",
-    "vllm>=0.10.0",
+    "oumi",
 ]
+
+[tool.uv.sources]
+oumi = { git = "https://github.com/oumi-ai/oumi.git" }
