@@ -10,7 +10,8 @@
     };
     lem = {
       # url = "github:lem-project/lem";
-      url = "github:mahmoodsh36/lem/dev";
+      url = "github:mahmoodsh36/lem";
+      # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pkgs-pinned.url = "github:NixOS/nixpkgs/c2ae88e026f9525daf89587f3cbee584b92b6134";
