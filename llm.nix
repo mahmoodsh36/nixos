@@ -114,13 +114,34 @@ in
           "LLAMA_CACHE" = constants.models_dir;
         };
         wantedBy = [ "multi-user.target" ];
+        # script = ''
+        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
+        #     -hf unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:Q4_K_M\
+        #     --jinja -ngl 99 --threads 8 --ctx-size $((2 ** 18 * 3))\
+        #     --cache-type-k q8_0 --cache-type-v q8_0 -fa\
+        #     --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.5\
+        #     --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2'';
         script = ''
           ${config.machine.llama-cpp.pkg}/bin/llama-server\
-            -hf unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:Q4_K_M\
-            --jinja -ngl 99 --threads 8 --ctx-size $((2 ** 18 * 3))\
-            --cache-type-k q8_0 --cache-type-v q8_0 -fa\
-            --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.5\
-            --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2'';
+            --host 0.0.0.0\
+            --port 5000\
+            -hf unsloth/GLM-4.5-Air-GGUF:IQ2_XXS\
+            --jinja\
+            -ngl 99\
+            -fa\
+            --temp 0.7\
+            --top-k 20\
+            --top-p 0.95\
+            --min-p 0\
+            --presence-penalty 1.4\
+            --seed 2\
+            --no-kv-offload\
+            --cache-type-k q8_0\
+            --cache-type-v q8_0\
+            --override-tensor "\.(1[3-9]|[2-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU"\
+            -c 260000\
+            --threads 25
+        '';
         # script = ''
         #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
         #     --host 0.0.0.0\
