@@ -217,11 +217,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754656642,
-        "narHash": "sha256-bOkk6Ccsgl8tdA3OMjx78zUfUXHBRnRZFx6PICD6yaU=",
+        "lastModified": 1754740824,
+        "narHash": "sha256-RYt+UAL64wMgj51+6Ys9izisDJ0/h2TsDf7Ka+wj1Jc=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "cd6983d56d2cce94ecb86bb114ae8379a609073c",
+        "rev": "34c9d765bf173c551398f1e7fa4595019bc53bab",
         "type": "github"
       },
       "original": {
@@ -544,11 +544,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754585685,
-        "narHash": "sha256-APxBOe0oby3FfU3v0rELgZtFHvwVQC/iylEw8SKVuIA=",
+        "lastModified": 1754719699,
+        "narHash": "sha256-Ek6WILkhVMDWm9j0L23gxHhDt62z1+A68D+pPt0ghao=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "29cf2c99f1b5c5d472012f69f88cea71214374d2",
+        "rev": "38ead6a16ba1be029dd40fe17fc064d6934847d2",
         "type": "github"
       },
       "original": {
