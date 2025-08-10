@@ -116,7 +116,7 @@ in
         wantedBy = [ "multi-user.target" ];
         script = ''
           ${config.machine.llama-cpp.pkg}/bin/llama-server\
-            -hf unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF:Q4_K_M\
+            -hf unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:Q4_K_M\
             --jinja -ngl 99 --threads 8 --ctx-size $((2 ** 18 * 3))\
             --cache-type-k q8_0 --cache-type-v q8_0 -fa\
             --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.5\
