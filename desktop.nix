@@ -138,7 +138,10 @@ in
     ] ++ server_vars.server_overlays;
 
     # graphical stuff (wayland,x11,etc)
-    services.xserver.xkb.layout = "us,il,ara";
+    services.xserver = {
+      enable = true;
+      xkb.layout = "us,il,ara";
+    };
     services.libinput = {
       enable = true;
       touchpad = {
