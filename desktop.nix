@@ -141,7 +141,9 @@ in
     services.xserver = {
       enable = true;
       xkb.layout = "us,il,ara";
+      desktopManager.xfce.enable = constants.enable_plasma;
     };
+    services.desktopManager.gnome.enable = constants.enable_plasma;
     services.libinput = {
       enable = true;
       touchpad = {
@@ -177,10 +179,10 @@ in
       };
     };
     services.displayManager = {
-      # autoLogin = {
-      #   enable = true;
-      #   user = "mahmooz";
-      # };
+      autoLogin = {
+        enable = true;
+        user = "mahmooz";
+      };
       sddm = {
         enable = true;
         wayland.enable = true;
