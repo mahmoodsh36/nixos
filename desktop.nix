@@ -177,10 +177,10 @@ in
       };
     };
     services.displayManager = {
-      autoLogin = {
-        enable = true;
-        user = "mahmooz";
-      };
+      # autoLogin = {
+      #   enable = true;
+      #   user = "mahmooz";
+      # };
       sddm = {
         enable = true;
         wayland.enable = true;

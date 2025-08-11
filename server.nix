@@ -275,7 +275,10 @@ in
       enableNvidia = config.machine.enable_nvidia;
       dockerCompat = true;
       dockerSocket.enable = true;
-      defaultNetwork.settings.dns_enabled = true;
+      defaultNetwork.settings = {
+        dns_enabled = true;
+        # dns_servers = [ "8.8.8.8" "1.1.1.1" ];
+      };
       enable = true;
       autoPrune.enable = true;
       extraPackages = [
