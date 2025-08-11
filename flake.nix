@@ -76,6 +76,7 @@
       isoImage.forceTextMode = true; # to avoid some issues? https://discourse.nixos.org/t/nix-iso-unable-to-boot-in-uefi-mode-but-other-distros-can/16473/53
       systemd.services.sshd.wantedBy = nixpkgs.lib.mkForce [ "multi-user.target" ];
       networking.wireless.enable = false; # installation-cd-minimal.nix sets that to true
+      networking.networkmanager.enable = nixpkgs.lib.mkForce true;
       # to fix another error when generating iso
       boot.kernel.sysctl."vm.overcommit_memory" = nixpkgs.lib.mkForce "1";
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
