@@ -141,9 +141,9 @@ in
     services.xserver = {
       enable = true;
       xkb.layout = "us,il,ara";
-      desktopManager.xfce.enable = constants.enable_plasma;
+      desktopManager.xfce.enable = (!constants.enable_plasma);
     };
-    services.desktopManager.gnome.enable = constants.enable_plasma;
+    services.desktopManager.gnome.enable = true;
     services.libinput = {
       enable = true;
       touchpad = {
