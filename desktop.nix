@@ -395,7 +395,7 @@ in
         exec ${main_julia}/bin/julia "$@"
       '')
 
-      inputs.lem.packages.${pkgs.system}.lem-sdl2
+      # inputs.lem.packages.${pkgs.system}.lem-sdl2
       code-cursor
       neovide
       windsurf
@@ -515,6 +515,7 @@ in
       # aider-chat
       # goose-cli # goose ai tool
       gemini-cli
+      # qwen-code
 
       # koboldcpp mistral-rs
       config.machine.llama-cpp.pkg
