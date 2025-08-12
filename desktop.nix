@@ -462,7 +462,7 @@ in
       spice-gtk # used with quickemu
       zeal dasht # code docs?
       material-design-icons
-      # ventoy
+      ventoy
       djvulibre djvu2pdf
       czkawka czkawka-full # file dupe finder/cleaner? has a gui too
       # python3Packages.chromadb # vector database

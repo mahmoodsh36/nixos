@@ -18,6 +18,9 @@ in
 
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.cudaSupport = config.machine.enable_nvidia;
+    nixpkgs.config.permittedInsecurePackages = [
+      "ventoy-1.1.05"
+    ];
     machine.llama-cpp.pkg =
       (if config.machine.enable_nvidia
        then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
