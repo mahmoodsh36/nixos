@@ -75,6 +75,7 @@ in rec {
     (pkgs.callPackage ./vend.nix {})
     devenv
     podman-compose
+    sbcl.pkgs.qlot-cli
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
