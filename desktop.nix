@@ -68,7 +68,7 @@ in
     # better safe than sorry (for having to deal with firmware/driver issues)..?
     hardware.enableAllHardware = true;
     hardware.enableAllFirmware = true;
-
+    hardware.usb-modeswitch.enable = true;
     services.hardware.bolt.enable = true;
 
     # for firmware updates
