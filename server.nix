@@ -33,9 +33,8 @@ in
       copyKernels = true;
     };
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.kernelPackages = pkgs.linuxPackages_5_15;
+    boot.kernelPackages = pkgs.linuxPackages_6_6;
     boot.extraModulePackages = [
-      # (pkgs.kernelPackages.callPackage ./rtl8188gu.nix { })
       (config.boot.kernelPackages.callPackage ./rtl8188gu.nix {})
     ];
 
