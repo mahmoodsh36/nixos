@@ -191,17 +191,17 @@ in
     {
       virtualisation.oci-containers = {
         containers = {
-          lobe-chat = {
-            image = "docker.io/lobehub/lobe-chat:latest";
-            environment = {
-              "OPENAI_PROXY_URL" = "http://mahmooz2:5000";
-            };
-            extraOptions = [
-              "--network=host"
-              "--name=lobe-chat"
-              "-v" "${constants.home_dir}/.lobe-chat:/app/backend/data"
-            ];
-          };
+          # lobe-chat = {
+          #   image = "docker.io/lobehub/lobe-chat:latest";
+          #   environment = {
+          #     "OPENAI_PROXY_URL" = "http://mahmooz2:5000";
+          #   };
+          #   extraOptions = [
+          #     "--network=host"
+          #     "--name=lobe-chat"
+          #     "-v" "${constants.home_dir}/.lobe-chat:/app/backend/data"
+          #   ];
+          # };
         };
       };
     }
