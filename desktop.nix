@@ -515,7 +515,7 @@ in
       # aider-chat
       # goose-cli # goose ai tool
       gemini-cli
-      # qwen-code
+      qwen-code
 
       # koboldcpp mistral-rs
       config.machine.llama-cpp.pkg
