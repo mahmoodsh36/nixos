@@ -1,26 +1,28 @@
 { pkgs, pkgs-pinned, inputs, ... }:
 let
-  # cltpt = pkgs-pinned.sbcl.buildASDFSystem rec {
-  #   pname = "cltpt";
-  #   version = "0.1";
-  #   src = pkgs.fetchFromGitHub {
-  #     owner = "mahmoodsh36";
-  #     repo = "cltpt";
-  #     rev = "37ede3f4f36c130ac674232876bd07956ab968aa";
-  #     sha256 = "sha256-Edxc99oVJEDApOObfSkUIggUolxdg2ipkAo2FkhlSZs=";
-  #   };
-  #   systems = [ "cltpt" ];
-  #   lispLibs = with pkgs-pinned.sbcl.pkgs; [
-  #     clingon
-  #     ironclad
-  #     fiveam
-  #     # uiop
-  #     str
-  #     cl-fad
-  #     cl-ppcre
-  #   ];
-  # };
+  cltpt = pkgs-pinned.sbcl.buildASDFSystem rec {
+    pname = "cltpt";
+    version = "0.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "mahmoodsh36";
+      repo = "cltpt";
+      rev = "95ca2b3bb8fc8d67af7efa0bd7f1184a64b2f67a";
+      sha256 = "sha256-08MfeUV90OpBoI9mqQYXTapu3D4/3pn0SNxFwTOayeg=";
+    };
+    systems = [ "cltpt" ];
+    lispLibs = with pkgs-pinned.sbcl.pkgs; [
+      clingon
+      ironclad
+      fiveam
+      # uiop
+      str
+      cl-fad
+      cl-ppcre
+      local-time
+    ];
+  };
   mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
+    cltpt
     serapeum
     lparallel
     cl-csv
