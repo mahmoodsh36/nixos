@@ -10,7 +10,6 @@ in
     ./nvidia.nix
     ./network.nix
     ./llm.nix
-    ./containers/ml_python/ml_python.nix
   ];
   config = {
     _module.args = { inherit inputs; };
