@@ -6,7 +6,7 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "mahmoodsh36";
       repo = "cltpt";
-      rev = "9c18acb7c027d6e76d7d13046166baa122489c0b";
+      rev = "1da073e227fa2edb3911742cf7fd040c06b2ab14";
       sha256 = "sha256-08MfeUV90OpBoI9mqQYXTapu3D4/3pn0SNxFwTOayeg=";
     };
     systems = [ "cltpt" ];

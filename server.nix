@@ -10,6 +10,7 @@ in
     ./nvidia.nix
     ./network.nix
     ./llm.nix
+    ./podman-autobuilder.nix
   ];
   config = {
     _module.args = { inherit inputs; };
@@ -311,6 +312,28 @@ in
     # may also need it to avoid other issues
     services.gnome.gnome-keyring.enable = true;
     security.pam.services.sddm.enableGnomeKeyring = true;
+
+    services.podman-autobuilder.containers = {
+      mlpython = {
+        imageName = "mlpython";
+        context = ./containers/mlpython;
+        buildArgs = [
+          "--memory=30g"
+          "--cpuset-cpus=0-9"
+          "--network=host"
+        ];
+        runArgs = [
+          "--gpus" "all"
+          # "--security-opt" "seccomp=unconfined"
+        ];
+        aliases = {
+          "mlpython2" = {
+            command = [ "python3" "--help" ];
+            interactive = true;
+          };
+        };
+      };
+    };
 
     system.stateVersion = "24.05"; # dont change
   };
