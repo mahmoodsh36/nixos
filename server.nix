@@ -314,7 +314,7 @@ in
     security.pam.services.sddm.enableGnomeKeyring = true;
 
     services.podman-autobuilder.containers = {
-      mlpython = {
+      mlpython = lib.mkIf config.machine.enable_nvidia {
         imageName = "mlpython";
         context = ./containers/mlpython;
         buildArgs = [
