@@ -2,12 +2,12 @@
 let
   cltpt = pkgs-pinned.sbcl.buildASDFSystem rec {
     pname = "cltpt";
-    version = "0.1";
+    version = "0.2";
     src = pkgs.fetchFromGitHub {
       owner = "mahmoodsh36";
       repo = "cltpt";
       rev = "1da073e227fa2edb3911742cf7fd040c06b2ab14";
-      sha256 = "sha256-08MfeUV90OpBoI9mqQYXTapu3D4/3pn0SNxFwTOayeg=";
+      sha256 = "sha256-TKa92ikWB0dl13V9tiDSxb7fyhFMe3aYIKyvyMb11rg=";
     };
     systems = [ "cltpt" ];
     lispLibs = with pkgs-pinned.sbcl.pkgs; [
