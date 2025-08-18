@@ -323,7 +323,8 @@ in
           "--network=host"
         ];
         runArgs = [
-          "--gpus" "all"
+          "--cdi-spec-dir=/run/cdi"
+          "--device=nvidia.com/gpu=all"
           # "--security-opt" "seccomp=unconfined"
         ];
         aliases = {
