@@ -330,7 +330,7 @@ in
         command = [ "sleep" "infinity" ];
         aliases = {
           "mlpython2" = {
-            command = [ "python3" "--help" ];
+            command = [ "python3" ];
             interactive = true;
           };
         };
