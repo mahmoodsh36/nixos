@@ -1,8 +1,8 @@
 { inputs, pkgs, config, pkgs-pinned, ... }:
 
 let
-  # python-pkgs = pkgs-pinned;
-  python-pkgs = pkgs;
+  python-pkgs = pkgs-pinned;
+  # python-pkgs = pkgs;
 in
 {
   desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
