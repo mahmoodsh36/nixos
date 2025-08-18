@@ -325,6 +325,7 @@ in
         runArgs = [
           "--cdi-spec-dir=/run/cdi"
           "--device=nvidia.com/gpu=all"
+          "--network=host"
           # "--security-opt" "seccomp=unconfined"
         ];
         command = [ "sleep" "infinity" ];
