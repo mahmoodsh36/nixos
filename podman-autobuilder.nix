@@ -56,7 +56,6 @@ let
           podman = "${pkgs.podman}/bin/podman";
           runArgs = escapeShellArgs containerCfg.runArgs;
         in ''
-          # --rm
           ${podman} run --replace --name=${escapeShellArg name} ${runArgs} ${escapeShellArg containerCfg.imageName}
         '';
         ExecStop = let
