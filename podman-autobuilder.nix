@@ -1,5 +1,5 @@
-# A NixOS module to declaratively build container images from Dockerfiles
-# and run them as systemd services using Podman.
+# a NixOS module to declaratively build container images from Dockerfiles
+# and run them as systemd services using podman.
 
 { config, lib, pkgs, ... }:
 
@@ -9,20 +9,15 @@ let
   # a shortcut to this module's configuration options.
   cfg = config.services.podman-autobuilder;
 
-  # --- Helper Functions for Generating Systemd Services ---
-
   # generates build and run services for a single container.
   mkContainerServices = name: containerCfg: {
     # the build service. it is a standard boot-time service.
     "podman-autobuild-${name}" = {
       description = "Build Podman image for ${name} from its Dockerfile";
-      # this makes it part of the standard system startup transaction.
       wantedBy = [ "multi-user.target" ];
-      # the build must happen before the container service tries to start.
       before = [ "podman-container-${name}.service" ];
       serviceConfig = {
         Type = "oneshot";
-        # this is important for oneshot services in the boot process.
         RemainAfterExit = true;
         ExecStart = let
           podman = "${pkgs.podman}/bin/podman";
@@ -42,21 +37,18 @@ let
       description = "Run Podman container ${name}";
       wantedBy = [ "multi-user.target" ];
       restartIfChanged = true;
-
-      # synchronous dependency:
-      # `requires` creates a strong, blocking dependency on the build service.
-      # `after` reinforces that this service must only start after the build is done.
       requires = [ "podman-autobuild-${name}.service" ];
       after = [ "podman-autobuild-${name}.service" ];
-
       serviceConfig = {
         Restart = "always";
         RestartSec = "5s";
+
         ExecStart = let
           podman = "${pkgs.podman}/bin/podman";
-          runArgs = escapeShellArgs containerCfg.runArgs;
+          runArgs = escapeShellArgs containerCfg.runArgs; # options like --network, -p
+          command = escapeShellArgs containerCfg.command; # the command inside the container
         in ''
-          ${podman} run --replace --name=${escapeShellArg name} ${runArgs} ${escapeShellArg containerCfg.imageName}
+          ${podman} run --replace --name=${escapeShellArg name} ${runArgs} ${escapeShellArg containerCfg.imageName} ${command}
         '';
         ExecStop = let
           podman = "${pkgs.podman}/bin/podman";
@@ -87,7 +79,6 @@ let
 
 in
 {
-  # --- module options ---
   # this section defines the configuration interface for users in their `configuration.nix`.
 
   options.services.podman-autobuilder = {
@@ -99,7 +90,20 @@ in
           context = mkOption { type = types.path; description = "The build context directory, which contains the Dockerfile."; };
           dockerfile = mkOption { type = types.str; default = "Dockerfile"; description = "The name of the Dockerfile within the context directory."; };
           buildArgs = mkOption { type = types.listOf types.str; default = []; description = "A list of extra arguments to pass to the 'podman build' command."; };
-          runArgs = mkOption { type = types.listOf types.str; default = []; description = "A list of arguments to pass to 'podman run'."; };
+
+          runArgs = mkOption {
+            type = types.listOf types.str;
+            default = [];
+            description = "A list of OPTIONS to pass to 'podman run' (e.g., --network, -p, -v).";
+            example = [ "-p" "8080:80" "--network=host" ];
+          };
+          command = mkOption {
+            type = types.listOf types.str;
+            default = []; # Defaults to an empty list, which uses the Dockerfile's CMD
+            description = "The command to run inside the container, overriding the Dockerfile's CMD.";
+            example = [ "sleep" "infinity" ];
+          };
+
           execServices = mkOption {
             default = {};
             description = "Defines one-shot systemd services (started manually) to run commands in this container.";
@@ -126,7 +130,6 @@ in
     };
   };
 
-  # --- module configuration ---
   # this section generates the nixos system configuration based on the user's options.
 
   config = mkIf (cfg.containers != {}) (
@@ -167,7 +170,6 @@ in
       );
 
     in
-    # --- final configuration attribute set ---
     {
       # merge all generated services into the systemd configuration.
       systemd.services = allContainerServices // allExecServices;

@@ -327,6 +327,7 @@ in
           "--device=nvidia.com/gpu=all"
           # "--security-opt" "seccomp=unconfined"
         ];
+        command = [ "sleep" "infinity" ];
         aliases = {
           "mlpython2" = {
             command = [ "python3" "--help" ];
