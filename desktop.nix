@@ -305,7 +305,7 @@ in
     programs.nix-ld = {
       enable = true;
       libraries = [
-        pkgs.python3Packages.torch.lib
+        # pkgs.python3Packages.torch.lib
         pkgs.stdenv.cc.cc
         pkgs.zlib
         pkgs.fuse3
