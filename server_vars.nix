@@ -6,8 +6,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "mahmoodsh36";
       repo = "cltpt";
-      rev = "f7f52af6548a18095c707cf9f86a8ee21fbbc5f6";
-      sha256 = "sha256-9HZS2LkVNfFtystEbWAoqoFURXhc1YgqK0knBec5DNs=";
+      rev = "9981a01156a4a2b1ac2edca37e9113e1078b6e64";
+      sha256 = "sha256-438GPyzl67T2WGgPL4JFYjkTo3/h0VoroEaCFbw/FgY=";
     };
     systems = [ "cltpt" ];
     lispLibs = with pkgs-pinned.sbcl.pkgs; [
