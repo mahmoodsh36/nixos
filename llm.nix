@@ -138,7 +138,7 @@ in
             --cache-type-k q8_0\
             --cache-type-v q8_0\
             --override-tensor "\.(1[3-9]|[2-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU"\
-            -c 130000\
+            -c 60000\
             --threads 25
         '';
         # script = ''
