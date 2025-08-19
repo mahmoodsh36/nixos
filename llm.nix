@@ -124,7 +124,7 @@ in
           ${config.machine.llama-cpp.pkg}/bin/llama-server\
             --host 0.0.0.0\
             --port 5000\
-            -hf bartowski/zai-org_GLM-4.5-Air-GGUF:IQ3_XXS\
+            -hf bartowski/zai-org_GLM-4.5-Air-GGUF:Q3_K_M\
             --jinja\
             -ngl 99\
             -fa\
