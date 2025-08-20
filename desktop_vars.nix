@@ -80,6 +80,6 @@ in
     "GraphPlot" "Compose"
     # "SGtSNEpi" "Karnak"
 
-    "LogicCircuits" # causes compilation error :(
+    # "LogicCircuits" # causes compilation error :(
   ]));
 }
