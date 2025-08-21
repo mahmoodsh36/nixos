@@ -451,7 +451,7 @@ in
       spotdl
       openjdk
       transmission_4 acpi lm_sensors
-      you-get aria ytdl-sub yt-dlp
+      you-get aria
       playwright
       uv
       argc
