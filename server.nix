@@ -351,6 +351,11 @@ in
           "--device=nvidia.com/gpu=all"
           "-v" "${constants.models_dir}:${constants.models_dir}"
           "--network=host"
+          "-e" "LMCACHE_CHUNK_SIZE=1024"
+          "-e" "LMCACHE_USE_EXPERIMENTAL=True"
+          "-e" "LMCACHE_LOCAL_CPU=True"
+          "-e" "LMCACHE_MAX_LOCAL_CPU_SIZE=40.0"
+          "-e" "VLLM_USE_V1=1"
         ];
         command = [ "sleep" "infinity" ];
         aliases = {
