@@ -1,6 +1,10 @@
 # podman build --memory=30g --cpuset-cpus="0-9" -t mypy .
 # podman run -it --gpus all mypy python3
 
+# take max_jobs as an arg
+ARG MAX_JOBS_ARG=2
+ENV MAX_JOBS=${MAX_JOBS_ARG}
+
 # for the CUDA compiler tools (NVCC).
 FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
 
