@@ -20,7 +20,6 @@ RUN pip install torch==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 # COPY requirements.txt .
 # RUN pip install --no-cache-dir -r requirements.txt
 
-# install the compatible version of flash-attn by building from source.
-RUN VLLM_USE_PRECOMPILED=1 pip install git+ssh://git@github.com/FoolPlayer/vllm.git@seed-oss
+RUN VLLM_USE_PRECOMPILED=1 pip install git+https://github.com/FoolPlayer/vllm.git@seed-oss
 
 CMD ["python3"]
