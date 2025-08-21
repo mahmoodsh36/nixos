@@ -337,6 +337,29 @@ in
           };
         };
       };
+      seed-oss = lib.mkIf config.machine.enable_nvidia {
+        imageName = "seed-oss";
+        context = ./containers/seed-oss;
+        buildArgs = [
+          "--memory=30g"
+          "--cpuset-cpus=0-9"
+          "--network=host"
+        ];
+        runArgs = [
+          "--cdi-spec-dir=/run/cdi"
+          "--device=nvidia.com/gpu=all"
+          "-v" "${constants.models_dir}:${constants.models_dir}"
+          "--network=host"
+          # "--security-opt" "seccomp=unconfined"
+        ];
+        command = [ "sleep" "infinity" ];
+        aliases = {
+          "seedpython" = {
+            command = [ "python3" ];
+            interactive = true;
+          };
+        };
+      };
     };
 
     system.stateVersion = "24.05"; # dont change
