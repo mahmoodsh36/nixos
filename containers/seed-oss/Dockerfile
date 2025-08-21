@@ -21,8 +21,8 @@ RUN pip install --upgrade pip setuptools wheel packaging
 
 RUN pip install torch==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# COPY requirements.txt .
+# RUN pip install --no-cache-dir -r requirements.txt
 
 RUN VLLM_USE_PRECOMPILED=1 pip install git+https://github.com/FoolPlayer/vllm.git@seed-oss
 RUN pip install git+https://github.com/Fazziekey/transformers.git@seed-oss
