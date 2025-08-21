@@ -341,9 +341,10 @@ in
         imageName = "seed-oss";
         context = ./containers/seed-oss;
         buildArgs = [
-          "--memory=30g"
-          "--cpuset-cpus=0-9"
+          # "--memory=30g"
           "--network=host"
+          "--build-arg" "max_jobs=8"
+          "--build-arg" "nvcc_threads=2"
         ];
         runArgs = [
           "--cdi-spec-dir=/run/cdi"
