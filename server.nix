@@ -343,8 +343,7 @@ in
         buildArgs = [
           # "--memory=30g"
           "--network=host"
-          "--build-arg" "max_jobs=8"
-          "--build-arg" "nvcc_threads=2"
+          "--build-arg" "MAX_JOBS=4"
         ];
         runArgs = [
           "--cdi-spec-dir=/run/cdi"
