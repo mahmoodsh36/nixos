@@ -347,6 +347,7 @@ in
         ];
         runArgs = [
           "--cdi-spec-dir=/run/cdi"
+          "--shm-size=64g"
           "--device=nvidia.com/gpu=all"
           "-v" "${constants.models_dir}:${constants.models_dir}"
           "--network=host"
