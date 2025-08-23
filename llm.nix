@@ -114,11 +114,18 @@ in
           "LLAMA_CACHE" = constants.models_dir;
         };
         wantedBy = [ "multi-user.target" ];
+        # script = ''
+        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
+        #     -hf unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:Q5_K_XL\
+        #     --jinja -ngl 99 --threads 16 --ctx-size $((2 ** 18)) -fa\
+        #     --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
+        #     --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2
+        # '';
         script = ''
           ${config.machine.llama-cpp.pkg}/bin/llama-server\
-            -hf unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:Q5_K_XL\
-            --jinja -ngl 99 --threads 16 --ctx-size $((2 ** 18)) -fa\
-            --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
+            -hf yarikdevcom/Seed-OSS-36B-Instruct-GGUF:Q4_K_M\
+            --jinja -ngl 99 --threads 16 --ctx-size $((2 ** 18)) --flash-attn\
+            --temp 1.1 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
             --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2
         '';
         # script = ''
