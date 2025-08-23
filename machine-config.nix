@@ -29,8 +29,8 @@ in
          src = pkgs.fetchFromGitHub {
            owner = "pwilkin";
            repo = "llama.cpp";
-           rev = "d16f578cee1e5f5bba9b94a9d716c0369c91f98a";
-           sha256 = "sha256-Le6IdcKD6CgCN3PpcYGfktWQB9HJQQ/I8FD+Ie3S0n8=";
+           rev = "920810a530ef0378b1957613e03f697738de03a4";
+           sha256 = "sha256-A3tBZHF9VAcWcwV2m95oXziknx1FuE0Q5ACu9jV40p4=";
          };
        });
   };
