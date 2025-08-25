@@ -19,7 +19,6 @@ let
       cl-fad
       cl-ppcre
       local-time
-      cl-json
     ];
   };
   mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
@@ -41,6 +40,7 @@ let
     fiveam # tests
     closer-mop
     local-time
+    cl-json
   ]));
   constants = (import ./constants.nix);
 in rec {
