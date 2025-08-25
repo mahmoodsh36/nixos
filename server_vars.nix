@@ -19,6 +19,7 @@ let
       cl-fad
       cl-ppcre
       local-time
+      cl-json
     ];
   };
   mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
