@@ -5,8 +5,8 @@ let
   constants = (import ./constants.nix);
   desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   main_python = desktop_vars.desktop_python;
-  main_julia = desktop_vars.desktop_julia;
-  # main_julia = pkgs.julia;
+  # main_julia = desktop_vars.desktop_julia;
+  main_julia = pkgs.julia;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
   emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = false; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
     imagemagick = pkgs.imagemagickBig;
