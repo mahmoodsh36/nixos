@@ -481,7 +481,7 @@ in
       (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
 
       # lsp
-      cmake-language-server
+      # cmake-language-server
       nodePackages.bash-language-server
       nil
       python3Packages.python-lsp-server
