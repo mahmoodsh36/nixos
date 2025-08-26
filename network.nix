@@ -76,7 +76,7 @@ in rec
     enable = true;
     package = pkgs.caddy.withPlugins {
       plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
-      hash = "sha256-0v8DkYxzwMGoL1xkUXl6Qp9XS9vhQVopPnjMXPWOb1o=";
+      hash = "sha256-81xohmYniQxit6ysAlBNZfSWU32JRvUlzMX5Sq0FDwY=";
     };
     # configure some reverse proxy traffic
     virtualHosts = {
