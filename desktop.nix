@@ -415,7 +415,7 @@ in
       wl-screenrec
       libnotify
       # darktable # image editor
-      digikam # another image viewer?
+      # digikam # another image viewer?
       swww # wallpaper setter
 
       vdhcoapp # for firefox video download helper
