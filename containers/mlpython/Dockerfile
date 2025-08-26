@@ -4,6 +4,11 @@
 # for the CUDA compiler tools (NVCC).
 FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
 
+# take max_jobs (for building) as an arg to avoid OOM errors
+ARG MAX_JOBS=2
+ENV MAX_JOBS=${MAX_JOBS}
+ENV NVCC_THREADS=${MAX_JOBS}
+
 WORKDIR /app
 
 # prevent any interactive prompts during the build

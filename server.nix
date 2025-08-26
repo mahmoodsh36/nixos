@@ -318,13 +318,15 @@ in
         imageName = "mlpython";
         context = ./containers/mlpython;
         buildArgs = [
-          "--memory=30g"
+          # "--memory=30g"
           "--cpuset-cpus=0-9"
           "--network=host"
+          "--build-arg" "MAX_JOBS=4"
         ];
         runArgs = [
           "--cdi-spec-dir=/run/cdi"
           "--device=nvidia.com/gpu=all"
+          "--shm-size=64g"
           "-v" "${constants.models_dir}:${constants.models_dir}"
           "--network=host"
           # "--security-opt" "seccomp=unconfined"
@@ -332,34 +334,6 @@ in
         command = [ "sleep" "infinity" ];
         aliases = {
           "mlpython2" = {
-            command = [ "python3" ];
-            interactive = true;
-          };
-        };
-      };
-      seed-oss = lib.mkIf config.machine.enable_nvidia {
-        imageName = "seed-oss";
-        context = ./containers/seed-oss;
-        buildArgs = [
-          # "--memory=30g"
-          "--network=host"
-          "--build-arg" "MAX_JOBS=4"
-        ];
-        runArgs = [
-          "--cdi-spec-dir=/run/cdi"
-          "--shm-size=64g"
-          "--device=nvidia.com/gpu=all"
-          "-v" "${constants.models_dir}:${constants.models_dir}"
-          "--network=host"
-          "-e" "LMCACHE_CHUNK_SIZE=1024"
-          "-e" "LMCACHE_USE_EXPERIMENTAL=True"
-          "-e" "LMCACHE_LOCAL_CPU=True"
-          "-e" "LMCACHE_MAX_LOCAL_CPU_SIZE=40.0"
-          "-e" "VLLM_USE_V1=1"
-        ];
-        command = [ "sleep" "infinity" ];
-        aliases = {
-          "seedpython" = {
             command = [ "python3" ];
             interactive = true;
           };
