@@ -319,7 +319,7 @@ in
         context = ./containers/mlpython;
         buildArgs = [
           # "--memory=30g"
-          "--cpuset-cpus=0-9"
+          # "--cpuset-cpus=0-9"
           "--network=host"
           "--build-arg" "MAX_JOBS=4"
         ];
