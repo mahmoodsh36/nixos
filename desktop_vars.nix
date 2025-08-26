@@ -46,7 +46,7 @@ in
     langchain langgraph langgraph-cli langsmith langchain-community # langflow
     openai
 
-    # timm einops tiktoken # some models require these
+    timm einops tiktoken # some models require these
   ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
   ]));
   desktop_julia = (pkgs-pinned.julia.withPackages.override({
