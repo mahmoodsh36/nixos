@@ -79,15 +79,15 @@ in rec {
     devenv
     podman-compose
     sbcl.pkgs.qlot-cli
-    ytdl-sub # yt-dlp
-    (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
-      src = pkgs.fetchFromGitHub {
-        owner = "yt-dlp";
-        repo = "yt-dlp";
-        rev = "a03c37b44ec8f50fd472c409115096f92410346d";
-        sha256 = "sha256-7scolIsUsMfPtKg/OYcm7hWAZmnlFe901sfw6tGO2Wk=";
-      };
-    }))
+    ytdl-sub yt-dlp
+    # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "yt-dlp";
+    #     repo = "yt-dlp";
+    #     rev = "a03c37b44ec8f50fd472c409115096f92410346d";
+    #     sha256 = "sha256-7scolIsUsMfPtKg/OYcm7hWAZmnlFe901sfw6tGO2Wk=";
+    #   };
+    # }))
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
