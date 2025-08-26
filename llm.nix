@@ -128,36 +128,36 @@ in
         #     --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
         #     --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2
         # '';
-        # script = ''
-        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
-        #     -hf unsloth/Seed-OSS-36B-Instruct-GGUF:Q4_K_M\
-        #     --jinja -ngl 99 --threads 16 --ctx-size $((2 ** 18)) --flash-attn\
-        #     --temp 1.1 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
-        #     --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2\
-        #     --cache-type-k q8_0 --cache-type-v q8_0\
-        #     --chat-template-kwargs '{"thinking_budget": 1024}'
-        # '';
         script = ''
           ${config.machine.llama-cpp.pkg}/bin/llama-server\
-            --host 0.0.0.0\
-            --port 5000\
-            -hf bartowski/zai-org_GLM-4.5-Air-GGUF:Q3_K_M\
-            --jinja\
-            -ngl 99\
-            -fa\
-            --temp 0.7\
-            --top-k 20\
-            --top-p 0.95\
-            --min-p 0\
-            --presence-penalty 1.4\
-            --seed 2\
-            --no-kv-offload\
-            --cache-type-k q8_0\
-            --cache-type-v q8_0\
-            --override-tensor "\.(1[7-9]|[2-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU"\
-            -c 60000\
-            --threads 25
+            -hf unsloth/Seed-OSS-36B-Instruct-GGUF:Q4_K_M\
+            --jinja -ngl 99 --threads 16 --ctx-size $((2 ** 18)) --flash-attn\
+            --temp 1.1 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
+            --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2\
+            --cache-type-k q8_0 --cache-type-v q8_0\
+            --chat-template-kwargs '{"thinking_budget": 1024}'
         '';
+        # script = ''
+        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
+        #     --host 0.0.0.0\
+        #     --port 5000\
+        #     -hf bartowski/zai-org_GLM-4.5-Air-GGUF:Q3_K_M\
+        #     --jinja\
+        #     -ngl 99\
+        #     -fa\
+        #     --temp 0.7\
+        #     --top-k 20\
+        #     --top-p 0.95\
+        #     --min-p 0\
+        #     --presence-penalty 1.4\
+        #     --seed 2\
+        #     --no-kv-offload\
+        #     --cache-type-k q8_0\
+        #     --cache-type-v q8_0\
+        #     --override-tensor "\.(1[7-9]|[2-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU"\
+        #     -c 60000\
+        #     --threads 25
+        # '';
         # script = ''
         #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
         #     --host 0.0.0.0\
