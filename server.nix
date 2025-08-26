@@ -321,7 +321,7 @@ in
           # "--memory=30g"
           # "--cpuset-cpus=0-9"
           "--network=host"
-          "--build-arg" "MAX_JOBS=4"
+          "--build-arg" "MAX_JOBS=8"
         ];
         runArgs = [
           "--cdi-spec-dir=/run/cdi"
