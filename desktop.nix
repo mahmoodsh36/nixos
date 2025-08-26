@@ -528,7 +528,7 @@ in
         packageName = "mistral-rs";
       })
 
-      gitingest
+      # gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       pkgs.stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
