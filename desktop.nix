@@ -375,9 +375,8 @@ in
       '')
 
       # inputs.lem.packages.${pkgs.system}.lem-sdl2
-      code-cursor
       neovide
-      windsurf
+      # code-cursor windsurf
 
       ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
         treesit-grammars.with-all-grammars
@@ -416,7 +415,7 @@ in
       wl-screenrec
       libnotify
       # darktable # image editor
-      # digikam # another image viewer?
+      digikam # another image viewer?
       swww # wallpaper setter
 
       vdhcoapp # for firefox video download helper
@@ -481,7 +480,6 @@ in
       (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
 
       # lsp
-      # cmake-language-server
       nodePackages.bash-language-server
       nil
       python3Packages.python-lsp-server
@@ -491,8 +489,6 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       python3Packages.huggingface-hub
-      # aider-chat
-      # goose-cli # goose ai tool
       gemini-cli
       qwen-code
 
@@ -528,7 +524,7 @@ in
         packageName = "mistral-rs";
       })
 
-      # gitingest
+      pkgs-pinned.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       pkgs.stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI

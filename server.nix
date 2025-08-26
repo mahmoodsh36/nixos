@@ -328,6 +328,7 @@ in
           "--device=nvidia.com/gpu=all"
           "--shm-size=64g"
           "-v" "${constants.models_dir}:${constants.models_dir}"
+          "-v" "/:/host" # full filesystem access
           "--network=host"
           # "--security-opt" "seccomp=unconfined"
         ];
