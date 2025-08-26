@@ -212,12 +212,12 @@ in
     services.tumbler.enable = lib.mkForce false;
     programs.light.enable = true;
 
-    # hybrid sleep when press power button
-    services.logind.extraConfig = ''
-      HandlePowerKey=ignore
-      IdleAction=ignore
-      IdleActionSec=1m
-    '';
+    # hybrid sleep when press power button. doesnt work anymore
+    # services.logind.extraConfig = ''
+    #   HandlePowerKey=ignore
+    #   IdleAction=ignore
+    #   IdleActionSec=1m
+    # '';
     # dont hibernate when lid is closed
     # services.logind.lidSwitch = "ignore";
 
