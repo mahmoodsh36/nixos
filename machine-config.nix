@@ -24,7 +24,14 @@ in
 
     machine.llama-cpp.pkg =
       (if config.machine.enable_nvidia
-       then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
+       then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda.overrideAttrs (finalAttrs: prevAttrs: {
+         src = pkgs.fetchFromGitHub {
+           owner = "pwilkin";
+           repo = "llama.cpp";
+           rev = "f1b7e46d880cf8582186eb6c466a2fc3d1ce6e59";
+           sha256 = "sha256-HAAQDjJl1aGzv+7juTdOji6wGi4Ff6mrgrH8l4JtB0Y=";
+         };
+       })
        else inputs.llama-cpp-flake.packages.${pkgs.system}.default);
   };
 }
