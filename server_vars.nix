@@ -88,6 +88,7 @@ in rec {
     #     sha256 = "sha256-7scolIsUsMfPtKg/OYcm7hWAZmnlFe901sfw6tGO2Wk=";
     #   };
     # }))
+    nethogs
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
