@@ -524,6 +524,11 @@ in
         packageName = "mistral-rs";
       })
 
+      (packageFromCommit {
+        rev = "7be2b41f05445818e819a41f670b2ff03852ade9";
+        packageName = "vllm";
+      })
+
       pkgs-pinned.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
