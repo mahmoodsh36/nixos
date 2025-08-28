@@ -438,7 +438,7 @@ in
       pulseaudioFull
       quickemu # quickly start VMs
       spice-gtk # used with quickemu
-      zeal dasht # code docs?
+      # zeal dasht # code docs?
       material-design-icons
       ventoy
       djvulibre djvu2pdf
