@@ -7,7 +7,7 @@ let
       owner = "mahmoodsh36";
       repo = "cltpt";
       rev = "c6340f98af5c528dfdccf55531534e92f79d281c";
-      sha256 = "034sijj6dhxnj2811dvxkg8pyb2bhhwlg9yzjxpzpknqalidwdk3";
+      sha256 = "sha256-YzbeIlXYzvtvl9+nRzmESyx/0Zt9txCQkLbDZqSMmgw=";
     };
     systems = [ "cltpt" ];
     lispLibs = with pkgs-pinned.sbcl.pkgs; [
