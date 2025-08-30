@@ -44,6 +44,10 @@
       url = "github:Janrupf/stable-diffusion-webui-nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    cltpt = {
+      url = "github:mahmoodsh36/cltpt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for python
     pyproject-nix = {

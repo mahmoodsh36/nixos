@@ -1,28 +1,28 @@
 { pkgs, pkgs-pinned, inputs, ... }:
 let
-  cltpt = pkgs-pinned.sbcl.buildASDFSystem rec {
-    pname = "cltpt";
-    version = "0.1";
-    src = pkgs.fetchFromGitHub {
-      owner = "mahmoodsh36";
-      repo = "cltpt";
-      rev = "b7ce8db3f6337a38b1d1568c8967011fcae152eb";
-      sha256 = "sha256-xPnu03IHvVn5epEy/l8QozifBIUGyIaF/Qyx6YA4tEo=";
-    };
-    systems = [ "cltpt" ];
-    lispLibs = with pkgs-pinned.sbcl.pkgs; [
-      clingon
-      ironclad
-      fiveam
-      # uiop
-      str
-      cl-fad
-      cl-ppcre
-      local-time
-    ];
-  };
+  # cltpt = pkgs-pinned.sbcl.buildASDFSystem rec {
+  #   pname = "cltpt";
+  #   version = "0.1";
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "mahmoodsh36";
+  #     repo = "cltpt";
+  #     rev = "b7ce8db3f6337a38b1d1568c8967011fcae152eb";
+  #     sha256 = "sha256-xPnu03IHvVn5epEy/l8QozifBIUGyIaF/Qyx6YA4tEo=";
+  #   };
+  #   systems = [ "cltpt" ];
+  #   lispLibs = with pkgs-pinned.sbcl.pkgs; [
+  #     clingon
+  #     ironclad
+  #     fiveam
+  #     # uiop
+  #     str
+  #     cl-fad
+  #     cl-ppcre
+  #     local-time
+  #   ];
+  # };
   mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
-    cltpt
+    inputs.cltpt.packages.${pkgs.system}.default
     serapeum
     lparallel
     cl-csv
@@ -89,6 +89,7 @@ in rec {
     #   };
     # }))
     nethogs
+    inputs.cltpt.packages.${pkgs.system}.default
 
     # networking tools
     curl wget nmap socat arp-scan tcpdump iftop
