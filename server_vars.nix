@@ -22,7 +22,7 @@ let
   #   ];
   # };
   mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
-    inputs.cltpt.packages.${pkgs.system}.default
+    inputs.cltpt.packages.${pkgs.system}.cltpt-lib
     serapeum
     lparallel
     cl-csv
