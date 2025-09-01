@@ -1,11 +1,17 @@
 { inputs, pkgs, config, pkgs-pinned, ... }:
 
 let
-  python-pkgs = pkgs-pinned;
+  my-python-pkgs = pkgs-pinned;
+  my-python-1 = pkgs-pinned.python3;
   # python-pkgs = pkgs;
+  my-python = my-python-1.override {
+    packageOverrides = self: super: {
+      spotdl = super.toPythonModule super.pkgs.spotdl;
+    };
+  };
 in
 {
-  desktop_python = (python-pkgs.python3.withPackages (ps: with ps; [
+  desktop_python = (my-python.withPackages (ps: with ps; [
     # essentials
     requests beautifulsoup4
     ipython
@@ -19,6 +25,11 @@ in
     musicbrainzngs ytmusicapi tinytag python-magic
     evdev
     pdf2image
+    music-tag
+    spotdl
+
+    flask
+    imageio
     # pyzmq
 
     # ml/ai stuff
