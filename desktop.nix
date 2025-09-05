@@ -469,6 +469,7 @@ in
       tor-browser
       jellyfin-tui jellycli jellytui
       kando
+      (pkgs.callPackage ./vend.nix {})
 
       # nix specific
       nixos-generators
