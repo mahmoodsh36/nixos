@@ -11,6 +11,7 @@ let
   searxng_port = 8888;
   grafana_port = 3000;
   headscale_port = 8080;
+  caddy_dir = "/var/www/mahmoodsh.com";
 in rec
 {
   imports = [
@@ -96,12 +97,17 @@ in rec
       };
       "${mydomain}" = {
         extraConfig = ''
-          root * /home/mahmooz/work/blo/
+          root * ${caddy_dir}
           file_server
         '';
       };
     };
   };
+  # make caddy_dir owned by caddy:caddy
+  systemd.tmpfiles.rules = [
+    # Type Path                  Mode  User   Group  Age Argument
+    "z    ${caddy_dir} -     caddy  caddy  -   -"
+  ];
 
   networking.firewall = {
     allowedTCPPorts = [
