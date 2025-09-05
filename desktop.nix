@@ -65,6 +65,11 @@ in
       "usbcore.autosuspend=-1" # or 120 to wait two minutes, etc
     ];
 
+    boot.kernelPackages = pkgs.linuxPackages_6_6;
+    boot.extraModulePackages = [
+      (config.boot.kernelPackages.callPackage ./rtl8188gu.nix {})
+    ];
+
     # better safe than sorry (for having to deal with firmware/driver issues)..?
     hardware.enableAllHardware = true;
     hardware.enableAllFirmware = true;

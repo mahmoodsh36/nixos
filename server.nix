@@ -34,10 +34,6 @@ in
       copyKernels = true;
     };
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.kernelPackages = pkgs.linuxPackages_6_6;
-    boot.extraModulePackages = [
-      (config.boot.kernelPackages.callPackage ./rtl8188gu.nix {})
-    ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     # not needed with flakes and causes a bunch of warnings
