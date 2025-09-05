@@ -75,7 +75,6 @@ in rec
   services.caddy = {
     enable = true;
     home = caddy_dir;
-    createHome = true;
     package = pkgs.caddy.withPlugins {
       plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
       hash = "sha256-81xohmYniQxit6ysAlBNZfSWU32JRvUlzMX5Sq0FDwY=";
