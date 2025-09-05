@@ -84,9 +84,6 @@ in rec
           reverse_proxy 127.0.0.1:${toString headscale_port}
         '';
       };
-      # "http://${mydomain}" = {
-      #   extraConfig = "redir https://${mydomain}{uri} permanent";
-      # };
       "${grafana_host}" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString grafana_port}
@@ -97,7 +94,7 @@ in rec
           reverse_proxy 127.0.0.1:${toString searxng_port}
         '';
       };
-      "${mydomain}:80" = {
+      "${mydomain}" = {
         extraConfig = ''
           root * /home/mahmooz/work/blo/
           file_server
