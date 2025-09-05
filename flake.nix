@@ -29,7 +29,7 @@
       inputs.home-manager.follows = "home-manager";
     };
     llama-cpp-flake = {
-      url = "github:ggml-org/llama.cpp";
+      url = "github:ggml-org/llama.cpp/408ff524b40baf4f51a81d42a9828200dd4fcb6b";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     arion = {

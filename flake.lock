@@ -265,6 +265,7 @@
       "original": {
         "owner": "ggml-org",
         "repo": "llama.cpp",
+        "rev": "408ff524b40baf4f51a81d42a9828200dd4fcb6b",
         "type": "github"
       }
     },
