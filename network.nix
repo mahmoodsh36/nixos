@@ -74,6 +74,8 @@ in rec
 
   services.caddy = {
     enable = true;
+    home = caddy_dir;
+    createHome = true;
     package = pkgs.caddy.withPlugins {
       plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
       hash = "sha256-81xohmYniQxit6ysAlBNZfSWU32JRvUlzMX5Sq0FDwY=";
@@ -105,7 +107,6 @@ in rec
   };
   # make caddy_dir owned by caddy:caddy
   systemd.tmpfiles.rules = [
-    # Type Path                  Mode  User   Group  Age Argument
     "z    ${caddy_dir} -     caddy  caddy  -   -"
   ];
 
