@@ -107,6 +107,11 @@ in rec
   };
   # make caddy_dir owned by caddy:caddy
   systemd.tmpfiles.rules = [
+    # create the directory if it doesn't exist
+    # Type Path                  Mode    User   Group  Age Argument
+    "d    ${caddy_dir} 0755    caddy  caddy  -   -"
+    # recursively apply permissions to the directory and its contents
+    # Type Path                  Mode  User   Group  Age Argument
     "z    ${caddy_dir} -     caddy  caddy  -   -"
   ];
 
