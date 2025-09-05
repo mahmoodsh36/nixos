@@ -97,9 +97,27 @@ in rec
       };
       "${mydomain}" = {
         extraConfig = ''
+          # enable compression for faster loading
+          encode gzip zstd
+
+          # security headers
+          header {
+            # Tells browsers to always use HTTPS for a year
+            Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+            # Prevents clickjacking
+            X-Frame-Options "SAMEORIGIN"
+            # Prevents content type sniffing
+            X-Content-Type-Options "nosniff"
+            # Extra XSS protection
+            X-XSS-Protection "1; mode=block"
+          }
+
           root * ${caddy_dir}
-          file_server
+          file_server browse
         '';
+      };
+      "www.${mydomain}" = {
+        extraConfig = "redir https://${mydomain}{uri} permanent";
       };
     };
   };
