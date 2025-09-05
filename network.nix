@@ -55,7 +55,6 @@ in rec
     port = 12345; # (default: 41641)
   };
 
-
   services.headscale = {
     enable = is_exit_node;
     address = "0.0.0.0";
@@ -96,6 +95,12 @@ in rec
       "${searxng_host}" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString searxng_port}
+        '';
+      };
+      "${mydomain}:80" = {
+        extraConfig = ''
+          root * /home/mahmooz/work/blo/
+          file_server
         '';
       };
     };
