@@ -4,7 +4,7 @@ let
   server_vars = (import ./server_vars.nix { inherit pkgs; inherit inputs; inherit pkgs-pinned; });
   constants = (import ./constants.nix);
   is_exit_node = config.machine.name == "mahmooz3";
-  mydomain = (if is_exit_node then constants.mydomain else "localhost");
+  mydomain = (if is_exit_node then constants.mydomain else "0.0.0.0");
   headscale_host = "headscale.${mydomain}";
   grafana_host = "grafana.${mydomain}";
   searxng_host = "searx.${mydomain}";
