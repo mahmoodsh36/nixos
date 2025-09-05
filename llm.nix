@@ -108,7 +108,7 @@ in
         User = constants.myuser;
       };
       systemd.services.llamacpp_llm_service = {
-        enable = true;
+        enable = config.machine.is_desktop;
         description = "service for llama-cpp";
         environment = {
           "LLAMA_CACHE" = constants.models_dir;
