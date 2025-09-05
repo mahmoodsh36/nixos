@@ -30,11 +30,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1757016317,
-        "narHash": "sha256-gDFhUYx6V0DdqghfbIiR/ayZNJEB7DMPhzrSkwZIylc=",
+        "lastModified": 1757030647,
+        "narHash": "sha256-sqgVpqHJJecL38R8LoubyMDvEh9G2ywOn4wUjCGoNKE=",
         "owner": "mahmoodsh36",
         "repo": "cltpt",
-        "rev": "10c9909c4804816fbadcbb9dd562393a45d9333d",
+        "rev": "4f9dde0473304a3ebc6debfb1b9865b5069a8927",
         "type": "github"
       },
       "original": {
@@ -255,11 +255,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1757002229,
-        "narHash": "sha256-C2qiIkw0xVI7MhVAmHUjbvCm1A2HPg+f1UiCfEVcCBA=",
+        "lastModified": 1757028248,
+        "narHash": "sha256-zeMdG5k3aF4Ps2uxkRpZ/pNVN/amngXd58xQu84b0c8=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "fb15d649ed14ab447eeab911e0c9d21e35fb243e",
+        "rev": "4fd1242bef6cb2325b4ff1c1a80f3b54b64508a6",
         "type": "github"
       },
       "original": {
