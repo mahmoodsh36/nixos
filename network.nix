@@ -313,6 +313,26 @@ in rec
           ];
         };
       };
+      dashboards = {
+        enable = true;
+        settings.providers = [
+          {
+            name = "default-dashboards";
+            type = "file";
+            options = {
+              path = config.services.grafana.provision.dashboards.default.path;
+            };
+          }
+        ];
+        default = {
+          enable = true;
+          dashboards = [
+            pkgs.grafana-dashboards.node-exporter-full
+            pkgs.grafana-dashboards.caddy
+          ];
+        };
+      };
+
     };
     settings = {
       # "auth.proxy" = {
