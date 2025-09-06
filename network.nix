@@ -270,7 +270,7 @@ in rec
           static_configs = [{
             targets = [ "localhost" ];
             labels = {
-              __path__ = "${caddy_log_dir}/access.log";
+              __path__ = "${caddy_log_dir}/access*log";
               job = "caddy";
               host = config.networking.hostName;
             };
