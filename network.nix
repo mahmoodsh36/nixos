@@ -12,6 +12,8 @@ let
   grafana_port = 3000;
   headscale_port = 8080;
   caddy_dir = "/var/www/mahmoodsh.com";
+  grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
+  searxng_secret = builtins.getEnv "SEARX_SECRET";
 in rec
 {
   imports = [
@@ -143,12 +145,12 @@ in rec
     checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
   };
 
-  services.grafana = {
+  services.grafana = lib.mkIf (grafana_password != "") {
     enable = is_exit_node;
     settings = {
       security = {
         admin_user = "mahmooz";
-        admin_password = builtins.getEnv "GRAFANA_PASSWORD";
+        admin_password = grafana_password;
         cookie_secure = true;
         cookie_samesite = "strict";
         content_security_policy = true;
@@ -177,7 +179,8 @@ in rec
     };
   };
 
-  services.searx = {
+
+  services.searx = lib.mkIf (searxng_secret != "") {
     enable = true;
     redisCreateLocally = true;
 
