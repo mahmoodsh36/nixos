@@ -85,16 +85,25 @@ in rec
       "${headscale_host}" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString headscale_port}
+          transport http {
+            tls_insecure_skip_verify
+          }
         '';
       };
       "${grafana_host}" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString grafana_port}
+          transport http {
+            tls_insecure_skip_verify
+          }
         '';
       };
       "${searxng_host}" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString searxng_port}
+          transport http {
+            tls_insecure_skip_verify
+          }
         '';
       };
       "${mydomain}" = {
@@ -163,6 +172,7 @@ in rec
         serve_from_sub_path = false; # set to false for subdomain setups
         enforce_domain = true;
         enable_gzip = true;
+        protocol = "https";
       };
     };
   };
