@@ -247,7 +247,7 @@ in rec
         base_url = "http://${searxng_host}:${toString searxng_port}";
         port = searxng_port;
         bind_address = "0.0.0.0";
-        secret_key = builtins.getEnv "SEARXNG_SECRET";
+        secret_key = searxng_secret;
         limiter = false;
         public_instance = false;
         image_proxy = true;
