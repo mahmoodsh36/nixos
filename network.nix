@@ -12,6 +12,7 @@ let
   grafana_port = 3000;
   headscale_port = 8080;
   caddy_dir = "/var/www/mahmoodsh.com";
+  caddy_log_dir = "/var/log/caddy";
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
 in rec
@@ -74,8 +75,43 @@ in rec
     };
   };
 
+  services.prometheus = {
+    enable = true;
+
+    exporters = {
+      node = {
+        port = 9100;
+        enabledCollectors = [ "systemd" ];
+        enable = true;
+      };
+    };
+
+    scrapeConfigs = [
+      # scrape metrics from the node_exporter
+      {
+        job_name = "nodes";
+        static_configs = [{
+          targets = [
+            # Scrape from the new, correct port we defined above
+            "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
+          ];
+        }];
+      }
+      # scrape metrics from the Caddy web server
+      {
+        job_name = "caddy";
+        static_configs = [{
+          targets = [ "127.0.0.1:2019" ];
+        }];
+      }
+    ];
+  };
+
   services.caddy = {
     enable = true;
+    # this option enables the caddy admin endpoint # on localhost,
+    # which exposes the /metrics endpoint that prometheus needs.
+    globalConfig = "admin 127.0.0.1:2019";
     package = pkgs.caddy.withPlugins {
       plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
       hash = "sha256-81xohmYniQxit6ysAlBNZfSWU32JRvUlzMX5Sq0FDwY=";
@@ -99,6 +135,14 @@ in rec
       };
       "${mydomain}" = {
         extraConfig = ''
+          log {
+            output file ${caddy_log_dir}/access.log {
+              roll_size 10MiB
+              roll_keep 5
+            }
+            format json
+          }
+
           # enable compression for faster loading
           encode gzip zstd
 
@@ -131,7 +175,108 @@ in rec
     # recursively apply permissions to the directory and its contents
     # Type Path                  Mode  User   Group  Age Argument
     "z ${caddy_dir} - caddy caddy - -"
+    # dir for caddy's access logs
+    "d /var/log/caddy 0755 caddy caddy - -"
   ];
+
+  # this service will collect logs sent by promtail.
+  services.loki = {
+    enable = true;
+    configuration = {
+      server = {
+        http_listen_port = 3030;
+        grpc_listen_port = null;
+      };
+      auth_enabled = false;
+
+      ingester = {
+        lifecycler = {
+          address = "127.0.0.1";
+          ring = {
+            kvstore = {
+              store = "inmemory";
+            };
+            replication_factor = 1;
+          };
+          final_sleep = "0s";
+        };
+        chunk_idle_period = "1h";
+        max_chunk_age = "1h";
+        chunk_target_size = 999999;
+        chunk_retain_period = "30s";
+      };
+
+      schema_config = {
+        configs = [{
+          from = "2025-05-05";
+          store = "boltdb-shipper";
+          object_store = "filesystem";
+          schema = "v13";
+          index = {
+            prefix = "index_";
+            period = "24h";
+          };
+        }];
+      };
+
+      storage_config = {
+        boltdb_shipper = {
+          active_index_directory = "/var/lib/loki/boltdb-shipper-active";
+          cache_location = "/var/lib/loki/boltdb-shipper-cache";
+          cache_ttl = "24h";
+        };
+
+        filesystem = {
+          directory = "/var/lib/loki/chunks";
+        };
+      };
+
+      limits_config = {
+        reject_old_samples = true;
+        reject_old_samples_max_age = "168h";
+        allow_structured_metadata = false;
+      };
+
+      table_manager = {
+        retention_deletes_enabled = false;
+        retention_period = "0s";
+      };
+
+      compactor = {
+        working_directory = "/var/lib/loki";
+        compactor_ring = {
+          kvstore = {
+            store = "inmemory";
+          };
+        };
+      };
+    };
+  };
+
+  # this service watches the caddy log file and sends new entries to Loki.
+  services.promtail = {
+    enable = true;
+    configuration = {
+      server.http_listen_port = 9080;
+      clients = [
+        # tells promtail where to send the logs.
+        { url = "http://localhost:${toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push"; }
+      ];
+      scrape_configs = [
+        {
+          job_name = "caddy";
+          static_configs = [{
+            targets = [ "localhost" ];
+            labels = {
+              __path__ = "${caddy_log_dir}/access.log";
+              job = "caddy";
+              host = config.networking.hostName;
+            };
+          }];
+        }
+      ];
+    };
+  };
 
   networking.firewall = {
     allowedTCPPorts = [
@@ -174,6 +319,20 @@ in rec
         domain = mydomain;
         enable_gzip = true;
         # enforce_domain = true;
+      };
+      dataSources = {
+        loki = {
+          type = "loki";
+          url = "http://localhost:3100";
+          access = "proxy";
+          isDefault = true;
+        };
+        prometheus = {
+          type = "prometheus";
+          url = "http://localhost:9090";
+          access = "proxy";
+          isDefault = false;
+        };
       };
     };
   };
