@@ -148,6 +148,19 @@ in rec
   services.grafana = lib.mkIf (grafana_password != "") {
     enable = is_exit_node;
     settings = {
+      # "auth.proxy" = {
+      #   enabled = true;
+      #   auto_sign_up = true;
+      #   enable_login_token = false;
+      # };
+      # should we enable anonymous logins?
+      # services.grafana.settings.auth.disable_login_form = true;
+      # services.grafana.settings."auth.anonymous".enabled = true;
+      # disable any auth except for admin
+      users = {
+        allow_sign_up = false;
+        allow_org_create = false;
+      };
       security = {
         admin_user = "mahmooz";
         admin_password = grafana_password;
