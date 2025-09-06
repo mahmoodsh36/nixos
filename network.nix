@@ -13,7 +13,7 @@ let
   headscale_port = 8080;
   caddy_dir = "/var/www/mahmoodsh.com";
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
-  searxng_secret = builtins.getEnv "SEARX_SECRET";
+  searxng_secret = builtins.getEnv "SEARXNG_SECRET";
 in rec
 {
   imports = [
