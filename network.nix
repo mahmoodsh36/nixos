@@ -135,6 +135,8 @@ in rec
       "${mydomain}" = {
         extraConfig = ''
           log {
+            file_permission 0640
+
             output file ${caddy_log_dir}/access.log {
               roll_size 10MiB
               roll_keep 5
