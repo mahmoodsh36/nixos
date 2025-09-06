@@ -313,26 +313,26 @@ in rec
           ];
         };
       };
-      dashboards = {
-        enable = true;
-        settings.providers = [
-          {
-            name = "default-dashboards";
-            type = "file";
-            options = {
-              path = config.services.grafana.provision.dashboards.default.path;
-            };
-          }
-        ];
-        default = {
-          enable = true;
-          dashboards = [
-            pkgs.grafana-dashboards.node-exporter-full
-            pkgs.grafana-dashboards.caddy
-          ];
-        };
-      };
-
+      dashboards.settings.providers = [
+        {
+          name = "Node Exporter Full";
+          options.path = pkgs.fetchurl {
+            name = "node-exporter-full-37-grafana-dashboard.json";
+            url = "https://grafana.com/api/dashboards/1860/revisions/37/download";
+            hash = "sha256-1DE1aaanRHHeCOMWDGdOS1wBXxOF84UXAjJzT5Ek6mM=";
+          };
+          orgId = 1;
+        }
+        {
+          name = "caddy";
+          options.path = pkgs.fetchurl {
+            name = "caddy.json";
+            url = "https://grafana.com/api/dashboards/20802/revisions/1/download";
+            hash = "sha256-vSt63PakGp5NzKFjbU5Yh0nDbKET5QRWp5nusM76/O4=";
+          };
+          orgId = 1;
+        }
+      ];
     };
     settings = {
       # "auth.proxy" = {
