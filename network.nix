@@ -135,6 +135,9 @@ in rec
       };
       "${mydomain}" = {
         extraConfig = ''
+          # for prometheus/grafana to work properly
+          metrics
+
           log {
             output file ${caddy_log_dir}/access.log {
               roll_size 10MiB
