@@ -292,6 +292,28 @@ in rec
 
   services.grafana = lib.mkIf (grafana_password != "") {
     enable = is_exit_node;
+    provision = {
+      datasources = {
+        settings = {
+          datasources = [
+            {
+              name = "Loki";
+              type = "loki";
+              url = "http://localhost:${toString config.services.loki.configuration.server.http_listen_port}";
+              access = "proxy";
+              isDefault = true;
+            }
+            {
+              name = "Prometheus";
+              type = "prometheus";
+              url = "http://localhost:9090";
+              access = "proxy";
+              isDefault = false;
+            }
+          ];
+        };
+      };
+    };
     settings = {
       # "auth.proxy" = {
       #   enabled = true;
@@ -319,20 +341,6 @@ in rec
         domain = mydomain;
         enable_gzip = true;
         # enforce_domain = true;
-      };
-      dataSources = {
-        loki = {
-          type = "loki";
-          url = "http://localhost:3100";
-          access = "proxy";
-          isDefault = true;
-        };
-        prometheus = {
-          type = "prometheus";
-          url = "http://localhost:9090";
-          access = "proxy";
-          isDefault = false;
-        };
       };
     };
   };
