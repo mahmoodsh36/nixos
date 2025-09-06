@@ -92,7 +92,6 @@ in rec
         job_name = "nodes";
         static_configs = [{
           targets = [
-            # Scrape from the new, correct port we defined above
             "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
           ];
         }];
@@ -177,6 +176,8 @@ in rec
     "z ${caddy_dir} - caddy caddy - -"
     # dir for caddy's access logs
     "d /var/log/caddy 0755 caddy caddy - -"
+    # give 'promtail' permissions to read caddy's log (needed for loki)
+    "a /var/log/caddy 0755 promtail - - -"
   ];
 
   # this service will collect logs sent by promtail.
