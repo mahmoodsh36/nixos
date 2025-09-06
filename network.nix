@@ -135,13 +135,12 @@ in rec
       "${mydomain}" = {
         extraConfig = ''
           log {
-            file_permission 0640
-
             output file ${caddy_log_dir}/access.log {
-              roll_size 10MiB
-              roll_keep 5
+              roll_size 5000MiB
+              roll_keep 5000
+              mode 0664
+              #level INFO
             }
-            format json
           }
 
           # enable compression for faster loading
@@ -178,8 +177,6 @@ in rec
     "z ${caddy_dir} - caddy caddy - -"
     # dir for caddy's access logs
     "d /var/log/caddy 0755 caddy caddy - -"
-    # give 'promtail' permissions to read caddy's log (needed for loki)
-    "a /var/log/caddy 0755 promtail - - -"
   ];
 
   # this service will collect logs sent by promtail.
