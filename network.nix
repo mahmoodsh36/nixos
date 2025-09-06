@@ -159,8 +159,8 @@ in rec
         http_addr = "127.0.0.1";
         http_port = grafana_port;
         domain = mydomain;
-        root_url = grafana_host;
-        serve_from_sub_path = true;
+        root_url = "https://${grafana_host}";
+        serve_from_sub_path = true; # set to false for subdomain setups
         enforce_domain = true;
         enable_gzip = true;
       };
