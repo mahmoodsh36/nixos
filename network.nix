@@ -156,11 +156,13 @@ in rec
         content_security_policy = true;
       };
       server = {
-        http_addr = "0.0.0.0";
+        http_addr = "127.0.0.1";
         http_port = grafana_port;
         domain = mydomain;
         root_url = grafana_host;
         serve_from_sub_path = true;
+        enforce_domain = true;
+        enable_gzip = true;
       };
     };
   };
@@ -246,7 +248,7 @@ in rec
       server = {
         base_url = "http://${searxng_host}:${toString searxng_port}";
         port = searxng_port;
-        bind_address = "0.0.0.0";
+        bind_address = "127.0.0.1";
         secret_key = searxng_secret;
         limiter = false;
         public_instance = false;
