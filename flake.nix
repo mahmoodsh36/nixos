@@ -149,7 +149,7 @@
             machine.is_home_server = true;
             # embed executable for mlpython
             # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
-            #   (uvpkgs.writeShellScriptBin "mlpython" ''
+            #   (uvpkgs.writeShellScriptBin "mlpython2" ''
             #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
             #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
             #     export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
