@@ -315,7 +315,7 @@ in rec
               type = "prometheus";
               url = "http://localhost:${toString services.prometheus.port}";
               access = "proxy";
-              isDefault = true;
+              isDefault = false;
             }
           ];
         };
