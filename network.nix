@@ -184,6 +184,7 @@ in rec
     enable = true;
     configuration = {
       server = {
+        http_listen_address = "127.0.0.1";
         http_listen_port = 3030;
         grpc_listen_port = null;
       };
@@ -202,7 +203,7 @@ in rec
         };
         chunk_idle_period = "1h";
         max_chunk_age = "1h";
-        chunk_target_size = 999999;
+        chunk_target_size = 99999999; # this seems to be in kilobytes?
         chunk_retain_period = "30s";
       };
 

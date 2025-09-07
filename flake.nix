@@ -14,7 +14,7 @@
       # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pkgs-pinned.url = "github:NixOS/nixpkgs/c2ae88e026f9525daf89587f3cbee584b92b6134";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/8eb28adfa3dc4de28e792e3bf49fcf9007ca8ac9";
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";

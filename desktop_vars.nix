@@ -14,9 +14,10 @@ in
   desktop_python = (my-python.withPackages (ps: with ps; [
     # essentials
     requests beautifulsoup4
+    # dash
     ipython
     matplotlib numpy sympy networkx pydot
-    seaborn pillow dash rich pandas graphviz
+    seaborn pillow rich pandas graphviz
     python-lsp-server
     flask
     imageio
