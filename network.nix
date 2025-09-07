@@ -77,6 +77,7 @@ in rec
 
   services.prometheus = {
     enable = true;
+    port = 9090; # default
 
     exporters = {
       node = {
@@ -310,9 +311,9 @@ in rec
             {
               name = "Prometheus";
               type = "prometheus";
-              url = "http://localhost:9090";
+              url = "http://localhost:${services.prometheus.port}";
               access = "proxy";
-              isDefault = false;
+              isDefault = true;
             }
           ];
         };
