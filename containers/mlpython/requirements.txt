@@ -39,7 +39,7 @@ fastapi-cli==0.0.8
 fastapi-cloud-cli==0.1.5
 fastrlock==0.8.3
 filelock==3.18.0
-flash_attn @ https://github.com/Dao-AILab/flash-attention/releases/download/v2.7.4.post1/flash_attn-2.7.4.post1+cu12torch2.6cxx11abiTRUE-cp310-cp310-linux_x86_64.whl#sha256=bfdb0f290cc3d21d0810ba49a360ef91090f62cdc1345ec6900447e0d12d99af
+flash_attn==2.7.3
 flashinfer-python==0.3.1
 fonttools==4.59.0
 frozenlist==1.7.0
