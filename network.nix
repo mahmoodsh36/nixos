@@ -141,6 +141,7 @@ in rec
               mode 0664
               #level INFO
             }
+            format json
           }
 
           # enable compression for faster loading
