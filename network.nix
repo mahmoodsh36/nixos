@@ -255,6 +255,7 @@ in rec
   };
 
   # this service watches the caddy log file and sends new entries to Loki.
+  # even with this promtail stil throws permission denied errors? weird
   users.users.promtail.extraGroups = [ "caddy" ];
   services.promtail = {
     enable = true;
