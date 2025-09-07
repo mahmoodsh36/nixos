@@ -109,9 +109,11 @@ in rec
 
   services.caddy = {
     enable = true;
-    # this option enables the caddy admin endpoint # on localhost,
-    # which exposes the /metrics endpoint that prometheus needs.
-    globalConfig = "admin 127.0.0.1:2019";
+    globalConfig = ''
+      # this option enables the caddy admin endpoint which prometheus needs.
+      admin 127.0.0.1:2019
+      metrics
+    '';
     package = pkgs.caddy.withPlugins {
       plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
       hash = "sha256-81xohmYniQxit6ysAlBNZfSWU32JRvUlzMX5Sq0FDwY=";
@@ -137,10 +139,10 @@ in rec
         extraConfig = ''
           log {
             output file ${caddy_log_dir}/access.log {
-              roll_size 5000MiB
+              roll_size 5000mib
               roll_keep 5000
               mode 0664
-              #level INFO
+              #level info
             }
             format json
           }
@@ -150,13 +152,13 @@ in rec
 
           # security headers
           header {
-            # Tells browsers to always use HTTPS for a year
+            # tells browsers to always use https for a year
             Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-            # Prevents clickjacking
+            # prevents clickjacking
             X-Frame-Options "SAMEORIGIN"
-            # Prevents content type sniffing
+            # prevents content type sniffing
             X-Content-Type-Options "nosniff"
-            # Extra XSS protection
+            # extra xss protection
             X-XSS-Protection "1; mode=block"
           }
 
@@ -311,7 +313,7 @@ in rec
             {
               name = "Prometheus";
               type = "prometheus";
-              url = "http://localhost:${services.prometheus.port}";
+              url = "http://localhost:${toString services.prometheus.port}";
               access = "proxy";
               isDefault = true;
             }
