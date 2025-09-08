@@ -424,11 +424,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756087852,
-        "narHash": "sha256-4jc3JDQt75fYXFrglgqyzF6C6zLU0QGLymzian4aP+U=",
+        "lastModified": 1757296493,
+        "narHash": "sha256-6nzSZl28IwH2Vx8YSmd3t6TREHpDbKlDPK+dq1LKIZQ=",
         "owner": "pyproject-nix",
         "repo": "build-system-pkgs",
-        "rev": "6edb3ae27395cd88be3d64b732d1539957dad59c",
+        "rev": "5b8e37fe0077db5c1df3a5ee90a651345f085d38",
         "type": "github"
       },
       "original": {
@@ -510,11 +510,11 @@
         "python-flexseal": "python-flexseal"
       },
       "locked": {
-        "lastModified": 1752083525,
-        "narHash": "sha256-SGJG1kkaXZSRdTCG2vQ5EF/26U9EaonUzyJLXJ3Gq3Y=",
+        "lastModified": 1757275797,
+        "narHash": "sha256-/vnYGyiRZ9pv23xYlmsBGVfA3253d5DbtMgYZto4Bw0=",
         "owner": "Janrupf",
         "repo": "stable-diffusion-webui-nix",
-        "rev": "937786d7124fa060e39dc57097371c44f581309c",
+        "rev": "cb09e422a20c76278279bef7e1ee16cbb9858c16",
         "type": "github"
       },
       "original": {

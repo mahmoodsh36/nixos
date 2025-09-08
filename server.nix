@@ -339,7 +339,6 @@ in
               "python3" "-m" "vllm.entrypoints.openai.api_server"
               "--download-dir" "${constants.models_dir}" "--trust-remote-code"
               "--port" "5000" "--max-num-seqs" "1"
-              "--enable-auto-tool-choice"
             ];
             interactive = true;
           };
