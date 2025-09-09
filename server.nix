@@ -344,6 +344,26 @@ in
           };
         };
       };
+      mineru = lib.mkIf config.machine.enable_nvidia {
+        imageName = "mineru";
+        context = ./containers/mineru;
+        buildArgs = [
+          "--network=host"
+        ];
+        runArgs = [
+          "--cdi-spec-dir=/run/cdi"
+          "--device=nvidia.com/gpu=all"
+          "-v" "${constants.models_dir}:${constants.models_dir}"
+          "--network=host"
+        ];
+        command = [ "sleep" "infinity" ];
+        aliases = {
+          "mineru" = {
+            command = [ "mineru" ];
+            interactive = true;
+          };
+        };
+      };
     };
 
     system.stateVersion = "24.05"; # dont change
