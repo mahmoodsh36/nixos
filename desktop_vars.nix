@@ -2,7 +2,7 @@
 
 let
   my-python-pkgs = pkgs-pinned;
-  my-python-1 = pkgs-pinned.python3;
+  my-python-1 = my-python-pkgs.python3;
   # python-pkgs = pkgs;
   my-python = my-python-1.override {
     packageOverrides = self: super: {

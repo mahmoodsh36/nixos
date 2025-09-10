@@ -58,17 +58,22 @@ in
   ];
 
   config = lib.mkIf config.machine.is_desktop {
-    boot.kernelParams = [
-      "quiet"
-      "splash"
-      "boot.shell_on_fail"
-      "usbcore.autosuspend=-1" # or 120 to wait two minutes, etc
-    ];
+    boot = {
+      kernelParams = [
+        "quiet"
+        "splash"
+        "boot.shell_on_fail"
+        "usbcore.autosuspend=-1" # or 120 to wait two minutes, etc
+      ];
+    } // lib.mkIf (config.machine.name == "mahmooz2") {
+      # im using this adapter on mahmooz2 only. no need to use this kernel
+      # on mahmooz1 (or other devices)
+      kernelPackages = pkgs.linuxPackages_6_6;
+      extraModulePackages = [
+        (config.boot.kernelPackages.callPackage ./rtl8188gu.nix {})
+      ];
+    };
 
-    boot.kernelPackages = pkgs.linuxPackages_6_6;
-    boot.extraModulePackages = [
-      (config.boot.kernelPackages.callPackage ./rtl8188gu.nix {})
-    ];
 
     # better safe than sorry (for having to deal with firmware/driver issues)..?
     hardware.enableAllHardware = true;
