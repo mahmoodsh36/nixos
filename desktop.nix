@@ -516,7 +516,10 @@ in
       #     sha256 = "sha256-ABgsfkT7ghOGe2KvcnyP98J7mDI18BWtJGb1WheAduE=";
       #   };
       # }))
-      # vllm
+      (packageFromCommit {
+        rev = "fc6467f9dd8e1fe985d3915cf76c18ed9b23b68c";
+        packageName = "vllm";
+      })
       aichat
       opencode
 
