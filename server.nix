@@ -3,7 +3,6 @@
 let
   server_vars = (import ./server_vars.nix { inherit pkgs; inherit pkgs-pinned; inherit inputs; });
   constants = (import ./constants.nix);
-  jellyfin_dir = "${constants.extra_storage_dir}/jellyfin";
 in
 {
   imports = [
@@ -200,7 +199,6 @@ in
       MAHMOOZ2_ADDR = constants.mahmooz2_addr;
       MAHMOOZ1_ADDR = constants.mahmooz1_addr;
       MYDOMAIN = constants.mydomain;
-
     } // (if config.machine.enable_nvidia then {
       # do we really need these? hopefully it makes things work with jellyfin/firefox?
       LIBVA_DRIVER_NAME = "nvidia";

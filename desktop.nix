@@ -401,7 +401,7 @@ in
       imv # nice image viewer
       spotube # open source spotify client?
       inkscape
-      # nyxt
+      nyxt
       youtube-music
       telegram-desktop
 
@@ -424,8 +424,8 @@ in
       wvkbd # onboard alternative (on-screen keyboard)
       wl-screenrec
       libnotify
-      # darktable # image editor
-      # digikam # another image viewer?
+      darktable # image editor
+      digikam # another image viewer?
       swww # wallpaper setter
 
       vdhcoapp # for firefox video download helper
@@ -485,10 +485,13 @@ in
       steam-run-free
 
       # some programming languages/environments
-      # julia
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
       typst
       # (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
+      (packageFromCommit {
+        rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
+        packageName = "sageWithDoc";
+      })
 
       # lsp
       nodePackages.bash-language-server
@@ -503,7 +506,7 @@ in
       gemini-cli
       qwen-code
 
-      # koboldcpp mistral-rs
+      koboldcpp mistral-rs
       config.machine.llama-cpp.pkg
       # (whisper-cpp.overrideAttrs (old: {
       #   src = pkgs.fetchFromGitHub {
@@ -517,9 +520,6 @@ in
       aichat
       opencode
 
-      # private-gpt jan llm
-      # fabric-ai ragflow dify
-
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-everything
       mcp-server-time
@@ -530,10 +530,10 @@ in
       mcp-server-github github-mcp-server
       mcp-server-sqlite
 
-      (packageFromCommit {
-        rev = "f06333d605155b2b8abdba95892a2e6b31ea16b9";
-        packageName = "mistral-rs";
-      })
+      # (packageFromCommit {
+      #   rev = "f06333d605155b2b8abdba95892a2e6b31ea16b9";
+      #   packageName = "mistral-rs";
+      # })
 
       pkgs-pinned.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
