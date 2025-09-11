@@ -7,8 +7,10 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y python3-pip git && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y python3-pip git
+
+# https://github.com/ultralytics/ultralytics/issues/1270
+RUN apt-get install -y libgl1-mesa-glx libgl1-mesa-dev libglib2.0-0
 
 RUN pip install --upgrade pip setuptools wheel packaging
 
