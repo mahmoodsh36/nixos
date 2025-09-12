@@ -351,7 +351,7 @@ in
         runArgs = [
           "--cdi-spec-dir=/run/cdi"
           "--device=nvidia.com/gpu=all"
-          "-v" "${constants.models_dir}:${constants.models_dir}"
+          "-v" "/:/host"
           "--network=host"
         ];
         command = [ "sleep" "infinity" ];
