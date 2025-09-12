@@ -103,5 +103,6 @@ in rec {
     compose2nix
     nvfetcher
     arion
+    inputs.disko.packages.${pkgs.system}.default
   ];
 }

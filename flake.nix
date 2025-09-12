@@ -49,6 +49,10 @@
       url = "github:mahmoodsh36/cltpt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for python
     pyproject-nix = {
@@ -138,6 +142,12 @@
           };
         })
         ./network-local.nix
+        # disko
+        # inputs.disko.nixosModules.disko
+        # ./disko-config.nix
+        # {
+        #   _module.args.disks = [ "/dev/vda" ];
+        # }
       ];
       mahmooz2 = mkSystem [
         ./hardware-configuration.nix
