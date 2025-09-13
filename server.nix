@@ -356,6 +356,10 @@ in
         ];
         command = [ "sleep" "infinity" ];
         aliases = {
+          "minerupython" = {
+            command = [ "python3" ];
+            interactive = true;
+          };
           "mineru" = {
             command = [ "mineru" ];
             interactive = true;
