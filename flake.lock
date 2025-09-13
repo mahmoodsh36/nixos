@@ -242,6 +242,7 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "rev": "a3fcc92180c7462082cd849498369591dfb20855",
         "type": "github"
       }
     },
@@ -285,6 +286,7 @@
       "original": {
         "owner": "ggml-org",
         "repo": "llama.cpp",
+        "rev": "50f4281a6f5c3a5d68bdeb12f904fa01e0e2ba91",
         "type": "github"
       }
     },
