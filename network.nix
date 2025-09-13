@@ -390,6 +390,7 @@ in rec
   services.searx = lib.mkIf (searxng_secret != "") {
     enable = true;
     redisCreateLocally = true;
+    package = pkgs-pinned.searxng;
 
     # rate limiting
     # limiterSettings = {

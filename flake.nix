@@ -2,11 +2,12 @@
   description = "nixos flake";
 
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/b599843bad24621dcaa5ab60dac98f9b0eb1cabe";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:NixOS/nixpkgs/b599843bad24621dcaa5ab60dac98f9b0eb1cabe";
     home-manager = {
       # url = "github:nix-community/home-manager/release-25.05";
-      url = "github:nix-community/home-manager";
+      # url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/a3fcc92180c7462082cd849498369591dfb20855";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
@@ -30,7 +31,8 @@
       inputs.home-manager.follows = "home-manager";
     };
     llama-cpp-flake = {
-      url = "github:ggml-org/llama.cpp";
+      # url = "github:ggml-org/llama.cpp";
+      url = "github:ggml-org/llama.cpp/50f4281a6f5c3a5d68bdeb12f904fa01e0e2ba91";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     arion = {
