@@ -1,7 +1,7 @@
-{ config, pkgs, lib, inputs, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, pkgs-pinned, myutils, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { inherit pkgs; inherit inputs; inherit pkgs-pinned; });
+  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ./constants.nix);
   is_exit_node = config.machine.name == "mahmooz3";
   mydomain = (if is_exit_node then constants.mydomain else "0.0.0.0");
@@ -390,7 +390,10 @@ in rec
   services.searx = lib.mkIf (searxng_secret != "") {
     enable = true;
     redisCreateLocally = true;
-    package = pkgs-pinned.searxng;
+    package = myutils.packageFromCommit {
+      rev = "8eb28adfa3dc4de28e792e3bf49fcf9007ca8ac9";
+      packageName = "searxng";
+    };
 
     # rate limiting
     # limiterSettings = {

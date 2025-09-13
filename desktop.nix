@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, pkgs-pinned, myutils, ... }:
 
 let
   server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config inputs; });
@@ -15,21 +15,6 @@ let
     pygobject3
     pydbus
   ]));
-  packageFromCommit = { rev, packageName }:
-    let
-      src-url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
-      nixpkgs-src = builtins.fetchTarball {
-        url = src-url;
-      };
-      pkgs-at-commit = import nixpkgs-src {
-        system = builtins.currentSystem;
-        config = {
-          cudaSupport = config.machine.enable_nvidia;
-          allowUnfree = true;
-        };
-      };
-    in
-      pkgs-at-commit."${packageName}";
   gtkpython = pkgs-pinned.stdenv.mkDerivation rec {
     pname = "gtkpython";
     version = "1.0";
@@ -489,7 +474,7 @@ in
       typst
       # (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
       (lib.mkIf (!config.machine.enable_nvidia)
-        (packageFromCommit {
+        (myutils.packageFromCommit {
           rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
           packageName = "sageWithDoc";
         }))
@@ -517,7 +502,7 @@ in
       #     sha256 = "sha256-ABgsfkT7ghOGe2KvcnyP98J7mDI18BWtJGb1WheAduE=";
       #   };
       # }))
-      (packageFromCommit {
+      (myutils.packageFromCommit {
         rev = "fc6467f9dd8e1fe985d3915cf76c18ed9b23b68c";
         packageName = "vllm";
       })

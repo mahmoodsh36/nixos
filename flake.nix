@@ -16,7 +16,7 @@
       # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pkgs-pinned.url = "github:NixOS/nixpkgs/8eb28adfa3dc4de28e792e3bf49fcf9007ca8ac9";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -111,6 +111,7 @@
         specialArgs = {
           inherit inputs;
           inherit system;
+          myutils = import ./utils.nix { };
         };
         modules = [
           ./machine.nix

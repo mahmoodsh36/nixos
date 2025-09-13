@@ -1,4 +1,4 @@
-{ pkgs, pkgs-pinned, inputs, ... }:
+{ pkgs, pkgs-pinned, inputs, config, ... }:
 let
   # cltpt = pkgs-pinned.sbcl.buildASDFSystem rec {
   #   pname = "cltpt";

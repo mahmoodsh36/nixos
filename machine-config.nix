@@ -14,7 +14,9 @@ in
   ];
 
   config = {
-    _module.args = { inherit pkgs-pinned; };
+    _module.args = {
+      inherit pkgs-pinned;
+    };
 
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.cudaSupport = config.machine.enable_nvidia;

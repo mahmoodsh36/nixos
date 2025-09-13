@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, pkgs-pinned, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { inherit pkgs; inherit pkgs-pinned; inherit inputs; });
+  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ./constants.nix);
 in
 {
@@ -12,7 +12,9 @@ in
     ./podman-autobuilder.nix
   ];
   config = {
-    _module.args = { inherit inputs; };
+    _module.args = {
+      inherit inputs;
+    };
 
     boot.tmp.cleanOnBoot = true;
     system.etc.overlay.enable = false;
