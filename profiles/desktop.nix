@@ -416,7 +416,7 @@ in
       vdhcoapp # for firefox video download helper
 
       # other
-      adb-sync
+      # adb-sync
       woeusb-ng
       ntfs3g
       gnupg
@@ -460,6 +460,7 @@ in
       jellyfin-tui jellycli jellytui
       kando
       (pkgs.callPackage ../packages/vend.nix {})
+      (pkgs.callPackage ../packages/better-adb-sync.nix {})
 
       # nix specific
       nixos-generators
