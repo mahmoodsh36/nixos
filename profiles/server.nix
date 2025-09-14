@@ -1,15 +1,15 @@
 { config, pkgs, lib, inputs, pkgs-pinned, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config inputs; });
-  constants = (import ./constants.nix);
+  server_vars = (import ../lib/server-vars.nix { inherit pkgs pkgs-pinned config inputs; });
+  constants = (import ../lib/constants.nix);
 in
 {
   imports = [
     ./nvidia.nix
     ./network.nix
-    ./llm.nix
-    ./podman-autobuilder.nix
+    ../services/llm.nix
+    ../services/podman-autobuilder.nix
   ];
   config = {
     _module.args = {

@@ -1,9 +1,9 @@
 { config, pkgs, lib, inputs, pkgs-pinned, myutils, ... }:
 
 let
-  server_vars = (import ./server_vars.nix { inherit pkgs pkgs-pinned config inputs; });
-  constants = (import ./constants.nix);
-  desktop_vars = (import ./desktop_vars.nix { inherit pkgs pkgs-pinned config inputs; });
+  server_vars = (import ../lib/server-vars.nix { inherit pkgs pkgs-pinned config inputs; });
+  constants = (import ../lib/constants.nix);
+  desktop_vars = (import ../lib/desktop-vars.nix { inherit pkgs pkgs-pinned config inputs; });
   main_python = desktop_vars.desktop_python;
   # main_julia = desktop_vars.desktop_julia;
   main_julia = pkgs.julia;
@@ -55,7 +55,7 @@ in
       # on mahmooz1 (or other devices)
       kernelPackages = pkgs.linuxPackages_6_6;
       extraModulePackages = [
-        (config.boot.kernelPackages.callPackage ./rtl8188gu.nix {})
+        (config.boot.kernelPackages.callPackage ../packages/rtl8188gu.nix {})
       ];
     };
 
@@ -459,7 +459,7 @@ in
       tor-browser
       jellyfin-tui jellycli jellytui
       kando
-      (pkgs.callPackage ./vend.nix {})
+      (pkgs.callPackage ../packages/vend.nix {})
 
       # nix specific
       nixos-generators

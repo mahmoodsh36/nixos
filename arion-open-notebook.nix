@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  constants = (import ./constants.nix);
+  constants = (import ./lib/constants.nix);
 in
 {
   project.name = "open-notebook";

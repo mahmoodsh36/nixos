@@ -9,8 +9,8 @@ let
 in
 {
   imports = [
-    ./desktop.nix
-    ./server.nix
+    ./profiles/desktop.nix
+    ./profiles/server.nix
   ];
 
   config = {

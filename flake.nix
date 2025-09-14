@@ -114,7 +114,7 @@
           myutils = import ./utils.nix { };
         };
         modules = [
-          ./machine.nix
+          ./modules/machine-options.nix
           ./machine-config.nix
           home-manager.nixosModules.home-manager
           inputs.arion.nixosModules.arion
@@ -122,7 +122,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.mahmooz = import ./home.nix;
+            home-manager.users.mahmooz = import ./profiles/home.nix;
             home-manager.backupFileExtension = "hmbkup";
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.sharedModules = [
@@ -144,7 +144,7 @@
             machine.static_ip = "192.168.1.1";
           };
         })
-        ./network-local.nix
+        ./profiles/network-local.nix
         # disko
         # inputs.disko.nixosModules.disko
         # ./disko-config.nix
@@ -172,7 +172,7 @@
             # ];
           };
         })
-        ./network-local.nix
+        ./profiles/network-local.nix
       ];
       # for hetzner etc
       mahmooz3 = mkSystem [
@@ -203,7 +203,7 @@
             boot.loader.grub.useOSProber = nixpkgs.lib.mkForce true;
           };
         }
-        ./network-local.nix
+        ./profiles/network-local.nix
       ];
       server_iso = mkSystem [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"

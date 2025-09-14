@@ -1,8 +1,8 @@
 { config, pkgs, lib, inputs, ... }:
 
 let
-  desktop_vars = (import ./desktop_vars.nix { pkgs = pkgs; inputs = inputs; });
-  constants = (import ./constants.nix);
+  desktop_vars = (import ../lib/desktop-vars.nix { pkgs = pkgs; inputs = inputs; });
+  constants = (import ../lib/constants.nix);
 
   dots = if builtins.pathExists "${config.home.homeDirectory}/work/otherdots"
          then "${config.home.homeDirectory}/work/otherdots"
@@ -50,7 +50,7 @@ let
 in
 {
   imports = [
-    ./machine.nix
+    ../modules/machine-options.nix
     ./vscode.nix
     ./zed.nix
     ./distrobox-config.nix

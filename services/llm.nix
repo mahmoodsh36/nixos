@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, pkgs-pinned, ... }:
 
 let
-  constants = (import ./constants.nix);
+  constants = (import ../lib/constants.nix);
 in
 {
   config = lib.mkMerge [
