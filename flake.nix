@@ -16,7 +16,7 @@
       # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pkgs-pinned.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/c23193b943c6c689d70ee98ce3128239ed9e32d1";
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,6 +53,10 @@
     };
     disko = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    emacs = {
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

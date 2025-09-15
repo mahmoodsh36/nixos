@@ -8,7 +8,9 @@ let
   # main_julia = desktop_vars.desktop_julia;
   main_julia = pkgs.julia;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
-  emacs_pkg = (pkgs-pinned.emacs.override { withImageMagick = false; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
+  # emacs_base_pkg = pkgs-pinned.emacs;
+  emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
+  emacs_pkg = (emacs_base_pkg.override { withImageMagick = false; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
     imagemagick = pkgs.imagemagickBig;
   });
   gtk_python_env = (pkgs-pinned.python3.withPackages (ps: with ps; [
