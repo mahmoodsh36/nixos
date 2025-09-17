@@ -28,11 +28,11 @@
 
         # graphics
         "Plots" "GraphRecipes" "TikzPictures" "TikzGraphs" "NetworkLayout" "LayeredLayouts"
-        "Makie" "GraphMakie" "CairoMakie" #"GLMakie"
+        "Makie" "GraphMakie" "CairoMakie" # "GLMakie"
         "GraphPlot" "Compose"
-        # "SGtSNEpi" "Karnak"
+        "SGtSNEpi" "Karnak"
 
-        "LogicCircuits" # causes compilation error :(
+        "LogicCircuits"
       ]))
     ];
 
