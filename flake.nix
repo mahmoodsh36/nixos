@@ -2,7 +2,8 @@
   description = "nixos flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
     # nixpkgs.url = "github:NixOS/nixpkgs/b599843bad24621dcaa5ab60dac98f9b0eb1cabe";
     home-manager = {
       # url = "github:nix-community/home-manager/release-25.05";
