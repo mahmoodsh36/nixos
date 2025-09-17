@@ -57,16 +57,17 @@
           end
         end
       '';
+
     # https://timholy.github.io/Revise.jl/stable/config/#Using-Revise-automatically-within-Jupyter/IJulia
-    home.file."julia/config/startup_ijulia.jl".text =
-      # julia
-      ''
-        try
-            @eval using Revise
-        catch e
-            @warn "Error initializing Revise" exception=(e, catch_backtrace())
-        end
-      '';
+    # home.file."julia/config/startup_ijulia.jl".text =
+    #   # julia
+    #   ''
+    #     try
+    #         @eval using Revise
+    #     catch e
+    #         @warn "Error initializing Revise" exception=(e, catch_backtrace())
+    #     end
+    #   '';
 
     # https://timholy.github.io/Revise.jl/stable/config/#Manual-revision:-JULIA_REVISE
     home.sessionVariables.JULIA_REVISE = "auto"; # "auto" | "manual"
