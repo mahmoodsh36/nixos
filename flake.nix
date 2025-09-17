@@ -4,7 +4,6 @@
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
-    # nixpkgs.url = "github:NixOS/nixpkgs/b599843bad24621dcaa5ab60dac98f9b0eb1cabe";
     home-manager = {
       # url = "github:nix-community/home-manager/release-25.05";
       # url = "github:nix-community/home-manager";
@@ -17,7 +16,6 @@
       # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # pkgs-pinned.url = "github:NixOS/nixpkgs/c23193b943c6c689d70ee98ce3128239ed9e32d1";
     pkgs-pinned.url = "github:NixOS/nixpkgs/8eb28adfa3dc4de28e792e3bf49fcf9007ca8ac9";
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
