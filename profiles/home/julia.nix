@@ -32,7 +32,7 @@
         "GraphPlot" "Compose"
         # "SGtSNEpi" "Karnak"
 
-        # "LogicCircuits" # causes compilation error :(
+        "LogicCircuits" # causes compilation error :(
       ]))
     ];
 
@@ -46,7 +46,6 @@
           "OhMyREPL"
         ];
       in
-      # julia
       ''
         ${pkgs-pinned.lib.concatStringsSep "\n" (map (pkg: "using ${pkg}") startup-packages)}
 
