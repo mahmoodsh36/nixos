@@ -79,7 +79,7 @@
   };
 
   outputs = {
-    self, nixpkgs, home-manager, plasma-manager, ...
+    self, nixpkgs, ...
   } @inputs: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -118,21 +118,10 @@
           myutils = import ./utils.nix { };
         };
         modules = [
-          ./modules/machine-options.nix
-          ./machine-config.nix
-          home-manager.nixosModules.home-manager
+          ./config.nix
+          inputs.home-manager.nixosModules.home-manager
           inputs.arion.nixosModules.arion
           inputs.declarative-jellyfin.nixosModules.default
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.mahmooz = import ./profiles/home.nix;
-            home-manager.backupFileExtension = "hmbkup";
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.sharedModules = [
-              plasma-manager.homeManagerModules.plasma-manager
-            ];
-          }
         ]
         ++ extraModules;
       };

@@ -3,10 +3,7 @@
 let
   server_vars = (import ../lib/server-vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ../lib/constants.nix);
-  desktop_vars = (import ../lib/desktop-vars.nix { inherit pkgs pkgs-pinned config inputs; });
-  main_python = desktop_vars.desktop_python;
-  # main_julia = desktop_vars.desktop_julia;
-  main_julia = pkgs.julia;
+  # main_julia = pkgs.julia;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
   # emacs_base_pkg = pkgs-pinned.emacs;
   emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
@@ -341,18 +338,6 @@ in
 
     # packages
     environment.systemPackages = with pkgs; [
-      (pkgs.writeShellScriptBin "python" ''
-        # may not need LD_* here
-        # export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-        exec ${main_python}/bin/python "$@"
-      '')
-      (pkgs.writeShellScriptBin "python3" ''
-        exec ${main_python}/bin/python "$@"
-      '')
-      (pkgs.writeShellScriptBin "ipython" ''
-        exec ${main_python}/bin/ipython --no-confirm-exit "$@"
-      '')
-
       gtkpython
 
       # overwrite notify-send to not let anything handle notifications
@@ -360,16 +345,16 @@ in
         echo $@ > /tmp/notif
       '')
 
-      (pkgs.writeShellScriptBin "julia" ''
-        export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-          pkgs.stdenv.cc.cc.lib
-          pkgs.libGL
-          pkgs.glib
-          pkgs.zlib
-        ]}:$LD_LIBRARY_PATH
-        export DISPLAY=:0 # cheating so it can compile
-        exec ${main_julia}/bin/julia "$@"
-      '')
+      # (pkgs.writeShellScriptBin "julia" ''
+      #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+      #     pkgs.stdenv.cc.cc.lib
+      #     pkgs.libGL
+      #     pkgs.glib
+      #     pkgs.zlib
+      #   ]}:$LD_LIBRARY_PATH
+      #   export DISPLAY=:0 # cheating so it can compile
+      #   exec ${main_julia}/bin/julia "$@"
+      # '')
 
       # inputs.lem.packages.${pkgs.system}.lem-sdl2
       neovide

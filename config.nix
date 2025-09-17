@@ -9,8 +9,11 @@ let
 in
 {
   imports = [
+    ./modules/machine-options.nix
+    ./profiles/machine-config.nix
     ./profiles/desktop.nix
     ./profiles/server.nix
+    ./profiles/home/home.nix
   ];
 
   config = {
@@ -23,10 +26,5 @@ in
     nixpkgs.config.permittedInsecurePackages = [
       "ventoy-1.1.07"
     ];
-
-    machine.llama-cpp.pkg =
-      (if config.machine.enable_nvidia
-       then inputs.llama-cpp-flake.packages.${pkgs.system}.cuda
-       else inputs.llama-cpp-flake.packages.${pkgs.system}.default);
   };
 }
