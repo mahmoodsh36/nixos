@@ -633,5 +633,66 @@ in
         SCARF_NO_ANALYTICS = "True";
       };
     };
+
+    services.podman-autobuilder.containers = {
+      mlpython = lib.mkIf config.machine.enable_nvidia {
+        imageName = "mlpython";
+        context = ./containers/mlpython;
+        buildArgs = [
+          # "--memory=30g"
+          # "--cpuset-cpus=0-9"
+          "--network=host"
+          "--build-arg" "MAX_JOBS=8"
+        ];
+        runArgs = [
+          "--cdi-spec-dir=/run/cdi"
+          "--device=nvidia.com/gpu=all"
+          "--shm-size=64g"
+          "-v" "${constants.models_dir}:${constants.models_dir}"
+          "-v" "/:/host" # full filesystem access
+          "--network=host"
+          # "--security-opt" "seccomp=unconfined"
+        ];
+        command = [ "sleep" "infinity" ];
+        aliases = {
+          "mlpython" = {
+            command = [ "python3" ];
+            interactive = true;
+          };
+          "myvllm" = {
+            command = [
+              "python3" "-m" "vllm.entrypoints.openai.api_server"
+              "--download-dir" "${constants.models_dir}" "--trust-remote-code"
+              "--port" "5000" "--max-num-seqs" "1"
+            ];
+            interactive = true;
+          };
+        };
+      };
+      mineru = {
+        imageName = "mineru";
+        context = ./containers/mineru;
+        buildArgs = [
+          "--network=host"
+        ];
+        runArgs = [
+          "--cdi-spec-dir=/run/cdi"
+          "--device=nvidia.com/gpu=all"
+          "-v" "/:/host"
+          "--network=host"
+        ];
+        command = [ "sleep" "infinity" ];
+        aliases = {
+          "minerupython" = {
+            command = [ "python3" ];
+            interactive = true;
+          };
+          "mineru" = {
+            command = [ "mineru" ];
+            interactive = true;
+          };
+        };
+      };
+    };
   };
 }
