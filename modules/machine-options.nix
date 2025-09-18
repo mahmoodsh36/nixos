@@ -27,6 +27,13 @@
         default = pkgs.llama-cpp;
       };
     };
+
+    machine.podman = {
+      pkg = lib.mkOption {
+        type = lib.types.package;
+        default = pkgs.podman;
+      };
+    };
   };
 
   config = {

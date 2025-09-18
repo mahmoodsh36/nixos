@@ -676,10 +676,11 @@ in
           "--network=host"
         ];
         runArgs = [
-          "--cdi-spec-dir=/run/cdi"
-          "--device=nvidia.com/gpu=all"
           "-v" "/:/host"
           "--network=host"
+        ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+          "--cdi-spec-dir=/run/cdi"
+          "--device=nvidia.com/gpu=all"
         ];
         command = [ "sleep" "infinity" ];
         aliases = {

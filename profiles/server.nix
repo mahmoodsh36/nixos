@@ -273,6 +273,7 @@ in
       };
     };
     virtualisation.podman = {
+      package = config.machine.podman.pkg;
       enableNvidia = config.machine.enable_nvidia;
       dockerCompat = true;
       dockerSocket.enable = true;

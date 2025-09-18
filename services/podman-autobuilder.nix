@@ -6,6 +6,8 @@
 with lib;
 
 let
+  podman-pkg = config.machine.podman.pkg;
+
   # a shortcut to this module's configuration options.
   cfg = config.services.podman-autobuilder;
 
@@ -20,7 +22,7 @@ let
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = let
-          podman = "${pkgs.podman}/bin/podman";
+          podman = "${podman-pkg}/bin/podman";
           buildArgs = escapeShellArgs containerCfg.buildArgs;
         in ''
           ${podman} build \
@@ -44,14 +46,14 @@ let
         RestartSec = "5s";
 
         ExecStart = let
-          podman = "${pkgs.podman}/bin/podman";
+          podman = "${podman-pkg}/bin/podman";
           runArgs = escapeShellArgs containerCfg.runArgs; # options like --network, -p
           command = escapeShellArgs containerCfg.command; # the command inside the container
         in ''
           ${podman} run --replace --name=${escapeShellArg name} ${runArgs} ${escapeShellArg containerCfg.imageName} ${command}
         '';
         ExecStop = let
-          podman = "${pkgs.podman}/bin/podman";
+          podman = "${podman-pkg}/bin/podman";
         in ''
           ${podman} stop ${escapeShellArg name}
         '';
@@ -68,7 +70,7 @@ let
       serviceConfig = {
         Type = "oneshot";
         ExecStart = let
-          podman = "${pkgs.podman}/bin/podman";
+          podman = "${podman-pkg}/bin/podman";
           command = escapeShellArgs execCfg.command;
         in ''
           ${podman} exec ${escapeShellArg containerName} ${command}
@@ -163,7 +165,7 @@ in
                   INTERACTIVE_FLAG="-it"
                 fi
               ''}
-              exec sudo ${pkgs.podman}/bin/podman exec $INTERACTIVE_FLAG ${escapeShellArg containerName} ${lib.escapeShellArgs aliasCfg.command} "$@"
+              exec sudo ${podman-pkg}/bin/podman exec $INTERACTIVE_FLAG ${escapeShellArg containerName} ${lib.escapeShellArgs aliasCfg.command} "$@"
             ''
           ) containerCfg.aliases
         ) cfg.containers
@@ -175,7 +177,7 @@ in
       systemd.services = allContainerServices // allExecServices;
 
       # add podman and all generated alias scripts to the system's PATH.
-      environment.systemPackages = allAliasPackages ++ [ pkgs.podman ];
+      environment.systemPackages = allAliasPackages ++ [ podman-pkg ];
     }
   );
 }
