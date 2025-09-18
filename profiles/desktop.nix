@@ -637,7 +637,7 @@ in
     services.podman-autobuilder.containers = {
       mlpython = lib.mkIf config.machine.enable_nvidia {
         imageName = "mlpython";
-        context = ./containers/mlpython;
+        context = ../containers/mlpython;
         buildArgs = [
           # "--memory=30g"
           # "--cpuset-cpus=0-9"
@@ -671,7 +671,7 @@ in
       };
       mineru = {
         imageName = "mineru";
-        context = ./containers/mineru;
+        context = ../containers/mineru;
         buildArgs = [
           "--network=host"
         ];
