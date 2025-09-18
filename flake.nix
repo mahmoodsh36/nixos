@@ -59,6 +59,10 @@
       url = "github:nix-community/emacs-overlay/7caed42858e94832749eb0087bd6b1c7eab1752b";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    robotnix = {
+      url = "github:nix-community/robotnix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for python
     pyproject-nix = {
@@ -237,6 +241,11 @@
           UV_NO_SYNC = "1";
         };
       };
+    };
+    robotnixConfigurations = {
+      # nix build .#robotnixConfigurations.mylineageos.ota.
+      "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
+      "mygrapheneos" = inputs.robotnix.lib.robotnixSystem ./android/grapheneos.nix;
     };
   };
 }
