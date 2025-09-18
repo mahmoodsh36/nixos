@@ -51,15 +51,15 @@ in rec {
     devenv
     podman-compose
     sbcl.pkgs.qlot-cli
-    ytdl-sub yt-dlp
-    # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
-    #   src = pkgs.fetchFromGitHub {
-    #     owner = "yt-dlp";
-    #     repo = "yt-dlp";
-    #     rev = "a03c37b44ec8f50fd472c409115096f92410346d";
-    #     sha256 = "sha256-7scolIsUsMfPtKg/OYcm7hWAZmnlFe901sfw6tGO2Wk=";
-    #   };
-    # }))
+    ytdl-sub # yt-dlp
+    (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
+      src = pkgs.fetchFromGitHub {
+        owner = "yt-dlp";
+        repo = "yt-dlp";
+        rev = "e123a48f1155703d8709a4221a42bd45c0a2b3ce";
+        sha256 = "sha256-RhMEbb1ygRY5aSQeswh4WF3p7ci4NT6H+HLLNh4XTRY=";
+      };
+    }))
     nethogs
     inputs.cltpt.packages.${pkgs.system}.default
 
