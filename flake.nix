@@ -119,7 +119,7 @@
         specialArgs = {
           inherit inputs;
           inherit system;
-          myutils = import ./utils.nix { };
+          myutils = import ./lib/utils.nix { };
         };
         modules = [
           ./config.nix

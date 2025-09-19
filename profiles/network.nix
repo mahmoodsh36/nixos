@@ -1,7 +1,6 @@
 { config, pkgs, lib, inputs, pkgs-pinned, myutils, ... }:
 
 let
-  server_vars = (import ../lib/server-vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ../lib/constants.nix);
   is_exit_node = config.machine.name == "mahmooz3";
   mydomain = (if is_exit_node then constants.mydomain else "0.0.0.0");

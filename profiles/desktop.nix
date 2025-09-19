@@ -1,7 +1,6 @@
 { config, pkgs, lib, inputs, pkgs-pinned, myutils, ... }:
 
 let
-  server_vars = (import ../lib/server-vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ../lib/constants.nix);
   # main_julia = pkgs.julia;
   keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
@@ -108,7 +107,7 @@ in
     nixpkgs.overlays = [
       inputs.mcp-servers-nix.overlays.default
       inputs.stable-diffusion-webui-nix.overlays.default
-    ] ++ server_vars.server_overlays;
+    ];
 
     # graphical stuff (wayland,x11,etc)
     services.xserver = {
@@ -517,7 +516,7 @@ in
       cudatoolkit nvtopPackages.full
       pkgs.stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
       pkgs.stable-diffusion-webui.comfy.cuda # for ComfyUI
-    ] ++ server_vars.server_packages;
+    ];
 
     # vector database for RAG
     services.qdrant = {

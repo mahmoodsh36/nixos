@@ -1,7 +1,6 @@
 { config, pkgs, lib, pkgs-pinned, inputs, ... }:
 
 let
-  server_vars = (import ../lib/server-vars.nix { inherit pkgs; inherit inputs; inherit pkgs-pinned; inherit config; });
   constants = (import ../lib/constants.nix);
 in
 {

@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
-{\n  imports =\n    [\n      ./profiles/server.nix\n    ];
+{
+  imports = [
+    ./profiles/server.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

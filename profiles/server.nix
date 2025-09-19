@@ -1,8 +1,8 @@
 { config, pkgs, lib, inputs, pkgs-pinned, ... }:
 
 let
-  server_vars = (import ../lib/server-vars.nix { inherit pkgs pkgs-pinned config inputs; });
   constants = (import ../lib/constants.nix);
+  mysbcl = (import ./sbcl.nix { inherit pkgs-pinned pkgs inputs; });
 in
 {
   imports = [
@@ -201,6 +201,7 @@ in
       MAHMOOZ2_ADDR = constants.mahmooz2_addr;
       MAHMOOZ1_ADDR = constants.mahmooz1_addr;
       MYDOMAIN = constants.mydomain;
+      LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
     } // (if config.machine.enable_nvidia then {
       # do we really need these? hopefully it makes things work with jellyfin/firefox?
       LIBVA_DRIVER_NAME = "nvidia";
@@ -224,8 +225,61 @@ in
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
     ];
 
-    environment.systemPackages = server_vars.server_packages;
-    nixpkgs.overlays = server_vars.server_overlays;
+    environment.systemPackages = with pkgs; [
+      sqlite
+      jq
+      ripgrep
+      parallel
+      fd # alternative to find
+      dash
+      lshw lsof tree
+      neovim tree-sitter
+      glances btop ncdu
+      gcc clang gdb clang-tools
+      file zip unzip fzf p7zip unrar-wrapper
+      gnupg
+      openssl
+      man-pages man-pages-posix
+      wezterm # we need it installed on the server too, for persistent sessions
+      fdupes
+      libva-utils
+      jellyfin-web jellyfin-ffmpeg jellyfin
+      miller
+      bc # used for some arithmetic in shell scripts
+      postgresql
+      devenv
+      podman-compose
+      sbcl.pkgs.qlot-cli
+      ytdl-sub # yt-dlp
+      (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
+        src = pkgs.fetchFromGitHub {
+          owner = "yt-dlp";
+          repo = "yt-dlp";
+          rev = "e123a48f1155703d8709a4221a42bd45c0a2b3ce";
+          sha256 = "sha256-RhMEbb1ygRY5aSQeswh4WF3p7ci4NT6H+HLLNh4XTRY=";
+        };
+      }))
+      nethogs
+      inputs.cltpt.packages.${pkgs.system}.default
+
+      # networking tools
+      curl wget nmap socat arp-scan tcpdump iftop
+      inetutils rclone sshfs bind
+
+      # some build systems
+      cmake gnumake autoconf
+      pkg-config
+
+      # nix specific stuff
+      mysbcl
+      compose2nix
+      nvfetcher
+      arion
+      inputs.disko.packages.${pkgs.system}.default
+    ];
+    nixpkgs.overlays = [
+      inputs.nix-alien.overlays.default
+    ];
 
     # wheel group doesnt need password for sudo
     security.sudo = {
