@@ -2,8 +2,7 @@
   description = "nixos flake";
 
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       # url = "github:nix-community/home-manager/release-25.05";
       # url = "github:nix-community/home-manager";
@@ -16,7 +15,7 @@
       # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pkgs-pinned.url = "github:NixOS/nixpkgs/0147c2f1d54b30b5dd6d4a8c8542e8d7edf93b5d";
+    pkgs-pinned.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";

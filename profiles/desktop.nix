@@ -130,7 +130,7 @@ in
     };
     programs.hyprland = {
       enable = true;
-      package = pkgs.hyprland;
+      package = pkgs-pinned.hyprland;
       xwayland.enable = true;
     };
     xdg.portal = {
@@ -139,7 +139,7 @@ in
       extraPortals = [
         # pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-hyprland
+        pkgs-pinned.xdg-desktop-portal-hyprland
         (lib.mkIf constants.enable_plasma pkgs.kdePackages.xdg-desktop-portal-kde)
         pkgs.xdg-desktop-portal-wlr
       ];
@@ -494,7 +494,7 @@ in
         packageName = "vllm";
       })
       aichat
-      opencode
+      # opencode
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-everything
