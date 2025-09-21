@@ -116,10 +116,10 @@ in rec
       admin 127.0.0.1:2019
       metrics
     '';
-    package = pkgs.caddy.withPlugins {
-      plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
-      hash = "sha256-FqSn68RIYG0PjY/swB/UAwVrDsD18nYOdrdQuLl1Wyw=";
-    };
+    # package = pkgs.caddy.withPlugins {
+    #   plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
+    #   hash = "sha256-FqSn68RIYG0PjY/swB/UAwVrDsD18nYOdrdQuLl1Wyw=";
+    # };
     # configure some reverse proxy traffic
     virtualHosts = {
       "https://${headscale_host}" = {
