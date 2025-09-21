@@ -12,5 +12,5 @@ cd ~/work/nixos/
 # cp /etc/nixos/hardware-configuration.nix .
 # sudo nixos-rebuild switch --upgrade --flake .#mahmooz --option eval-cache false --refresh --show-trace --impure "$@"
 # sudo nixos-rebuild switch --upgrade --flake .#mahmooz --show-trace --impure --option eval-cache false --refresh
-# EXPORT MAX_JOBS=6; sudo -E nixos-rebuild switch --upgrade --flake .#mahmooz2 --option cores 6 --option max-jobs 6 --option max-memory-size 30G --impure
+# EXPORT MAX_JOBS=6; sudo -E nixos-rebuild switch --upgrade --flake .#mahmooz2 --option cores 6 --option max-jobs 6 --impure
 sudo -E nixos-rebuild switch --upgrade --flake .#"$conf" --show-trace --impure --install-bootloader

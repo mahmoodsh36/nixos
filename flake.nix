@@ -182,9 +182,20 @@
             boot.loader.grub.efiInstallAsRemovable = true;
             boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
             boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
+
             # this might help prevent system freezing on rebuilds
             nix.settings.max-jobs = 1;
             nix.settings.cores = 1;
+            systemd.slices.anti-hungry.sliceConfig = {
+              CPUAccounting = true;
+              CPUQuota = "50%";
+              MemoryAccounting = true; # allow to control with systemd-cgtop
+              MemoryHigh = "50%";
+              MemoryMax = "75%";
+              MemorySwapMax = "50%";
+              MemoryZSwapMax = "50%";
+            };
+            systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
           };
         }
       ];
