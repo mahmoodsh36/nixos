@@ -196,6 +196,10 @@
               MemoryZSwapMax = "50%";
             };
             systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
+            # kill process using most ram after ram availability drops below
+            # a specific threshold.
+            services.earlyoom.enable = true;
+            services.earlyoom.enableNotifications = true;
           };
         }
       ];
