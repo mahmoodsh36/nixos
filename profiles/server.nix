@@ -337,7 +337,8 @@ in
       };
       enable = true;
       autoPrune.enable = true;
-      extraPackages = [
+      # dont add extraPackages on server to avoid building (building podman is resource intensive..)
+      extraPackages = lib.mkIf config.machine.is_desktop [
         pkgs.curl
         pkgs.neovim
         pkgs.git
