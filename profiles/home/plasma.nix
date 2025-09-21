@@ -1,6 +1,6 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, config', ... }:
 {
-  config = lib.mkIf config.machine.is_desktop {
+  config = lib.mkIf config'.machine.is_desktop {
     programs.plasma = {
       enable = true;
 

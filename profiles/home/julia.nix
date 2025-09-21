@@ -1,7 +1,7 @@
-{ lib, config, pkgs-pinned, ... }:
+{ lib, config, config', pkgs-pinned, ... }:
 
 {
-  config = lib.mkIf config.machine.is_desktop {
+  config = lib.mkIf config'.machine.is_desktop {
     home.packages = [
       (pkgs-pinned.julia.withPackages.override ({
         precompile = true;

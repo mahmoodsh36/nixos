@@ -2,7 +2,7 @@
   options = {
     machine.is_desktop = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = false;
     };
     machine.name = lib.mkOption {
       type = lib.types.str;

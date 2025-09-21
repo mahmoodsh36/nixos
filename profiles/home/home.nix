@@ -2,6 +2,8 @@
 
 let
   constants = (import ../lib/constants.nix);
+  # here, config' is the system config, while "config" might be home-manager-specific
+  config' = config;
 in
 {
   imports = [
@@ -64,6 +66,10 @@ in
           };
         }) script_files);
       in {
+        _module.args = {
+          config' = config';
+        };
+
         /* the home.stateVersion option does not have a default and must be set */
         home.stateVersion = "24.05";
 
@@ -105,9 +111,9 @@ in
           withPython3 = true;
         };
 
-        services.blueman-applet.enable = config.machine.is_desktop;
-        services.playerctld.enable = config.machine.is_desktop;
-        services.parcellite.enable = config.machine.is_desktop;
+        services.blueman-applet.enable = config'.machine.is_desktop;
+        services.playerctld.enable = config'.machine.is_desktop;
+        services.parcellite.enable = config'.machine.is_desktop;
 
         home.packages = with pkgs; [
           # to avoid some errors
@@ -141,7 +147,7 @@ in
         };
 
         programs.firefox = {
-          enable = config.machine.is_desktop;
+          enable = config'.machine.is_desktop;
         };
 
         # use 'dconf dump /' or 'gsettings list-recursively | less' to get a list of options
@@ -231,7 +237,7 @@ in
         };
 
         home.pointerCursor = {
-          gtk.enable = config.machine.is_desktop;
+          gtk.enable = config'.machine.is_desktop;
           # x11.enable = true;
           package = pkgs.bibata-cursors;
           name = "Bibata-Modern-Classic";
@@ -239,7 +245,7 @@ in
         };
 
         gtk = {
-          enable = config.machine.is_desktop;
+          enable = config'.machine.is_desktop;
           theme = {
             name = "Adwaita-dark";
             package = pkgs.gnome-themes-extra;
@@ -255,7 +261,7 @@ in
         };
 
         qt = {
-          enable = config.machine.is_desktop;
+          enable = config'.machine.is_desktop;
           platformTheme.name = "kde6";
           style.package = pkgs.adwaita-qt;
         };

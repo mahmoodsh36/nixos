@@ -1,4 +1,4 @@
-{ lib, inputs, pkgs, config, pkgs-pinned, ... }:
+{ lib, inputs, pkgs, config, config', pkgs-pinned, ... }:
 
 let
   pythonStartupScript = pkgs.writers.writePython3 "startup.py" {
@@ -90,11 +90,11 @@ let
     openai
 
     timm einops tiktoken # some models require these
-  ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+  ] ++ pkgs.lib.optionals config'.machine.enable_nvidia [
   ]));
 in
 {
-  config = lib.mkIf config.machine.is_desktop {
+  config = lib.mkIf config'.machine.is_desktop {
     home.packages = [
       (pkgs.writeShellScriptBin "python" ''
         # may not need LD_* here
