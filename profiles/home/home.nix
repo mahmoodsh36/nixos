@@ -81,6 +81,7 @@ in
           ./plasma.nix
           ./python.nix
           ./julia.nix
+          ./sbcl.nix
           # ./distrobox-config.nix
         ];
 

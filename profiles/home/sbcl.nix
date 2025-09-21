@@ -1,4 +1,5 @@
-{ pkgs, pkgs-pinned, inputs, ... }:
+{ lib, inputs, pkgs, config, config', pkgs-pinned, ... }:
+
 let
   mysbcl = (pkgs.sbcl.withPackages (ps: with ps; [
     inputs.cltpt.packages.${pkgs.system}.cltpt-lib
@@ -22,4 +23,10 @@ let
     cl-json
   ]));
 in
-mysbcl
+{
+  config = lib.mkIf config'.machine.is_desktop {
+    home.packages = [
+      mysbcl
+    ];
+  };
+}

@@ -2,7 +2,6 @@
 
 let
   constants = (import ../lib/constants.nix);
-  mysbcl = (import ./sbcl.nix { inherit pkgs-pinned pkgs inputs; });
 in
 {
   imports = [
@@ -271,7 +270,6 @@ in
       pkg-config
 
       # nix specific stuff
-      mysbcl
       compose2nix
       nvfetcher
       arion
