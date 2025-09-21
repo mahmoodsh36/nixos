@@ -182,6 +182,9 @@
             boot.loader.grub.efiInstallAsRemovable = true;
             boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
             boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
+            # this might help prevent system freezing on rebuilds
+            nix.settings.max-jobs = 1;
+            nix.settings.cores = 1;
           };
         }
       ];

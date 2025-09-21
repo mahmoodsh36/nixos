@@ -11,6 +11,8 @@ in
     ../services/podman-autobuilder.nix
   ];
   config = {
+    system.stateVersion = "24.05"; # dont change
+
     _module.args = {
       inherit inputs;
     };
@@ -361,6 +363,7 @@ in
     services.gnome.gnome-keyring.enable = true;
     security.pam.services.sddm.enableGnomeKeyring = true;
 
-    system.stateVersion = "24.05"; # dont change
+    zramSwap.enable = true;
+    zramSwap.memoryPercent = 50; # 50% of available ram
   };
 }
