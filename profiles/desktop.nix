@@ -459,12 +459,12 @@ in
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
       typst
-      # (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
-      (lib.mkIf (!config.machine.enable_nvidia)
-        (myutils.packageFromCommit {
-          rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
-          packageName = "sageWithDoc";
-        }))
+      (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
+      # (lib.mkIf (!config.machine.enable_nvidia)
+      #   (myutils.packageFromCommit {
+      #     rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
+      #     packageName = "sageWithDoc";
+      #   }))
 
       # lsp
       nodePackages.bash-language-server
