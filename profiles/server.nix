@@ -364,6 +364,7 @@ in
     security.pam.services.sddm.enableGnomeKeyring = true;
 
     zramSwap.enable = true;
-    zramSwap.memoryPercent = 50; # 50% of available ram
+    # zramSwap.memoryPercent = 50; # 50% of available ram
+    zramSwap.memoryMax = (10 * 1024 * 1024 * 1024); # 10gb
   };
 }
