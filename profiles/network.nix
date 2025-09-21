@@ -66,7 +66,7 @@ in rec
       server_url = "https://${headscale_host}";
       dns = {
         # the base domain for internal MagicDNS names
-        base_domain = "${mydomain}";
+        base_domain = "https://${mydomain}";
         magic_dns = true;
         # upstream resolvers for the Headscale server itself. use public IPs.
         nameservers.global = [
