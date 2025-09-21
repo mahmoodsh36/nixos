@@ -75,8 +75,7 @@ in
 
     # self-hosted media service
     services.declarative-jellyfin = {
-      # enable = config.machine.is_home_server;
-      enable = true;
+      enable = config.machine.is_home_server;
       system = {
         serverName = "My Declarative Jellyfin Server";
         # use hardware acceleration for trickplay image generation
