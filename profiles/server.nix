@@ -250,17 +250,18 @@ in
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli
-      ytdl-sub # yt-dlp
-      (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
-        src = pkgs.fetchFromGitHub {
-          owner = "yt-dlp";
-          repo = "yt-dlp";
-          rev = "e123a48f1155703d8709a4221a42bd45c0a2b3ce";
-          sha256 = "sha256-RhMEbb1ygRY5aSQeswh4WF3p7ci4NT6H+HLLNh4XTRY=";
-        };
-      }))
+      ytdl-sub yt-dlp
+      # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "yt-dlp";
+      #     repo = "yt-dlp";
+      #     rev = "e123a48f1155703d8709a4221a42bd45c0a2b3ce";
+      #     sha256 = "sha256-RhMEbb1ygRY5aSQeswh4WF3p7ci4NT6H+HLLNh4XTRY=";
+      #   };
+      # }))
       nethogs
       inputs.cltpt.packages.${pkgs.system}.default
+      expect # for unbuffer etc
 
       # networking tools
       curl wget nmap socat arp-scan tcpdump iftop
