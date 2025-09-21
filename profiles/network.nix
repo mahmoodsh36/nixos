@@ -14,6 +14,7 @@ let
   caddy_log_dir = "/var/log/caddy";
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
+  blocky_port = 53;
 in rec
 {
   imports = [
@@ -64,8 +65,10 @@ in rec
     settings = {
       server_url = "https://${headscale_host}";
       dns = {
-        # override_local_dns = true;
-        base_domain = "https://${mydomain}";
+        # the base domain for internal MagicDNS names
+        base_domain = "${mydomain}";
+        magic_dns = true;
+        # upstream resolvers for the Headscale server itself. use public IPs.
         nameservers.global = [
           "1.1.1.1" # cloudflare
           "9.9.9.9" # quad9
@@ -291,7 +294,10 @@ in rec
       443 # nginx - https
     ];
     enable = is_exit_node;
-    allowedUDPPorts = [ services.tailscale.port ];
+    allowedUDPPorts = [
+      services.tailscale.port
+      blocky_port
+    ];
     trustedInterfaces = [ config.services.tailscale.interfaceName ];
     checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
   };
@@ -551,4 +557,33 @@ in rec
       ];
     };
   };
+
+  # dns filtering and ad blocking
+  services.blocky = {
+    enable = is_exit_node;
+    settings = {
+      ports.dns = blocky_port; # port for incoming DNS Queries.
+      upstreams.groups.default = [
+        "https://one.one.one.one/dns-query" # using cloudflare's DNS over HTTPS server for resolving queries.
+      ];
+      # for initially solving DoH/DoT Requests when no system resolver is available.
+      bootstrapDns = {
+        upstream = "https://one.one.one.one/dns-query";
+        ips = [ "1.1.1.1" "1.0.0.1" ];
+      };
+      # enable blocking of certain domains.
+      blocking = {
+        blackLists = {
+          # adblocking
+          ads = [ "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" ];
+        };
+        # configure what block categories are used
+        clientGroupsBlock = {
+          default = [ "ads" ];
+        };
+      };
+    };
+  };
+  boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
+  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
 }
