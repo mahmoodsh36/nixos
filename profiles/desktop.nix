@@ -475,10 +475,11 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       python3Packages.huggingface-hub
-      gemini-cli
-      qwen-code
+      pkgs-master.gemini-cli
+      pkgs-master.qwen-code
 
-      koboldcpp mistral-rs
+      pkgs-master.koboldcpp
+      pkgs-master.mistral-rs
       config.machine.llama-cpp.pkg
       # (whisper-cpp.overrideAttrs (old: {
       #   src = pkgs.fetchFromGitHub {
