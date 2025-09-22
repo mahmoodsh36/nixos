@@ -52,7 +52,7 @@ in rec
   '';
 
   # vpn/etc
-  services.fail2ban.enable = true;
+  services.fail2ban.enable = is_exit_node;
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
@@ -416,7 +416,7 @@ in rec
     # };
 
     # UWSGI configuration
-    runInUwsgi = true;
+    configureUwsgi = true;
     uwsgiConfig = {
       socket = "/run/searx/searx.sock";
       http = ":8888";

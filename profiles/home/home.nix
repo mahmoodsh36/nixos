@@ -15,7 +15,7 @@ in
     home-manager.backupFileExtension = "hmbkup";
     home-manager.extraSpecialArgs = { inherit pkgs pkgs-pinned inputs; };
     home-manager.sharedModules = [
-      inputs.plasma-manager.homeManagerModules.plasma-manager
+      inputs.plasma-manager.homeModules.plasma-manager
     ];
 
     # "lib" in home-manager configs needs to not be overridden. otherwise
@@ -263,7 +263,7 @@ in
 
         qt = {
           enable = config'.machine.is_desktop;
-          platformTheme.name = "kde6";
+          platformTheme.name = "kde";
           style.package = pkgs.adwaita-qt;
         };
       };
