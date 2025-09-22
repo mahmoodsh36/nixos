@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    pkgs-master.url = "github:NixOS/nixpkgs/8eaee110344796db060382e15d3af0a9fc396e0e";
+    # we need to get rid of pkgs-pinned. nixpkgs will be pinned by default.
+    # pkgs-master will be introduced for things that need to be updated.
+    pkgs-pinned.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
     home-manager = {
       # url = "github:nix-community/home-manager/release-25.05";
       # url = "github:nix-community/home-manager";
@@ -15,7 +19,6 @@
       # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pkgs-pinned.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,16 +69,16 @@
     # for python
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
-      inputs.nixpkgs.follows = "pkgs-pinned";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     uv2nix = {
       url = "github:pyproject-nix/uv2nix";
-      inputs.nixpkgs.follows = "pkgs-pinned";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.pyproject-nix.follows = "pyproject-nix";
     };
     pyproject-build-systems = {
       url = "github:pyproject-nix/build-system-pkgs";
-      inputs.nixpkgs.follows = "pkgs-pinned";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.pyproject-nix.follows = "pyproject-nix";
       inputs.uv2nix.follows = "uv2nix";
     };

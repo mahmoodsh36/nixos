@@ -137,6 +137,9 @@ in rec
           reverse_proxy 127.0.0.1:${toString searxng_port}
         '';
       };
+      "${config.machine.name}" = {
+        extraConfig = "redir https://${mydomain}{uri} permanent";
+      };
       "${mydomain}" = {
         extraConfig = ''
           log {
