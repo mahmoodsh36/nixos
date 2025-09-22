@@ -43,15 +43,11 @@ let
   };
 
   main-python = (my-python.withPackages (ps: with ps; [
-    # essentials
-    requests beautifulsoup4
-    # dash
-    ipython
+    requests beautifulsoup4 dash ipython
     matplotlib numpy sympy networkx pydot
     seaborn pillow rich pandas graphviz
-    python-lsp-server
-    flask
-    imageio
+    python-lsp-server flask imageio
+    openai
 
     # for system/scripts etc
     musicbrainzngs ytmusicapi tinytag python-magic
@@ -59,38 +55,17 @@ let
     pdf2image
     music-tag
     spotdl
-
-    flask
-    imageio
-    # pyzmq
-
+  ] ++ pkgs.lib.optionals config'.machine.enable_nvidia [
     # ml/ai stuff
-    torch
-    torchvision torchaudio
-    accelerate
-    datasets
-    transformers
+    torch torchvision torchaudio accelerate
+    datasets transformers
     sentence-transformers # for embeddings
-    # (transformers.overrideAttrs (finalAttrs: prevAttrs: {
-    #   src = pkgs.fetchFromGitHub {
-    #     owner = "huggingface";
-    #     repo = "transformers";
-    #     rev = "38f9c5b15b71243a9f4befee6f20b0fd55a9ba30";
-    #     sha256 = "1fl2ac372nykb4vy0cyg490p4jn098xbhibm1jlpz574ylppscy3";
-    #   };
-    # }))
     diffusers
-    mcp
     bitsandbytes
     huggingface-hub hf-xet # latter is needed(preferred) for former
     qdrant-client
     # vllm
-
-    langchain langgraph langgraph-cli langsmith langchain-community # langflow
-    openai
-
     timm einops tiktoken # some models require these
-  ] ++ pkgs.lib.optionals config'.machine.enable_nvidia [
   ]));
 in
 {
