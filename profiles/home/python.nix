@@ -33,7 +33,7 @@ let
     print("----------------------")
   '';
 
-  my-python-pkgs = pkgs-pinned;
+  my-python-pkgs = pkgs;
   my-python-1 = my-python-pkgs.python3;
   # python-pkgs = pkgs;
   my-python = my-python-1.override {
