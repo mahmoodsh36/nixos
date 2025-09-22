@@ -33,12 +33,12 @@ let
     print("----------------------")
   '';
 
-  my-python-pkgs = pkgs;
-  my-python-1 = my-python-pkgs.python3;
+  my-python-1 = pkgs.python3;
   # python-pkgs = pkgs;
   my-python = my-python-1.override {
     packageOverrides = self: super: {
-      spotdl = super.toPythonModule super.pkgs.spotdl;
+      # spotdl = super.toPythonModule super.pkgs.spotdl;
+      spotdl = super.toPythonModule pkgs-master.spotdl;
     };
   };
 
