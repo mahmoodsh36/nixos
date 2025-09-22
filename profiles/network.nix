@@ -3,6 +3,7 @@
 let
   constants = (import ../lib/constants.nix);
   is_exit_node = config.machine.name == "mahmooz3";
+  # mydomain = (if is_exit_node then constants.mydomain else config.machine.name);
   mydomain = (if is_exit_node then constants.mydomain else "localhost");
   headscale_host = "headscale.${mydomain}";
   grafana_host = "grafana.${mydomain}";
@@ -136,9 +137,6 @@ in rec
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString searxng_port}
         '';
-      };
-      "${config.machine.name}" = {
-        extraConfig = "redir https://${mydomain}{uri} permanent";
       };
       "${mydomain}" = {
         extraConfig = ''
