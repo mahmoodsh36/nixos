@@ -1,28 +1,27 @@
-{ config, pkgs, lib, inputs, pkgs-pinned, myutils, ... }:
+{ config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
 
 let
   constants = (import ../lib/constants.nix);
   # main_julia = pkgs.julia;
-  keys_python = pkgs-pinned.python3.withPackages (ps: with ps; [ evdev ]);
-  # emacs_base_pkg = pkgs-pinned.emacs;
+  keys_python = pkgs.python3.withPackages (ps: with ps; [ evdev ]);
   emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
   emacs_pkg = (emacs_base_pkg.override { withImageMagick = false; withXwidgets = false; withPgtk = true; withNativeCompilation = true; withCompressInstall = false; withTreeSitter = true; withGTK3 = true; withX = false; }).overrideAttrs (oldAttrs: rec {
     imagemagick = pkgs.imagemagickBig;
   });
-  gtk_python_env = (pkgs-pinned.python3.withPackages (ps: with ps; [
+  gtk_python_env = (pkgs.python3.withPackages (ps: with ps; [
     pygobject3
     pydbus
   ]));
-  gtkpython = pkgs-pinned.stdenv.mkDerivation rec {
+  gtkpython = pkgs.stdenv.mkDerivation rec {
     pname = "gtkpython";
     version = "1.0";
 
     nativeBuildInputs = [
-      pkgs-pinned.gobject-introspection
-      pkgs-pinned.wrapGAppsHook
+      pkgs.gobject-introspection
+      pkgs.wrapGAppsHook
     ];
 
-    buildInputs = with pkgs-pinned; [
+    buildInputs = with pkgs; [
       gtk_python_env
       gtk3
     ];
@@ -130,7 +129,7 @@ in
     };
     programs.hyprland = {
       enable = true;
-      package = pkgs-pinned.hyprland;
+      package = pkgs.hyprland;
       xwayland.enable = true;
     };
     xdg.portal = {
@@ -139,7 +138,7 @@ in
       extraPortals = [
         # pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
-        pkgs-pinned.xdg-desktop-portal-hyprland
+        pkgs.xdg-desktop-portal-hyprland
         (lib.mkIf constants.enable_plasma pkgs.kdePackages.xdg-desktop-portal-kde)
         pkgs.xdg-desktop-portal-wlr
       ];
@@ -457,9 +456,9 @@ in
       steam-run-free
 
       # some programming languages/environments
-      (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs-pinned.sagetex ])))
+      (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs.sagetex ])))
       typst
-      (lib.mkIf (!config.machine.enable_nvidia) pkgs-pinned.sageWithDoc) # to avoid building
+      (lib.mkIf (!config.machine.enable_nvidia) pkgs.sageWithDoc) # to avoid building
       # (lib.mkIf (!config.machine.enable_nvidia)
       #   (myutils.packageFromCommit {
       #     rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
@@ -511,7 +510,7 @@ in
       #   packageName = "mistral-rs";
       # })
 
-      pkgs-pinned.gitingest
+      pkgs.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       pkgs.stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI

@@ -2,11 +2,10 @@
   description = "nixos flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    pkgs-master.url = "github:NixOS/nixpkgs/8eaee110344796db060382e15d3af0a9fc396e0e";
-    # we need to get rid of pkgs-pinned. nixpkgs will be pinned by default.
-    # pkgs-master will be introduced for things that need to be updated.
-    pkgs-pinned.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
+    nixpkgs.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
+    pkgs-master.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # pkgs-master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # pkgs-master.url = "github:NixOS/nixpkgs/master";
     home-manager = {
       # url = "github:nix-community/home-manager/release-25.05";
       # url = "github:nix-community/home-manager";
@@ -102,7 +101,7 @@
       boot.kernel.sysctl."vm.overcommit_memory" = nixpkgs.lib.mkForce "1";
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
-    uvpkgs = import inputs.pkgs-pinned {
+    uvpkgs = import inputs.pkgs {
       inherit system;
       config.allowUnfree = true;
       config.cudaSupport = true;

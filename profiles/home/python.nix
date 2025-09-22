@@ -1,4 +1,4 @@
-{ lib, inputs, pkgs, config, config', pkgs-pinned, ... }:
+{ lib, inputs, pkgs, config, config', pkgs-master, ... }:
 
 let
   pythonStartupScript = pkgs.writers.writePython3 "startup.py" {

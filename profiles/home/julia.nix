@@ -1,9 +1,9 @@
-{ lib, config, config', pkgs-pinned, ... }:
+{ lib, pkgs, config, config', pkgs-master, ... }:
 
 {
   config = lib.mkIf config'.machine.is_desktop {
     home.packages = [
-      (pkgs-pinned.julia.withPackages.override ({
+      (pkgs.julia.withPackages.override ({
         precompile = true;
         # extraLibs = [
         #   pkgs.stdenv.cc.cc.lib
@@ -47,11 +47,11 @@
         ];
       in
       ''
-        ${pkgs-pinned.lib.concatStringsSep "\n" (map (pkg: "using ${pkg}") startup-packages)}
+        ${pkgs.lib.concatStringsSep "\n" (map (pkg: "using ${pkg}") startup-packages)}
 
         atreplinit() do repl
           println("loaded:")
-          for pkg in [${pkgs-pinned.lib.concatStringsSep ", " (map (pkg: ''"${pkg}"'') startup-packages)}]
+          for pkg in [${pkgs.lib.concatStringsSep ", " (map (pkg: ''"${pkg}"'') startup-packages)}]
             println(" - $pkg")
           end
         end

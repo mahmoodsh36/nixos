@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 let
-  pkgs-pinned = import inputs.pkgs-pinned {
+  pkgs-master = import inputs.pkgs-master {
     system = "x86_64-linux";
     config.allowUnfree = true;
     config.cudaSupport = config.machine.enable_nvidia;
@@ -18,7 +18,7 @@ in
 
   config = {
     _module.args = {
-      inherit pkgs-pinned;
+      inherit pkgs-master;
     };
 
     nixpkgs.config.allowUnfree = true;
