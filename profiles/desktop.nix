@@ -478,6 +478,21 @@ in
       pkgs-master.gemini-cli
       pkgs-master.qwen-code
 
+      aichat
+      # opencode
+
+      # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
+      mcp-server-everything
+      mcp-server-time
+      mcp-server-git
+      mcp-server-sequential-thinking
+      mcp-server-filesystem
+      playwright-mcp
+      mcp-server-github github-mcp-server
+      mcp-server-sqlite
+
+      pkgs.gitingest
+    ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       pkgs-master.koboldcpp
       pkgs-master.mistral-rs
       config.machine.llama-cpp.pkg
@@ -493,26 +508,7 @@ in
         rev = "fc6467f9dd8e1fe985d3915cf76c18ed9b23b68c";
         packageName = "vllm";
       })
-      aichat
-      # opencode
 
-      # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
-      mcp-server-everything
-      mcp-server-time
-      mcp-server-git
-      mcp-server-sequential-thinking
-      mcp-server-filesystem
-      playwright-mcp
-      mcp-server-github github-mcp-server
-      mcp-server-sqlite
-
-      # (packageFromCommit {
-      #   rev = "f06333d605155b2b8abdba95892a2e6b31ea16b9";
-      #   packageName = "mistral-rs";
-      # })
-
-      pkgs.gitingest
-    ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       pkgs.stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
       pkgs.stable-diffusion-webui.comfy.cuda # for ComfyUI
