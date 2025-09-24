@@ -73,11 +73,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1757185623,
-        "narHash": "sha256-aYLvOiGvrpJdzcvgixLc3e3TEdIb13hGJilbBx6lfG0=",
+        "lastModified": 1758738162,
+        "narHash": "sha256-3xf4gwnKmD8IqD8H0Fmlg40MrATmgouanIxy+b9IpbM=",
         "owner": "Sveske-Juice",
         "repo": "declarative-jellyfin",
-        "rev": "3b7f3bac27840191577ba36149bce5b3926cba4b",
+        "rev": "844e9fec346e2076d337435f28b222af825b6b40",
         "type": "github"
       },
       "original": {
@@ -525,11 +525,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1758713922,
-        "narHash": "sha256-SBBOtq8dLYjAqMUoAGyyeydnN9dQHJ+adkSlSxmDXGM=",
+        "lastModified": 1758749657,
+        "narHash": "sha256-ZgZL/5PSAXyiC/73JJ0OM8Sr9JLXnBtvRAk1SoLqoPo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c65a2a6cd2b3c99440c64e58346c19b16eaa0c5b",
+        "rev": "b07fc6f3710b4a04856ade7e2ea9089537ab1f24",
         "type": "github"
       },
       "original": {
