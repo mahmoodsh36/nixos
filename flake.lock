@@ -525,6 +525,22 @@
     },
     "pkgs-master": {
       "locked": {
+        "lastModified": 1758672777,
+        "narHash": "sha256-1aMDA7Ho7c2AX+K8s6HktUhGOjkRft7UKdn2TBbsGiA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3ef6d7e1936db89138f48a5027f6200317fab219",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "pkgs-unstable": {
+      "locked": {
         "lastModified": 1758427187,
         "narHash": "sha256-pHpxZ/IyCwoTQPtFIAG2QaxuSm8jWzrzBGjwQZIttJc=",
         "owner": "NixOS",
@@ -669,6 +685,7 @@
         "nix-alien": "nix-alien",
         "nixpkgs": "nixpkgs",
         "pkgs-master": "pkgs-master",
+        "pkgs-unstable": "pkgs-unstable",
         "plasma-manager": "plasma-manager",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",

@@ -6,6 +6,11 @@ let
     config.allowUnfree = true;
     config.cudaSupport = config.machine.enable_nvidia;
   };
+  pkgs-unstable = import inputs.pkgs-unstable {
+    system = "x86_64-linux";
+    config.allowUnfree = true;
+    config.cudaSupport = config.machine.enable_nvidia;
+  };
 in
 {
   imports = [
@@ -19,6 +24,7 @@ in
   config = {
     _module.args = {
       inherit pkgs-master;
+      inherit pkgs-unstable;
     };
 
     nixpkgs.config.allowUnfree = true;

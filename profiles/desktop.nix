@@ -520,8 +520,8 @@ in
 
       pkgs.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-      pkgs-master.koboldcpp
-      pkgs-master.mistral-rs
+      pkgs-unstable.koboldcpp
+      pkgs-unstable.mistral-rs
       config.machine.llama-cpp.pkg
       # (whisper-cpp.overrideAttrs (old: {
       #   src = pkgs.fetchFromGitHub {

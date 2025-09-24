@@ -1,4 +1,4 @@
-{ lib, inputs, pkgs, config, config', pkgs-master, ... }:
+{ lib, inputs, pkgs, config, config', ... }:
 
 let
   mysbcl = (pkgs.sbcl.withPackages (ps: with ps; [
