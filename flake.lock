@@ -525,11 +525,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1758749657,
-        "narHash": "sha256-ZgZL/5PSAXyiC/73JJ0OM8Sr9JLXnBtvRAk1SoLqoPo=",
+        "lastModified": 1758813385,
+        "narHash": "sha256-t3enKyXpxwLUI1NRRz/fb3J74K35NA6AuJqdAe3X3yI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b07fc6f3710b4a04856ade7e2ea9089537ab1f24",
+        "rev": "9b7281158ed5b8af9cfa57f1b35d621ea0ca6d3a",
         "type": "github"
       },
       "original": {
