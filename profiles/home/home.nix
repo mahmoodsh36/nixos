@@ -150,6 +150,9 @@ in
         programs.firefox = {
           enable = config'.machine.is_desktop;
         };
+        programs.chromium = {
+          enable = config'.machine.is_desktop;
+        };
 
         # use 'dconf dump /' or 'gsettings list-recursively | less' to get a list of options
         dconf = {
