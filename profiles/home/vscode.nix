@@ -63,6 +63,7 @@ in {
         rooveterinaryinc.roo-cline
         julialang.language-julia
         yzhang.markdown-all-in-one
+        vscode-extensions.kilocode.kilo-code
       ];
       profiles.default.userSettings = {
         "files.insertFinalNewline" = false;
