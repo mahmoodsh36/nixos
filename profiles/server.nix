@@ -266,6 +266,7 @@ in
       nethogs
       inputs.cltpt.packages.${pkgs.system}.default
       expect # for unbuffer etc
+      mpris-scrobbler
 
       # networking tools
       curl wget nmap socat arp-scan tcpdump iftop
