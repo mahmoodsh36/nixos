@@ -105,10 +105,10 @@ in
           plugins = with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
           ];
-          # viAlias = true;
+          viAlias = true;
           vimAlias = true;
           vimdiffAlias = true;
-          # withNodeJs = true;
+          withNodeJs = true;
           withPython3 = true;
         };
 

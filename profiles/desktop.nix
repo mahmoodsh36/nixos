@@ -518,9 +518,11 @@ in
 
       pkgs.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
-      pkgs-unstable.koboldcpp
-      pkgs-unstable.mistral-rs
-      config.machine.llama-cpp.pkg
+      cudatoolkit nvtopPackages.full
+
+      koboldcpp
+      mistral-rs
+      # i think this fixed an issue that existed in the nixpkgs version at the time
       # (whisper-cpp.overrideAttrs (old: {
       #   src = pkgs.fetchFromGitHub {
       #     owner = "ggml-org";
@@ -529,14 +531,12 @@ in
       #     sha256 = "sha256-ABgsfkT7ghOGe2KvcnyP98J7mDI18BWtJGb1WheAduE=";
       #   };
       # }))
-      (myutils.packageFromCommit {
-        rev = "fc6467f9dd8e1fe985d3915cf76c18ed9b23b68c";
-        packageName = "vllm";
-      })
+      whisper-cpp
+      vllm
+      config.machine.llama-cpp.pkg
 
-      cudatoolkit nvtopPackages.full
-      pkgs.stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
-      pkgs.stable-diffusion-webui.comfy.cuda # for ComfyUI
+      stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
+      stable-diffusion-webui.comfy.cuda # for ComfyUI
     ];
 
     # vector database for RAG
