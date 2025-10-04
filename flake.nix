@@ -50,7 +50,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     cltpt = {
-      url = "github:mahmoodsh36/cltpt";
+      url = "github:mahmoodsh36/cltpt/196bde809af1091846f5967578e57911b2a0fae6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
