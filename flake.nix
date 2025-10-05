@@ -66,6 +66,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-on-droid = {
+      url = "github:t184256/nix-on-droid";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     # for python
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
@@ -234,6 +240,10 @@
           };
         }
       ];
+    };
+    nixOnDroidConfigurations.droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+      pkgs = import nixpkgs { system = "aarch64-linux"; };
+      modules = [ ./hosts/droid.nix ];
     };
     devShells."${system}" = {
       # ml = uvpkgs.mkShell {
