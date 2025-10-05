@@ -37,8 +37,7 @@ let
   # python-pkgs = pkgs;
   my-python = my-python-1.override {
     packageOverrides = self: super: {
-      # spotdl = super.toPythonModule super.pkgs.spotdl;
-      spotdl = super.toPythonModule pkgs-master.spotdl;
+      spotdl = super.toPythonModule super.pkgs.spotdl;
     };
   };
 
