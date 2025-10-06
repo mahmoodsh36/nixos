@@ -142,8 +142,8 @@ in rec
         extraConfig = ''
           log {
             output file ${caddy_log_dir}/access.log {
-              roll_size 5000mib
-              roll_keep 5000
+              roll_size 15000mib
+              roll_keep 3
               mode 0664
               #level info
             }
