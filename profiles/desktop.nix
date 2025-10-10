@@ -504,7 +504,7 @@ in
       pkgs-master.qwen-code
 
       aichat
-      # opencode
+      opencode
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-everything

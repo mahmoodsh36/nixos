@@ -13,12 +13,12 @@
       url = "github:nix-community/home-manager/a3fcc92180c7462082cd849498369591dfb20855";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lem = {
-      # url = "github:lem-project/lem";
-      url = "github:mahmoodsh36/lem";
-      # url = "github:mahmoodsh36/lem/dev";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # lem = {
+    #   # url = "github:lem-project/lem";
+    #   url = "github:mahmoodsh36/lem";
+    #   # url = "github:mahmoodsh36/lem/dev";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,7 +50,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     cltpt = {
-      url = "github:mahmoodsh36/cltpt/196bde809af1091846f5967578e57911b2a0fae6";
+      # url = "github:mahmoodsh36/cltpt/196bde809af1091846f5967578e57911b2a0fae6";
+      url = "github:mahmoodsh36/cltpt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
