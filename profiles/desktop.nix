@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
+{ config, pkgs, lib, inputs, pkgs-master, pkgs-unstable, myutils, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -500,7 +500,7 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       python3Packages.huggingface-hub
-      pkgs-master.gemini-cli
+      pkgs-unstable.gemini-cli
       pkgs-master.qwen-code
 
       aichat
