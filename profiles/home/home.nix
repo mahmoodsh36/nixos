@@ -80,7 +80,7 @@ in
           ./zed.nix
           ./plasma.nix
           ./python.nix
-          ./julia.nix
+          # ./julia.nix
           ./sbcl.nix
           # ./distrobox-config.nix
         ];

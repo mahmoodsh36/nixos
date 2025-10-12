@@ -2,7 +2,7 @@
   description = "nixos flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/e9f00bd893984bc8ce46c895c3bf7cac95331127";
+    nixpkgs.url = "github:NixOS/nixpkgs/0b4defa2584313f3b781240b29d61f6f9f7e0df3";
     # nixpkgs.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
     pkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     pkgs-master.url = "github:NixOS/nixpkgs/master";
