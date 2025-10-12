@@ -51,11 +51,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1760256911,
-        "narHash": "sha256-3DeRqDtco9o1fljjndCcjql4AExIBdB3FtDldEwDfKk=",
+        "lastModified": 1760290552,
+        "narHash": "sha256-Kc79pMcZJDaBdp6VhXnSq5J6K/jEeVnbNocf9QZvx1M=",
         "owner": "mahmoodsh36",
         "repo": "cltpt",
-        "rev": "833e60cf59b4d160d19a3b6fbda6965bc9d22dcc",
+        "rev": "71a7d7183d93feeb23c8887c37788d47788d7421",
         "type": "github"
       },
       "original": {
@@ -580,11 +580,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1760279161,
-        "narHash": "sha256-OFFGDiCkljN9yyTRd6E1MVu/1kehb6oxo9YGy7JMpHE=",
+        "lastModified": 1760295374,
+        "narHash": "sha256-J55cEWem4/4zTfVC2N5ucqsumTIW8TRB16IJCzRuZIs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "aa185e782b390c87aed4af2a1b9b8b54085286a0",
+        "rev": "7b17a0c7bd1f0c9f3e3630c047eedd4700962b96",
         "type": "github"
       },
       "original": {
