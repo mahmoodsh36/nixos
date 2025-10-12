@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  imports = [ ./distrobox.nix ];
+  imports = [ ../../modules/distrobox.nix ];
 
   programs.mydistrobox = {
     enable = config.machine.is_desktop;

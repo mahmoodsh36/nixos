@@ -80,9 +80,9 @@ in
           ./zed.nix
           ./plasma.nix
           ./python.nix
-          # ./julia.nix
+          ./julia.nix
           ./sbcl.nix
-          # ./distrobox-config.nix
+          ./distrobox-config.nix
         ];
 
         home.file = config_entries // script_entries // {
