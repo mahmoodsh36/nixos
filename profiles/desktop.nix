@@ -500,8 +500,9 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       python3Packages.huggingface-hub
-      pkgs-unstable.gemini-cli
+      pkgs-master.gemini-cli
       pkgs-master.qwen-code
+      pkgs-master.claude-code
 
       aichat
       opencode
