@@ -73,11 +73,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1760264620,
-        "narHash": "sha256-5941Irp+jEA6yL4pieIFzvVL58eIKuiu/XxCbCWsX7E=",
+        "lastModified": 1760351939,
+        "narHash": "sha256-c2CXdBfeSRe2/b+H9uaKutXUJ4DRtnHw468r3kJJslE=",
         "owner": "Sveske-Juice",
         "repo": "declarative-jellyfin",
-        "rev": "b11656dd35ef52224da93d73b678ca41958b4104",
+        "rev": "87129cf9c9d39fd8d6709384991feb9032b1413f",
         "type": "github"
       },
       "original": {
@@ -580,11 +580,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1760295374,
-        "narHash": "sha256-J55cEWem4/4zTfVC2N5ucqsumTIW8TRB16IJCzRuZIs=",
+        "lastModified": 1760376154,
+        "narHash": "sha256-iuzFRp7eFPV0XjxL+BvktyMcvs4nnmuKqbAaP9vL0wg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "7b17a0c7bd1f0c9f3e3630c047eedd4700962b96",
+        "rev": "b3a790766b67bcaf4d42fc436751ff4425500c7e",
         "type": "github"
       },
       "original": {
@@ -596,11 +596,11 @@
     },
     "pkgs-unstable": {
       "locked": {
-        "lastModified": 1760038930,
-        "narHash": "sha256-Oncbh0UmHjSlxO7ErQDM3KM0A5/Znfofj2BSzlHLeVw=",
+        "lastModified": 1760284886,
+        "narHash": "sha256-TK9Kr0BYBQ/1P5kAsnNQhmWWKgmZXwUQr4ZMjCzWf2c=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0b4defa2584313f3b781240b29d61f6f9f7e0df3",
+        "rev": "cf3f5c4def3c7b5f1fc012b3d839575dbe552d43",
         "type": "github"
       },
       "original": {

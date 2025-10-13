@@ -13,12 +13,12 @@ in
         useDHCP = false;
         # block some hosts by redirecting to the loopback interface
         extraHosts = ''
-          127.0.0.1 youtube.com
-          127.0.0.1 www.youtube.com
-          127.0.0.1 reddit.com
-          127.0.0.1 www.reddit.com
-          127.0.0.1 discord.com
-          127.0.0.1 www.discord.com
+          # 127.0.0.1 youtube.com
+          # 127.0.0.1 www.youtube.com
+          # 127.0.0.1 reddit.com
+          # 127.0.0.1 www.reddit.com
+          # 127.0.0.1 discord.com
+          # 127.0.0.1 www.discord.com
           127.0.0.1 instagram.com
           127.0.0.1 www.instagram.com
           ${constants.mahmooz2_addr} mahmooz2-2
