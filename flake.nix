@@ -2,21 +2,17 @@
   description = "nixos flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/0b4defa2584313f3b781240b29d61f6f9f7e0df3";
+    nixpkgs.url = "github:NixOS/nixpkgs/544961dfcce86422ba200ed9a0b00dd4b1486ec5";
     # nixpkgs.url = "github:NixOS/nixpkgs/ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
     pkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     pkgs-master.url = "github:NixOS/nixpkgs/master";
-    # pkgs-master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     home-manager = {
       # url = "github:nix-community/home-manager/release-25.05";
-      # url = "github:nix-community/home-manager";
       url = "github:nix-community/home-manager/a3fcc92180c7462082cd849498369591dfb20855";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
-      # url = "github:lem-project/lem";
       url = "github:mahmoodsh36/lem";
-      # url = "github:mahmoodsh36/lem/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mcp-servers-nix = {
