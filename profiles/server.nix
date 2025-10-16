@@ -241,10 +241,11 @@ in
       openssl
       man-pages man-pages-posix
       # wezterm # we need it installed on the server too, for persistent sessions
-      (myutils.packageFromCommit {
-        rev = "ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
-        packageName = "wezterm";
-      })
+      # (myutils.packageFromCommit {
+      #   rev = "ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
+      #   packageName = "wezterm";
+      # })
+      # wezterm
       fdupes
       libva-utils
       jellyfin-web jellyfin-ffmpeg jellyfin
