@@ -547,6 +547,14 @@ in
       settings.service.host = "0.0.0.0";
     };
 
+    services.karakeep = {
+      enable = true;
+      extraEnvironment = {
+        DISABLE_SIGNUPS = "true";
+        DISABLE_NEW_RELEASE_CHECK = "true";
+      };
+    };
+
     systemd.services.my_mpv_logger_service = {
       description = "mpv logger";
       wantedBy = [ "multi-user.target" ];
