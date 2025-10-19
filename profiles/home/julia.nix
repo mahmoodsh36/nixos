@@ -4,7 +4,7 @@
   config = lib.mkIf config'.machine.is_desktop {
     home.packages = [
       (pkgs.julia-bin.withPackages.override ({
-        precompile = true;
+        precompile = false;
         # extraLibs = [
         #   pkgs.stdenv.cc.cc.lib
         #   pkgs.libgl
