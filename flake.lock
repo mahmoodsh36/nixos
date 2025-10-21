@@ -405,11 +405,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1760623459,
-        "narHash": "sha256-C37u0RHFBDaVYUqAxF5/liWxLtO2+72YdfmEvs7Tg0k=",
+        "lastModified": 1761079525,
+        "narHash": "sha256-YHrSJsB9JDBnnZB5SOfd8Ib0JSPfzb2LWbzo7jicRws=",
         "owner": "mahmoodsh36",
         "repo": "lem",
-        "rev": "41189b74a54e6970c82962609f75a992c25966bc",
+        "rev": "0284819872a43fea34a86925c3f987f54971c8e4",
         "type": "github"
       },
       "original": {
@@ -720,11 +720,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1761064125,
-        "narHash": "sha256-nj6aFTWHAISFw/j9F+Aafjty3P5/Dhyo5hrLgUQ1IAc=",
+        "lastModified": 1761079315,
+        "narHash": "sha256-HxRR8KeDYfkid5GBe16lPoVR7cXga/Y7Ii6fbPxyME8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9ecae119b7821538b050183ad5abee0b97ca4f2a",
+        "rev": "7e27919bf2d5e13b4d5c2595020500952f821219",
         "type": "github"
       },
       "original": {
@@ -760,11 +760,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1759321049,
-        "narHash": "sha256-8XkU4gIrLT2DJZWQyvsP5woXGZF5eE/7AnKfwQkiwYU=",
+        "lastModified": 1761078382,
+        "narHash": "sha256-JNJesbe9MMN1Brq41BHEpuH+Z+Zg74y/nI5AFZX84Vw=",
         "owner": "nix-community",
         "repo": "plasma-manager",
-        "rev": "205dcfd4a30d4a5d1b4f28defee69daa7c7252cd",
+        "rev": "27dfa61b64d0cdb8e4ba6f3aaa4d4e067d64cb5c",
         "type": "github"
       },
       "original": {
