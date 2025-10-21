@@ -505,8 +505,11 @@ in
       pkgs-master.qwen-code
       pkgs-master.claude-code
 
+      config.machine.llama-cpp.pkg
+
       aichat
       opencode
+      # gptme
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-everything
@@ -535,7 +538,6 @@ in
       # }))
       whisper-cpp
       vllm
-      config.machine.llama-cpp.pkg
 
       stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
       stable-diffusion-webui.comfy.cuda # for ComfyUI
