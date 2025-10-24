@@ -260,8 +260,8 @@ in
       #   src = pkgs.fetchFromGitHub {
       #     owner = "yt-dlp";
       #     repo = "yt-dlp";
-      #     rev = "e123a48f1155703d8709a4221a42bd45c0a2b3ce";
-      #     sha256 = "sha256-RhMEbb1ygRY5aSQeswh4WF3p7ci4NT6H+HLLNh4XTRY=";
+      #     rev = "a75399d89f90b249ccfda148987e10bc688e2f84";
+      #     sha256 = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
       #   };
       # }))
       nethogs
