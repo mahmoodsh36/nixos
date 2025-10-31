@@ -18,7 +18,7 @@ let
 
     nativeBuildInputs = [
       pkgs.gobject-introspection
-      pkgs.wrapGAppsHook
+      pkgs.wrapGAppsHook3
     ];
 
     buildInputs = with pkgs; [
@@ -252,10 +252,10 @@ in
         nerd-fonts.inconsolata nerd-fonts.jetbrains-mono nerd-fonts.fira-code nerd-fonts.iosevka
         iosevka
         fira-code
-        ubuntu_font_family
+        ubuntu-classic
         noto-fonts
         noto-fonts-cjk-sans
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         dejavu_fonts
         cm_unicode
         unicode-emoji
@@ -393,7 +393,7 @@ in
       # feh # image viewer (can it set wallpaper on wayland?)
       kdePackages.okular zathura foliate mupdf
       xournalpp # rnote krita
-      ocrmypdf pdftk pdfgrep poppler_utils
+      ocrmypdf pdftk pdfgrep poppler-utils
       imv # nice image viewer
       spotube # open source spotify client?
       inkscape
@@ -456,7 +456,7 @@ in
       spotdl
       openjdk
       transmission_4 acpi lm_sensors
-      you-get aria
+      you-get aria2
       playwright
       uv
       argc
