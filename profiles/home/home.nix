@@ -114,7 +114,6 @@ in
 
         services.blueman-applet.enable = config'.machine.is_desktop;
         services.playerctld.enable = config'.machine.is_desktop;
-        services.parcellite.enable = config'.machine.is_desktop;
         services.mpris-proxy.enable = config'.machine.is_desktop;
 
         home.packages = with pkgs; [
