@@ -484,7 +484,7 @@ in
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs.sagetex ])))
       typst
-      (lib.mkIf (!config.machine.enable_nvidia) pkgs.sageWithDoc) # to avoid building
+      # (lib.mkIf (!config.machine.enable_nvidia) pkgs.sageWithDoc) # to avoid building
       # (lib.mkIf (!config.machine.enable_nvidia)
       #   (myutils.packageFromCommit {
       #     rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
