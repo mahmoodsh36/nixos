@@ -20,6 +20,10 @@
       type = lib.types.bool;
       default = false;
     };
+    machine.is_linux = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+    };
 
     machine.llama-cpp = {
       pkg = lib.mkOption {

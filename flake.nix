@@ -271,7 +271,7 @@
       modules = [ ./hosts/droid.nix ];
     };
 
-    # Development shells for all systems
+    # development shells for all systems
     devShells = forAllSystems (system: let
       sysPkgs = mkPkgs system;
     in {
@@ -318,22 +318,20 @@
             UV_PYTHON_DOWNLOADS = "never";
             UV_NO_SYNC = "1";
           };
-        }
-      else
-        # Simplified UV shell for non-Linux systems
-        sysPkgs.mkShell {
-          packages = with sysPkgs; [
-            python312
-            uv
-          ];
-          env = {
-            UV_PYTHON = sysPkgs.python312.interpreter;
-            UV_PYTHON_DOWNLOADS = "never";
-            UV_NO_SYNC = "1";
+        } else
+          # simplified uv shell for non-linux systems
+          sysPkgs.mkShell {
+            packages = with sysPkgs; [
+              python312
+              uv
+            ];
+            env = {
+              UV_PYTHON = sysPkgs.python312.interpreter;
+              UV_PYTHON_DOWNLOADS = "never";
+              UV_NO_SYNC = "1";
+            };
           };
-        };
-
-      # Default shell with darwin-rebuild helper for macOS, basic shell for others
+      # default shell with darwin-rebuild helper for macOS, basic shell for others
       default = if nixpkgs.lib.hasInfix "darwin" system then
         sysPkgs.mkShellNoCC {
           packages = with sysPkgs; [
@@ -356,12 +354,11 @@
               '';
             })
           ] ++ nixpkgs.lib.optional (self ? formatter.${system}) self.formatter.${system};
-        }
-      else
-        # Basic shell for Linux and other systems
-        sysPkgs.mkShellNoCC {
-          packages = [ ];
-        };
+        } else
+          # basic shell for linux and other systems
+          sysPkgs.mkShellNoCC {
+            packages = [ ];
+          };
     });
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
@@ -370,97 +367,57 @@
     };
     # macOS configurations for both architectures
     darwinConfigurations = {
-      # For Apple Silicon Macs (M1, M2, M3, etc.)
+      # for Apple Silicon Macs (M1, M2, M3, etc.)
       mahmooz0 = inputs.nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           # add the determinate nix-darwin module
           inputs.determinate.darwinModules.default
-          # apply the modules output by this flake
-          self.darwinModules.base
+          ({ config, pkgs, lib, ... }: {
+            config = {
+              machine.name = "mahmooz0";
+              machine.is_desktop = true;
+              machine.enable_nvidia = false;
+              machine.is_linux = false;
+              machine.static_ip = "192.168.1.1";
+            };
+          })
+          ./hosts/mahmooz0.nix
           self.darwinModules.nixConfig
-          # apply any other imported modules here
-
-          # in addition to adding modules in the style above, you can also
-          # add modules inline like this. delete this if unnecessary.
-          (
-            {
-              config,
-              pkgs,
-              lib,
-              ...
-            }:
-            {
-              # inline nix-darwin configuration
-            }
-          )
         ];
       };
-
-      # For Intel Macs
+      # for intel macs
       mahmooz0-intel = inputs.nix-darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         modules = [
-          # add the determinate nix-darwin module
-          inputs.determinate.darwinModules.default
-          # apply the modules output by this flake
-          self.darwinModules.base
-          self.darwinModules.nixConfig
-          # apply any other imported modules here
-
-          # in addition to adding modules in the style above, you can also
-          # add modules inline like this. delete this if unnecessary.
-          (
-            {
-              config,
-              pkgs,
-              lib,
-              ...
-            }:
-            {
-              # inline nix-darwin configuration
-            }
-          )
         ];
       };
     };
-
     # nix-darwin module outputs
     darwinModules = {
-        # Some base configuration
-        base = {config, pkgs, lib, ...}: (import ./hosts/mahmooz0.nix {
-		config = config;
-		pkgs = pkgs;
-		lib = lib;
-	});
-  # Nix configuration
-nixConfig =
-  {
-    config,
-    pkgs,
-    lib,
-    ...
-  }:
-  {
-    # Let Determinate Nix handle your Nix configuration
-    nix.enable = false;
+      # nix configuration
+      nixConfig =
+        {
+          config,
+          pkgs,
+          lib,
+          ...
+        }:
+        {
+          # let determinate nix handle your nix configuration
+          nix.enable = false;
 
-    # Custom Determinate Nix settings written to /etc/nix/nix.custom.conf
-    determinate-nix.customSettings = {
-      # Enables parallel evaluation (remove this setting or set the value to 1 to disable)
-      eval-cores = 0;
-      extra-experimental-features = [
-	"build-time-fetch-tree" # Enables build-time flake inputs
-	"parallel-eval" # Enables parallel evaluation
-	"nix-command"
-	"flakes"
-      ];
-      # Other settings
+          # custom determinate nix settings written to /etc/nix/nix.custom.conf
+          determinate-nix.customSettings = {
+            # enables parallel evaluation (remove this setting or set the value to 1 to disable)
+            eval-cores = 0;
+            extra-experimental-features = [
+              "build-time-fetch-tree" # enables build-time flake inputs
+              "parallel-eval" # enables parallel evaluation
+            ];
+            # other settings
+          };
+        };
     };
   };
-  };
-
-
-};
-
 }
