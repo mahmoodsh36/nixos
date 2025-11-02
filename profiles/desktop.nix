@@ -506,6 +506,9 @@ in
       pkgs-master.claude-code
 
       config.machine.llama-cpp.pkg
+      koboldcpp
+      mistral-rs
+      whisper-cpp
 
       aichat
       opencode
@@ -525,8 +528,6 @@ in
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
 
-      koboldcpp
-      mistral-rs
       # i think this fixed an issue that existed in the nixpkgs version at the time
       # (whisper-cpp.overrideAttrs (old: {
       #   src = pkgs.fetchFromGitHub {
@@ -536,7 +537,6 @@ in
       #     sha256 = "sha256-ABgsfkT7ghOGe2KvcnyP98J7mDI18BWtJGb1WheAduE=";
       #   };
       # }))
-      whisper-cpp
       vllm
 
       stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI

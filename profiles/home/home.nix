@@ -264,11 +264,11 @@ in
           };
         };
 
-        qt = {
-          enable = config'.machine.is_desktop;
-          platformTheme.name = "kde";
-          style.package = pkgs.adwaita-qt;
-        };
+        # qt = {
+        #   enable = config'.machine.is_desktop;
+        #   platformTheme.name = "kde";
+        #   style.package = pkgs.adwaita-qt;
+        # };
       };
   };
 }
