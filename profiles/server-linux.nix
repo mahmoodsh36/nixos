@@ -8,6 +8,7 @@ in
     ./nvidia.nix
     ./network.nix
     ../services/llm.nix
+    ../services/podman-autobuilder.nix
   ];
 
   config = lib.mkIf config.machine.is_linux {

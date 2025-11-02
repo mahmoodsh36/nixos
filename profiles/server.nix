@@ -4,9 +4,6 @@ let
   constants = (import ../lib/constants.nix);
 in
 {
-  imports = [
-    ../services/podman-autobuilder.nix
-  ];
   config = {
     _module.args = {
       inherit inputs;
