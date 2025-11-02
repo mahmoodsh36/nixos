@@ -67,6 +67,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-darwin = {
+      url = "https://flakehub.com/f/nix-darwin/nix-darwin/0.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -272,11 +281,105 @@
           UV_NO_SYNC = "1";
         };
       };
+
+	# needed for macos
+default =
+        let
+          pkgs = import inputs.nixpkgs { inherit system; };
+        in
+        pkgs.mkShellNoCC {
+          packages = with pkgs; [
+            # Shell script for applying the nix-darwin configuration.
+            # Run this to apply the configuration in this flake to your macOS system.
+            (writeShellApplication {
+              name = "apply-nix-darwin-configuration";
+              runtimeInputs = [
+                # Make the darwin-rebuild package available in the script
+                inputs.nix-darwin.packages.${system}.darwin-rebuild
+              ];
+              text = ''
+                echo "> Applying nix-darwin configuration..."
+
+                echo "> Running darwin-rebuild switch as root..."
+                sudo darwin-rebuild switch --flake .
+                echo "> darwin-rebuild switch was successful ✅"
+
+                echo "> macOS config was successfully applied 🚀"
+              '';
+            })
+
+            self.formatter.${system}
+          ];
+        };
     };
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
       "mygrapheneos" = inputs.robotnix.lib.robotnixSystem ./android/grapheneos.nix;
     };
+    # for macos
+    darwinConfigurations.mahmooz0 = inputs.nix-darwin.lib.darwinSystem {
+      inherit system;
+      modules = [
+        # add the determinate nix-darwin module
+        inputs.determinate.darwinModules.default
+        # apply the modules output by this flake
+        self.darwinModules.base
+        self.darwinModules.nixConfig
+        # apply any other imported modules here
+
+        # in addition to adding modules in the style above, you can also
+        # add modules inline like this. delete this if unnecessary.
+        (
+          {
+            config,
+            pkgs,
+            lib,
+            ...
+          }:
+          {
+            # inline nix-darwin configuration
+          }
+        )
+      ];
+    };
+
+    # nix-darwin module outputs
+    darwinModules = {
+        # Some base configuration
+        base = {config, pkgs, lib, ...}: (import ./hosts/mahmooz0.nix {
+		config = config;
+		pkgs = pkgs;
+		lib = lib;
+	});
+  # Nix configuration
+nixConfig =
+  {
+    config,
+    pkgs,
+    lib,
+    ...
+  }:
+  {
+    # Let Determinate Nix handle your Nix configuration
+    nix.enable = false;
+
+    # Custom Determinate Nix settings written to /etc/nix/nix.custom.conf
+    determinate-nix.customSettings = {
+      # Enables parallel evaluation (remove this setting or set the value to 1 to disable)
+      eval-cores = 0;
+      extra-experimental-features = [
+	"build-time-fetch-tree" # Enables build-time flake inputs
+	"parallel-eval" # Enables parallel evaluation
+	"nix-command"
+	"flakes"
+      ];
+      # Other settings
+    };
   };
+  };
+
+
+};
+
 }
