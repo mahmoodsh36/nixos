@@ -103,11 +103,18 @@
   outputs = {
     self, nixpkgs, ...
   } @inputs: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
+    # Define system for Linux configurations
+    linuxSystem = "x86_64-linux";
+
+    # Helper to create packages for a specific system
+    mkPkgs = system: import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
+
+    # Linux-specific pkgs
+    pkgs = mkPkgs linuxSystem;
+
     isobase = {
       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
       isoImage.forceTextMode = true; # to avoid some issues? https://discourse.nixos.org/t/nix-iso-unable-to-boot-in-uefi-mode-but-other-distros-can/16473/53
@@ -118,8 +125,8 @@
       boot.kernel.sysctl."vm.overcommit_memory" = nixpkgs.lib.mkForce "1";
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
-    uvpkgs = import inputs.pkgs {
-      inherit system;
+    uvpkgs = import nixpkgs {
+      system = linuxSystem;
       config.allowUnfree = true;
       config.cudaSupport = true;
     };
@@ -133,10 +140,10 @@
     # });
     mkSystem = extraModules:
       nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = linuxSystem;
         specialArgs = {
           inherit inputs;
-          inherit system;
+          system = linuxSystem;
           myutils = import ./lib/utils.nix { };
         };
         modules = [
@@ -147,6 +154,14 @@
         ]
         ++ extraModules;
       };
+
+    # Generate devShells for multiple systems
+    forAllSystems = nixpkgs.lib.genAttrs [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
   in {
     nixosConfigurations = {
       mahmooz1 = mkSystem [
@@ -255,7 +270,11 @@
       pkgs = import nixpkgs { system = "aarch64-linux"; };
       modules = [ ./hosts/droid.nix ];
     };
-    devShells."${system}" = {
+
+    # Development shells for all systems
+    devShells = forAllSystems (system: let
+      sysPkgs = mkPkgs system;
+    in {
       # ml = uvpkgs.mkShell {
       #   packages = [
       #     mlvenv
@@ -270,25 +289,54 @@
       #     export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
       #   '';
       # };
-      uv = uvpkgs.mkShell {
-        packages = with uvpkgs; [
-          uvpython
-          uv
-        ];
-        env = {
-          UV_PYTHON = uvpython.interpreter;
-          UV_PYTHON_DOWNLOADS = "never";
-          UV_NO_SYNC = "1";
-        };
-      };
 
-	# needed for macos
-default =
-        let
-          pkgs = import inputs.nixpkgs { inherit system; };
-        in
-        pkgs.mkShellNoCC {
-          packages = with pkgs; [
+      # UV shell - only for Linux systems with CUDA support
+      uv = if nixpkgs.lib.hasInfix "linux" system then
+        (import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          config.cudaSupport = true;
+        }).mkShell {
+          packages = let
+            uvSysPkgs = import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+              config.cudaSupport = true;
+            };
+          in with uvSysPkgs; [
+            python312
+            uv
+          ];
+          env = let
+            uvSysPkgs = import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+              config.cudaSupport = true;
+            };
+          in {
+            UV_PYTHON = uvSysPkgs.python312.interpreter;
+            UV_PYTHON_DOWNLOADS = "never";
+            UV_NO_SYNC = "1";
+          };
+        }
+      else
+        # Simplified UV shell for non-Linux systems
+        sysPkgs.mkShell {
+          packages = with sysPkgs; [
+            python312
+            uv
+          ];
+          env = {
+            UV_PYTHON = sysPkgs.python312.interpreter;
+            UV_PYTHON_DOWNLOADS = "never";
+            UV_NO_SYNC = "1";
+          };
+        };
+
+      # Default shell with darwin-rebuild helper for macOS, basic shell for others
+      default = if nixpkgs.lib.hasInfix "darwin" system then
+        sysPkgs.mkShellNoCC {
+          packages = with sysPkgs; [
             # Shell script for applying the nix-darwin configuration.
             # Run this to apply the configuration in this flake to your macOS system.
             (writeShellApplication {
@@ -307,41 +355,74 @@ default =
                 echo "> macOS config was successfully applied 🚀"
               '';
             })
-
-            self.formatter.${system}
-          ];
+          ] ++ nixpkgs.lib.optional (self ? formatter.${system}) self.formatter.${system};
+        }
+      else
+        # Basic shell for Linux and other systems
+        sysPkgs.mkShellNoCC {
+          packages = [ ];
         };
-    };
+    });
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
       "mygrapheneos" = inputs.robotnix.lib.robotnixSystem ./android/grapheneos.nix;
     };
-    # for macos
-    darwinConfigurations.mahmooz0 = inputs.nix-darwin.lib.darwinSystem {
-      inherit system;
-      modules = [
-        # add the determinate nix-darwin module
-        inputs.determinate.darwinModules.default
-        # apply the modules output by this flake
-        self.darwinModules.base
-        self.darwinModules.nixConfig
-        # apply any other imported modules here
+    # macOS configurations for both architectures
+    darwinConfigurations = {
+      # For Apple Silicon Macs (M1, M2, M3, etc.)
+      mahmooz0 = inputs.nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          # add the determinate nix-darwin module
+          inputs.determinate.darwinModules.default
+          # apply the modules output by this flake
+          self.darwinModules.base
+          self.darwinModules.nixConfig
+          # apply any other imported modules here
 
-        # in addition to adding modules in the style above, you can also
-        # add modules inline like this. delete this if unnecessary.
-        (
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            # inline nix-darwin configuration
-          }
-        )
-      ];
+          # in addition to adding modules in the style above, you can also
+          # add modules inline like this. delete this if unnecessary.
+          (
+            {
+              config,
+              pkgs,
+              lib,
+              ...
+            }:
+            {
+              # inline nix-darwin configuration
+            }
+          )
+        ];
+      };
+
+      # For Intel Macs
+      mahmooz0-intel = inputs.nix-darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
+        modules = [
+          # add the determinate nix-darwin module
+          inputs.determinate.darwinModules.default
+          # apply the modules output by this flake
+          self.darwinModules.base
+          self.darwinModules.nixConfig
+          # apply any other imported modules here
+
+          # in addition to adding modules in the style above, you can also
+          # add modules inline like this. delete this if unnecessary.
+          (
+            {
+              config,
+              pkgs,
+              lib,
+              ...
+            }:
+            {
+              # inline nix-darwin configuration
+            }
+          )
+        ];
+      };
     };
 
     # nix-darwin module outputs

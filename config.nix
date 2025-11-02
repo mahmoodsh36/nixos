@@ -1,13 +1,13 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, system, ... }:
 
 let
   pkgs-master = import inputs.pkgs-master {
-    system = "x86_64-linux";
+    inherit system;
     config.allowUnfree = true;
     config.cudaSupport = config.machine.enable_nvidia;
   };
   pkgs-unstable = import inputs.pkgs-unstable {
-    system = "x86_64-linux";
+    inherit system;
     config.allowUnfree = true;
     config.cudaSupport = config.machine.enable_nvidia;
   };
