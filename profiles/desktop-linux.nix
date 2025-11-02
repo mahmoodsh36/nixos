@@ -186,6 +186,7 @@ in
     programs.xfconf.enable = true;
     services.tumbler.enable = lib.mkForce false;
     programs.light.enable = true;
+    programs.adb.enable = true;
 
     # hybrid sleep when press power button. doesnt work anymore
     # services.logind.extraConfig = ''
@@ -387,5 +388,19 @@ in
       powertop.enable = true;
       cpuFreqGovernor = "ondemand";
     };
+
+    # ccache is needed for robotnix
+    nix.settings.extra-sandbox-paths = [ config.programs.ccache.cacheDir ];
+    programs.ccache.enable = true;
+
+    # helps finding the package that contains a specific file
+    programs.nix-index = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = true;
+    };
+    programs.command-not-found.enable = false; # needed for nix-index
+
+    programs.dconf.enable = true;
   };
 }

@@ -59,14 +59,6 @@ in
       # };
     };
 
-    # helps finding the package that contains a specific file
-    programs.nix-index = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-    };
-    programs.command-not-found.enable = false; # needed for nix-index
-
     # packages
     environment.systemPackages = with pkgs; [
       # (pkgs.writeShellScriptBin "julia" ''
@@ -186,80 +178,6 @@ in
       stable-diffusion-webui.comfy.cuda # for ComfyUI
     ];
 
-    # vector database for RAG
-    services.qdrant = {
-      enable = config.machine.is_desktop;
-      settings.service.host = "0.0.0.0";
-    };
-
-    services.karakeep = {
-      enable = true;
-      extraEnvironment = {
-        DISABLE_SIGNUPS = "true";
-        DISABLE_NEW_RELEASE_CHECK = "true";
-      };
-    };
-
-    # http://localhost:28981
-    environment.etc."paperless-admin-pass".text = "admin";
-    services.paperless = {
-      # enable = true;
-      passwordFile = "/etc/paperless-admin-pass";
-    };
-
-    programs.adb.enable = true;
-    programs.java.enable = true;
-    programs.sniffnet.enable = true;
-    programs.wireshark.enable = true;
-    programs.dconf.enable = true;
-
-    services.mysql = {
-      enable = false;
-      settings.mysqld.bind-address = "0.0.0.0";
-      package = pkgs.mariadb;
-    };
-
-    services.mongodb = {
-      enable = false;
-      bind_ip = "0.0.0.0";
-    };
-
-    services.postgresql = {
-      enable = false;
-      enableTCPIP = true;
-      authentication = pkgs.lib.mkOverride 10 ''
-      # generated file; do not edit!
-      # TYPE  DATABASE        USER            ADDRESS                 METHOD
-      local   all             all                                     trust
-      host    all             all             127.0.0.1/32            trust
-      host    all             all             ::1/128                 trust
-      '';
-      # package = pkgs.postgresql_16;
-      ensureDatabases = [ "mahmooz" ];
-      # port = 5432;
-      initialScript = pkgs.writeText "backend-initScript" ''
-        CREATE ROLE mahmooz WITH LOGIN PASSWORD 'mahmooz' CREATEDB;
-        CREATE DATABASE test;
-        GRANT ALL PRIVILEGES ON DATABASE test TO mahmooz;
-      '';
-      ensureUsers = [{
-        name = "mahmooz";
-        ensureDBOwnership = true;
-      }];
-    };
-
-    services.open-webui = lib.mkIf (lib.and config.machine.is_desktop (!config.machine.enable_nvidia)) {
-      enable = false;
-      host = "0.0.0.0";
-      port = 8083;
-      environment = {
-        WEBUI_AUTH = "False";
-        ANONYMIZED_TELEMETRY = "False";
-        DO_NOT_TRACK = "True";
-        SCARF_NO_ANALYTICS = "True";
-      };
-    };
-
     services.podman-autobuilder.containers = {
       mlpython = lib.mkIf config.machine.enable_nvidia {
         imageName = "mlpython";
@@ -321,9 +239,5 @@ in
         };
       };
     };
-
-    # ccache is needed for robotnix
-    nix.settings.extra-sandbox-paths = [ config.programs.ccache.cacheDir ];
-    programs.ccache.enable = true;
   };
 }
