@@ -15,6 +15,8 @@ cd ~/work/nixos/
 # EXPORT MAX_JOBS=6; sudo -E nixos-rebuild switch --upgrade --flake .#mahmooz2 --option cores 6 --option max-jobs 6 --impure
 if [ "$conf" == "droid" ]; then
     nix-on-droid switch --flake .#"$conf" --show-trace
+elif [ "$conf" == "mahmooz0" ]; then
+  sudo darwin-rebuild switch --flake .#mahmooz0
 else
     # sudo -E nixos-rebuild switch --upgrade --flake .#"$conf" --show-trace --impure --install-bootloader
     # the -E option is sometimes problematic, but nixos-rebuild has to be run as root

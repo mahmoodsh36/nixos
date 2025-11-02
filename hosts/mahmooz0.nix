@@ -19,14 +19,25 @@
 
 	homebrew = {
 		enable = true;
-		brews = [
-			"imagemagick"
+		taps = [
+			# for ntfs-3g and macfuse
+			"gromgit/homebrew-fuse"
 		];
 		casks = [
 			"emacs"
 			"wezterm"
 			"firefox"
+			"macfuse"
 		];
+		brews = [
+			"imagemagick"
+			"ntfs-3g-mac"
+			"ext4fuse-mac"
+			# "gromgit/fuse/ntfs-3g-mac"
+		];
+		onActivation.autoUpdate = true;
+		onActivation.upgrade = true;
+		onActivation.cleanup = "zap";
 	};
 # Other configuration parameters
 # See here: https://nix-darwin.github.io/nix-darwin/manual
