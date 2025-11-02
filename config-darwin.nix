@@ -17,9 +17,7 @@ in
     ./modules/machine-options.nix
     ./profiles/machine-config.nix
     ./profiles/desktop.nix
-    ./profiles/desktop-linux.nix
     ./profiles/server.nix
-    ./profiles/server-linux.nix
     ./profiles/home/home.nix
   ];
 
@@ -30,6 +28,7 @@ in
     };
 
     nixpkgs.config.allowUnfree = true;
+    # this is always gonna be false anyway on mac
     nixpkgs.config.cudaSupport = config.machine.enable_nvidia;
     nixpkgs.config.permittedInsecurePackages = [
       "ventoy-1.1.07"

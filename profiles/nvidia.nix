@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  config = (config.machine.enable_nvidia && pkgs.stdenv.isLinux) {
+  config = lib.mkIf config.machine.enable_nvidia {
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia = {
       modesetting.enable = true;

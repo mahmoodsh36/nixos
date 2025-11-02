@@ -18,13 +18,10 @@ let
   });
 in
 {
-  imports = [
-    ./desktop-linux.nix
-  ];
-
   config = lib.mkIf config.machine.is_desktop {
+    # some of the font options are commented out because they're not available on nix-darwin
     fonts = {
-      enableDefaultPackages = true;
+      # enableDefaultPackages = true;
       packages = with pkgs; [
         fantasque-sans-mono
         google-fonts
@@ -51,15 +48,15 @@ in
         proggyfonts
         monaspace
       ];
-      fontDir.enable = true;
-      enableGhostscriptFonts = true;
-      fontconfig = {
-        enable = true;
-        antialias = true;
-        cache32Bit = true;
-        hinting.autohint = true;
-        hinting.enable = true;
-      };
+      # fontDir.enable = true;
+      # enableGhostscriptFonts = true;
+      # fontconfig = {
+      #   enable = true;
+      #   antialias = true;
+      #   cache32Bit = true;
+      #   hinting.autohint = true;
+      #   hinting.enable = true;
+      # };
     };
 
     # helps finding the package that contains a specific file

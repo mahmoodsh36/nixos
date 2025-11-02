@@ -5,10 +5,6 @@ let
 in
 {
   imports = [
-    ./server-linux.nix
-    ./nvidia.nix
-    ./network.nix
-    ../services/llm.nix
     ../services/podman-autobuilder.nix
   ];
   config = {

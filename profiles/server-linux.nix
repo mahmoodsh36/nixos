@@ -4,6 +4,12 @@ let
   constants = (import ../lib/constants.nix);
 in
 {
+  imports = [
+    ./nvidia.nix
+    ./network.nix
+    ../services/llm.nix
+  ];
+
   config = lib.mkIf config.machine.is_linux {
     system.stateVersion = "24.05"; # dont change
 

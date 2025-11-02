@@ -381,7 +381,7 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.arion.nixosModules.arion
           inputs.declarative-jellyfin.nixosModules.default
-          ./config.nix
+          ./config-darwin.nix
           ({ config, pkgs, lib, ... }: {
             config = {
               machine.name = "mahmooz0";
