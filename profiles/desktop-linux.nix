@@ -31,7 +31,7 @@ let
   };
 in
 {
-  config = lib.mkIf (and config.machine.is_linux config.machine.is_desktop) {
+  config = lib.mkIf (config.machine.is_linux && config.machine.is_desktop) {
     boot = {
       kernelParams = [
         "quiet"
@@ -336,7 +336,7 @@ in
       virt-viewer
       openrgb-with-all-plugins
       tor-browser
-    };
+    ];
 
     systemd.services.my_mpv_logger_service = {
       description = "mpv logger";

@@ -370,9 +370,18 @@
       # for Apple Silicon Macs (M1, M2, M3, etc.)
       mahmooz0 = inputs.nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+        specialArgs = {
+          inherit inputs;
+          system = linuxSystem;
+          myutils = import ./lib/utils.nix { };
+        };
         modules = [
           # add the determinate nix-darwin module
           inputs.determinate.darwinModules.default
+          inputs.home-manager.nixosModules.home-manager
+          inputs.arion.nixosModules.arion
+          inputs.declarative-jellyfin.nixosModules.default
+          ./config.nix
           ({ config, pkgs, lib, ... }: {
             config = {
               machine.name = "mahmooz0";

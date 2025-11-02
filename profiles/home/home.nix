@@ -114,9 +114,9 @@ in
         };
 
         home.packages = with pkgs; [
-        ] ++ lib.optionals config'.machine.is_linux with pkgs; [
+        ] ++ lib.optionals config'.machine.is_linux [
           # to avoid some errors
-          dconf
+          pkgs.dconf
         ];
 
         programs.git = {
