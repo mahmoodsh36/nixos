@@ -88,6 +88,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    yt-music-tap = {
+      url = "github:th-ch/homebrew-youtube-music";
+      flake = false;
+    };
 
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";
@@ -403,27 +407,6 @@
           ./hosts/mahmooz0.nix
           self.darwinModules.nixConfig
           inputs.nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              # install homebrew under the default prefix
-              enable = true;
-              # apple silicon only: also install homebrew under the default intel prefix for rosetta 2
-              enableRosetta = true;
-              # user owning the homebrew prefix
-              user = "mahmoodsheikh";
-              # optional: declarative tap management
-              taps = {
-                "homebrew/homebrew-core" = inputs.homebrew-core;
-                "homebrew/homebrew-cask" = inputs.homebrew-cask;
-              };
-              # with mutabletaps disabled, taps can no longer be added imperatively with `brew tap`.
-              mutableTaps = false;
-            };
-          }
-          # align homebrew taps config with nix-homebrew
-          ({config, ...}: {
-            homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
-          })
         ];
       };
       # for intel macs

@@ -1,6 +1,15 @@
 # this is for macos
 { config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
 
+let
+  taps = {
+    "homebrew/homebrew-core" = inputs.homebrew-core;
+    "homebrew/homebrew-cask" = inputs.homebrew-cask;
+    # we need to add "homebrew-" prefix
+    "th-ch/homebrew-youtube-music" = inputs.yt-music-tap;
+  };
+in
+
 {
   config = {
     # required for nix-darwin to work
@@ -15,15 +24,31 @@
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-users.users
     };
 
+    nix-homebrew = {
+      taps = taps;
+      # install homebrew under the default prefix
+      enable = true;
+      # apple silicon only: also install homebrew under the default intel prefix for rosetta 2
+      enableRosetta = true;
+      # user owning the homebrew prefix
+      user = "${config.machine.user}";
+      # with mutabletaps disabled, taps can no longer be added imperatively with `brew tap`.
+      mutableTaps = false;
+    };
+
     homebrew = {
       enable = true;
-      taps = [
-        # for ntfs-3g and macfuse
-        # "gromgit/homebrew-fuse"
-        # remove this next time, its not needed since fuse-t can be grabbed without it
-        # "macos-fuse-t/cask"
-        # "nohajc/anylinuxfs"
-      ];
+      # align homebrew taps config with nix-homebrew
+      taps = builtins.attrNames config.nix-homebrew.taps;
+      # taps = builtins.attrNames taps;
+      # taps = [
+      #   # for ntfs-3g and macfuse
+      #   # "gromgit/homebrew-fuse"
+      #   # remove this next time, its not needed since fuse-t can be grabbed without it
+      #   # "macos-fuse-t/cask"
+      #   # "nohajc/anylinuxfs"
+      #   "th-ch/youtube-music/"
+      # ];
       casks = [
         "emacs-app"
         "wezterm"
@@ -32,9 +57,10 @@
         # "osxfuse"
         "fuse-t"
         "mpv"
-        "yt-music"
         "transmission"
         "raycast"
+        # this errors out :/
+        # "youtube-music"
       ];
       brews = [
         # "anylinuxfs"
@@ -58,7 +84,6 @@
           "/Applications/WezTerm.app"
           "/Applications/Emacs.app"
           "/Applications/Transmission.app"
-          "/Applications/YT Music.app"
         ];
       };
       finder.FXPreferredViewStyle = "clmv"; # column view

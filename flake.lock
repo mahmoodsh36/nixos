@@ -542,11 +542,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1762191993,
-        "narHash": "sha256-4IB9LNxQhFQ3c8/zJ6epQyGUaUJ4vp29UTD5EOgoofQ=",
+        "lastModified": 1762195945,
+        "narHash": "sha256-5LNTLgx/2M4FNzE2kU2xJyIkkXupWgcGXvjA7sBUy6Q=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "02d3e4ca407a906fad0d65c67067cde2941302d4",
+        "rev": "f2c1828738a7b6ce4c1921a2986c5534eafbc25a",
         "type": "github"
       },
       "original": {
@@ -558,11 +558,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1762192174,
-        "narHash": "sha256-Wxh7hv2YnO2dqFb5gIU7JP2Jt8kz12sKfd/tqxcIrQ4=",
+        "lastModified": 1762196126,
+        "narHash": "sha256-tJ7691JhnSiUEOeVli8NNwZnPkhA6CuECz96RgMBGmE=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "1ae210d7bb0ac28f774e10316b74f5c661be9569",
+        "rev": "28dbfefafed9f58edb591cdd70c1e0c7144f7437",
         "type": "github"
       },
       "original": {
@@ -618,11 +618,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762133733,
-        "narHash": "sha256-d2snFcMLZVWalaLckkBIAoKX1imYNNQIv4EbbS1fTf8=",
+        "lastModified": 1762192406,
+        "narHash": "sha256-HYrKS55wUpVf7gAuMKwNiIwmntAaShVVnl8wIm5zmEs=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "7e994168b1ccc12337ba8de939c4fd466107c1fb",
+        "rev": "e7da30b584dc1f2ee0414c4a1298ce64eef97e8d",
         "type": "github"
       },
       "original": {
@@ -701,12 +701,12 @@
         ]
       },
       "locked": {
-        "lastModified": 1762039661,
-        "narHash": "sha256-oM5BwAGE78IBLZn+AqxwH/saqwq3e926rNq5HmOulkc=",
-        "rev": "c3c8c9f2a5ed43175ac4dc030308756620e6e4e4",
-        "revCount": 2270,
+        "lastModified": 1762186368,
+        "narHash": "sha256-dzLBZKccS0jMefj+WAYwsk7gKDluqavC7I4KfFwVh8k=",
+        "rev": "69921864a70b58787abf5ba189095566c3f0ffd3",
+        "revCount": 2272,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/nix-darwin/nix-darwin/0.1.2270%2Brev-c3c8c9f2a5ed43175ac4dc030308756620e6e4e4/019a41d0-01b5-76ad-8650-b3ceb77f8c6b/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/nix-darwin/nix-darwin/0.1.2272%2Brev-69921864a70b58787abf5ba189095566c3f0ffd3/019a4a98-bdbb-7dc7-9adf-9da7086035ac/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -998,11 +998,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1762139454,
-        "narHash": "sha256-GVYFjnDASBztylj50+F5B49rCjfd29LXqCg3/CuRchY=",
+        "lastModified": 1762195121,
+        "narHash": "sha256-GGriwNfFhnKYI3NJ+oPlsn1LlAT310id0QaFemhXzbI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a98968acb43d11fc7e79bfa7bcbf480f752193db",
+        "rev": "93fd89651f490b1d0b669f21b0463dc2b1130861",
         "type": "github"
       },
       "original": {
@@ -1014,11 +1014,11 @@
     },
     "pkgs-unstable": {
       "locked": {
-        "lastModified": 1761907660,
-        "narHash": "sha256-kJ8lIZsiPOmbkJypG+B5sReDXSD1KGu2VEPNqhRa/ew=",
+        "lastModified": 1762111121,
+        "narHash": "sha256-4vhDuZ7OZaZmKKrnDpxLZZpGIJvAeMtK6FKLJYUtAdw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2fb006b87f04c4d3bdf08cfdbc7fab9c13d94a15",
+        "rev": "b3d51a0365f6695e7dd5cdf3e180604530ed33b4",
         "type": "github"
       },
       "original": {
@@ -1171,7 +1171,8 @@
         "robotnix": "robotnix",
         "stable-diffusion-webui-nix": "stable-diffusion-webui-nix",
         "uv2nix": "uv2nix",
-        "wezterm": "wezterm"
+        "wezterm": "wezterm",
+        "yt-music-tap": "yt-music-tap"
       }
     },
     "rust-overlay": {
@@ -1377,6 +1378,22 @@
         "dir": "nix",
         "owner": "wezterm",
         "repo": "wezterm",
+        "type": "github"
+      }
+    },
+    "yt-music-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1758483973,
+        "narHash": "sha256-7rcUremYRB9JsqaY6SyRfXk1GnrTfyJjYUi0fDiI5Sk=",
+        "owner": "th-ch",
+        "repo": "homebrew-youtube-music",
+        "rev": "b87d9c3dfa2ec58c182b6bfda182ccbdc58beb5c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "th-ch",
+        "repo": "homebrew-youtube-music",
         "type": "github"
       }
     },
