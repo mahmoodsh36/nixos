@@ -148,7 +148,7 @@ in
     services.displayManager = {
       autoLogin = {
         enable = true;
-        user = "mahmooz";
+        user = "${config.machine.user}";
       };
       sddm = {
         enable = true;
@@ -212,7 +212,7 @@ in
 
     # spice-gtk?
     programs.virt-manager.enable = true;
-    users.groups.libvirtd.members = [ constants.myuser ];
+    users.groups.libvirtd.members = [ config.machine.user ];
     virtualisation.spiceUSBRedirection.enable = true;
 
     # dictionaries
@@ -367,7 +367,7 @@ in
       wantedBy = [ "multi-user.target" ];
       script = "${pkgs.dash}/bin/dash ${constants.scripts_dir}/mpv_logger.sh";
       serviceConfig = {
-        User = constants.myuser;
+        User = config.machine.user;
         Restart = "always";
         RuntimeMaxSec = "3600";
       };

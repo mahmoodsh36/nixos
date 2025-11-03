@@ -10,9 +10,9 @@ in
   ];
 
   config = {
-    users.users.mahmooz = {
+    users.users."${config.machine.user}" = {
       shell = pkgs.zsh;
-      home = "/Users/mahmoodsheikh";
+      home = "/Users/${config.machine.user}";
     };
 
     home-manager.useGlobalPkgs = true;
@@ -25,7 +25,7 @@ in
 
     # "lib" in home-manager configs needs to not be overridden. otherwise
     # we might cause issues
-    home-manager.users.mahmooz = { lib, config, ... }:
+    home-manager.users."${config.machine.user}" = { lib, config, ... }:
       let
         dots = if builtins.pathExists "${config.home.homeDirectory}/work/otherdots"
                then "${config.home.homeDirectory}/work/otherdots"

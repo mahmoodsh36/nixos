@@ -79,7 +79,7 @@ in
     };
 
     # users
-    users.users.mahmooz = {
+    users.users."${config.machine.user}" = {
       isNormalUser = true;
       extraGroups = [ "audio" "wheel" "podman" "incus-admin" "libvirtd" "caddy" ];
       shell = pkgs.zsh;
@@ -147,12 +147,12 @@ in
       after = [ "network.target" ];
       wants = [ "network.target" ];
       serviceConfig = {
-        ExecStart = "${pkgs.python3.withPackages (ps: with ps; [ aiohttp requests ])}/bin/python /home/mahmooz/work/scripts/keepalive.py";
+        ExecStart = "${pkgs.python3.withPackages (ps: with ps; [ aiohttp requests ])}/bin/python /home/${config.machine.user}/work/scripts/keepalive.py";
         Restart = "always";
         RestartSec = 10;
-        User = "mahmooz";
+        User = "${config.machine.user}";
         NoNewPrivileges = true;
-        ConditionPathExists = "/home/mahmooz/work/scripts/keepalive.py";
+        ConditionPathExists = "/home/${config.machine.user}/work/scripts/keepalive.py";
       };
       wantedBy = [ "multi-user.target" ];
     };

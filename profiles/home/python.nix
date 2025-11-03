@@ -50,7 +50,7 @@ let
 
     # for system/scripts etc
     musicbrainzngs ytmusicapi tinytag python-magic
-    evdev
+    # evdev
     pdf2image
     music-tag
     spotdl

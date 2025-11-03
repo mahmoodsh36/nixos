@@ -6,9 +6,11 @@ rec {
   # private_domain = "mahmooz3.lan";
   mydomain = "mahmoodsh.com";
   mygithub = "https://github.com/mahmoodsh36";
+  # TODO: get rid of the variable 'myuser'
   myuser = "mahmooz";
   personal_website = "https://mahmoodsh36.github.io";
   ssh_pub_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz";
+  # TODO: get rid of the direct usage of /home here
   home_dir = "/home/${myuser}";
   work_dir = "/home/${myuser}/work";
   scripts_dir = "${work_dir}/scripts";

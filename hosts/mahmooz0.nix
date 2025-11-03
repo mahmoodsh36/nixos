@@ -5,12 +5,12 @@
   config = {
     # required for nix-darwin to work
     system.stateVersion = 1;
-    system.primaryUser = "mahmoodsheikh";
+    system.primaryUser = "${config.machine.user}";
 
     environment.variables.HOMEBREW_NO_ANALYTICS = "1";
 
-    users.users.mahmooz = {
-      name = "mahmooz";
+    users.users."${config.machine.user}" = {
+      name = config.machine.user;
       # see the reference docs for more on user config:
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-users.users
     };

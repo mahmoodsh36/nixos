@@ -379,6 +379,7 @@
           ({ config, pkgs, lib, ... }: {
             config = {
               machine.name = "mahmooz0";
+              machine.user = "mahmoodsheikh";
               machine.is_desktop = true;
               machine.enable_nvidia = false;
               machine.is_linux = false;

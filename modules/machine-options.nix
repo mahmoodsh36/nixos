@@ -8,6 +8,10 @@
       type = lib.types.str;
       default = "mahmooz1";
     };
+    machine.user = lib.mkOption {
+      type = lib.types.str;
+      default = "mahmooz";
+    };
     machine.static_ip = lib.mkOption {
       type = lib.types.str;
       default = "192.168.1.100";
