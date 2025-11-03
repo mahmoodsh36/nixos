@@ -63,6 +63,7 @@ in
         # "ext4fuse"
         # "gromgit/fuse/ntfs-3g-mac"
         # "rsync"
+        "llama.cpp"
       ];
       onActivation.autoUpdate = true;
       onActivation.upgrade = true;
