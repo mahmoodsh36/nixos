@@ -15,8 +15,8 @@ in
     # not needed with flakes and causes a bunch of warnings
     nix.channel.enable = false;
 
-    programs.zsh.enable = true;
     programs.direnv.enable = true;
+    # programs.zsh.enable = true;
 
     # for binaries of nonfree packages, like pytorch (otherwise nix will try to compile them)
     nix.settings.substituters = [

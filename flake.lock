@@ -525,16 +525,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1758463745,
-        "narHash": "sha256-uhzsV0Q0I9j2y/rfweWeGif5AWe0MGrgZ/3TjpDYdGA=",
+        "lastModified": 1762183399,
+        "narHash": "sha256-vr2aL1QLfERYTfYBgK8cW3T9eSdSEThH462wKaGlmEU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "3b955f5f0a942f9f60cdc9cacb7844335d0f21c3",
+        "rev": "a5fee077929ae2f2800c3087dce5e1abb4edfbc6",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-25.05",
         "repo": "home-manager",
         "type": "github"
       }
@@ -542,11 +541,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1762196985,
-        "narHash": "sha256-yZOzqzg9pxwq9NoqVO//vqu2IP/4a7bzRhEXFWM9juM=",
+        "lastModified": 1762199350,
+        "narHash": "sha256-XElEX6qCShCG+IIKgCUVwfyPpiYmq2WCR3THvzIofIA=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "abf167ea1785b67d8c0e148e1f666d0cbba01415",
+        "rev": "5516c6ca37399e9cee8193751afa0501017bcc5a",
         "type": "github"
       },
       "original": {
@@ -558,11 +557,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1762196126,
-        "narHash": "sha256-tJ7691JhnSiUEOeVli8NNwZnPkhA6CuECz96RgMBGmE=",
+        "lastModified": 1762199286,
+        "narHash": "sha256-nqGDFhO2TSzioQdpcnlUlhViD0jV9y4QO9l9C6TEfk4=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "28dbfefafed9f58edb591cdd70c1e0c7144f7437",
+        "rev": "e5a3b040cd67078ac6d56e8a8182b619d2176838",
         "type": "github"
       },
       "original": {
@@ -618,11 +617,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762192406,
-        "narHash": "sha256-HYrKS55wUpVf7gAuMKwNiIwmntAaShVVnl8wIm5zmEs=",
+        "lastModified": 1762199277,
+        "narHash": "sha256-LvmZcQywXhVB8cQ8OWKm8pidW77Tuenxtl32HinARA8=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "e7da30b584dc1f2ee0414c4a1298ce64eef97e8d",
+        "rev": "c5023daf607c578d6344c628eb7da18ac3d92d32",
         "type": "github"
       },
       "original": {
@@ -998,11 +997,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1762197182,
-        "narHash": "sha256-BvMAZOykxeF63kvymUpoBh3rsVxxu0TPJzh+3G05tzM=",
+        "lastModified": 1762199833,
+        "narHash": "sha256-amZfWxIRiouibUqmbx8Dyb7GOaW3wgEC9s3LPGz5EE0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d0de519c37a0d984b3e338358dc672ae57ff5982",
+        "rev": "fc1942a4c9016b599567fa9eb058a12e363629ad",
         "type": "github"
       },
       "original": {
