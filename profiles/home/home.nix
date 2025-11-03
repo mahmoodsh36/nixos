@@ -96,6 +96,7 @@ in
           # ./julia.nix
           ./sbcl.nix
           ./distrobox-config.nix
+          ./karabiner.nix
         ];
 
         home.file = config_entries // script_entries // {
@@ -125,11 +126,11 @@ in
             PYTHON_HISTORY = "$HOME/brain/python_history";
 
             HOME_DIR = homedir;
-            BRAIN_DIR = "${HOME_DIR}/brain";
-            MUSIC_DIR = "${HOME_DIR}/music";
+            VOL_DIR = voldir;
+            BRAIN_DIR = "${VOL_DIR}/brain";
+            MUSIC_DIR = "${VOL_DIR}/music";
             WORK_DIR = work_dir;
             VOLUME_DIR = voldir;
-            VOL_DIR = voldir;
             NOTES_DIR = "${BRAIN_DIR}/notes";
             SCRIPTS_DIR = "${WORK_DIR}/scripts";
             DOTFILES_DIR = "${WORK_DIR}/otherdots";
@@ -137,7 +138,7 @@ in
             BLOG_DIR = "${WORK_DIR}/blog";
             EDITOR = "nvim";
             BROWSER = "firefox";
-            DATA_DIR = "${HOME_DIR}/data";
+            DATA_DIR = "${VOL_DIR}/data";
             MPV_SOCKET_DIR = "${DATA_DIR}/mpv_data/sockets";
             MPV_MAIN_SOCKET_PATH = "${DATA_DIR}/mpv_data/sockets/mpv.socket";
             MYGITHUB = constants.mygithub;

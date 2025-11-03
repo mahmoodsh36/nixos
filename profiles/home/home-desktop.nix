@@ -4,6 +4,9 @@ let
   constants = (import ../lib/constants.nix);
 in
 {
+  imports = [
+    ./karabiner.nix 
+  ];
   config = lib.mkIf config'.machine.is_desktop {
     programs.firefox = {
       enable = config'.machine.is_desktop;
@@ -151,5 +154,6 @@ in
     #   platformTheme.name = "kde";
     #   style.package = pkgs.adwaita-qt;
     # };
+  } // lib.mkIf (config'.machine.is_darwin && config'.machine.is_desktop) {
   };
 }
