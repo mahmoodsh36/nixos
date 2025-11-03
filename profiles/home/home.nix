@@ -79,7 +79,7 @@ in
           ../machine-config.nix
           ./vscode.nix
           ./zed.nix
-          ./plasma.nix
+          # ./plasma.nix
           ./python.nix
           # ./julia.nix
           ./sbcl.nix

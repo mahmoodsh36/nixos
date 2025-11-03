@@ -132,16 +132,5 @@ in
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
-
-    virtualisation.arion = {
-      backend = "podman-socket";
-      projects.open-notebook = lib.mkIf config.machine.is_desktop {
-        settings = {
-          imports = [
-            ./arion-open-notebook.nix
-          ];
-        };
-      };
-    };
   };
 }

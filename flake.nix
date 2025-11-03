@@ -379,7 +379,7 @@
           # add the determinate nix-darwin module
           inputs.determinate.darwinModules.default
           inputs.home-manager.nixosModules.home-manager
-          inputs.arion.nixosModules.arion
+          # inputs.arion.nixosModules.arion
           # inputs.declarative-jellyfin.nixosModules.default
           ./config-darwin.nix
           ({ config, pkgs, lib, ... }: {

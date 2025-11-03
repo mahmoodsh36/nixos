@@ -339,6 +339,17 @@ in
       };
     };
 
+    virtualisation.arion = {
+      backend = "podman-socket";
+      projects.open-notebook = lib.mkIf config.machine.is_desktop {
+        settings = {
+          imports = [
+            ./arion-open-notebook.nix
+          ];
+        };
+      };
+    };
+
     zramSwap.enable = true;
     # zramSwap.memoryPercent = 50; # 50% of available ram
     zramSwap.memoryMax = (10 * 1024 * 1024 * 1024); # 10gb
