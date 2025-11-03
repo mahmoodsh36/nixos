@@ -7,6 +7,10 @@ let
   homedir = if config.machine.is_darwin
              then "/Users/${config.machine.user}"
              else "/home/${config.machine.user}";
+  voldir = if config.machine.is_darwin
+           then "/Volumes/main"
+           else "/home/${config.machine.user}";
+  work_dir = "${homedir}/work";
 in
 {
   imports = [
@@ -30,15 +34,15 @@ in
     # we might cause issues
     home-manager.users."${config.machine.user}" = { lib, config, ... }:
       let
-        dots = if builtins.pathExists "${config.home.homeDirectory}/work/otherdots"
-               then "${config.home.homeDirectory}/work/otherdots"
+        dots = if builtins.pathExists "${work_dir}/otherdots"
+               then "${work_dir}/otherdots"
                else (builtins.fetchGit {
                  url = "${constants.mygithub}/otherdots.git";
                  ref = "main";
                }).outPath;
 
-        nvim_dots = if builtins.pathExists "${config.home.homeDirectory}/work/nvim"
-                    then "${config.home.homeDirectory}/work/nvim"
+        nvim_dots = if builtins.pathExists "${work_dir}/nvim"
+                    then "${work_dir}/nvim"
                     else (builtins.fetchGit {
                       url = "${constants.mygithub}/nvim.git";
                       ref = "main";
@@ -56,8 +60,8 @@ in
           };
         }) config_names);
 
-        scripts_dir = if builtins.pathExists "${config.home.homeDirectory}/work/scripts"
-                      then "${config.home.homeDirectory}/work/scripts"
+        scripts_dir = if builtins.pathExists "${work_dir}/scripts"
+                      then "${work_dir}/scripts"
                       else (builtins.fetchGit {
                         url = "${constants.mygithub}/scripts.git";
                         ref = "main";
@@ -121,7 +125,8 @@ in
           HOME_DIR = homedir;
           BRAIN_DIR = "${HOME_DIR}/brain";
           MUSIC_DIR = "${HOME_DIR}/music";
-          WORK_DIR = "${HOME_DIR}/work";
+          WORK_DIR = work_dir;
+          VOLUME_DIR = voldir;
           NOTES_DIR = "${BRAIN_DIR}/notes";
           SCRIPTS_DIR = "${WORK_DIR}/scripts";
           DOTFILES_DIR = "${WORK_DIR}/otherdots";
