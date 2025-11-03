@@ -7,7 +7,7 @@
     pkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     pkgs-master.url = "github:NixOS/nixpkgs/master";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       # url = "github:nix-community/home-manager/a3fcc92180c7462082cd849498369591dfb20855";
       inputs.nixpkgs.follows = "nixpkgs";
     };
