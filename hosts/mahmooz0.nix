@@ -33,6 +33,8 @@
         "fuse-t"
         "mpv"
         "yt-music"
+        "transmission"
+        "raycast"
       ];
       brews = [
         # "anylinuxfs"

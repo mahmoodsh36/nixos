@@ -67,6 +67,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # macos
     nix-darwin = {
       url = "https://flakehub.com/f/nix-darwin/nix-darwin/0.1";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -74,6 +75,14 @@
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
     };
 
     nix-on-droid = {
@@ -389,6 +398,28 @@
           })
           ./hosts/mahmooz0.nix
           self.darwinModules.nixConfig
+          inputs.nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              # install homebrew under the default prefix
+              enable = true;
+              # apple silicon only: also install homebrew under the default intel prefix for rosetta 2
+              enableRosetta = true;
+              # user owning the homebrew prefix
+              user = "mahmoodsheikh";
+              # optional: declarative tap management
+              taps = {
+                "homebrew/homebrew-core" = inputs.homebrew-core;
+                "homebrew/homebrew-cask" = inputs.homebrew-cask;
+              };
+              # with mutabletaps disabled, taps can no longer be added imperatively with `brew tap`.
+              mutableTaps = false;
+            };
+          }
+          # align homebrew taps config with nix-homebrew
+          ({config, ...}: {
+            homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
+          })
         ];
       };
       # for intel macs
