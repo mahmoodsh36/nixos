@@ -94,9 +94,6 @@ in
       XDG_STATE_HOME  = "$HOME/.local/state";
       # not officially in the specification
       XDG_BIN_HOME    = "$HOME/.local/bin";
-      PATH = [
-        "${XDG_BIN_HOME}"
-      ];
       # this one fixes some problems with python matplotlib and probably some other qt applications
       QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
       # QT_SCALE_FACTOR = "2";

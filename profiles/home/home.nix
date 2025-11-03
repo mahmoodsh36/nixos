@@ -107,6 +107,15 @@ in
         };
 
         home.sessionVariables = rec {
+          # we want our rsync to precede macos' default rsync to support options like --iconv
+          # PATH = "${pkgs.rsync}/bin:" + (builtins.getEnv "PATH");
+          # this doesnt seem to take effect?
+          # PATH = builtins.concatStringsSep ":" [
+          #   "${pkgs.rsync}/bin"
+          #   "${pkgs.coreutils}/bin"
+          #   "${builtins.getEnv "PATH"}"
+          # ];
+
           PYTHON_HISTORY = "$HOME/brain/python_history";
 
           HOME_DIR = homedir;
