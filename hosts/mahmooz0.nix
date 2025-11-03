@@ -41,6 +41,7 @@
         # "ext4fuse-mac"
         # "ext4fuse"
         # "gromgit/fuse/ntfs-3g-mac"
+        # "rsync"
       ];
       onActivation.autoUpdate = true;
       onActivation.upgrade = true;

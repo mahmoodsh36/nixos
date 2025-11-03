@@ -100,29 +100,6 @@ in
       # this one fixes some problems with python matplotlib and probably some other qt applications
       QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
       # QT_SCALE_FACTOR = "2";
-      PYTHON_HISTORY = "$HOME/brain/python_history";
-
-      BRAIN_DIR = constants.brain_dir;
-      MUSIC_DIR = constants.music_dir;
-      WORK_DIR = constants.work_dir;
-      NOTES_DIR = constants.notes_dir;
-      SCRIPTS_DIR = constants.scripts_dir;
-      DOTFILES_DIR = constants.dotfiles_dir;
-      NIX_CONFIG_DIR = constants.nix_config_dir;
-      BLOG_DIR = constants.blog_dir;
-      EDITOR = "nvim";
-      BROWSER = "firefox";
-      DATA_DIR = constants.data_dir;
-      MPV_SOCKET_DIR = constants.mpv_socket_dir;
-      MPV_MAIN_SOCKET_PATH = constants.mpv_main_socket_path;
-      MODELS_DIR = constants.models_dir;
-      MYGITHUB = constants.mygithub;
-      PERSONAL_WEBSITE = constants.personal_website;
-      MAHMOOZ3_ADDR = constants.mahmooz3_addr;
-      MAHMOOZ2_ADDR = constants.mahmooz2_addr;
-      MAHMOOZ1_ADDR = constants.mahmooz1_addr;
-      MYDOMAIN = constants.mydomain;
-      LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
     } // (if config.machine.enable_nvidia then {
       # do we really need these? hopefully it makes things work with jellyfin/firefox?
       LIBVA_DRIVER_NAME = "nvidia";
@@ -131,7 +108,6 @@ in
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       MOZ_DISABLE_RDD_SANDBOX= "1" ;
     } else {});
-
 
     # wheel group doesnt need password for sudo
     security.sudo = {
@@ -222,16 +198,16 @@ in
           contentType = "tvshows";
           pathInfos = [ "${constants.extra_storage_dir}/shows" ];
         };
-        Books = lib.mkIf (builtins.pathExists "${constants.brain_dir}/resources" ) {
-          enabled = true;
-          contentType = "books";
-          pathInfos = [ "${constants.brain_dir}/resources" ];
-        };
-        Music = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/music" ) {
-          enabled = true;
-          contentType = "music";
-          pathInfos = [ "${constants.extra_storage_dir}/music" ];
-        };
+        # Books = lib.mkIf (builtins.pathExists "${constants.brain_dir}/resources" ) {
+        #   enabled = true;
+        #   contentType = "books";
+        #   pathInfos = [ "${constants.brain_dir}/resources" ];
+        # };
+        # Music = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/music" ) {
+        #   enabled = true;
+        #   contentType = "music";
+        #   pathInfos = [ "${constants.extra_storage_dir}/music" ];
+        # };
       };
       # hardware acceleration
       encoding = lib.mkIf config.machine.enable_nvidia {

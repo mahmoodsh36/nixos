@@ -91,21 +91,21 @@ in
       };
       systemd.services.vllm-qwen3.serviceConfig = {
         Restart = "always";
-        User = constants.myuser;
+        User = config.machine.user;
       };
       systemd.services.vllm-qwen3-embed.unitConfig = {
         ConditionPathExists = constants.models_dir;
       };
       systemd.services.vllm-qwen3-embed.serviceConfig = {
         Restart = "always";
-        User = constants.myuser;
+        User = config.machine.user;
       };
       systemd.services.vllm-mimo-vl.unitConfig = {
         ConditionPathExists = constants.models_dir;
       };
       systemd.services.vllm-mimo-vl.serviceConfig = {
         Restart = "always";
-        User = constants.myuser;
+        User = config.machine.user;
       };
       systemd.services.llamacpp_llm_service = {
         enable = config.machine.is_desktop;
@@ -195,7 +195,7 @@ in
         # '';
         serviceConfig = {
           Restart = "always";
-          User = constants.myuser;
+          User = config.machine.user;
         };
         unitConfig = {
           ConditionPathExists = constants.models_dir;
@@ -211,7 +211,7 @@ in
         script = "${config.machine.llama-cpp.pkg}/bin/llama-server --host 0.0.0.0 --port 5001 -hf unsloth/Qwen3-0.6B-GGUF:Q4_K_M -ngl 99 -fa -c 16000 --seed 2 --embedding --pooling last -ub 8000 --no-kv-offload";
         serviceConfig = {
           Restart = "always";
-          User = constants.myuser;
+          User = config.machine.user;
         };
         unitConfig = {
           ConditionPathExists = constants.models_dir;

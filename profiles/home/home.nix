@@ -4,6 +4,9 @@ let
   constants = (import ../../lib/constants.nix);
   # here, config' is the system config, while "config" might be home-manager-specific
   config' = config;
+  homedir = if config.machine.is_darwin
+             then "/Users/${config.machine.user}"
+             else "/home/${config.machine.user}";
 in
 {
   imports = [
@@ -12,7 +15,7 @@ in
   config = {
     users.users."${config.machine.user}" = {
       shell = pkgs.zsh;
-      home = "/Users/${config.machine.user}";
+      home = homedir;
     };
 
     home-manager.useGlobalPkgs = true;
@@ -101,6 +104,32 @@ in
           ".config/nvim" = {
             source = config.lib.file.mkOutOfStoreSymlink nvim_dots;
           };
+        };
+
+        home.sessionVariables = rec {
+          PYTHON_HISTORY = "$HOME/brain/python_history";
+
+          HOME_DIR = homedir;
+          BRAIN_DIR = "${HOME_DIR}/brain";
+          MUSIC_DIR = "${HOME_DIR}/music";
+          WORK_DIR = "${HOME_DIR}/work";
+          NOTES_DIR = "${BRAIN_DIR}/notes";
+          SCRIPTS_DIR = "${WORK_DIR}/scripts";
+          DOTFILES_DIR = "${WORK_DIR}/otherdots";
+          NIX_CONFIG_DIR = "${WORK_DIR}/nixos";
+          BLOG_DIR = "${WORK_DIR}/blog";
+          EDITOR = "nvim";
+          BROWSER = "firefox";
+          DATA_DIR = "${HOME_DIR}/data";
+          MPV_SOCKET_DIR = "${DATA_DIR}/mpv_data/sockets";
+          MPV_MAIN_SOCKET_PATH = "${DATA_DIR}/mpv_data/sockets/mpv.socket";
+          MYGITHUB = constants.mygithub;
+          PERSONAL_WEBSITE = constants.personal_website;
+          MAHMOOZ3_ADDR = constants.mahmooz3_addr;
+          MAHMOOZ2_ADDR = constants.mahmooz2_addr;
+          MAHMOOZ1_ADDR = constants.mahmooz1_addr;
+          MYDOMAIN = constants.mydomain;
+          # LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
         };
 
         programs.home-manager.enable = true;
