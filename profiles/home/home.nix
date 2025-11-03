@@ -10,7 +10,7 @@ let
   voldir = if config.machine.is_darwin
            then "/Volumes/main"
            else "/home/${config.machine.user}";
-  work_dir = "${homedir}/work";
+  work_dir = "${voldir}/work";
 in
 {
   imports = [
@@ -110,40 +110,44 @@ in
           };
         };
 
-        home.sessionVariables = rec {
-          # we want our rsync to precede macos' default rsync to support options like --iconv
-          # PATH = "${pkgs.rsync}/bin:" + (builtins.getEnv "PATH");
-          # this doesnt seem to take effect?
-          # PATH = builtins.concatStringsSep ":" [
-          #   "${pkgs.rsync}/bin"
-          #   "${pkgs.coreutils}/bin"
-          #   "${builtins.getEnv "PATH"}"
-          # ];
+        programs.zsh = {
+          enable = true;
+          sessionVariables = rec {
+            # we want our rsync to precede macos' default rsync to support options like --iconv
+            # PATH = "${pkgs.rsync}/bin:" + (builtins.getEnv "PATH");
+            # this doesnt seem to take effect?
+            # PATH = builtins.concatStringsSep ":" [
+            #   "${pkgs.rsync}/bin"
+            #   "${pkgs.coreutils}/bin"
+            #   "${builtins.getEnv "PATH"}"
+            # ];
 
-          PYTHON_HISTORY = "$HOME/brain/python_history";
+            PYTHON_HISTORY = "$HOME/brain/python_history";
 
-          HOME_DIR = homedir;
-          BRAIN_DIR = "${HOME_DIR}/brain";
-          MUSIC_DIR = "${HOME_DIR}/music";
-          WORK_DIR = work_dir;
-          VOLUME_DIR = voldir;
-          NOTES_DIR = "${BRAIN_DIR}/notes";
-          SCRIPTS_DIR = "${WORK_DIR}/scripts";
-          DOTFILES_DIR = "${WORK_DIR}/otherdots";
-          NIX_CONFIG_DIR = "${WORK_DIR}/nixos";
-          BLOG_DIR = "${WORK_DIR}/blog";
-          EDITOR = "nvim";
-          BROWSER = "firefox";
-          DATA_DIR = "${HOME_DIR}/data";
-          MPV_SOCKET_DIR = "${DATA_DIR}/mpv_data/sockets";
-          MPV_MAIN_SOCKET_PATH = "${DATA_DIR}/mpv_data/sockets/mpv.socket";
-          MYGITHUB = constants.mygithub;
-          PERSONAL_WEBSITE = constants.personal_website;
-          MAHMOOZ3_ADDR = constants.mahmooz3_addr;
-          MAHMOOZ2_ADDR = constants.mahmooz2_addr;
-          MAHMOOZ1_ADDR = constants.mahmooz1_addr;
-          MYDOMAIN = constants.mydomain;
-          # LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
+            HOME_DIR = homedir;
+            BRAIN_DIR = "${HOME_DIR}/brain";
+            MUSIC_DIR = "${HOME_DIR}/music";
+            WORK_DIR = work_dir;
+            VOLUME_DIR = voldir;
+            VOL_DIR = voldir;
+            NOTES_DIR = "${BRAIN_DIR}/notes";
+            SCRIPTS_DIR = "${WORK_DIR}/scripts";
+            DOTFILES_DIR = "${WORK_DIR}/otherdots";
+            NIX_CONFIG_DIR = "${WORK_DIR}/nixos";
+            BLOG_DIR = "${WORK_DIR}/blog";
+            EDITOR = "nvim";
+            BROWSER = "firefox";
+            DATA_DIR = "${HOME_DIR}/data";
+            MPV_SOCKET_DIR = "${DATA_DIR}/mpv_data/sockets";
+            MPV_MAIN_SOCKET_PATH = "${DATA_DIR}/mpv_data/sockets/mpv.socket";
+            MYGITHUB = constants.mygithub;
+            PERSONAL_WEBSITE = constants.personal_website;
+            MAHMOOZ3_ADDR = constants.mahmooz3_addr;
+            MAHMOOZ2_ADDR = constants.mahmooz2_addr;
+            MAHMOOZ1_ADDR = constants.mahmooz1_addr;
+            MYDOMAIN = constants.mydomain;
+            # LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
+          };
         };
 
         programs.home-manager.enable = true;
