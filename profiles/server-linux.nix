@@ -47,6 +47,7 @@ in
     environment.systemPackages = with pkgs; [
       lshw
       libva-utils
+      nethogs
     ];
 
     # enable some programs/services

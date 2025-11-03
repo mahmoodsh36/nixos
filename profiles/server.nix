@@ -71,7 +71,6 @@ in
       #     sha256 = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
       #   };
       # }))
-      nethogs
       inputs.cltpt.packages.${pkgs.system}.default
       expect # for unbuffer etc
       mpris-scrobbler

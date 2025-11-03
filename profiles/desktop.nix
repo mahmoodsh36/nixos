@@ -59,19 +59,14 @@ in
       #   exec ${main_julia}/bin/julia "$@"
       # '')
 
-      vdhcoapp # for firefox video download helper
-
       # other
       # adb-sync
-      woeusb-ng
       ntfs3g
       gnupg
       graphviz
       isync
       notmuch
       monolith # save webpages
-      quickemu # quickly start VMs
-      ventoy
       djvulibre djvu2pdf
       czkawka czkawka-full # file dupe finder/cleaner? has a gui too
       # python3Packages.chromadb # vector database
@@ -80,17 +75,15 @@ in
       exiftool
       spotdl
       openjdk
-      transmission_4 acpi lm_sensors
+      transmission_4
       you-get aria2
       playwright
       uv
       argc
-      cryptsetup
       imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
       ffmpeg-full.bin # untrunc-anthwlock
       pandoc
       pigz # for compression
-      jellyfin-tui jellycli jellytui
       kando
       (pkgs.callPackage ../packages/vend.nix {})
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
@@ -101,7 +94,6 @@ in
       nix-tree
       nixos-anywhere
       nix-init
-      steam-run-free
 
       # some programming languages/environments
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs.sagetex ])))

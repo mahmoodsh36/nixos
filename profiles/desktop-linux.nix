@@ -350,6 +350,16 @@ in
       virt-viewer
       openrgb-with-all-plugins
       tor-browser
+
+      vdhcoapp # for firefox video download helper
+      woeusb-ng
+      quickemu # quickly start VMs
+      ventoy
+      acpi lm_sensors
+      cryptsetup
+      jellyfin-tui jellycli jellytui
+
+      steam-run-free
     ];
 
     systemd.services.my_mpv_logger_service = {
