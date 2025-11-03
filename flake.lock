@@ -931,11 +931,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1762134477,
-        "narHash": "sha256-Unb1QjkFwr/7z1z6OrIbUgS5qpIXXeS9GD+uHDPNmc4=",
+        "lastModified": 1762139454,
+        "narHash": "sha256-GVYFjnDASBztylj50+F5B49rCjfd29LXqCg3/CuRchY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ec665c3ccf7de8618be35d38d9ea990ec82adc7c",
+        "rev": "a98968acb43d11fc7e79bfa7bcbf480f752193db",
         "type": "github"
       },
       "original": {
