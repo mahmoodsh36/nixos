@@ -42,19 +42,12 @@ in
       taps = builtins.attrNames config.nix-homebrew.taps;
       # taps = builtins.attrNames taps;
       # taps = [
-      #   # for ntfs-3g and macfuse
-      #   # "gromgit/homebrew-fuse"
-      #   # remove this next time, its not needed since fuse-t can be grabbed without it
-      #   # "macos-fuse-t/cask"
-      #   # "nohajc/anylinuxfs"
-      #   "th-ch/youtube-music/"
+      #   "nohajc/anylinuxfs"
       # ];
       casks = [
         "emacs-app"
         "wezterm"
         "firefox"
-        # "macfuse"
-        # "osxfuse"
         "fuse-t"
         "mpv"
         "transmission"
