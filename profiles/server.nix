@@ -40,7 +40,7 @@ in
       parallel
       fd # alternative to find
       dash
-      lshw lsof tree
+      lsof tree
       tree-sitter
       glances btop ncdu
       gcc clang gdb clang-tools
@@ -55,7 +55,6 @@ in
       # })
       wezterm
       fdupes
-      libva-utils
       jellyfin-web jellyfin-ffmpeg jellyfin
       miller
       bc # used for some arithmetic in shell scripts
@@ -124,13 +123,5 @@ in
         };
       })
     ];
-
-    # garbage collection
-    nix.settings.auto-optimise-store = true;
-    nix.gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
   };
 }

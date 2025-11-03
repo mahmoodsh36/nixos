@@ -24,6 +24,10 @@
       type = lib.types.bool;
       default = true;
     };
+    machine.is_darwin = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
 
     machine.llama-cpp = {
       pkg = lib.mkOption {

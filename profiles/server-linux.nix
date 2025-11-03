@@ -44,6 +44,11 @@ in
       enableSSHSupport = true;
     };
 
+    environment.systemPackages = with pkgs; [
+      lshw
+      libva-utils
+    ];
+
     # enable some programs/services
     programs.git = {
       enable = true;

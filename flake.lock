@@ -569,11 +569,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762114908,
-        "narHash": "sha256-xgGfQ6T6U379tASA8AjuMLVMtfXNvVDhX5MfJUReQhA=",
+        "lastModified": 1762133733,
+        "narHash": "sha256-d2snFcMLZVWalaLckkBIAoKX1imYNNQIv4EbbS1fTf8=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "2f966b8ed87514e74bb96592217226cb6a6974dd",
+        "rev": "7e994168b1ccc12337ba8de939c4fd466107c1fb",
         "type": "github"
       },
       "original": {
@@ -931,11 +931,11 @@
     },
     "pkgs-master": {
       "locked": {
-        "lastModified": 1762113106,
-        "narHash": "sha256-iiv03ogrvPXanFWJIBM2/wQn/3mKAYNpN/1bxWELhUE=",
+        "lastModified": 1762134477,
+        "narHash": "sha256-Unb1QjkFwr/7z1z6OrIbUgS5qpIXXeS9GD+uHDPNmc4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "134fe04e1dad764124c515007533cdd3c9a01aaf",
+        "rev": "ec665c3ccf7de8618be35d38d9ea990ec82adc7c",
         "type": "github"
       },
       "original": {
@@ -971,11 +971,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1761078382,
-        "narHash": "sha256-JNJesbe9MMN1Brq41BHEpuH+Z+Zg74y/nI5AFZX84Vw=",
+        "lastModified": 1762115864,
+        "narHash": "sha256-KREKZiBAkAnqJC+jvY+vSbLlrg8j6DFEU7Lv+tgOlHI=",
         "owner": "nix-community",
         "repo": "plasma-manager",
-        "rev": "27dfa61b64d0cdb8e4ba6f3aaa4d4e067d64cb5c",
+        "rev": "8e9e76efa3cc811c230512b40d8cfde06e40da5b",
         "type": "github"
       },
       "original": {

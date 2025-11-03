@@ -1,7 +1,7 @@
 { lib, config, pkgs, inputs, pkgs-master, pkgs-unstable, ... }:
 
 let
-  constants = (import ../lib/constants.nix);
+  constants = (import ../../lib/constants.nix);
   # here, config' is the system config, while "config" might be home-manager-specific
   config' = config;
 in
@@ -10,6 +10,11 @@ in
   ];
 
   config = {
+    users.users.mahmooz = {
+      shell = pkgs.zsh;
+      home = "/Users/mahmoodsheikh";
+    };
+
     home-manager.useGlobalPkgs = true;
     home-manager.useUserPackages = true;
     home-manager.backupFileExtension = "hmbkup";

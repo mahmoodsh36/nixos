@@ -16,7 +16,7 @@ cd ~/work/nixos/
 if [ "$conf" == "droid" ]; then
     nix-on-droid switch --flake .#"$conf" --show-trace
 elif [ "$conf" == "mahmooz0" ]; then
-  sudo darwin-rebuild switch --flake .#mahmooz0 --show-trace
+  sudo darwin-rebuild switch --flake .#mahmooz0 --show-trace --impure
 else
     # sudo -E nixos-rebuild switch --upgrade --flake .#"$conf" --show-trace --impure --install-bootloader
     # the -E option is sometimes problematic, but nixos-rebuild has to be run as root

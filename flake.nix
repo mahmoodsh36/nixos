@@ -374,7 +374,7 @@
         modules = [
           # add the determinate nix-darwin module
           inputs.determinate.darwinModules.default
-          inputs.home-manager.nixosModules.home-manager
+          inputs.home-manager.darwinModules.home-manager
           ./config-darwin.nix
           ({ config, pkgs, lib, ... }: {
             config = {
@@ -382,6 +382,7 @@
               machine.is_desktop = true;
               machine.enable_nvidia = false;
               machine.is_linux = false;
+              machine.is_darwin = true;
               machine.static_ip = "192.168.1.1";
             };
           })

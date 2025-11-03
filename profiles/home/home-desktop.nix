@@ -11,7 +11,7 @@ in
     programs.chromium = {
       enable = config'.machine.is_desktop;
     };
-  } // lib.mkIf (and config'.machine.is_linux config'.machine.is_desktop) {
+  } // lib.mkIf (config'.machine.is_linux && config'.machine.is_desktop) {
     services.blueman-applet.enable = true;
     services.playerctld.enable = true;
     services.mpris-proxy.enable = true;
