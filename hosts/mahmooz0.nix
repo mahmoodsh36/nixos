@@ -21,7 +21,7 @@
         # for ntfs-3g and macfuse
         # "gromgit/homebrew-fuse"
         # remove this next time, its not needed since fuse-t can be grabbed without it
-        "macos-fuse-t/cask"
+        # "macos-fuse-t/cask"
         # "nohajc/anylinuxfs"
       ];
       casks = [
@@ -48,6 +48,27 @@
       onActivation.autoUpdate = true;
       onActivation.upgrade = true;
       onActivation.cleanup = "zap";
+    };
+
+    system.defaults = {
+      dock = {
+        autohide = true;
+        persistent-apps = [
+          "/Applications/Firefox.app"
+          "/Applications/WezTerm.app"
+          "/Applications/Emacs.app"
+          "/Applications/Transmission.app"
+          "/Applications/YT Music.app"
+        ];
+      };
+      finder.FXPreferredViewStyle = "clmv"; # column view
+      loginwindow.GuestEnabled = false;
+      NSGlobalDomain = {
+        AppleICUForce24HourTime = true;
+        AppleInterfaceStyle = "Dark";
+        KeyRepeat = 1; # fastest
+        InitialKeyRepeat = 15;
+      };
     };
     # other configuration parameters
     # see here: https://nix-darwin.github.io/nix-darwin/manual
