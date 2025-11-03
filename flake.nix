@@ -103,17 +103,14 @@
   outputs = {
     self, nixpkgs, ...
   } @inputs: let
-    # Define system for Linux configurations
+    # define system for Linux configurations
     linuxSystem = "x86_64-linux";
 
-    # Helper to create packages for a specific system
+    # helper to create packages for a specific system
     mkPkgs = system: import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
-
-    # Linux-specific pkgs
-    pkgs = mkPkgs linuxSystem;
 
     isobase = {
       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
@@ -365,22 +362,19 @@
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
       "mygrapheneos" = inputs.robotnix.lib.robotnixSystem ./android/grapheneos.nix;
     };
-    # macOS configurations for both architectures
     darwinConfigurations = {
-      # for Apple Silicon Macs (M1, M2, M3, etc.)
+      # silicon macs (M1, M2, M3, etc.)
       mahmooz0 = inputs.nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = {
           inherit inputs;
-          system = linuxSystem;
+          system = "aarch64-darwin";
           myutils = import ./lib/utils.nix { };
         };
         modules = [
           # add the determinate nix-darwin module
           inputs.determinate.darwinModules.default
           inputs.home-manager.nixosModules.home-manager
-          # inputs.arion.nixosModules.arion
-          # inputs.declarative-jellyfin.nixosModules.default
           ./config-darwin.nix
           ({ config, pkgs, lib, ... }: {
             config = {
