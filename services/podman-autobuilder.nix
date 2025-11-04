@@ -1,28 +1,32 @@
-# a NixOS module to declaratively build container images from Dockerfiles
-# and run them as systemd services using podman.
+# A home-manager module to declaratively build container images from Dockerfiles
+# and run them as user services using podman. Works on both Linux and macOS.
 
 { config, lib, pkgs, ... }:
 
 with lib;
 
 let
-  podman-pkg = config.machine.podman.pkg;
-
   # a shortcut to this module's configuration options.
   cfg = config.services.podman-autobuilder;
 
-  # generates build and run services for a single container.
-  mkContainerServices = name: containerCfg: {
+  # Determine if we're on macOS
+  isDarwin = pkgs.stdenv.isDarwin;
+
+  # generates build and run services for a single container on Linux (systemd)
+  mkContainerServicesLinux = name: containerCfg: {
     # the build service. it is a standard boot-time service.
     "podman-autobuild-${name}" = {
-      description = "Build Podman image for ${name} from its Dockerfile";
-      wantedBy = [ "multi-user.target" ];
-      before = [ "podman-container-${name}.service" ];
-      serviceConfig = {
+      Unit = {
+        Description = "Build Podman image for ${name} from its Dockerfile";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+      Service = {
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = let
-          podman = "${podman-pkg}/bin/podman";
+          podman = "${cfg.podmanPackage}/bin/podman";
           buildArgs = escapeShellArgs containerCfg.buildArgs;
         in ''
           ${podman} build \
@@ -36,24 +40,27 @@ let
 
     # the main service to run the container.
     "podman-container-${name}" = {
-      description = "Run Podman container ${name}";
-      wantedBy = [ "multi-user.target" ];
-      restartIfChanged = true;
-      requires = [ "podman-autobuild-${name}.service" ];
-      after = [ "podman-autobuild-${name}.service" ];
-      serviceConfig = {
+      Unit = {
+        Description = "Run Podman container ${name}";
+        Requires = [ "podman-autobuild-${name}.service" ];
+        After = [ "podman-autobuild-${name}.service" ];
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+      Service = {
         Restart = "always";
         RestartSec = "5s";
 
         ExecStart = let
-          podman = "${podman-pkg}/bin/podman";
+          podman = "${cfg.podmanPackage}/bin/podman";
           runArgs = escapeShellArgs containerCfg.runArgs; # options like --network, -p
           command = escapeShellArgs containerCfg.command; # the command inside the container
         in ''
           ${podman} run --replace --name=${escapeShellArg name} ${runArgs} ${escapeShellArg containerCfg.imageName} ${command}
         '';
         ExecStop = let
-          podman = "${podman-pkg}/bin/podman";
+          podman = "${cfg.podmanPackage}/bin/podman";
         in ''
           ${podman} stop ${escapeShellArg name}
         '';
@@ -61,16 +68,66 @@ let
     };
   };
 
-  # generates a one-shot .service unit for an `exec` command.
-  mkExecService = containerName: execName: execCfg: {
+  # generates build and run services for a single container on macOS (launchd)
+  mkContainerServicesDarwin = name: containerCfg: {
+    # the build service
+    "podman-autobuild-${name}" = {
+      enable = true;
+      config = {
+        Label = "podman.autobuild.${name}";
+        ProgramArguments = let
+          podman = "${cfg.podmanPackage}/bin/podman";
+          buildArgs = containerCfg.buildArgs;
+        in
+          [ podman "build" ]
+          ++ buildArgs
+          ++ [ "-t" containerCfg.imageName
+               "-f" "${toString containerCfg.context}/${containerCfg.dockerfile}"
+               (toString containerCfg.context)
+             ];
+        RunAtLoad = true;
+        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/podman-autobuild-${name}.log";
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/podman-autobuild-${name}.log";
+      };
+    };
+
+    # the main service to run the container
+    "podman-container-${name}" = {
+      enable = true;
+      config = {
+        Label = "podman.container.${name}";
+        ProgramArguments = let
+          podman = "${cfg.podmanPackage}/bin/podman";
+          runArgs = containerCfg.runArgs;
+          command = containerCfg.command;
+        in
+          [ podman "run" "--replace" "--name=${name}" ]
+          ++ runArgs
+          ++ [ containerCfg.imageName ]
+          ++ command;
+        RunAtLoad = true;
+        KeepAlive = {
+          SuccessfulExit = false;
+          Crashed = true;
+        };
+        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/podman-container-${name}.log";
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/podman-container-${name}.log";
+      };
+    };
+  };
+
+  # generates a one-shot service unit for an `exec` command on Linux.
+  mkExecServiceLinux = containerName: execName: execCfg: {
     "podman-exec-${containerName}-${execName}" = {
-      description = execCfg.description;
-      requires = [ "podman-container-${containerName}.service" ];
-      after = [ "podman-container-${containerName}.service" ];
-      serviceConfig = {
+      Unit = {
+        Description = execCfg.description;
+        Requires = [ "podman-container-${containerName}.service" ];
+        After = [ "podman-container-${containerName}.service" ];
+      };
+      Service = {
         Type = "oneshot";
         ExecStart = let
-          podman = "${podman-pkg}/bin/podman";
+          podman = "${cfg.podmanPackage}/bin/podman";
           command = escapeShellArgs execCfg.command;
         in ''
           ${podman} exec ${escapeShellArg containerName} ${command}
@@ -79,11 +136,35 @@ let
     };
   };
 
+  # generates a one-shot service unit for an `exec` command on macOS.
+  mkExecServiceDarwin = containerName: execName: execCfg: {
+    "podman-exec-${containerName}-${execName}" = {
+      enable = true;
+      config = {
+        Label = "podman.exec.${containerName}.${execName}";
+        ProgramArguments = let
+          podman = "${cfg.podmanPackage}/bin/podman";
+        in
+          [ podman "exec" containerName ] ++ execCfg.command;
+        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/podman-exec-${containerName}-${execName}.log";
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/podman-exec-${containerName}-${execName}.log";
+      };
+    };
+  };
+
 in
 {
-  # this section defines the configuration interface for users in their `configuration.nix`.
+  # this section defines the configuration interface for users in their home-manager configuration.
 
   options.services.podman-autobuilder = {
+    enable = mkEnableOption "podman-autobuilder service";
+
+    podmanPackage = mkOption {
+      type = types.package;
+      default = pkgs.podman;
+      description = "The podman package to use.";
+    };
+
     containers = mkOption {
       type = types.attrsOf (types.submodule ({ name, ... }: {
         options = {
@@ -108,7 +189,7 @@ in
 
           execServices = mkOption {
             default = {};
-            description = "Defines one-shot systemd services (started manually) to run commands in this container.";
+            description = "Defines one-shot services (started manually) to run commands in this container.";
             type = types.attrsOf (types.submodule ({ name, ... }: {
               options = {
                 description = mkOption { type = types.str; default = "Run ${name} command in container"; };
@@ -118,7 +199,7 @@ in
           };
           aliases = mkOption {
             default = {};
-            description = "Create host-level command aliases (available system-wide) to run commands inside the container.";
+            description = "Create user-level command aliases to run commands inside the container.";
             type = types.attrsOf (types.submodule ({ name, ... }: {
               options = {
                 command = mkOption { type = types.listOf types.str; description = "The command and arguments to execute inside the container."; };
@@ -132,10 +213,14 @@ in
     };
   };
 
-  # this section generates the nixos system configuration based on the user's options.
+  # this section generates the home-manager configuration based on the user's options.
 
-  config = mkIf (cfg.containers != {}) (
+  config = mkIf (cfg.enable && cfg.containers != {}) (
     let
+      # Helper functions to choose between Linux and Darwin implementations
+      mkContainerServices = if isDarwin then mkContainerServicesDarwin else mkContainerServicesLinux;
+      mkExecService = if isDarwin then mkExecServiceDarwin else mkExecServiceLinux;
+
       # 1. gather all main container services into a single attribute set.
       allContainerServices = lib.foldl lib.recursiveUpdate {} (
         lib.mapAttrsToList (name: containerCfg:
@@ -146,9 +231,11 @@ in
       # 2. gather all `execServices` from all containers into a single attribute set.
       allExecServices = lib.foldl lib.recursiveUpdate {} (
         lib.mapAttrsToList (name: containerCfg:
-          lib.mapAttrs' (execName: execCfg:
-            nameValuePair "podman-exec-${name}-${execName}" (mkExecService name execName execCfg)
-          ) containerCfg.execServices
+          lib.foldl lib.recursiveUpdate {} (
+            lib.mapAttrsToList (execName: execCfg:
+              mkExecService name execName execCfg
+            ) containerCfg.execServices
+          )
         ) cfg.containers
       );
 
@@ -158,14 +245,47 @@ in
           lib.mapAttrsToList (aliasName: aliasCfg:
             pkgs.writeShellScriptBin aliasName ''
               #!${pkgs.runtimeShell}
-              echo "--> Running '${aliasName}' in container '${containerName}'..."
+              set -euo pipefail
+
+              # Auto-build image if it doesn't exist
+              if ! ${cfg.podmanPackage}/bin/podman image exists ${escapeShellArg containerCfg.imageName}; then
+                echo "Building ${containerName} container image..."
+                ${cfg.podmanPackage}/bin/podman build \
+                  ${lib.concatStringsSep " " (map escapeShellArg containerCfg.buildArgs)} \
+                  -t ${escapeShellArg containerCfg.imageName} \
+                  -f ${toString containerCfg.context}/${containerCfg.dockerfile} \
+                  ${toString containerCfg.context} || {
+                  echo "Failed to build container image. Please check the Dockerfile."
+                  exit 1
+                }
+              fi
+
+              # Auto-run container if it's not running
+              if ! ${cfg.podmanPackage}/bin/podman ps --format "table {{.Names}}" | grep -q "^${escapeShellArg containerName}$"; then
+                echo "Container '${containerName}' not running. Starting it..."
+                # Remove existing container if it exists but is stopped
+                ${cfg.podmanPackage}/bin/podman rm -f ${escapeShellArg containerName} 2>/dev/null || true
+                # Run new container
+                ${cfg.podmanPackage}/bin/podman run -d \
+                  --name ${escapeShellArg containerName} \
+                  ${lib.concatStringsSep " " (map escapeShellArg containerCfg.runArgs)} \
+                  ${escapeShellArg containerCfg.imageName} \
+                  ${lib.concatStringsSep " " (map escapeShellArg containerCfg.command)} || {
+                  echo "Failed to start container. Please check container logs."
+                  exit 1
+                }
+                # Wait for container to be ready
+                sleep 3
+              fi
+
+              # Execute command in the container
               INTERACTIVE_FLAG=""
               ${lib.optionalString aliasCfg.interactive ''
                 if [ -t 0 ]; then
                   INTERACTIVE_FLAG="-it"
                 fi
               ''}
-              exec sudo ${podman-pkg}/bin/podman exec $INTERACTIVE_FLAG ${escapeShellArg containerName} ${lib.escapeShellArgs aliasCfg.command} "$@"
+              exec ${cfg.podmanPackage}/bin/podman exec $INTERACTIVE_FLAG ${escapeShellArg containerName} ${lib.escapeShellArgs aliasCfg.command} "$@"
             ''
           ) containerCfg.aliases
         ) cfg.containers
@@ -173,11 +293,16 @@ in
 
     in
     {
-      # merge all generated services into the systemd configuration.
-      systemd.services = allContainerServices // allExecServices;
-
-      # add podman and all generated alias scripts to the system's PATH.
-      environment.systemPackages = allAliasPackages ++ [ podman-pkg ];
+      # merge all generated services into the appropriate service manager
+    } // (if isDarwin then {
+      # On macOS, use launchd agents
+      launchd.agents = allContainerServices // allExecServices;
+    } else {
+      # On Linux, use systemd user services
+      systemd.user.services = allContainerServices // allExecServices;
+    }) // {
+      # add podman and all generated alias scripts to the user's PATH.
+      home.packages = allAliasPackages ++ [ cfg.podmanPackage ];
     }
   );
 }

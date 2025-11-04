@@ -95,6 +95,7 @@ in
           ./sbcl.nix
           ./distrobox-config.nix
           ./karabiner.nix
+          ../../services/podman-autobuilder.nix
         ];
 
         home.file = config_entries // script_entries // {
@@ -176,6 +177,92 @@ in
           enable = true;
           userName = "mahmoodsh36";
           userEmail = "mahmod.m2015@gmail.com";
+        };
+
+        services.podman-autobuilder = {
+          enable = true;
+          podmanPackage = pkgs.podman;
+
+          containers = {
+            # Simple test container (Alpine Linux - very fast to build)
+            test-alpine = {
+              imageName = "test-alpine:latest";
+              context = ../../containers/test-container;
+              dockerfile = "Dockerfile";
+              runArgs = [
+                "--network=host"
+              ];
+              command = [ "sleep" "infinity" ];
+              aliases = {
+                "test-shell" = {
+                  command = [ "sh" ];
+                  interactive = true;
+                };
+                "test-bash" = {
+                  command = [ "bash" ];
+                  interactive = true;
+                };
+                "test-curl" = {
+                  command = [ "curl" ];
+                  interactive = false;
+                };
+              };
+            };
+
+            # CUDA version (for Linux/NVIDIA)
+            mineru = lib.mkIf config'.machine.is_linux {
+              imageName = "mineru";
+              context = ../../containers/mineru;
+              buildArgs = [
+                "--network=host"
+              ];
+              runArgs = [
+                "-v" "/:/host"
+                "--network=host"
+              ];
+              command = [ "sleep" "infinity" ];
+              aliases = {
+                "minerupython" = {
+                  command = [ "python3" ];
+                  interactive = true;
+                };
+                "mineru" = {
+                  command = [ "mineru" ];
+                  interactive = true;
+                };
+              };
+            };
+
+            # MLX version (for macOS/Apple Silicon)
+            mineru-mlx = lib.mkIf config'.machine.is_darwin {
+              imageName = "mineru-mlx";
+              context = ../../containers/mineru-mlx;
+              buildArgs = [
+                "--network=host"
+                "--platform=linux/arm64"
+              ];
+              runArgs = [
+                "-v" "/:/host"
+                "--network=host"
+                "--platform=linux/arm64"
+              ];
+              command = [ "sleep" "infinity" ];
+              aliases = {
+                "minerupython" = {
+                  command = [ "python3" ];
+                  interactive = true;
+                };
+                "mineru" = {
+                  command = [ "mineru" ];
+                  interactive = true;
+                };
+                "mineru-mlx" = {
+                  command = [ "python3" ];
+                  interactive = true;
+                };
+              };
+            };
+          };
         };
       };
   };
