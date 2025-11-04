@@ -233,7 +233,7 @@ in
               };
             };
 
-            # MLX version (for macOS/Apple Silicon)
+            # CPU version (for macOS - MLX not available in containers)
             mineru-mlx = lib.mkIf config'.machine.is_darwin {
               imageName = "mineru-mlx";
               context = ../../containers/mineru-mlx;

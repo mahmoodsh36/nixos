@@ -11,18 +11,14 @@ RUN apt-get update && \
     apt-get install -y \
     git \
     build-essential \
-    libgl1-mesa-glx \
-    libgl1-mesa-dev \
+    libgl1 \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and install basic tools
 RUN pip install --upgrade pip setuptools wheel packaging
 
-# Install MLX and related packages for Apple Silicon
-RUN pip install mlx mlx-lm
-
-# Install PyTorch (CPU version since we're using MLX for acceleration)
+# Install PyTorch (CPU version for ARM64)
 RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
 # Copy and install requirements
