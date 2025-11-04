@@ -64,7 +64,7 @@ in
                       modifiers = { mandatory = [ "left_command" ]; };
                     };
                     to = [{
-                      shell_command = "screencapture -i ${config.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png";
+                      shell_command = "screencapture -x ${config'.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png";
                     }];
                     type = "basic";
                   }
@@ -75,7 +75,7 @@ in
                     };
                     to = [{
                       # the command is the same but with the "-i" flag
-                      shell_command = "screencapture -i -x ${config.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png";
+                      shell_command = "screencapture -i -x ${config'.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png";
                     }];
                     type = "basic";
                   }
