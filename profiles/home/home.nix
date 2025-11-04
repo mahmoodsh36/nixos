@@ -130,6 +130,8 @@ in
             BRAIN_DIR = "${VOL_DIR}/brain";
             MUSIC_DIR = "${VOL_DIR}/music";
             WORK_DIR = work_dir;
+            work = WORK_DIR;
+            brain = BRAIN_DIR;
             VOLUME_DIR = voldir;
             NOTES_DIR = "${BRAIN_DIR}/notes";
             SCRIPTS_DIR = "${WORK_DIR}/scripts";
