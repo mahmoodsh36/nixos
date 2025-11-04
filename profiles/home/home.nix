@@ -7,6 +7,7 @@ let
   homedir = if config.machine.is_darwin
              then "/Users/${config.machine.user}"
              else "/home/${config.machine.user}";
+  voldir = config.machine.voldir;
   work_dir = "${config.machine.voldir}/work";
 in
 {
@@ -83,9 +84,9 @@ in
         home.stateVersion = "24.05";
 
         imports = [
-          ./home-desktop.nix
           ../../modules/machine-options.nix
           ../machine-config.nix
+          ./home-desktop.nix
           ./vscode.nix
           ./zed.nix
           # ./plasma.nix
@@ -123,13 +124,13 @@ in
             PYTHON_HISTORY = "$HOME/brain/python_history";
 
             HOME_DIR = homedir;
-            VOL_DIR = config.machine.voldir;
+            VOL_DIR = voldir;
             BRAIN_DIR = "${VOL_DIR}/brain";
             MUSIC_DIR = "${VOL_DIR}/music";
             WORK_DIR = work_dir;
             work = WORK_DIR;
             brain = BRAIN_DIR;
-            VOLUME_DIR = config.machine.voldir;
+            VOLUME_DIR = voldir;
             NOTES_DIR = "${BRAIN_DIR}/notes";
             SCRIPTS_DIR = "${WORK_DIR}/scripts";
             DOTFILES_DIR = "${WORK_DIR}/otherdots";

@@ -394,10 +394,8 @@
           myutils = import ./lib/utils.nix { };
         };
         modules = [
-          # add the determinate nix-darwin module
           inputs.determinate.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
-          ./config-darwin.nix
           ({ config, pkgs, lib, ... }: {
             config = {
               machine.name = "mahmooz0";
@@ -409,6 +407,7 @@
               machine.static_ip = "192.168.1.1";
             };
           })
+          ./config-darwin.nix
           ./hosts/mahmooz0.nix
           self.darwinModules.nixConfig
           inputs.nix-homebrew.darwinModules.nix-homebrew

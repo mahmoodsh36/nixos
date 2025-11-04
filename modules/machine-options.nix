@@ -34,7 +34,7 @@
     };
     machine.voldir = lib.mkOption {
       type = lib.types.str;
-      default = "/home/mahmooz";
+      default = "/Volumes/main";
     };
 
     machine.llama-cpp = {
