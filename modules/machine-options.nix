@@ -32,6 +32,10 @@
       type = lib.types.bool;
       default = false;
     };
+    machine.voldir = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/mahmooz";
+    };
 
     machine.llama-cpp = {
       pkg = lib.mkOption {

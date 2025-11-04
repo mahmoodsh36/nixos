@@ -42,17 +42,46 @@ in
               "basic.to_delayed_action_delay_milliseconds" = 500;
               "mouse_motion_to_scroll.speed" = 100;
             };
-            rules = [{
-              description = "CapsLock → Escape, Right Cmd → Ctrl, App shortcuts";
-              manipulators = [
-                (swapKey "caps_lock" "escape")
-                (swapKey "right_command" "left_control") # right command to ctrl
-                # (swapKey "left_command" "left_option") # left command to alt
-                (launchApp "return_or_enter" "WezTerm")
-                (launchApp "b" "Firefox")
-                (launchApp "e" "Emacs")
-              ];
-            }];
+            rules = [
+              {
+                description = "CapsLock → Escape, Right Cmd → Ctrl, App shortcuts";
+                manipulators = [
+                  (swapKey "caps_lock" "escape")
+                  (swapKey "right_command" "left_control") # right command to ctrl
+                  # (swapKey "left_command" "left_option") # left command to alt
+                  (launchApp "return_or_enter" "WezTerm")
+                  (launchApp "b" "Firefox")
+                  (launchApp "e" "Emacs")
+                ];
+              }
+              {
+                description = "Screenshot Shortcuts";
+                manipulators = [
+                  {
+                    # full screen screenshot
+                    from = {
+                      key_code = "p";
+                      modifiers = { mandatory = [ "left_command" ]; };
+                    };
+                    to = [{
+                      shell_command = "screencapture -i ${config.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png";
+                    }];
+                    type = "basic";
+                  }
+                  {
+                    from = {
+                      key_code = "p";
+                      modifiers = { mandatory = [ "left_command" "left_shift" ]; };
+                    };
+                    to = [{
+                      # the command is the same but with the "-i" flag
+                      shell_command = "screencapture -i -x ${config.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png";
+                    }];
+                    type = "basic";
+                  }
+                ];
+              }
+            ];
           };
           simple_modifications = [];
         }
