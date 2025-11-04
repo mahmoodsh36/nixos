@@ -6,7 +6,7 @@ let
     "homebrew/homebrew-core" = inputs.homebrew-core;
     "homebrew/homebrew-cask" = inputs.homebrew-cask;
     # we need to add "homebrew-" prefix
-    "th-ch/homebrew-youtube-music" = inputs.yt-music-tap;
+    "Neved4/homebrew-tap" = inputs.neved4-tap;
   };
 in
 
@@ -55,6 +55,7 @@ in
         # this errors out :/
         # "youtube-music"
         # "podman-desktop"
+        "pear"
       ];
       brews = [
         # "anylinuxfs"

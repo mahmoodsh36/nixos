@@ -88,8 +88,13 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-    yt-music-tap = {
-      url = "github:th-ch/homebrew-youtube-music";
+    # yt-music-tap = {
+    #   url = "github:th-ch/homebrew-youtube-music";
+    #   flake = false;
+    # };
+    # for pear-desktop (yt music)
+    neved4-tap = {
+      url = "github:Neved4/homebrew-tap";
       flake = false;
     };
 
