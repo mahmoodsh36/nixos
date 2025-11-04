@@ -1,7 +1,6 @@
 { lib, pkgs, config, config', ... }:
 
 let
-  # Your helper functions remain the same
   swapKey = from: to: {
     type = "basic";
     from = {
@@ -24,12 +23,7 @@ let
 
 in
 {
-  # This option will now directly manage the main karabiner.json file
-  home.file.karabiner-config = lib.mkIf (config'.machine.is_darwin && config'.machine.is_desktop) {
-    # The target is now the main configuration file
-    target = ".config/karabiner/karabiner.json";
-
-    # The `text` needs to be a complete karabiner.json structure
+  xdg.configFile."karabiner/HomeManagerInit_karabiner.json" = {
     text = builtins.toJSON {
       global = {
         check_for_updates_on_startup = true;
@@ -48,22 +42,27 @@ in
               "basic.to_delayed_action_delay_milliseconds" = 500;
               "mouse_motion_to_scroll.speed" = 100;
             };
-            # Your rules go directly here
             rules = [{
               description = "CapsLock → Escape, Right Cmd → Ctrl, App shortcuts";
               manipulators = [
                 (swapKey "caps_lock" "escape")
-                (swapKey "right_command" "left_control")
+                (swapKey "right_command" "left_control") # right command to ctrl
+                # (swapKey "left_command" "left_option") # left command to alt
                 (launchApp "return_or_enter" "WezTerm")
-                (launchApp "f" "Firefox")
+                (launchApp "b" "Firefox")
                 (launchApp "e" "Emacs")
               ];
             }];
           };
-          # You can also define simple_modifications, etc. here if needed
           simple_modifications = [];
         }
       ];
     };
+    # https://github.com/nix-community/home-manager/issues/3090#issuecomment-2010891733
+    onChange = ''
+      rm -f ${config.xdg.configHome}/karabiner/karabiner.json
+      cp ${config.xdg.configHome}/karabiner/HomeManagerInit_karabiner.json ${config.xdg.configHome}/karabiner/karabiner.json
+      chmod u+w ${config.xdg.configHome}/karabiner/karabiner.json
+    '';
   };
 }
