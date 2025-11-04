@@ -46,7 +46,7 @@ in
       # ];
       casks = [
         "emacs-app"
-        "wezterm"
+        # "wezterm"
         "firefox"
         "fuse-t"
         "mpv"
@@ -56,6 +56,7 @@ in
         # "youtube-music"
         # "podman-desktop"
         "pear"
+        "karabiner-elements"
       ];
       brews = [
         # "anylinuxfs"
@@ -77,7 +78,7 @@ in
         autohide = true;
         persistent-apps = [
           "/Applications/Firefox.app"
-          "/Applications/WezTerm.app"
+          "/Applications/Nix Apps/WezTerm.app"
           "/Applications/Emacs.app"
           "/Applications/Transmission.app"
         ];
