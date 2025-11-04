@@ -54,6 +54,7 @@ in
         "raycast"
         # this errors out :/
         # "youtube-music"
+        # "podman-desktop"
       ];
       brews = [
         # "anylinuxfs"

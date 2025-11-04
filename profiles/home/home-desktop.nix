@@ -5,7 +5,7 @@ let
 in
 {
   imports = [
-    ./karabiner.nix 
+    ./karabiner.nix
   ];
   config = lib.mkIf config'.machine.is_desktop {
     programs.firefox = {
