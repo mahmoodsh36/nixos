@@ -144,19 +144,12 @@
       boot.kernel.sysctl."vm.overcommit_memory" = nixpkgs.lib.mkForce "1";
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
+    # Packages for Python environments (Linux only, for CUDA support)
     uvpkgs = import nixpkgs {
       system = linuxSystem;
       config.allowUnfree = true;
       config.cudaSupport = true;
     };
-    uvpython = uvpkgs.python312;
-    # mlvenv = (import ./uv_python.nix {
-    #   pkgs = uvpkgs;
-    #   pyproject-nix = inputs.pyproject-nix;
-    #   uv2nix = inputs.uv2nix;
-    #   pyproject-build-systems = inputs.pyproject-build-systems;
-    #   python = uvpython;
-    # });
     mkSystem = extraModules:
       nixpkgs.lib.nixosSystem {
         system = linuxSystem;
@@ -181,6 +174,24 @@
       "x86_64-darwin"
       "aarch64-darwin"
     ];
+
+    # Helper to create Python environment for any system
+    # Usage: mkPythonEnv { system = "x86_64-linux"; workspaceRoot = ./path; envName = "my-env"; cudaSupport = true; }
+    mkPythonEnv = { system, workspaceRoot, envName, cudaSupport ? false }: let
+      isLinux = nixpkgs.lib.hasInfix "linux" system;
+      sysPkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        config.cudaSupport = isLinux && cudaSupport;
+      };
+    in import ./modules/python/environment.nix {
+      pkgs = sysPkgs;
+      pyproject-nix = inputs.pyproject-nix;
+      uv2nix = inputs.uv2nix;
+      pyproject-build-systems = inputs.pyproject-build-systems;
+      python = sysPkgs.python312;
+      inherit workspaceRoot envName cudaSupport;
+    };
   in {
     nixosConfigurations = {
       mahmooz1 = mkSystem [
@@ -293,65 +304,40 @@
     # development shells for all systems
     devShells = forAllSystems (system: let
       sysPkgs = mkPkgs system;
-    in {
-      # ml = uvpkgs.mkShell {
-      #   packages = [
-      #     mlvenv
-      #   ];
-      #   env = {
-      #     CUDA_PATH = "${uvpkgs.cudatoolkit}";
-      #     CUDA_HOME = "${uvpkgs.cudatoolkit}";
-      #   };
-      #   shellHook = ''
-      #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
-      #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
-      #     export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
-      #   '';
-      # };
+      isLinux = nixpkgs.lib.hasInfix "linux" system;
 
-      # UV shell - only for Linux systems with CUDA support
-      uv = if nixpkgs.lib.hasInfix "linux" system then
-        (import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          config.cudaSupport = true;
-        }).mkShell {
-          packages = let
-            uvSysPkgs = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-              config.cudaSupport = true;
-            };
-          in with uvSysPkgs; [
-            python312
-            uv
-          ];
-          env = let
-            uvSysPkgs = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-              config.cudaSupport = true;
-            };
-          in {
-            UV_PYTHON = uvSysPkgs.python312.interpreter;
-            UV_PYTHON_DOWNLOADS = "never";
-            UV_NO_SYNC = "1";
+      # Python environment shells (work on all systems)
+      # NOTE: You must generate uv.lock first:
+      #   cd python-envs/tesseract && uv lock --python python3.12
+      pythonShells = {
+        # Tesseract environment (pytesseract + PIL)
+        tesseract = let
+          pythonEnv = mkPythonEnv {
+            inherit system;
+            workspaceRoot = ./python-envs/tesseract;
+            envName = "tesseract-venv";
+            cudaSupport = false;
           };
-        } else
-          # simplified uv shell for non-linux systems
-          sysPkgs.mkShell {
-            packages = with sysPkgs; [
-              python312
-              uv
-            ];
-            env = {
-              UV_PYTHON = sysPkgs.python312.interpreter;
-              UV_PYTHON_DOWNLOADS = "never";
-              UV_NO_SYNC = "1";
-            };
-          };
+        in sysPkgs.mkShell {
+          packages = [ pythonEnv ];
+        };
+      };
+
+      # UV shell - works on all systems
+      uvShell = sysPkgs.mkShell {
+        packages = with sysPkgs; [
+          python312
+          uv
+        ];
+        env = {
+          UV_PYTHON = sysPkgs.python312.interpreter;
+          UV_PYTHON_DOWNLOADS = "never";
+          UV_NO_SYNC = "1";
+        };
+      };
+
       # default shell with darwin-rebuild helper for macOS, basic shell for others
-      default = if nixpkgs.lib.hasInfix "darwin" system then
+      defaultShell = if nixpkgs.lib.hasInfix "darwin" system then
         sysPkgs.mkShellNoCC {
           packages = with sysPkgs; [
             # Shell script for applying the nix-darwin configuration.
@@ -378,7 +364,13 @@
           sysPkgs.mkShellNoCC {
             packages = [ ];
           };
-    });
+    in
+      # Merge all shells together
+      pythonShells // {
+        uv = uvShell;
+        default = defaultShell;
+      }
+    );
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;

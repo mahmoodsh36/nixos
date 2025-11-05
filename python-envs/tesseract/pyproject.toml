@@ -1,0 +1,9 @@
+[project]
+name = "tesseract-env"
+version = "0.1.0"
+description = "Python environment with pytesseract for OCR"
+requires-python = "==3.12.*"
+dependencies = [
+    "pytesseract>=0.3.10",
+    "pillow>=10.0.0",
+]

@@ -1,4 +1,4 @@
-{ pkgs, python, pyproject-nix, uv2nix, pyproject-build-systems, ... }:
+{ pkgs, python, pyproject-nix, uv2nix, pyproject-build-systems, workspaceRoot, envName ? "venv", cudaSupport ? true, ... }:
 
 let
   cudaPatch = old: {
@@ -39,9 +39,54 @@ let
       "libc10_cuda.so"
     ];
   };
-  pyprojectOverrides = final: prev: {
-    # cuda support
-    # torch = prev.torch.overrideAttrs cudaPatch;
+  # Common overrides that apply regardless of CUDA support
+  commonOverrides = final: prev: {
+    # onnxruntime - skip if not available (known uv2nix limitation)
+    # This package sometimes fails to resolve in uv2nix even when wheels exist
+    onnxruntime = prev.onnxruntime or null;
+
+    # pytesseract - needs setuptools as build dependency
+    pytesseract = prev.pytesseract.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+
+    # https://github.com/jpetrucciani/nix/blob/d288481be9ee6b2060df4fc58fe2b321b2fd46e2/mods/py_madness.nix#L292C1-L296C16
+    soundfile = prev.soundfile.overrideAttrs (_: {
+      postInstall = ''
+        substituteInPlace $out/lib/python*/site-packages/soundfile.py --replace "_find_library('sndfile')" "'${pkgs.libsndfile.out}/lib/libsndfile${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}'"
+      '';
+    });
+
+    rouge-score = prev.rouge-score.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    oumi = prev.oumi.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    sqlitedict = prev.sqlitedict.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    word2number = prev.word2number.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    torchdata = prev.torchdata.overrideAttrs (old: {
+      buildInputs = with pkgs; [
+        curl
+        openssl
+      ];
+    });
+    numba = prev.numba.overrideAttrs (old: {
+      buildInputs = with pkgs; [
+        gomp
+      ];
+      autoPatchelfIgnoreMissingDeps = [
+        "libtbb.so.12"
+      ];
+    });
+  };
+
+  # CUDA-specific overrides
+  cudaOverrides = final: prev: {
     nvidia-cusolver-cu12 = prev.nvidia-cusolver-cu12.overrideAttrs (_: {
       buildInputs = [ pkgs.cudatoolkit pkgs.cudaPackages.libnvjitlink ];
     });
@@ -55,8 +100,6 @@ let
         "libibverbs.so.1"
       ];
     });
-    # torchvision = prev.torchvision.overrideAttrs cudaPatch;
-    # cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs cudaPatch;
     triton = prev.triton.overrideAttrs (_: {
       postInstall = ''
         sed -i -E 's#minor == 6#minor >= 6#g' $out/${python.sitePackages}/triton/backends/nvidia/compiler.py
@@ -78,14 +121,6 @@ let
         "libcusparse.so.11"
       ];
     });
-
-    # https://github.com/jpetrucciani/nix/blob/d288481be9ee6b2060df4fc58fe2b321b2fd46e2/mods/py_madness.nix#L292C1-L296C16
-    soundfile = prev.soundfile.overrideAttrs (_: {
-      postInstall = ''
-        substituteInPlace $out/lib/python*/site-packages/soundfile.py --replace "_find_library('sndfile')" "'${pkgs.libsndfile.out}/lib/libsndfile${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}'"
-      '';
-    });
-
     cupy-cuda12x = prev.cupy-cuda12x.overrideAttrs (old: {
       buildInputs = with pkgs.cudaPackages; [
         cuda_nvrtc
@@ -111,28 +146,6 @@ let
             addAutoPatchelfSearchPath "${final.nvidia-cusparselt-cu12}"
           '';
         });
-
-    # torchaudio = prev.torchaudio.overrideAttrs (old: cudaPatch old // {
-    #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
-    #   autoPatchelfIgnoreMissingDeps = [
-    #     "libavfilter.so.7"
-    #     "libavutil.so.56"
-    #     "libavcodec.so.58"
-    #     "libavformat.so.58"
-    #     "libavutil.so.58"
-    #     "libavcodec.so.60"
-    #     "libavformat.so.60"
-    #     "libavfilter.so.9"
-    #     "libavutil.so.57"
-    #     "libavcodec.so.59"
-    #     "libavutil.so.57"
-    #     "libavcodec.so.59"
-    #     "libavdevice.so.58"
-    #     "libavformat.so.59"
-    #     "libavdevice.so.59"
-    #     "libavfilter.so.8"
-    #   ];
-    # });
     torchaudio =
     let
       FFMPEG_ROOT = pkgs.symlinkJoin {
@@ -157,21 +170,6 @@ let
         addAutoPatchelfSearchPath "${final.torch}/${python.sitePackages}/torch/lib"
       '';
     });
-
-    # xformers = prev.xformers.overrideAttrs (old: cudaPatch old // {
-    #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
-    #   autoPatchelfIgnoreMissingDeps = [
-    #     "libtorch_cuda.so"
-    #     "libc10_cuda.so"
-    #   ];
-    # });
-    # vllm = prev.vllm.overrideAttrs (old: cudaPatch old // {
-    #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; torch = [ ]; };
-    #   # vllm's setup.py specifically looks for this environment variable.
-    #   preConfigure = ''
-    #     export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
-    #   '';
-    # });
     vllm = prev.vllm.overrideAttrs (_: {
       postFixup = ''
         addAutoPatchelfSearchPath "${final.torch}"
@@ -191,38 +189,18 @@ let
         export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
       '';
     });
-    rouge-score = prev.rouge-score.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
-    });
-    oumi = prev.oumi.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
-    });
-    sqlitedict = prev.sqlitedict.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
-    });
-    word2number = prev.word2number.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
-    });
-    torchdata = prev.torchdata.overrideAttrs (old: {
-      buildInputs = with pkgs; [
-        curl
-        openssl
-      ];
-    });
     torchao = prev.torchao.overrideAttrs (old: cudaPatch old // {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
     });
-    numba = prev.numba.overrideAttrs (old: {
-      buildInputs = with pkgs; [
-        gomp
-      ];
-      autoPatchelfIgnoreMissingDeps = [
-        "libtbb.so.12"
-      ];
-    });
   };
 
-  workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./.; };
+  # Combine overrides based on cudaSupport flag
+  pyprojectOverrides =
+    if cudaSupport
+    then pkgs.lib.composeManyExtensions [ commonOverrides cudaOverrides ]
+    else commonOverrides;
+
+  workspace = uv2nix.lib.workspace.loadWorkspace { inherit workspaceRoot; };
   pythonSet =
     (pkgs.callPackage pyproject-nix.build.packages {
       inherit python;
@@ -231,12 +209,13 @@ let
         pkgs.lib.composeManyExtensions [
           pyproject-build-systems.overlays.default
           (workspace.mkPyprojectOverlay {
+            # Prefer wheels to avoid build dependency issues
             sourcePreference = "wheel";
           })
           pyprojectOverrides
         ]
       );
-  venv = (pythonSet.mkVirtualEnv "venv" workspace.deps.default).overrideAttrs(old: {
+  venv = (pythonSet.mkVirtualEnv envName workspace.deps.default).overrideAttrs(old: {
     venvIgnoreCollisions = [ "*bin/fastapi" ];
   });
 in
