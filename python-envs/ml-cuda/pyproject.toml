@@ -1,0 +1,11 @@
+[project]
+name = "ml-cuda-env"
+version = "0.1.0"
+description = "Python environment with ML/CUDA dependencies"
+requires-python = "==3.12.*"
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+]

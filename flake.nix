@@ -321,6 +321,35 @@
         in sysPkgs.mkShell {
           packages = [ pythonEnv ];
         };
+
+        # ML/CUDA environment (torch, torchvision, etc.)
+        # Only works with CUDA support on Linux systems
+        ml-cuda = let
+          pythonEnv = mkPythonEnv {
+            inherit system;
+            workspaceRoot = ./python-envs/ml-cuda;
+            envName = "ml-cuda-venv";
+            cudaSupport = isLinux;  # Enable CUDA only on Linux
+          };
+        in if isLinux then
+          # Full CUDA environment for Linux
+          sysPkgs.mkShell {
+            packages = [ pythonEnv ];
+            env = {
+              CUDA_PATH = "${sysPkgs.cudatoolkit}";
+              CUDA_HOME = "${sysPkgs.cudatoolkit}";
+            };
+            shellHook = ''
+              export LD_LIBRARY_PATH=/run/opengl-driver/lib
+              export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
+              export TRITON_PTXAS_PATH="${sysPkgs.cudatoolkit}/bin/ptxas"
+            '';
+          }
+        else
+          # CPU-only environment for non-Linux systems (macOS, etc.)
+          sysPkgs.mkShell {
+            packages = [ pythonEnv ];
+          };
       };
 
       # UV shell - works on all systems

@@ -9,9 +9,6 @@ let
   # a shortcut to this module's configuration options.
   cfg = config.services.podman-autobuilder;
 
-  # Determine if we're on macOS
-  isDarwin = pkgs.stdenv.isDarwin;
-
   # generates build and run services for a single container on Linux (systemd)
   mkContainerServicesLinux = name: containerCfg: {
     # the build service. it is a standard boot-time service.
@@ -217,6 +214,9 @@ in
 
   config = mkIf (cfg.enable && cfg.containers != {}) (
     let
+      # Determine if we're on macOS (moved here to avoid infinite recursion)
+      isDarwin = pkgs.stdenv.isDarwin;
+
       # Helper functions to choose between Linux and Darwin implementations
       mkContainerServices = if isDarwin then mkContainerServicesDarwin else mkContainerServicesLinux;
       mkExecService = if isDarwin then mkExecServiceDarwin else mkExecServiceLinux;
