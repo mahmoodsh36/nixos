@@ -11,13 +11,25 @@ let
     conditions = [];
   };
 
+  # Launch a macOS application by name, e.g. "Firefox" or "WezTerm"
   launchApp = key: app: {
     type = "basic";
     from = {
       key_code = key;
       modifiers = { mandatory = [ "left_command" ]; optional = [ "any" ]; };
     };
-    to = [ { shell_command = "open -a " + app; } ];
+    to = [ { shell_command = "open -a " + lib.escapeShellArg app; } ];
+    conditions = [];
+  };
+
+  # Run an arbitrary shell command (using bash -lc for proper environment)
+  launchCommand = key: cmd: {
+    type = "basic";
+    from = {
+      key_code = key;
+      modifiers = { mandatory = [ "left_command" ]; optional = [ "any" ]; };
+    };
+    to = [ { shell_command = "bash -lc " + lib.escapeShellArg cmd; } ];
     conditions = [];
   };
 
@@ -47,18 +59,17 @@ in
                 description = "CapsLock → Escape, Right Cmd → Ctrl, App shortcuts";
                 manipulators = [
                   (swapKey "caps_lock" "escape")
-                  (swapKey "right_command" "left_control") # right command to ctrl
-                  # (swapKey "left_command" "left_option") # left command to alt
-                  (launchApp "return_or_enter" "WezTerm")
+                  (swapKey "right_command" "left_control")
                   (launchApp "b" "Firefox")
                   (launchApp "e" "Emacs")
+                  # (launchApp "return_or_enter" "WezTerm")
+                  (launchCommand "return_or_enter" "export WEZTERM_CONFIG_FILE=$HOME/.config/wezterm/wezterm.lua; open -a wezterm")
                 ];
               }
               {
                 description = "Screenshot Shortcuts";
                 manipulators = [
                   {
-                    # full screen screenshot
                     from = {
                       key_code = "p";
                       modifiers = { mandatory = [ "left_command" ]; };
@@ -74,7 +85,6 @@ in
                       modifiers = { mandatory = [ "left_command" "left_shift" ]; };
                     };
                     to = [{
-                      # the command is the same but with the "-i" flag
                       shell_command = "screencapture -i -x ${config'.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png";
                     }];
                     type = "basic";
@@ -87,7 +97,8 @@ in
         }
       ];
     };
-    # https://github.com/nix-community/home-manager/issues/3090#issuecomment-2010891733
+
+    # Ensure Karabiner uses this generated config
     onChange = ''
       rm -f ${config.xdg.configHome}/karabiner/karabiner.json
       cp ${config.xdg.configHome}/karabiner/HomeManagerInit_karabiner.json ${config.xdg.configHome}/karabiner/karabiner.json

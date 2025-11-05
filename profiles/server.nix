@@ -90,6 +90,27 @@ in
       inputs.disko.packages.${pkgs.system}.default
     ];
 
+    # some apps respect XDG paths even on macos
+    environment.variables = rec {
+      XDG_CACHE_HOME  = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME   = "$HOME/.local/share";
+      XDG_STATE_HOME  = "$HOME/.local/state";
+      # not officially in the specification
+      XDG_BIN_HOME    = "$HOME/.local/bin";
+      WEZTERM_CONFIG_FILE = lib.mkIf config.machine.is_darwin "$HOME/.config/wezterm/wezterm.lua";
+      # this one fixes some problems with python matplotlib and probably some other qt applications
+      QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
+      # QT_SCALE_FACTOR = "2";
+    } // (if config.machine.enable_nvidia then {
+      # do we really need these? hopefully it makes things work with jellyfin/firefox?
+      LIBVA_DRIVER_NAME = "nvidia";
+      VDPAU_DRIVER = "nvidia";
+      GBM_BACKEND = "nvidia-drm";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      MOZ_DISABLE_RDD_SANDBOX= "1" ;
+    } else {});
+
     nixpkgs.overlays = [
       inputs.nix-alien.overlays.default
       inputs.mcp-servers-nix.overlays.default

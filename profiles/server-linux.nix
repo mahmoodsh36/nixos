@@ -87,25 +87,6 @@ in
       packages = with pkgs; [];
     };
 
-    environment.sessionVariables = rec {
-      XDG_CACHE_HOME  = "$HOME/.cache";
-      XDG_CONFIG_HOME = "$HOME/.config";
-      XDG_DATA_HOME   = "$HOME/.local/share";
-      XDG_STATE_HOME  = "$HOME/.local/state";
-      # not officially in the specification
-      XDG_BIN_HOME    = "$HOME/.local/bin";
-      # this one fixes some problems with python matplotlib and probably some other qt applications
-      QT_QPA_PLATFORM_PLUGIN_PATH = "${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins";
-      # QT_SCALE_FACTOR = "2";
-    } // (if config.machine.enable_nvidia then {
-      # do we really need these? hopefully it makes things work with jellyfin/firefox?
-      LIBVA_DRIVER_NAME = "nvidia";
-      VDPAU_DRIVER = "nvidia";
-      GBM_BACKEND = "nvidia-drm";
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-      MOZ_DISABLE_RDD_SANDBOX= "1" ;
-    } else {});
-
     # wheel group doesnt need password for sudo
     security.sudo = {
       enable = true;
