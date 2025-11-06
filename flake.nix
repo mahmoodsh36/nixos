@@ -466,7 +466,7 @@
         };
         modules = [
           inputs.determinate.darwinModules.default
-          inputs.mac-app-util.darwinModules.default
+          # inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
           ({ config, pkgs, lib, ... }: {
             config = {
