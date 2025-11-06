@@ -12,11 +12,6 @@ in
   options.llms = {
     enable = lib.mkEnableOption "LLM services module";
 
-    user = lib.mkOption {
-      type = lib.types.str;
-      description = "The username that will run the services.";
-    };
-
     modelsDirectory = lib.mkOption {
       type = lib.types.str;
       description = "Absolute path to the directory for LLM models.";
@@ -76,7 +71,6 @@ in
 
       serviceConfig = {
         Restart = "always";
-        User = cfg.user;
       };
       unitConfig.ConditionPathExists = cfg.modelsDirectory;
     };

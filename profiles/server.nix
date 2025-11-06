@@ -150,8 +150,7 @@ in
 
     llms = {
       enable = true;
-      user = "youruser";
-      modelsDirectory = "/var/lib/llms";
+      modelsDirectory = "${config.machine.voldir}/models";
       llama-cpp.enable = true;
     };
   };
