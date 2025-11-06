@@ -41,9 +41,13 @@ let
   };
   # Common overrides that apply regardless of CUDA support
   commonOverrides = final: prev: {
-    # onnxruntime - skip if not available (known uv2nix limitation)
+    # onnxruntime - use nixpkgs version as fallback when uv2nix can't resolve it
     # This package sometimes fails to resolve in uv2nix even when wheels exist
-    onnxruntime = prev.onnxruntime or null;
+    # We use `or` to provide nixpkgs version only if uv2nix fails to resolve it
+    onnxruntime =
+      if prev ? onnxruntime
+      then prev.onnxruntime
+      else python.pkgs.onnxruntime;
 
     # pytesseract - needs setuptools as build dependency
     pytesseract = prev.pytesseract.overrideAttrs (old: {
@@ -69,6 +73,12 @@ let
     word2number = prev.word2number.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
     });
+    # opencv-python has complex build requirements - use nixpkgs version
+    opencv-python = prev.opencv-python or python.pkgs.opencv4;
+    # scipy has complex build requirements - prefer wheel or use nixpkgs version as fallback
+    scipy = prev.scipy or python.pkgs.scipy;
+    # scikit-image also has complex build requirements - use nixpkgs version
+    scikit-image = prev.scikit-image or python.pkgs.scikit-image;
     torchdata = prev.torchdata.overrideAttrs (old: {
       buildInputs = with pkgs; [
         curl

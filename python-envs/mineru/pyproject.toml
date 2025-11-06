@@ -1,0 +1,8 @@
+[project]
+name = "mineru-env"
+version = "0.1.0"
+description = "Python environment with mineru for document processing"
+requires-python = "==3.12.*"
+dependencies = [
+    "mineru>=0.3.0",
+]

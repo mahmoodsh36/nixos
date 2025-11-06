@@ -350,6 +350,18 @@
           sysPkgs.mkShell {
             packages = [ pythonEnv ];
           };
+
+        # MinerU environment (document processing)
+        mineru = let
+          pythonEnv = mkPythonEnv {
+            inherit system;
+            workspaceRoot = ./python-envs/mineru;
+            envName = "mineru-venv";
+            cudaSupport = false;
+          };
+        in sysPkgs.mkShell {
+          packages = [ pythonEnv ];
+        };
       };
 
       # UV shell - works on all systems
@@ -400,6 +412,40 @@
         default = defaultShell;
       }
     );
+
+    # Packages available for installation
+    packages = forAllSystems (system: let
+      sysPkgs = mkPkgs system;
+      mineruEnv = mkPythonEnv {
+        inherit system;
+        workspaceRoot = ./python-envs/mineru;
+        envName = "mineru-venv";
+        cudaSupport = false;
+      };
+    in {
+      # Export mineru Python environment as a package
+      mineru = sysPkgs.stdenv.mkDerivation {
+        name = "mineru";
+        version = "2.6.4";
+
+        buildInputs = [ mineruEnv ];
+
+        unpackPhase = "true";
+        installPhase = ''
+          mkdir -p $out/bin
+          # Link all mineru binaries
+          for bin in mineru mineru-api mineru-gradio mineru-models-download mineru-vllm-server; do
+            ln -s ${mineruEnv}/bin/$bin $out/bin/$bin
+          done
+        '';
+
+        meta = {
+          description = "MinerU - Document processing tool";
+          mainProgram = "mineru";
+        };
+      };
+    });
+
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
@@ -426,6 +472,11 @@
               machine.is_linux = false;
               machine.is_darwin = true;
               machine.static_ip = "192.168.1.1";
+
+              # Add mineru package to system packages
+              environment.systemPackages = [
+                self.packages.aarch64-darwin.mineru
+              ];
             };
           })
           ./config-darwin.nix
