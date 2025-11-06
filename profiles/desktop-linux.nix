@@ -302,7 +302,6 @@ in
       ]))
 
       # media tools
-      mpv
       # feh # image viewer (can it set wallpaper on wayland?)
       kdePackages.okular zathura foliate mupdf
       xournalpp # rnote krita

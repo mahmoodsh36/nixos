@@ -14,6 +14,12 @@ in
     programs.chromium = {
       enable = config'.machine.is_desktop;
     };
+    programs.mpv = {
+      enable = config'.machine.is_desktop;
+      scripts = [
+        pkgs.mpvScripts.memo
+      ];
+    };
   } // lib.mkIf (config'.machine.is_linux && config'.machine.is_desktop) {
     services.blueman-applet.enable = true;
     services.playerctld.enable = true;

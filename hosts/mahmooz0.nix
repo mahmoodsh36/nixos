@@ -49,7 +49,6 @@ in
         # "wezterm"
         "firefox"
         "fuse-t"
-        "mpv"
         "transmission"
         "raycast"
         # this errors out :/

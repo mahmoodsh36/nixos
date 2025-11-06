@@ -118,6 +118,9 @@ in
       pkgs-master.gemini-cli
       pkgs-master.qwen-code
       pkgs-master.claude-code
+      pkgs-master.aichat
+      pkgs-master.opencode
+      # gptme
 
       config.machine.llama-cpp.pkg
       koboldcpp
@@ -132,10 +135,6 @@ in
       #   };
       # }))
       whisper-cpp
-
-      aichat
-      opencode
-      # gptme
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
       mcp-server-everything
