@@ -16,8 +16,8 @@ in
   imports = [
     ./modules/machine-options.nix
     ./profiles/machine-config.nix
-    ./profiles/desktop.nix
     ./profiles/server.nix
+    ./profiles/desktop.nix
     ./profiles/home/home.nix
   ];
 

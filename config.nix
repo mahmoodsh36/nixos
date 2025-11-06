@@ -16,10 +16,10 @@ in
   imports = [
     ./modules/machine-options.nix
     ./profiles/machine-config.nix
-    ./profiles/desktop.nix
-    ./profiles/desktop-linux.nix
     ./profiles/server.nix
     ./profiles/server-linux.nix
+    ./profiles/desktop.nix
+    ./profiles/desktop-linux.nix
     ./profiles/home/home.nix
   ];
 

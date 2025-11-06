@@ -1,242 +1,84 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, system, ... }:
 
 let
-  constants = (import ../lib/constants.nix);
+  cfg = config.llms;
+  llamaPkg = if cfg.llama-cpp.package != null
+             then cfg.llama-cpp.package
+             else pkgs.llama-cpp;
+  isDarwin = builtins.match ".*-darwin" system != null;
+  isLinux = builtins.match ".*-linux" system != null;
 in
 {
-  config = lib.mkMerge [
-    (lib.mkIf config.machine.enable_nvidia {
-      virtualisation.oci-containers = {
-        backend = "podman";
-        containers = {
-          vllm-qwen3 = {
-            autoStart = false;
-            image = "vllm/vllm-openai:latest";
-            extraOptions = [
-              # https://github.com/NixOS/nixpkgs/issues/420638#issuecomment-3015134430
-              "--cdi-spec-dir=/run/cdi"
-              "--device" "nvidia.com/gpu=all"
-              "--ipc" "host"
-              # "--pull=newer"
-              "-v" "${constants.models_dir}:/cache"
-              "--network=host"
-            ];
-            cmd = [
-              "--model" "Qwen/Qwen3-14B"
-              # "--max-model-len" "65536"
-              "--max-model-len" "32768"
-              "--gpu-memory-utilization" "0.9"
-              "--enable-reasoning"
-              "--quantization" "bitsandbytes"
-              "--enable-auto-tool-choice"
-              "--tool-call-parser" "hermes"
-              "--download-dir" "/cache"
-              # "--rope-scaling" ''{"rope_type":"yarn","factor":2.0,"original_max_position_embeddings":32768}''
-              "--seed" "2"
-              "--host" "0.0.0.0"
-              "--port" "5000"
-            ];
-          };
-          vllm-qwen3-embed = {
-            autoStart = false;
-            image = "vllm/vllm-openai:latest";
-            extraOptions = [
-              "--cdi-spec-dir=/run/cdi"
-              "--device" "nvidia.com/gpu=all"
-              "--ipc" "host"
-              # "--pull=newer"
-              "-v" "${constants.models_dir}:/cache"
-              "--network=host"
-            ];
-            cmd = [
-              "--model" "Qwen/Qwen3-Embedding-0.6B"
-              # "--max-model-len" "32768"
-              "--max-model-len" "10000"
-              "--gpu-memory-utilization" "0.1"
-              "--quantization" "bitsandbytes"
-              "--download-dir" "/cache"
-              "--seed" "2"
-              "--task" "embedding"
-              "--host" "0.0.0.0"
-              "--port" "5001"
-            ];
-          };
-          vllm-mimo-vl = {
-            autoStart = false;
-            image = "vllm/vllm-openai:latest";
-            extraOptions = [
-              "--cdi-spec-dir=/run/cdi"
-              "--device" "nvidia.com/gpu=all"
-              "--ipc" "host"
-              "-v" "${constants.models_dir}:/cache"
-              "--network=host"
-            ];
-            cmd = [
-              "--model" "XiaomiMiMo/MiMo-VL-7B-RL"
-              "--max-model-len" "24000"
-              "--gpu-memory-utilization" "1"
-              "--enable-reasoning"
-              "--enable-auto-tool-choice"
-              "--tool-call-parser" "hermes"
-              "--download-dir" "/cache"
-              "--seed" "2"
-              "--host" "0.0.0.0"
-              "--port" "5000"
-            ];
-          };
-        };
+  options.llms = {
+    enable = lib.mkEnableOption "LLM services module";
+
+    user = lib.mkOption {
+      type = lib.types.str;
+      description = "The username that will run the services.";
+    };
+
+    modelsDirectory = lib.mkOption {
+      type = lib.types.str;
+      description = "Absolute path to the directory for LLM models.";
+    };
+
+    llama-cpp = {
+      enable = lib.mkEnableOption "the llama.cpp server";
+      # allow null here so we don't reference `pkgs` at import time
+      package = lib.mkOption {
+        type = lib.types.nullOr lib.types.package;
+        default = null;
+        defaultText = "null (falls back to pkgs.llama-cpp)";
+        description = "The llama.cpp package to use for the server. Leave null to use pkgs.llama-cpp.";
       };
-      systemd.services.vllm-qwen3.unitConfig = {
-        ConditionPathExists = constants.models_dir;
+    };
+
+    lobe-chat = {
+      enable = lib.mkEnableOption "the Lobe Chat UI container";
+    };
+  };
+
+  config = {} // (if isDarwin then {
+    launchd.agents.llamacpp_llm_service = lib.mkIf cfg.llama-cpp.enable {
+      command = pkgs.writeShellScript "start-llama-server.sh" ''
+        #!${pkgs.stdenv.shell}
+        export LLAMA_CACHE="${cfg.modelsDirectory}"
+        exec ${llamaPkg}/bin/llama-server \
+          -hf Qwen/Qwen3-VL-30B-A3B-Thinking:Q4_K_M \
+          --jinja -ngl 99 --threads 16 --ctx-size 100000 -fa on \
+          --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
+          --port 5000 --host 0.0.0.0 --seed 2 \
+          --cache-type-k q8_0 --cache-type-v q8_0
+      '';
+
+      serviceConfig = {
+        KeepAlive = true;
+        RunAtLoad = true;
+        StandardOutPath = "/tmp/llamacpp_llm_service.log";
+        StandardErrorPath = "/tmp/llamacpp_llm_service.log";
       };
-      systemd.services.vllm-qwen3.serviceConfig = {
-        Restart = "always";
-        User = config.machine.user;
-      };
-      systemd.services.vllm-qwen3-embed.unitConfig = {
-        ConditionPathExists = constants.models_dir;
-      };
-      systemd.services.vllm-qwen3-embed.serviceConfig = {
-        Restart = "always";
-        User = config.machine.user;
-      };
-      systemd.services.vllm-mimo-vl.unitConfig = {
-        ConditionPathExists = constants.models_dir;
-      };
-      systemd.services.vllm-mimo-vl.serviceConfig = {
-        Restart = "always";
-        User = config.machine.user;
-      };
-      systemd.services.llamacpp_llm_service = {
-        enable = config.machine.is_desktop;
-        description = "service for llama-cpp";
-        environment = {
-          "LLAMA_CACHE" = constants.models_dir;
-        };
-        wantedBy = [ "multi-user.target" ];
-        # script = ''
-        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
-        #     -hf unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:Q4_K_M\
-        #     --jinja -ngl 99 --threads 16 --ctx-size 100000 -fa on\
-        #     --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
-        #     --port 5000 --host 0.0.0.0 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0
-        # '';
-        script = ''
-          ${config.machine.llama-cpp.pkg}/bin/llama-server\
-            -hf unsloth/Qwen3-4B-Thinking-2507-GGUF:Q8_0\
-            --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on\
-            --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
-            --port 5000 --host 0.0.0.0 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0
+    };
+  } else {}) // (if isLinux then {
+    systemd.services.llamacpp_llm_service = lib.mkIf cfg.llama-cpp.enable {
+      description = "llama.cpp GGUF model serving";
+      wantedBy = [ "multi-user.target" ];
+
+      script = pkgs.writeShellScript "start-llama-server.sh" ''
+          #!${pkgs.stdenv.shell}
+          export LLAMA_CACHE="${cfg.modelsDirectory}"
+          exec ${llamaPkg}/bin/llama-server \
+            -hf unsloth/Qwen3-4B-Thinking-2S-GGUF:Q8_0 \
+            --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on \
+            --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
+            --port 5000 --host 0.0.0.0 --seed 2 \
+            --cache-type-k q8_0 --cache-type-v q8_0
         '';
-        # script = ''
-        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
-        #     -hf unsloth/Qwen3-4B-Instruct-2507-GGUF:Q8_0\
-        #     --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on\
-        #     --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
-        #     --port 5000 --host 0.0.0.0 --seed 2 --cache-type-k q8_0 --cache-type-v q8_0
-        # '';
-        # script = ''
-        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
-        #     -hf unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:Q5_K_XL\
-        #     --jinja -ngl 99 --threads 16 --ctx-size $((2 ** 18)) -fa\
-        #     --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
-        #     --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2
-        # '';
-        # script = ''
-        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
-        #     -hf unsloth/Seed-OSS-36B-Instruct-GGUF:Q4_K_M\
-        #     --jinja -ngl 99 --threads 16 --ctx-size $((2 ** 18)) --flash-attn on\
-        #     --temp 1.1 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4\
-        #     --no-kv-offload --port 5000 --host 0.0.0.0 --seed 2\
-        #     --cache-type-k q8_0 --cache-type-v q8_0\
-        #     --chat-template-kwargs '{"thinking_budget": 2048}'
-        # '';
-        # script = ''
-        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
-        #     --host 0.0.0.0\
-        #     --port 5000\
-        #     -hf unsloth/GLM-4.5-Air-GGUF:IQ2_XXS\
-        #     --jinja\
-        #     -ngl 99\
-        #     -fa\
-        #     --temp 0.7\
-        #     --top-k 20\
-        #     --top-p 0.95\
-        #     --min-p 0\
-        #     --presence-penalty 1.4\
-        #     --seed 2\
-        #     --no-kv-offload\
-        #     --cache-type-k q8_0\
-        #     --cache-type-v q8_0\
-        #     --override-tensor "\.(2[3-9]|[3-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU"\
-        #     -c 50000\
-        #     --threads 25
-        # '';
-        # script = ''
-        #   ${config.machine.llama-cpp.pkg}/bin/llama-server\
-        #     --host 0.0.0.0\
-        #     --port 5000\
-        #     -hf bullerwins/Hunyuan-A13B-Instruct-GGUF:Q4_K_M\
-        #     --jinja\
-        #     -ngl 99\
-        #     -fa\
-        #     --temp 0.7\
-        #     --top-k 20\
-        #     --top-p 0.95\
-        #     --min-p 0\
-        #     --presence-penalty 1.4\
-        #     --seed 2\
-        #     --no-kv-offload\
-        #     --cache-type-k q8_0\
-        #     --cache-type-v q8_0\
-        #     --override-tensor "\.(1[3-9]|[2-9][0-9]|[1-9][0-9]{2})\.ffn_.*_exps.=CPU"\
-        #     -c 260000\
-        #     --threads 25
-        # '';
-        serviceConfig = {
-          Restart = "always";
-          User = config.machine.user;
-        };
-        unitConfig = {
-          ConditionPathExists = constants.models_dir;
-        };
+
+      serviceConfig = {
+        Restart = "always";
+        User = cfg.user;
       };
-      systemd.services.llamacpp_embed_service = {
-        enable = false;
-        description = "service for embeddings generation through llama-cpp";
-        environment = {
-          "LLAMA_CACHE" = constants.models_dir;
-        };
-        wantedBy = [ "multi-user.target" ];
-        script = "${config.machine.llama-cpp.pkg}/bin/llama-server --host 0.0.0.0 --port 5001 -hf unsloth/Qwen3-0.6B-GGUF:Q4_K_M -ngl 99 -fa -c 16000 --seed 2 --embedding --pooling last -ub 8000 --no-kv-offload";
-        serviceConfig = {
-          Restart = "always";
-          User = config.machine.user;
-        };
-        unitConfig = {
-          ConditionPathExists = constants.models_dir;
-        };
-      };
-    })
-    {
-      virtualisation.oci-containers = {
-        containers = {
-          lobe-chat = {
-            image = "docker.io/lobehub/lobe-chat:latest";
-            # environment = {
-            #   "OPENAI_PROXY_URL" = "http://mahmooz2:5000";
-            # };
-            extraOptions = [
-              "--network=host"
-              "--name=lobe-chat"
-              "-v" "${constants.home_dir}/.lobe-chat:/app/backend/data"
-            ];
-          };
-        };
-      };
-      systemd.tmpfiles.rules = [
-        "d ${constants.home_dir}/.lobe-chat 0755 caddy caddy - -"
-      ];
-    }
-  ];
+      unitConfig.ConditionPathExists = cfg.modelsDirectory;
+    };
+  } else {});
 }

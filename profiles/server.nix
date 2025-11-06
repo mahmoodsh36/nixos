@@ -4,10 +4,14 @@ let
   constants = (import ../lib/constants.nix);
 in
 {
+  imports = [
+    ../services/llm.nix
+  ];
+
   config = {
-    _module.args = {
-      inherit inputs;
-    };
+    # _module.args = {
+    #   inherit inputs;
+    # };
 
     time.timeZone = "Asia/Jerusalem";
 
@@ -143,5 +147,12 @@ in
         };
       })
     ];
+
+    llms = {
+      enable = true;
+      user = "youruser";
+      modelsDirectory = "/var/lib/llms";
+      llama-cpp.enable = true;
+    };
   };
 }

@@ -7,7 +7,6 @@ in
   imports = [
     ./nvidia.nix
     ./network.nix
-    ../services/llm.nix
   ];
 
   config = lib.mkIf config.machine.is_linux {
