@@ -51,6 +51,8 @@ in
         RunAtLoad = true;
         StandardOutPath = "/tmp/llamacpp_llm_service.log";
         StandardErrorPath = "/tmp/llamacpp_llm_service.log";
+        UserName = config.machine.user;
+        GroupName = "staff";
       };
     };
   } else {}) // (if isLinux then {
@@ -71,6 +73,10 @@ in
 
       serviceConfig = {
         Restart = "always";
+        User = config.machine.user;
+        Group = "users";
+        StandardOutput = "journal";
+        StandardError = "journal";
       };
       unitConfig.ConditionPathExists = cfg.modelsDirectory;
     };
