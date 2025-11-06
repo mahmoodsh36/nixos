@@ -66,6 +66,19 @@ let
     # vllm
     timm einops tiktoken # some models require these
   ]));
+
+  # MLX environment for Apple Silicon
+  mlx-python = (my-python.withPackages (ps: with ps; [
+    mlx
+    mlx-vlm
+    # Common ML dependencies that work well with MLX
+    numpy
+    pillow
+    transformers
+    huggingface-hub
+    torch  # for compatibility with some models
+  ]));
+
 in
 {
   config = lib.mkIf config'.machine.is_desktop {
@@ -80,6 +93,14 @@ in
       '')
       (pkgs.writeShellScriptBin "ipython" ''
         exec ${main-python}/bin/ipython --no-confirm-exit "$@"
+      '')
+    ] ++ lib.optionals pkgs.stdenv.isDarwin [
+      # MLX environment for Apple Silicon (macOS only)
+      (pkgs.writeShellScriptBin "mlx-python" ''
+        exec ${mlx-python}/bin/python "$@"
+      '')
+      (pkgs.writeShellScriptBin "mlx-ipython" ''
+        exec ${mlx-python}/bin/ipython --no-confirm-exit "$@"
       '')
     ];
 
