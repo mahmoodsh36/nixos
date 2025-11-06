@@ -184,7 +184,7 @@
         config.allowUnfree = true;
         config.cudaSupport = isLinux && cudaSupport;
       };
-    in import ./modules/python/environment.nix {
+    in import ./modules/uv_python.nix {
       pkgs = sysPkgs;
       pyproject-nix = inputs.pyproject-nix;
       uv2nix = inputs.uv2nix;
