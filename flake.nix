@@ -66,6 +66,10 @@
       url = "github:nix-community/robotnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # macos
     nix-darwin = {
@@ -462,6 +466,7 @@
         };
         modules = [
           inputs.determinate.darwinModules.default
+          inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
           ({ config, pkgs, lib, ... }: {
             config = {

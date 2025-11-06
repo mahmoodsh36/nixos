@@ -26,6 +26,7 @@ in
     home-manager.extraSpecialArgs = { inherit pkgs pkgs-master pkgs-unstable inputs; };
     home-manager.sharedModules = lib.mkIf config.machine.is_linux [
       inputs.plasma-manager.homeModules.plasma-manager
+      inputs.mac-app-util.homeManagerModules.default
     ];
 
     # "lib" in home-manager configs needs to not be overridden. otherwise
@@ -94,7 +95,6 @@ in
           # ./julia.nix
           ./sbcl.nix
           ./distrobox-config.nix
-          ./karabiner.nix
           ../../services/podman-autobuilder.nix
         ];
 
