@@ -151,7 +151,7 @@ in
     llms = {
       enable = true;
       modelsDirectory = "${config.machine.voldir}/models";
-      llama-cpp.enable = true;
+      llama-cpp.enable = config.machine.name == "mahmooz0";
     };
   };
 }
