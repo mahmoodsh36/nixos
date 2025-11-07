@@ -1,4 +1,6 @@
 # https://raw.githubusercontent.com/lfnovo/open-notebook/refs/heads/main/docker-compose.full.yml
+# docker-compose.full.yml
+
 services:
   surrealdb:
     image: surrealdb/surrealdb:v2
@@ -12,15 +14,32 @@ services:
     pull_policy: always
     user: root
     restart: always
+    healthcheck:
+      test: ["CMD", "surreal", "sql", "--endpoint", "ws://localhost:8000", "--sql", "INFO FOR DB;"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
   open_notebook:
     image: lfnovo/open_notebook:v1-latest
     ports:
       - "8502:8502"
       - "5055:5055"
-    env_file:
-      - ./docker.env
+    # --- CHANGE THIS SECTION ---
+    # Remove env_file and add the variables directly.
+    # This is the most reliable way to set environment variables.
+    environment:
+      SURREAL_URL: "ws://surrealdb:8000/rpc"
+      SURREAL_USER: "root"
+      SURREAL_PASSWORD: "root"
+      SURREAL_NAMESPACE: "open_notebook"
+      SURREAL_DATABASE: "staging"
+      # You can add your OPENAI_API_KEY here if needed, or leave it blank
+      OPENAI_API_KEY: ""
     depends_on:
-      - surrealdb
+      surrealdb:
+        condition: service_healthy
     volumes:
       - ${HOME}/.notebook_data:/app/data
     restart: always
