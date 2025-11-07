@@ -1119,22 +1119,6 @@
         "type": "gitlab"
       }
     },
-    "open-notebook": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1762301700,
-        "narHash": "sha256-qlb3Rs0gQel3Qn9Vtea3BeJ8tHFwF1h1DWl2I+kcRHQ=",
-        "owner": "lfnovo",
-        "repo": "open-notebook",
-        "rev": "b42cc06e6574fddb1ebd7d642d189fcb3df425e0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lfnovo",
-        "repo": "open-notebook",
-        "type": "github"
-      }
-    },
     "pkgs-master": {
       "locked": {
         "lastModified": 1762469616,
@@ -1304,7 +1288,6 @@
         "nix-homebrew": "nix-homebrew",
         "nix-on-droid": "nix-on-droid",
         "nixpkgs": "nixpkgs_4",
-        "open-notebook": "open-notebook",
         "pkgs-master": "pkgs-master",
         "pkgs-unstable": "pkgs-unstable",
         "plasma-manager": "plasma-manager",
