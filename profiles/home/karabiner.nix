@@ -33,6 +33,19 @@ let
     conditions = [];
   };
 
+  # Open the most recent screenshot file
+  openLatestScreenshot = key: {
+    type = "basic";
+    from = {
+      key_code = key;
+      modifiers = { mandatory = [ "left_command" ]; optional = [ "any" ]; };
+    };
+    to = [{
+      shell_command = "bash -lc 'latest=$(ls -t ${config'.machine.voldir}/data/images/scrots/*.png 2>/dev/null | head -n1); [ -n \"$latest\" ] && open \"$latest\"'";
+    }];
+    conditions = [];
+  };
+
 in
 {
   xdg.configFile."karabiner/HomeManagerInit_karabiner.json" = {
@@ -64,6 +77,7 @@ in
                   (launchApp "e" "Emacs")
                   # (launchApp "return_or_enter" "WezTerm")
                   (launchCommand "return_or_enter" "export WEZTERM_CONFIG_FILE=$HOME/.config/wezterm/wezterm.lua; open -a wezterm")
+                  (openLatestScreenshot "l")  # Opens latest screenshot with Cmd+L
                 ];
               }
               {
