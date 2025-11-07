@@ -152,6 +152,7 @@ in
       enable = true;
       modelsDirectory = "${config.machine.voldir}/models";
       llama-cpp.enable = config.machine.name == "mahmooz0";
+      llama-cpp-embeddings.enable = config.machine.name == "mahmooz0";
     };
   };
 }

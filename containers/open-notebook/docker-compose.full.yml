@@ -21,6 +21,8 @@ services:
       retries: 5
       start_period: 15s
 
+
+
   open_notebook:
     image: lfnovo/open_notebook:v1-latest
     ports:
@@ -37,6 +39,12 @@ services:
       SURREAL_DATABASE: "staging"
       # You can add your OPENAI_API_KEY here if needed, or leave it blank
       OPENAI_API_KEY: ""
+      # Local llama.cpp server configuration
+      OPENAI_COMPATIBLE_API_KEY: "not-needed"
+      OPENAI_COMPATIBLE_BASE_URL: "http://host.docker.internal:5000"
+      # Embeddings configuration (same as LLM but different port)
+      OPENAI_COMPATIBLE_EMBEDDINGS_API_KEY: "not-needed"
+      OPENAI_COMPATIBLE_EMBEDDINGS_BASE_URL: "http://host.docker.internal:5001"
     depends_on:
       surrealdb:
         condition: service_healthy

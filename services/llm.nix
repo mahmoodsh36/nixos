@@ -24,7 +24,22 @@ in
         type = lib.types.nullOr lib.types.package;
         default = null;
         defaultText = "null (falls back to pkgs.llama-cpp)";
-        description = "The llama.cpp package to use for the server. Leave null to use pkgs.llama-cpp.";
+        description = "The llama.cpp package to use for server. Leave null to use pkgs.llama-cpp.";
+      };
+    };
+
+    llama-cpp-embeddings = {
+      enable = lib.mkEnableOption "the llama.cpp embeddings server";
+      package = lib.mkOption {
+        type = lib.types.nullOr lib.types.package;
+        default = null;
+        defaultText = "null (falls back to pkgs.llama-cpp)";
+        description = "The llama.cpp package to use for embeddings server. Leave null to use pkgs.llama-cpp.";
+      };
+      model = lib.mkOption {
+        type = lib.types.str;
+        default = "nomic-embed-text-v1.5.Q4_K_M.gguf";
+        description = "The embedding model filename.";
       };
     };
 
@@ -55,6 +70,26 @@ in
         GroupName = "staff";
       };
     };
+
+    launchd.agents.llamacpp_embeddings_service = lib.mkIf cfg.llama-cpp-embeddings.enable {
+      command = pkgs.writeShellScript "start-llama-embeddings-server.sh" ''
+        #!${pkgs.stdenv.shell}
+        export LLAMA_CACHE="${cfg.modelsDirectory}"
+        exec ${llamaPkg}/bin/llama-server \
+          -hf nomic-ai/nomic-embed-text-v1.5-GGUF \
+          --embeddings --ctx-size 2048 --threads 4 \
+          --port 5001 --host 0.0.0.0
+      '';
+
+      serviceConfig = {
+        KeepAlive = true;
+        RunAtLoad = true;
+        StandardOutPath = "/tmp/llamacpp_embeddings_service.log";
+        StandardErrorPath = "/tmp/llamacpp_embeddings_service.log";
+        UserName = config.machine.user;
+        GroupName = "staff";
+      };
+    };
   } else {}) // (if isLinux then {
     systemd.services.llamacpp_llm_service = lib.mkIf cfg.llama-cpp.enable {
       description = "llama.cpp GGUF model serving";
@@ -69,6 +104,29 @@ in
            --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
            --port 5000 --host 0.0.0.0 --seed 2 \
            --cache-type-k q8_0 --cache-type-v q8_0
+       '';
+
+      serviceConfig = {
+        Restart = "always";
+        User = config.machine.user;
+        Group = "users";
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+      unitConfig.ConditionPathExists = cfg.modelsDirectory;
+    };
+
+    systemd.services.llamacpp_embeddings_service = lib.mkIf cfg.llama-cpp-embeddings.enable {
+      description = "llama.cpp embeddings server";
+      wantedBy = [ "multi-user.target" ];
+
+       script = ''
+         #!${pkgs.stdenv.shell}
+         export LLAMA_CACHE="${cfg.modelsDirectory}"
+         exec ${llamaPkg}/bin/llama-server \
+           -hf nomic-ai/nomic-embed-text-v1.5-GGUF \
+           --embeddings --ctx-size 2048 --threads 4 \
+           --port 5001 --host 0.0.0.0
        '';
 
       serviceConfig = {
