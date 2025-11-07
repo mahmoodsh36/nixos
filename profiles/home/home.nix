@@ -285,20 +285,20 @@ in
                 "--platform=linux/arm64"
               ];
               command = [ "sleep" "infinity" ];
-              # aliases = {
-              #   "minerupython" = {
-              #     command = [ "python3" ];
-              #     interactive = true;
-              #   };
-              #   "mineru" = {
-              #     command = [ "mineru" ];
-              #     interactive = true;
-              #   };
-              #   "mineru-mlx" = {
-              #     command = [ "python3" ];
-              #     interactive = true;
-              #   };
-              # };
+              aliases = {
+                "minerupython" = {
+                  command = [ "python3" ];
+                  interactive = true;
+                };
+                # "mineru" = {
+                #   command = [ "mineru" ];
+                #   interactive = true;
+                # };
+                # "mineru-mlx" = {
+                #   command = [ "python3" ];
+                #   interactive = true;
+                # };
+              };
             };
           };
         };
