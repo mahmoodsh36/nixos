@@ -217,64 +217,64 @@ in
             };
 
             # ML Python environment with CUDA support (for Linux/NVIDIA)
-            mlpython = lib.mkIf (config'.machine.is_linux && config'.machine.enable_nvidia) {
-              imageName = "mlpython";
-              context = ../../containers/mlpython;
-              buildArgs = [
-                "--network=host"
-                "--build-arg" "MAX_JOBS=8"
-              ];
-              runArgs = [
-                "--cdi-spec-dir=/run/cdi"
-                "--device=nvidia.com/gpu=all"
-                "--shm-size=64g"
-                "-v" "${constants.models_dir}:${constants.models_dir}"
-                "-v" "/:/host" # full filesystem access
-                "--network=host"
-              ];
-              command = [ "sleep" "infinity" ];
-              aliases = {
-                "mlpython" = {
-                  command = [ "python3" ];
-                  interactive = true;
-                };
-                "myvllm" = {
-                  command = [
-                    "python3" "-m" "vllm.entrypoints.openai.api_server"
-                    "--download-dir" "${constants.models_dir}" "--trust-remote-code"
-                    "--port" "5000" "--max-num-seqs" "1"
-                  ];
-                  interactive = true;
-                };
-              };
-            };
+            # mlpython = lib.mkIf (config'.machine.is_linux && config'.machine.enable_nvidia) {
+            #   imageName = "mlpython";
+            #   context = ../../containers/mlpython;
+            #   buildArgs = [
+            #     "--network=host"
+            #     "--build-arg" "MAX_JOBS=8"
+            #   ];
+            #   runArgs = [
+            #     "--cdi-spec-dir=/run/cdi"
+            #     "--device=nvidia.com/gpu=all"
+            #     "--shm-size=64g"
+            #     "-v" "${constants.models_dir}:${constants.models_dir}"
+            #     "-v" "/:/host" # full filesystem access
+            #     "--network=host"
+            #   ];
+            #   command = [ "sleep" "infinity" ];
+            #   aliases = {
+            #     "mlpython" = {
+            #       command = [ "python3" ];
+            #       interactive = true;
+            #     };
+            #     "myvllm" = {
+            #       command = [
+            #         "python3" "-m" "vllm.entrypoints.openai.api_server"
+            #         "--download-dir" "${constants.models_dir}" "--trust-remote-code"
+            #         "--port" "5000" "--max-num-seqs" "1"
+            #       ];
+            #       interactive = true;
+            #     };
+            #   };
+            # };
 
             # MinerU container (for Linux)
-            mineru = lib.mkIf config'.machine.is_linux {
-              imageName = "mineru";
-              context = ../../containers/mineru;
-              buildArgs = [
-                "--network=host"
-              ];
-              runArgs = [
-                "-v" "/:/host"
-                "--network=host"
-              ] ++ pkgs.lib.optionals config'.machine.enable_nvidia [
-                "--cdi-spec-dir=/run/cdi"
-                "--device=nvidia.com/gpu=all"
-              ];
-              command = [ "sleep" "infinity" ];
-              aliases = {
-                "minerupython" = {
-                  command = [ "python3" ];
-                  interactive = true;
-                };
-                "mineru" = {
-                  command = [ "mineru" ];
-                  interactive = true;
-                };
-              };
-            };
+            # mineru = lib.mkIf config'.machine.is_linux {
+            #   imageName = "mineru";
+            #   context = ../../containers/mineru;
+            #   buildArgs = [
+            #     "--network=host"
+            #   ];
+            #   runArgs = [
+            #     "-v" "/:/host"
+            #     "--network=host"
+            #   ] ++ pkgs.lib.optionals config'.machine.enable_nvidia [
+            #     "--cdi-spec-dir=/run/cdi"
+            #     "--device=nvidia.com/gpu=all"
+            #   ];
+            #   command = [ "sleep" "infinity" ];
+            #   aliases = {
+            #     "minerupython" = {
+            #       command = [ "python3" ];
+            #       interactive = true;
+            #     };
+            #     "mineru" = {
+            #       command = [ "mineru" ];
+            #       interactive = true;
+            #     };
+            #   };
+            # };
 
             # CPU version (for macOS - MLX not available in containers)
             mineru-mlx = lib.mkIf config'.machine.is_darwin {
