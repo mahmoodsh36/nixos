@@ -77,7 +77,7 @@ in
                   (launchApp "e" "Emacs")
                   # (launchApp "return_or_enter" "WezTerm")
                   (launchCommand "return_or_enter" "export WEZTERM_CONFIG_FILE=$HOME/.config/wezterm/wezterm.lua; open -a wezterm")
-                  (openLatestScreenshot "l")  # Opens latest screenshot with Cmd+L
+                  (openLatestScreenshot "i")  # Opens latest screenshot with Cmd+L
                 ];
               }
               {
