@@ -2,6 +2,8 @@
 
 let
   constants = (import ../lib/constants.nix);
+  work_dir = "${config.machine.voldir}/work";
+  scripts_dir = "${config.machine.voldir}/work/scripts";
   keys_python = pkgs.python3.withPackages (ps: with ps; [ evdev ]);
   gtk_python_env = (pkgs.python3.withPackages (ps: with ps; [
     pygobject3
@@ -364,7 +366,7 @@ in
     systemd.services.my_mpv_logger_service = {
       description = "mpv logger";
       wantedBy = [ "multi-user.target" ];
-      script = "${pkgs.dash}/bin/dash ${constants.scripts_dir}/mpv_logger.sh";
+      script = "${pkgs.dash}/bin/dash ${scripts_dir}/mpv_logger.sh";
       serviceConfig = {
         User = config.machine.user;
         Restart = "always";
@@ -377,13 +379,13 @@ in
       wantedBy = [ "multi-user.target" ];
       # choose glove80 if its present
       script = ''
-        export kbd=$(${pkgs.libinput}/bin/libinput list-devices | ${pkgs.gnugrep}/bin/grep glove80 -i -A 10 | ${pkgs.gnugrep}/bin/grep Kernel: | ${pkgs.gawk}/bin/awk '{print $2}'); [ -z "$kbd" ] && ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d' || ${pkgs.dash}/bin/dash -lc "${keys_python}/bin/python ${constants.work_dir}/keys/keys.py -d -p $kbd"
+        export kbd=$(${pkgs.libinput}/bin/libinput list-devices | ${pkgs.gnugrep}/bin/grep glove80 -i -A 10 | ${pkgs.gnugrep}/bin/grep Kernel: | ${pkgs.gawk}/bin/awk '{print $2}'); [ -z "$kbd" ] && ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${work_dir}/keys/keys.py -d' || ${pkgs.dash}/bin/dash -lc "${keys_python}/bin/python ${work_dir}/keys/keys.py -d -p $kbd"
       '';
       serviceConfig = {
         Restart = "always";
       };
       unitConfig = {
-        ConditionPathExists = "${constants.work_dir}/keys/keys.py";
+        ConditionPathExists = "${work_dir}/keys/keys.py";
       };
     };
 

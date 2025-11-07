@@ -60,16 +60,16 @@ in
       description = "llama.cpp GGUF model serving";
       wantedBy = [ "multi-user.target" ];
 
-      script = pkgs.writeShellScript "start-llama-server.sh" ''
-        #!${pkgs.stdenv.shell}
-        export LLAMA_CACHE="${cfg.modelsDirectory}"
-        exec ${llamaPkg}/bin/llama-server \
-          -hf unsloth/Qwen3-4B-Thinking-2S-GGUF:Q8_0 \
-          --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on \
-          --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
-          --port 5000 --host 0.0.0.0 --seed 2 \
-          --cache-type-k q8_0 --cache-type-v q8_0
-      '';
+       script = ''
+         #!${pkgs.stdenv.shell}
+         export LLAMA_CACHE="${cfg.modelsDirectory}"
+         exec ${llamaPkg}/bin/llama-server \
+           -hf unsloth/Qwen3-4B-Thinking-2S-GGUF:Q8_0 \
+           --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on \
+           --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
+           --port 5000 --host 0.0.0.0 --seed 2 \
+           --cache-type-k q8_0 --cache-type-v q8_0
+       '';
 
       serviceConfig = {
         Restart = "always";
