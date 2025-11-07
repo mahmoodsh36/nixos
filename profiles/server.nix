@@ -90,7 +90,7 @@ in
       # nix specific stuff
       compose2nix
       nvfetcher
-      arion
+      # arion
       inputs.disko.packages.${pkgs.system}.default
     ];
 
