@@ -101,7 +101,7 @@ in
         ];
 
         home.file = config_entries // script_entries // {
-          ".zshrc" = {
+          ".zshrc.manual" = {
             source = config.lib.file.mkOutOfStoreSymlink "${dots}/.zshrc";
           };
           ".zprofile" = {
@@ -114,6 +114,11 @@ in
 
         programs.zsh = {
           enable = true;
+          # https://github.com/nix-community/home-manager/issues/7633
+          # we use a custom .zshrc.manual to avoid issues
+          initContent = lib.mkOrder 1500 ''
+            source ~/.zshrc.manual
+          '';
           sessionVariables = rec {
             # we want our rsync to precede macos' default rsync to support options like --iconv
             # PATH = "${pkgs.rsync}/bin:" + (builtins.getEnv "PATH");
