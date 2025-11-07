@@ -76,7 +76,7 @@ in
         #!${pkgs.stdenv.shell}
         export LLAMA_CACHE="${cfg.modelsDirectory}"
         exec ${llamaPkg}/bin/llama-server \
-          -hf nomic-ai/nomic-embed-text-v1.5-GGUF \
+          -hf unsloth/embeddinggemma-300m-GGUF:Q8_0 \
           --embeddings --ctx-size 2048 --threads 4 \
           --port 5001 --host 0.0.0.0
       '';
@@ -124,7 +124,7 @@ in
          #!${pkgs.stdenv.shell}
          export LLAMA_CACHE="${cfg.modelsDirectory}"
          exec ${llamaPkg}/bin/llama-server \
-           -hf nomic-ai/nomic-embed-text-v1.5-GGUF \
+           -hf unsloth/embeddinggemma-300m-GGUF:Q8_0 \
            --embeddings --ctx-size 2048 --threads 4 \
            --port 5001 --host 0.0.0.0
        '';
