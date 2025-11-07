@@ -313,9 +313,9 @@ in
             #   composeFile = "${inputs.open-notebook}/setup_guide/docker-compose.yml";
             #   workingDirectory = "${inputs.open-notebook}/setup_guide/";
             # };
-            notebook = {
-              composeFile = ./containers/open-notebook/docker-compose.full.yml;
-              workingDirectory = ./containers/open-notebook;
+            open-notebook = {
+              composeFile = ../../containers/open-notebook/docker-compose.full.yml;
+              workingDirectory = ../../containers/open-notebook;
               environment = {
                 HOME = config.home.homeDirectory;
               };
