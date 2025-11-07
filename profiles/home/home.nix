@@ -301,6 +301,14 @@ in
               };
             };
           };
+
+          # composeFiles = {
+          #   open-notebook = {
+          #     # composeFile = "${inputs.open-notebook}/docker-compose.full.yml";
+          #     composeFile = "${inputs.open-notebook}/setup_guide/docker-compose.yml";
+          #     workingDirectory = "${inputs.open-notebook}/setup_guide/";
+          #   };
+          # };
         };
       };
   };

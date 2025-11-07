@@ -6,10 +6,7 @@
 with lib;
 
 let
-  # a shortcut to this module's configuration options.
   cfg = config.services.podman-autobuilder;
-
-  # generates build and run services for a single container on Linux (systemd)
   mkContainerServicesLinux = name: containerCfg: {
     # the build service. it is a standard boot-time service.
     "podman-autobuild-${name}" = {
@@ -64,8 +61,6 @@ let
       };
     };
   };
-
-  # generates build and run services for a single container on macOS (launchd)
   mkContainerServicesDarwin = name: containerCfg: {
     # the build service
     "podman-autobuild-${name}" = {
@@ -112,8 +107,6 @@ let
       };
     };
   };
-
-  # generates a one-shot service unit for an `exec` command on Linux.
   mkExecServiceLinux = containerName: execName: execCfg: {
     "podman-exec-${containerName}-${execName}" = {
       Unit = {
@@ -132,8 +125,6 @@ let
       };
     };
   };
-
-  # generates a one-shot service unit for an `exec` command on macOS.
   mkExecServiceDarwin = containerName: execName: execCfg: {
     "podman-exec-${containerName}-${execName}" = {
       enable = true;
@@ -149,19 +140,74 @@ let
     };
   };
 
+  mkComposeServiceLinux = name: composeCfg: {
+    "podman-compose-${name}" = {
+      Unit = {
+        Description = "Podman Compose service for ${name}";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+      Service = {
+        Restart = "always";
+        RestartSec = "5s";
+        # Set the working directory if specified
+        WorkingDirectory = lib.mkIf (composeCfg.workingDirectory != null) (toString composeCfg.workingDirectory);
+        ExecStart = let
+          podman-compose = "${cfg.podmanComposePackage}/bin/podman-compose";
+        in ''
+          ${podman-compose} -f ${toString composeCfg.composeFile} up
+        '';
+        ExecStop = let
+          podman-compose = "${cfg.podmanComposePackage}/bin/podman-compose";
+        in ''
+          ${podman-compose} -f ${toString composeCfg.composeFile} down
+        '';
+      };
+    };
+  };
+
+  mkComposeServiceDarwin = name: composeCfg: {
+    "podman-compose-${name}" = {
+      enable = true;
+      config = {
+        Label = "podman.compose.${name}";
+        ProgramArguments = [
+          "${cfg.podmanComposePackage}/bin/podman-compose"
+          "-f"
+          (toString composeCfg.composeFile)
+          "up"
+        ];
+        RunAtLoad = true;
+        KeepAlive = {
+          SuccessfulExit = false;
+          Crashed = true;
+        };
+        EnvironmentVariables = {
+          PATH = lib.makeBinPath [ cfg.podmanPackage pkgs.coreutils ];
+        };
+        # Set the working directory if specified
+        WorkingDirectory = lib.mkIf (composeCfg.workingDirectory != null) (toString composeCfg.workingDirectory);
+        StandardOutPath = "${config.home.homeDirectory}/Library/Logs/podman-compose-${name}.log";
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/podman-compose-${name}.log";
+      };
+    };
+  };
+
 in
 {
-  # this section defines the configuration interface for users in their home-manager configuration.
-
   options.services.podman-autobuilder = {
     enable = mkEnableOption "podman-autobuilder service";
-
     podmanPackage = mkOption {
       type = types.package;
       default = pkgs.podman;
       description = "The podman package to use.";
     };
-
+    podmanComposePackage = mkOption {
+      type = types.package;
+      default = pkgs.podman-compose;
+      description = "The podman-compose package to use.";
+    };
     containers = mkOption {
       type = types.attrsOf (types.submodule ({ name, ... }: {
         options = {
@@ -170,7 +216,6 @@ in
           context = mkOption { type = types.path; description = "The build context directory, which contains the Dockerfile."; };
           dockerfile = mkOption { type = types.str; default = "Dockerfile"; description = "The name of the Dockerfile within the context directory."; };
           buildArgs = mkOption { type = types.listOf types.str; default = []; description = "A list of extra arguments to pass to the 'podman build' command."; };
-
           runArgs = mkOption {
             type = types.listOf types.str;
             default = [];
@@ -179,11 +224,10 @@ in
           };
           command = mkOption {
             type = types.listOf types.str;
-            default = []; # Defaults to an empty list, which uses the Dockerfile's CMD
+            default = [];
             description = "The command to run inside the container, overriding the Dockerfile's CMD.";
             example = [ "sleep" "infinity" ];
           };
-
           execServices = mkOption {
             default = {};
             description = "Defines one-shot services (started manually) to run commands in this container.";
@@ -208,27 +252,34 @@ in
       }));
       default = {};
     };
+
+    composeFiles = mkOption {
+      type = types.attrsOf (types.submodule ({ name, ... }: {
+        options = {
+          enable = mkEnableOption "this compose file" // { default = true; };
+          composeFile = mkOption { type = types.path; description = "Path to the docker-compose.yml file."; };
+          workingDirectory = mkOption {
+            type = types.nullOr types.path;
+            default = null;
+            description = "The working directory for podman-compose. Use this if your compose file uses relative paths for env_file, volumes, etc.";
+          };
+        };
+      }));
+      default = {};
+    };
   };
 
-  # this section generates the home-manager configuration based on the user's options.
-
-  config = mkIf (cfg.enable && cfg.containers != {}) (
+  config = mkIf cfg.enable (
     let
-      # Determine if we're on macOS (moved here to avoid infinite recursion)
       isDarwin = pkgs.stdenv.isDarwin;
-
-      # Helper functions to choose between Linux and Darwin implementations
       mkContainerServices = if isDarwin then mkContainerServicesDarwin else mkContainerServicesLinux;
       mkExecService = if isDarwin then mkExecServiceDarwin else mkExecServiceLinux;
-
-      # 1. gather all main container services into a single attribute set.
+      mkComposeService = if isDarwin then mkComposeServiceDarwin else mkComposeServiceLinux;
       allContainerServices = lib.foldl lib.recursiveUpdate {} (
         lib.mapAttrsToList (name: containerCfg:
           if containerCfg.enable then (mkContainerServices name containerCfg) else {}
         ) cfg.containers
       );
-
-      # 2. gather all `execServices` from all containers into a single attribute set.
       allExecServices = lib.foldl lib.recursiveUpdate {} (
         lib.mapAttrsToList (name: containerCfg:
           lib.foldl lib.recursiveUpdate {} (
@@ -238,8 +289,11 @@ in
           )
         ) cfg.containers
       );
-
-      # 3. create a flat list of script packages from all defined `aliases`.
+      allComposeServices = lib.foldl lib.recursiveUpdate {} (
+        lib.mapAttrsToList (name: composeCfg:
+          if composeCfg.enable then (mkComposeService name composeCfg) else {}
+        ) cfg.composeFiles
+      );
       allAliasPackages = lib.concatLists (
         lib.mapAttrsToList (containerName: containerCfg:
           lib.mapAttrsToList (aliasName: aliasCfg:
@@ -247,7 +301,6 @@ in
               #!${pkgs.runtimeShell}
               set -euo pipefail
 
-              # Auto-build image if it doesn't exist
               if ! ${cfg.podmanPackage}/bin/podman image exists ${escapeShellArg containerCfg.imageName}; then
                 echo "Building ${containerName} container image..."
                 ${cfg.podmanPackage}/bin/podman build \
@@ -260,12 +313,9 @@ in
                 }
               fi
 
-              # Auto-run container if it's not running
               if ! ${cfg.podmanPackage}/bin/podman ps --format "table {{.Names}}" | grep -q "^${escapeShellArg containerName}$"; then
                 echo "Container '${containerName}' not running. Starting it..."
-                # Remove existing container if it exists but is stopped
                 ${cfg.podmanPackage}/bin/podman rm -f ${escapeShellArg containerName} 2>/dev/null || true
-                # Run new container
                 ${cfg.podmanPackage}/bin/podman run -d \
                   --name ${escapeShellArg containerName} \
                   ${lib.concatStringsSep " " (map escapeShellArg containerCfg.runArgs)} \
@@ -274,11 +324,9 @@ in
                   echo "Failed to start container. Please check container logs."
                   exit 1
                 }
-                # Wait for container to be ready
                 sleep 3
               fi
 
-              # Execute command in the container
               INTERACTIVE_FLAG=""
               ${lib.optionalString aliasCfg.interactive ''
                 if [ -t 0 ]; then
@@ -290,19 +338,14 @@ in
           ) containerCfg.aliases
         ) cfg.containers
       );
-
     in
     {
-      # merge all generated services into the appropriate service manager
     } // (if isDarwin then {
-      # On macOS, use launchd agents
-      launchd.agents = allContainerServices // allExecServices;
+      launchd.agents = allContainerServices // allExecServices // allComposeServices;
     } else {
-      # On Linux, use systemd user services
-      systemd.user.services = allContainerServices // allExecServices;
+      systemd.user.services = allContainerServices // allExecServices // allComposeServices;
     }) // {
-      # add podman and all generated alias scripts to the user's PATH.
-      home.packages = allAliasPackages ++ [ cfg.podmanPackage ];
+      home.packages = allAliasPackages ++ [ cfg.podmanPackage cfg.podmanComposePackage ];
     }
   );
 }
