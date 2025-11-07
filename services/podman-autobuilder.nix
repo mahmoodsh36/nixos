@@ -7,6 +7,7 @@ with lib;
 
 let
   cfg = config.services.podman-autobuilder;
+
   mkContainerServicesLinux = name: containerCfg: {
     # the build service. it is a standard boot-time service.
     "podman-autobuild-${name}" = {
@@ -142,27 +143,16 @@ let
 
   mkComposeServiceLinux = name: composeCfg: {
     "podman-compose-${name}" = {
-      Unit = {
-        Description = "Podman Compose service for ${name}";
-      };
-      Install = {
-        WantedBy = [ "default.target" ];
-      };
+      Unit.Description = "Podman Compose service for ${name}";
+      Install.WantedBy = [ "default.target" ];
       Service = {
         Restart = "always";
         RestartSec = "5s";
-        # Set the working directory if specified
         WorkingDirectory = lib.mkIf (composeCfg.workingDirectory != null) (toString composeCfg.workingDirectory);
-        ExecStart = let
-          podman-compose = "${cfg.podmanComposePackage}/bin/podman-compose";
-        in ''
-          ${podman-compose} -f ${toString composeCfg.composeFile} up
-        '';
-        ExecStop = let
-          podman-compose = "${cfg.podmanComposePackage}/bin/podman-compose";
-        in ''
-          ${podman-compose} -f ${toString composeCfg.composeFile} down
-        '';
+        # Convert the attrset to a list of "KEY=VALUE" strings for systemd
+        Environment = lib.mapAttrsToList (name: value: "${name}=${value}") composeCfg.environment;
+        ExecStart = "${cfg.podmanComposePackage}/bin/podman-compose -f ${toString composeCfg.composeFile} up";
+        ExecStop = "${cfg.podmanComposePackage}/bin/podman-compose -f ${toString composeCfg.composeFile} down";
       };
     };
   };
@@ -174,19 +164,15 @@ let
         Label = "podman.compose.${name}";
         ProgramArguments = [
           "${cfg.podmanComposePackage}/bin/podman-compose"
-          "-f"
-          (toString composeCfg.composeFile)
+          "-f" (toString composeCfg.composeFile)
           "up"
         ];
         RunAtLoad = true;
-        KeepAlive = {
-          SuccessfulExit = false;
-          Crashed = true;
-        };
-        EnvironmentVariables = {
+        KeepAlive.Crashed = true;
+        # Merge the user's environment variables with the required PATH
+        EnvironmentVariables = composeCfg.environment // {
           PATH = lib.makeBinPath [ cfg.podmanPackage pkgs.coreutils ];
         };
-        # Set the working directory if specified
         WorkingDirectory = lib.mkIf (composeCfg.workingDirectory != null) (toString composeCfg.workingDirectory);
         StandardOutPath = "${config.home.homeDirectory}/Library/Logs/podman-compose-${name}.log";
         StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/podman-compose-${name}.log";
@@ -262,6 +248,15 @@ in
             type = types.nullOr types.path;
             default = null;
             description = "The working directory for podman-compose. Use this if your compose file uses relative paths for env_file, volumes, etc.";
+          };
+          environment = mkOption {
+            type = types.attrsOf types.str;
+            default = {};
+            description = "Environment variables to set for podman-compose, allowing for variable substitution in the compose file.";
+            example = {
+              TAG = "latest";
+              HOST_PORT = "8080";
+            };
           };
         };
       }));

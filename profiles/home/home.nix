@@ -307,13 +307,20 @@ in
             };
           };
 
-          # composeFiles = {
-          #   open-notebook = {
-          #     # composeFile = "${inputs.open-notebook}/docker-compose.full.yml";
-          #     composeFile = "${inputs.open-notebook}/setup_guide/docker-compose.yml";
-          #     workingDirectory = "${inputs.open-notebook}/setup_guide/";
-          #   };
-          # };
+          composeFiles = {
+            # open-notebook = {
+            #   # composeFile = "${inputs.open-notebook}/docker-compose.full.yml";
+            #   composeFile = "${inputs.open-notebook}/setup_guide/docker-compose.yml";
+            #   workingDirectory = "${inputs.open-notebook}/setup_guide/";
+            # };
+            notebook = {
+              composeFile = ./containers/open-notebook/docker-compose.full.yml;
+              workingDirectory = ./containers/open-notebook;
+              environment = {
+                HOME = config.home.homeDirectory;
+              };
+            };
+          };
         };
       };
   };
