@@ -56,6 +56,7 @@ in
         # "podman-desktop"
         "pear"
         "karabiner-elements"
+        "utm"
       ];
       brews = [
         # "anylinuxfs"
