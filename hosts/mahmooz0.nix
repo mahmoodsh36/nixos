@@ -57,6 +57,8 @@ in
         "pear"
         "karabiner-elements"
         "utm"
+        "xnviewmp" "openmtp" "darktable"
+        "jordanbaird-ice"
       ];
       brews = [
         # "anylinuxfs"
@@ -76,6 +78,11 @@ in
     system.defaults = {
       dock = {
         autohide = true;
+        magnification = true;
+        mineffect = "scale";
+        tilesize = 20;
+        autohide-delay = 0.2;
+        autohide-time-modifier = 0.1;
         persistent-apps = [
           "/Applications/Firefox.app"
           "/Applications/Nix Apps/WezTerm.app"
@@ -83,13 +90,44 @@ in
           "/Applications/Transmission.app"
         ];
       };
-      finder.FXPreferredViewStyle = "clmv"; # column view
+      finder = {
+        ShowPathbar = true;
+        ShowStatusBar = true;
+        FXPreferredViewStyle = "clmv"; # column view
+      };
+      trackpad = {
+        Clicking = true;
+        TrackpadRightClick = true;
+      };
       loginwindow.GuestEnabled = false;
       NSGlobalDomain = {
         AppleICUForce24HourTime = true;
         AppleInterfaceStyle = "Dark";
         KeyRepeat = 1; # fastest
         InitialKeyRepeat = 15;
+        AppleShowAllExtensions = true;
+        "com.apple.trackpad.enableSecondaryClick" = true;
+      };
+      CustomUserPreferences = {
+        # settings of plist in /Users/${vars.user}/Library/Preferences/
+        "com.apple.finder" = {
+          # set home directory as startup window
+          NewWindowTargetPath = "file:///Users/${config.machine.user}/";
+          NewWindowTarget = "PfHm";
+          # set search scope to directory
+          # FXDefaultSearchScope = "SCcf";
+          # multi-file tab view
+          FinderSpawnTab = true;
+        };
+        "com.apple.desktopservices" = {
+          # disable creating .DS_Store files in network an USB volumes
+          DSDontWriteNetworkStores = true;
+          DSDontWriteUSBStores = true;
+        };
+        # show battery percentage
+        "/Users/${config.machine.user}/Library/Preferences/ByHost/com.apple.controlcenter".BatteryShowPercentage = true;
+        # privacy
+        "com.apple.AdLib".allowApplePersonalizedAdvertising = false;
       };
     };
 
