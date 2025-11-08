@@ -1,7 +1,8 @@
-{ config, pkgs, lib, inputs, myutils, ... }:
+{ config, pkgs, lib, inputs, myutils, options, ... }:
 
 let
   constants = (import ../lib/constants.nix);
+  isLinux = options ? boot.kernelPackages; # NixOS-specific option, not in nix-darwin
   is_exit_node = config.machine.name == "mahmooz3";
   # mydomain = (if is_exit_node then constants.mydomain else config.machine.name);
   mydomain = (if is_exit_node then constants.mydomain else "localhost");
@@ -16,24 +17,15 @@ let
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
   blocky_port = 53;
-in rec
+in
 {
-  imports = [
-  ];
+  imports = [ ];
 
-  networking = {
-    hostName = config.machine.name;
-    usePredictableInterfaceNames = true;
-  };
-  services.openssh = {
-    enable = true;
-    # require public key authentication for better security
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "yes";
-    settings.GatewayPorts = "clientspecified";
-    ports = [ 22 2222 ]; # my uni wifi blocks port 22..
-  };
+  config = lib.mkMerge ([
+  {
+    networking.hostName = config.machine.name;
+
+    services.openssh.enable = true;
   users.users.mahmooz.openssh.authorizedKeys.keys = [
     constants.ssh_pub_key
   ];
@@ -53,14 +45,31 @@ in rec
   '';
 
   # vpn/etc
-  services.fail2ban.enable = is_exit_node;
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "both";
-    port = 12345; # (default: 41641)
-  };
+  services.tailscale.enable = true;
 
-  services.headscale = {
+  # boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
+  # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
+  }
+
+  # Linux-specific configurations (only merged if on NixOS, not nix-darwin)
+  ] ++ (lib.optional isLinux {
+    services.tailscale = {
+      port = 12345; # (default: 41641)
+      useRoutingFeatures = "both";
+    };
+
+    services.openssh = {
+      ports = [ 22 2222 ]; # my uni wifi blocks port 22..
+      # require public key authentication for better security
+      settings.PasswordAuthentication = false;
+      settings.KbdInteractiveAuthentication = false;
+      settings.PermitRootLogin = "yes";
+      settings.GatewayPorts = "clientspecified";
+    };
+
+    services.fail2ban.enable = is_exit_node;
+
+    services.headscale = {
     enable = is_exit_node;
     address = "0.0.0.0";
     settings = {
@@ -78,51 +87,51 @@ in rec
     };
   };
 
-  services.prometheus = {
-    enable = true;
-    port = 9090; # default
+    services.prometheus = {
+      enable = true;
+      port = 9090; # default
 
-    exporters = {
-      node = {
-        port = 9100;
-        enabledCollectors = [ "systemd" ];
-        enable = true;
+      exporters = {
+        node = {
+          port = 9100;
+          enabledCollectors = [ "systemd" ];
+          enable = true;
+        };
       };
+
+      scrapeConfigs = [
+        # scrape metrics from the node_exporter
+        {
+          job_name = "nodes";
+          static_configs = [{
+            targets = [
+              "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
+            ];
+          }];
+        }
+        # scrape metrics from the Caddy web server
+        {
+          job_name = "caddy";
+          static_configs = [{
+            targets = [ "127.0.0.1:2019" ];
+          }];
+        }
+      ];
     };
 
-    scrapeConfigs = [
-      # scrape metrics from the node_exporter
-      {
-        job_name = "nodes";
-        static_configs = [{
-          targets = [
-            "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
-          ];
-        }];
-      }
-      # scrape metrics from the Caddy web server
-      {
-        job_name = "caddy";
-        static_configs = [{
-          targets = [ "127.0.0.1:2019" ];
-        }];
-      }
-    ];
-  };
-
-  services.caddy = {
-    enable = true;
-    globalConfig = ''
-      # this option enables the caddy admin endpoint which prometheus needs.
-      admin 127.0.0.1:2019
-      metrics
-    '';
-    # package = pkgs.caddy.withPlugins {
-    #   plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
-    #   hash = "sha256-FqSn68RIYG0PjY/swB/UAwVrDsD18nYOdrdQuLl1Wyw=";
-    # };
-    # configure some reverse proxy traffic
-    virtualHosts = {
+    services.caddy = {
+      enable = true;
+      globalConfig = ''
+        # this option enables the caddy admin endpoint which prometheus needs.
+        admin 127.0.0.1:2019
+        metrics
+      '';
+      # package = pkgs.caddy.withPlugins {
+      #   plugins = ["github.com/mholt/caddy-ratelimit@v0.1.0"];
+      #   hash = "sha256-FqSn68RIYG0PjY/swB/UAwVrDsD18nYOdrdQuLl1Wyw=";
+      # };
+      # configure some reverse proxy traffic
+      virtualHosts = {
       "https://${headscale_host}" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:${toString headscale_port}
@@ -174,17 +183,6 @@ in rec
       };
     };
   };
-  # make caddy_dir owned by caddy:caddy
-  systemd.tmpfiles.rules = [
-    # create the directory if it doesn't exist
-    # Type Path                  Mode    User   Group  Age Argument
-    "d ${caddy_dir} 0755 caddy caddy - -"
-    # recursively apply permissions to the directory and its contents
-    # Type Path                  Mode  User   Group  Age Argument
-    "z ${caddy_dir} - caddy caddy - -"
-    # dir for caddy's access logs
-    "d /var/log/caddy 0755 caddy caddy - -"
-  ];
 
   # this service will collect logs sent by promtail.
   services.loki = {
@@ -288,21 +286,6 @@ in rec
     };
   };
 
-  networking.firewall = {
-    allowedTCPPorts = [
-      22 2222 # ssh
-      80 # nginx - http
-      443 # nginx - https
-    ];
-    enable = is_exit_node;
-    allowedUDPPorts = [
-      services.tailscale.port
-      blocky_port
-    ];
-    trustedInterfaces = [ config.services.tailscale.interfaceName ];
-    checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
-  };
-
   services.grafana = lib.mkIf (grafana_password != "") {
     enable = is_exit_node;
     provision = {
@@ -319,7 +302,7 @@ in rec
             {
               name = "Prometheus";
               type = "prometheus";
-              url = "http://localhost:${toString services.prometheus.port}";
+              url = "http://localhost:${toString config.services.prometheus.port}";
               access = "proxy";
               isDefault = false;
             }
@@ -378,8 +361,8 @@ in rec
     };
   };
 
-  # to improve exit node performance
-  services.networkd-dispatcher = lib.mkIf is_exit_node {
+  # to improve exit node performance (Linux-only: uses systemd-networkd)
+  services.networkd-dispatcher = lib.mkIf (is_exit_node && isLinux) {
     enable = true;
     rules."50-tailscale" = {
       onState = ["routable"];
@@ -559,33 +542,60 @@ in rec
     };
   };
 
-  # dns filtering and ad blocking
-  services.blocky = {
-    enable = is_exit_node;
-    settings = {
-      ports.dns = blocky_port; # port for incoming DNS Queries.
-      upstreams.groups.default = [
-        "https://one.one.one.one/dns-query" # using cloudflare's DNS over HTTPS server for resolving queries.
+    networking.usePredictableInterfaceNames = true;
+
+    # make caddy_dir owned by caddy:caddy (uses systemd)
+    systemd.tmpfiles.rules = [
+      # create the directory if it doesn't exist
+      # Type Path                  Mode    User   Group  Age Argument
+      "d ${caddy_dir} 0755 caddy caddy - -"
+      # recursively apply permissions to the directory and its contents
+      # Type Path                  Mode  User   Group  Age Argument
+      "z ${caddy_dir} - caddy caddy - -"
+      # dir for caddy's access logs
+      "d /var/log/caddy 0755 caddy caddy - -"
+    ];
+
+    networking.firewall = {
+      allowedTCPPorts = [
+        22 2222 # ssh
+        80 # nginx - http
+        443 # nginx - https
       ];
-      # for initially solving DoH/DoT Requests when no system resolver is available.
-      bootstrapDns = {
-        upstream = "https://one.one.one.one/dns-query";
-        ips = [ "1.1.1.1" "1.0.0.1" ];
-      };
-      # enable blocking of certain domains.
-      blocking = {
-        blackLists = {
-          # adblocking
-          ads = [ "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" ];
+      enable = is_exit_node;
+      allowedUDPPorts = [
+        config.services.tailscale.port
+        blocky_port
+      ];
+      trustedInterfaces = [ config.services.tailscale.interfaceName ];
+      checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
+    };
+
+    # dns filtering and ad blocking
+    services.blocky = {
+      enable = is_exit_node;
+      settings = {
+        ports.dns = blocky_port; # port for incoming DNS Queries.
+        upstreams.groups.default = [
+          "https://one.one.one.one/dns-query" # using cloudflare's DNS over HTTPS server for resolving queries.
+        ];
+        # for initially solving DoH/DoT Requests when no system resolver is available.
+        bootstrapDns = {
+          upstream = "https://one.one.one.one/dns-query";
+          ips = [ "1.1.1.1" "1.0.0.1" ];
         };
-        # configure what block categories are used
-        clientGroupsBlock = {
-          default = [ "ads" ];
+        # enable blocking of certain domains.
+        blocking = {
+          blackLists = {
+            # adblocking
+            ads = [ "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" ];
+          };
+          # configure what block categories are used
+          clientGroupsBlock = {
+            default = [ "ads" ];
+          };
         };
       };
     };
-  };
-
-  # boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
-  # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
+  }));
 }

@@ -6,7 +6,7 @@ in
 {
   imports = [
     ./nvidia.nix
-    ./network.nix
+    # ./network.nix
   ];
 
   config = lib.mkIf config.machine.is_linux {
@@ -75,9 +75,6 @@ in
         nvidia-vaapi-driver
       ];
     };
-
-    # enable zsh system-wide
-    programs.zsh.enable = true;
 
     # users
     users.users."${config.machine.user}" = {
