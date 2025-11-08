@@ -78,9 +78,9 @@ in
     system.defaults = {
       dock = {
         autohide = true;
-        magnification = true;
-        mineffect = "scale";
-        tilesize = 20;
+        # magnification = true;
+        # mineffect = "scale";
+        tilesize = 40;
         autohide-delay = 0.2;
         autohide-time-modifier = 0.1;
         persistent-apps = [
