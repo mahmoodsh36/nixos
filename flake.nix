@@ -101,6 +101,10 @@
       url = "github:Neved4/homebrew-tap";
       flake = false;
     };
+    krunkit = {
+      url = "github:slp/homebrew-krunkit";
+      flake = false;
+    };
 
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";

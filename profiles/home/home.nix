@@ -119,6 +119,15 @@ in
           initContent = lib.mkOrder 1500 ''
             source ~/.zshrc.manual
           '';
+          syntaxHighlighting.enable = true;
+          enableCompletion = true;
+          autosuggestion = {
+            enable = true;
+            strategy = [
+              "match_prev_cmd"
+              "completion"
+            ];
+          };
           sessionVariables = rec {
             # we want our rsync to precede macos' default rsync to support options like --iconv
             # PATH = "${pkgs.rsync}/bin:" + (builtins.getEnv "PATH");
@@ -156,7 +165,22 @@ in
             MAHMOOZ1_ADDR = constants.mahmooz1_addr;
             MYDOMAIN = constants.mydomain;
             # LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
+
+            CONTAINERS_MACHINE_PROVIDER = "libkrun";
           };
+        };
+
+        # ls alternative
+        programs.eza = {
+          enable = true;
+          git = true;
+          icons = "auto";
+          extraOptions = [
+            "--group-directories-first"
+            "--header"
+            "--hyperlink"
+            "--follow-symlinks"
+          ];
         };
 
         programs.home-manager.enable = true;
@@ -293,6 +317,32 @@ in
               aliases = {
                 "minerupython" = {
                   command = [ "python3" ];
+                  interactive = true;
+                };
+                # "mineru" = {
+                #   command = [ "mineru" ];
+                #   interactive = true;
+                # };
+                # "mineru-mlx" = {
+                #   command = [ "python3" ];
+                #   interactive = true;
+                # };
+              };
+            };
+
+            fedora-vulkan = lib.mkIf config'.machine.is_darwin {
+              imageName = "fedora-vulkan";
+              context = ../../containers/fedora-vulkan;
+              buildArgs = [
+                # "--network=host"
+              ];
+              runArgs = [
+                # "--network=host"
+              ];
+              command = [ "sleep" "infinity" ];
+              aliases = {
+                "myvulkaninfo" = {
+                  command = [ "vulkaninfo" ];
                   interactive = true;
                 };
                 # "mineru" = {

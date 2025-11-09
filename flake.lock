@@ -622,6 +622,22 @@
         "type": "github"
       }
     },
+    "krunkit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1762352620,
+        "narHash": "sha256-NkpwKqL25CxOSoyEFFdVRxQri+m9a1ZxVZekDPHoe4E=",
+        "owner": "slp",
+        "repo": "homebrew-krunkit",
+        "rev": "073bf8a8fbc07edb2821b83e7ced2e6bafe01bd6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "slp",
+        "repo": "homebrew-krunkit",
+        "type": "github"
+      }
+    },
     "lem": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -1277,6 +1293,7 @@
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "krunkit": "krunkit",
         "lem": "lem",
         "llama-cpp-flake": "llama-cpp-flake",
         "mac-app-util": "mac-app-util",
