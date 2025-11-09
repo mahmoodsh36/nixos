@@ -7,6 +7,7 @@ let
     "homebrew/homebrew-cask" = inputs.homebrew-cask;
     # we need to add "homebrew-" prefix
     "Neved4/homebrew-tap" = inputs.neved4-tap;
+    "slp/homebrew-krunkit" = inputs.krunkit;
   };
 in
 
@@ -63,6 +64,7 @@ in
       ];
       brews = [
         "mlx"
+        "krunkit"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
         # "ntfs-3g-mac"
