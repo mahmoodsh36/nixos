@@ -62,6 +62,7 @@ in
         "runescape"
       ];
       brews = [
+        "mlx"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
         # "ntfs-3g-mac"
