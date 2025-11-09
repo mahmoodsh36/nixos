@@ -59,6 +59,7 @@ in
         "utm"
         "xnviewmp" "openmtp" "darktable"
         "jordanbaird-ice"
+        "runescape"
       ];
       brews = [
         # "anylinuxfs"
