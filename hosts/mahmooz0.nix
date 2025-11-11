@@ -25,6 +25,8 @@ in
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-users.users
     };
 
+    # machine.llama-cpp.pkg = inputs.llama-cpp-flake.packages.${pkgs.system}.default;
+
     nix-homebrew = {
       taps = taps;
       # install homebrew under the default prefix
