@@ -224,7 +224,7 @@
     };
   in {
     # Generate NixOS configurations for all supported Linux systems
-    nixosConfigurations = 
+    nixosConfigurations =
       let
         # Create configurations for each system
         mkConfigsForSystem = system: {
@@ -334,7 +334,12 @@
 
         allConfigs = nixpkgs.lib.foldl' (acc: system: acc // (mkConfigsForSystem system)) {} supportedSystems;
       in
-        allConfigs;
+        allConfigs // {
+          # Default aliases for x86_64 systems
+          mahmooz1 = allConfigs."mahmooz1-x86_64-linux";
+          mahmooz2 = allConfigs."mahmooz2-x86_64-linux";
+          mahmooz3 = allConfigs."mahmooz3-x86_64-linux";
+        };
     nixOnDroidConfigurations.droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       pkgs = import nixpkgs { system = "aarch64-linux"; };
       modules = [ ./hosts/droid.nix ];
