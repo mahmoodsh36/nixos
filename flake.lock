@@ -241,6 +241,22 @@
         "type": "github"
       }
     },
+    "emacs-d": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1762454751,
+        "narHash": "sha256-ZCvW6k9XzLkm7agj69Wc/Te5nqkw6SFSOU0DNFnf6A4=",
+        "owner": "mahmoodsh36",
+        "repo": ".emacs.d",
+        "rev": "fdb062e6667e62b392ade23df712df9e460d10fc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": ".emacs.d",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -653,6 +669,22 @@
       "original": {
         "owner": "mahmoodsh36",
         "repo": "lem",
+        "type": "github"
+      }
+    },
+    "lem-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761168688,
+        "narHash": "sha256-r53n+8h8c1ywnxMJxpxMBKmM5wF0+mhazYlRAYZKmXM=",
+        "owner": "mahmoodsh36",
+        "repo": "lem-config",
+        "rev": "186aa63114f39398f4c9c15bd886868312087c4e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "lem-config",
         "type": "github"
       }
     },
@@ -1318,11 +1350,13 @@
         "determinate": "determinate",
         "disko": "disko",
         "emacs": "emacs",
+        "emacs-d": "emacs-d",
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
         "krunkit": "krunkit",
         "lem": "lem",
+        "lem-config": "lem-config",
         "llama-cpp-flake": "llama-cpp-flake",
         "mac-app-util": "mac-app-util",
         "mcp-servers-nix": "mcp-servers-nix",

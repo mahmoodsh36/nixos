@@ -125,6 +125,14 @@
       url = "github:mahmoodsh36/scripts";
       flake = false;
     };
+    emacs-d = {
+      url = "github:mahmoodsh36/.emacs.d";
+      flake = false;
+    };
+    lem-config = {
+      url = "github:mahmoodsh36/lem-config";
+      flake = false;
+    };
 
     # for python
     pyproject-nix = {
