@@ -1130,6 +1130,38 @@
         "type": "gitlab"
       }
     },
+    "nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1762453905,
+        "narHash": "sha256-tCPodyZjjN/8iv1NBFiOy5BkLYZq4P62uvgHF5bkwHo=",
+        "owner": "mahmoodsh36",
+        "repo": "nvim",
+        "rev": "708f13dff965b841ac8972fc29a1cd0ce132d79c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "nvim",
+        "type": "github"
+      }
+    },
+    "otherdots": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1762705453,
+        "narHash": "sha256-geYkSHIIe/vR1WOC/7N+kIrD9Kw4dyOKma9izwJYId0=",
+        "owner": "mahmoodsh36",
+        "repo": "otherdots",
+        "rev": "e92f21bf2cc697365958d7b8ebb14ce7337607a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "otherdots",
+        "type": "github"
+      }
+    },
     "pkgs-master": {
       "locked": {
         "lastModified": 1762909909,
@@ -1300,12 +1332,15 @@
         "nix-homebrew": "nix-homebrew",
         "nix-on-droid": "nix-on-droid",
         "nixpkgs": "nixpkgs_4",
+        "nvim": "nvim",
+        "otherdots": "otherdots",
         "pkgs-master": "pkgs-master",
         "pkgs-unstable": "pkgs-unstable",
         "plasma-manager": "plasma-manager",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",
         "robotnix": "robotnix",
+        "scripts": "scripts",
         "stable-diffusion-webui-nix": "stable-diffusion-webui-nix",
         "uv2nix": "uv2nix",
         "wezterm": "wezterm"
@@ -1329,6 +1364,22 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "scripts": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1754555420,
+        "narHash": "sha256-qffslOtS5uGP3Ke0U74Xr2/cc95bQs8M7x7TAUEBbNU=",
+        "owner": "mahmoodsh36",
+        "repo": "scripts",
+        "rev": "1b47a467bbe29aa5f575382feb01b97c3a1d5b62",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "scripts",
         "type": "github"
       }
     },
