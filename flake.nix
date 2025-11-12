@@ -155,8 +155,8 @@
   outputs = {
     self, nixpkgs, ...
   } @inputs: let
-    # define system for Linux configurations
-    linuxSystem = "x86_64-linux";
+    # define supported systems for NixOS configurations
+    supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
 
     # helper to create packages for a specific system
     mkPkgs = system: import nixpkgs {
@@ -174,18 +174,18 @@
       boot.kernel.sysctl."vm.overcommit_memory" = nixpkgs.lib.mkForce "1";
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
-    # Packages for Python environments (Linux only, for CUDA support)
-    uvpkgs = import nixpkgs {
-      system = linuxSystem;
+    # Helper function to create uvpkgs for any system
+    mkUvPkgs = system: import nixpkgs {
+      inherit system;
       config.allowUnfree = true;
       config.cudaSupport = true;
     };
-    mkSystem = extraModules:
+    mkSystem = system: extraModules:
       nixpkgs.lib.nixosSystem {
-        system = linuxSystem;
+        inherit system;
         specialArgs = {
           inherit inputs;
-          system = linuxSystem;
+          inherit system;
           myutils = import ./lib/utils.nix { };
         };
         modules = [
@@ -223,109 +223,118 @@
       inherit workspaceRoot envName cudaSupport;
     };
   in {
-    nixosConfigurations = {
-      mahmooz1 = mkSystem [
-        ./hardware-configuration.nix # hardware scan results
-        ({ lib, ... }: {
-          config = {
-            machine.name = "mahmooz1";
-            machine.is_desktop = true;
-            machine.enable_nvidia = false;
-            machine.static_ip = "192.168.1.1";
-          };
-        })
-        ./profiles/network-local.nix
-        # disko
-        # inputs.disko.nixosModules.disko
-        # ./disko-config.nix
-        # {
-        #   _module.args.disks = [ "/dev/vda" ];
-        # }
-      ];
-      mahmooz2 = mkSystem [
-        ./hardware-configuration.nix
-        ({ lib, ... }: {
-          config = {
-            machine.name = "mahmooz2";
-            machine.is_desktop = true;
-            machine.enable_nvidia = true;
-            machine.static_ip = "192.168.1.2";
-            machine.is_home_server = true;
-            # embed executable for mlpython
-            # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
-            #   (uvpkgs.writeShellScriptBin "mlpython2" ''
-            #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
-            #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
-            #     export TRITON_PTXAS_PATH="${uvpkgs.cudatoolkit}/bin/ptxas"
-            #     exec ${mlvenv}/bin/python "$@"
-            #   '')
-            # ];
-          };
-        })
-        ./profiles/network-local.nix
-      ];
-      # for hetzner etc
-      mahmooz3 = mkSystem [
-        ./hardware-configuration.nix
-        {
-          config = {
-            machine.name = "mahmooz3";
-            machine.is_desktop = false;
-            machine.enable_nvidia = false;
-            # needed for virtual machines
-            boot.loader.grub.efiInstallAsRemovable = true;
-            boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
-            boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
+    # Generate NixOS configurations for all supported Linux systems
+    nixosConfigurations = 
+      let
+        # Create configurations for each system
+        mkConfigsForSystem = system: {
+          "mahmooz1-${system}" = mkSystem system [
+            ./hardware-configuration.nix # hardware scan results
+            ({ lib, ... }: {
+              config = {
+                machine.name = "mahmooz1";
+                machine.is_desktop = true;
+                machine.enable_nvidia = false;
+                machine.static_ip = "192.168.1.1";
+              };
+            })
+            ./profiles/network-local.nix
+            # disko
+            # inputs.disko.nixosModules.disko
+            # ./disko-config.nix
+            # {
+            #   _module.args.disks = [ "/dev/vda" ];
+            # }
+          ];
+          "mahmooz2-${system}" = mkSystem system [
+            ./hardware-configuration.nix
+            ({ lib, ... }: {
+              config = {
+                machine.name = "mahmooz2";
+                machine.is_desktop = true;
+                machine.enable_nvidia = true;
+                machine.static_ip = "192.168.1.2";
+                machine.is_home_server = true;
+                # embed executable for mlpython
+                # To enable this, uncomment and adapt the following:
+                # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
+                #   (mkUvPkgs system).writeShellScriptBin "mlpython2" ''
+                #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
+                #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
+                #     export TRITON_PTXAS_PATH="${(mkUvPkgs system).cudatoolkit}/bin/ptxas"
+                #     exec ${mlvenv}/bin/python "$@"
+                #   ''
+                # ];
+              };
+            })
+            ./profiles/network-local.nix
+          ];
+          # for hetzner etc
+          "mahmooz3-${system}" = mkSystem system [
+            ./hardware-configuration.nix
+            {
+              config = {
+                machine.name = "mahmooz3";
+                machine.is_desktop = false;
+                machine.enable_nvidia = false;
+                # needed for virtual machines
+                boot.loader.grub.efiInstallAsRemovable = true;
+                boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
+                boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
 
-            # this might help prevent system freezing on rebuilds
-            nix.settings.max-jobs = 1;
-            nix.settings.cores = 1;
-            systemd.slices.anti-hungry.sliceConfig = {
-              CPUAccounting = true;
-              CPUQuota = "50%";
-              MemoryAccounting = true; # allow to control with systemd-cgtop
-              MemoryHigh = "50%";
-              MemoryMax = "75%";
-              MemorySwapMax = "50%";
-              MemoryZSwapMax = "50%";
-            };
-            systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
-            # kill process using most ram after ram availability drops below
-            # a specific threshold.
-            services.earlyoom.enable = true;
-            services.earlyoom.enableNotifications = true;
-          };
-        }
-      ];
-      mahmooz1_iso = mkSystem [
-        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-        isobase
-        {
-          config = {
-            boot.loader.efi.canTouchEfiVariables = true;
-            machine.name = "mahmooz1";
-            machine.is_desktop = true;
-            machine.enable_nvidia = false;
-            machine.static_ip = "192.168.1.1";
-            boot.loader.grub.enable = nixpkgs.lib.mkForce true;
-            boot.loader.grub.useOSProber = nixpkgs.lib.mkForce true;
-          };
-        }
-        ./profiles/network-local.nix
-      ];
-      server_iso = mkSystem [
-        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-        isobase
-        {
-          config = {
-            machine.name = "mahmooz3";
-            machine.is_desktop = false;
-            machine.enable_nvidia = false;
-            boot.loader.grub.enable = nixpkgs.lib.mkForce true;
-          };
-        }
-      ];
-    };
+                # this might help prevent system freezing on rebuilds
+                nix.settings.max-jobs = 1;
+                nix.settings.cores = 1;
+                systemd.slices.anti-hungry.sliceConfig = {
+                  CPUAccounting = true;
+                  CPUQuota = "50%";
+                  MemoryAccounting = true; # allow to control with systemd-cgtop
+                  MemoryHigh = "50%";
+                  MemoryMax = "75%";
+                  MemorySwapMax = "50%";
+                  MemoryZSwapMax = "50%";
+                };
+                systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
+                # kill process using most ram after ram availability drops below
+                # a specific threshold.
+                services.earlyoom.enable = true;
+                services.earlyoom.enableNotifications = true;
+              };
+            }
+          ];
+          "mahmooz1_iso-${system}" = mkSystem system [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+            isobase
+            {
+              config = {
+                boot.loader.efi.canTouchEfiVariables = true;
+                machine.name = "mahmooz1";
+                machine.is_desktop = true;
+                machine.enable_nvidia = false;
+                machine.static_ip = "192.168.1.1";
+                boot.loader.grub.enable = nixpkgs.lib.mkForce true;
+                boot.loader.grub.useOSProber = nixpkgs.lib.mkForce true;
+              };
+            }
+            ./profiles/network-local.nix
+          ];
+          "server_iso-${system}" = mkSystem system [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+            isobase
+            {
+              config = {
+                machine.name = "mahmooz3";
+                machine.is_desktop = false;
+                machine.enable_nvidia = false;
+                boot.loader.grub.enable = nixpkgs.lib.mkForce true;
+              };
+            }
+          ];
+        };
+
+        allConfigs = nixpkgs.lib.foldl' (acc: system: acc // (mkConfigsForSystem system)) {} supportedSystems;
+      in
+        allConfigs;
     nixOnDroidConfigurations.droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       pkgs = import nixpkgs { system = "aarch64-linux"; };
       modules = [ ./hosts/droid.nix ];
@@ -375,23 +384,22 @@
               export TRITON_PTXAS_PATH="${sysPkgs.cudatoolkit}/bin/ptxas"
             '';
           }
-        else
-          # CPU-only environment for non-Linux systems (macOS, etc.)
-          sysPkgs.mkShell {
-            packages = [ pythonEnv ];
-          };
+           else
+             # CPU-only environment for non-Linux systems (macOS, etc.)
+             sysPkgs.mkShell {
+               packages = [ pythonEnv ];
+             };
 
-        # MinerU environment (document processing)
-        mineru = let
-          pythonEnv = mkPythonEnv {
-            inherit system;
-            workspaceRoot = ./python-envs/mineru;
-            envName = "mineru-venv";
-            cudaSupport = false;
-          };
-        in sysPkgs.mkShell {
-          packages = [ pythonEnv ];
-        };
+        # mineru = let
+        #   pythonEnv = mkPythonEnv {
+        #     inherit system;
+        #     workspaceRoot = ./python-envs/mineru;
+        #     envName = "mineru-venv";
+        #     cudaSupport = false;
+        #   };
+        # in sysPkgs.mkShell {
+        #   packages = [ pythonEnv ];
+        # };
       };
 
       # UV shell - works on all systems
@@ -443,38 +451,37 @@
       }
     );
 
-    # Packages available for installation
-    packages = forAllSystems (system: let
-      sysPkgs = mkPkgs system;
-      mineruEnv = mkPythonEnv {
-        inherit system;
-        workspaceRoot = ./python-envs/mineru;
-        envName = "mineru-venv";
-        cudaSupport = false;
-      };
-    in {
-      # Export mineru Python environment as a package
-      mineru = sysPkgs.stdenv.mkDerivation {
-        name = "mineru";
-        version = "2.6.4";
+    # packages = forAllSystems (system: let
+    #   sysPkgs = mkPkgs system;
+    #   mineruEnv = mkPythonEnv {
+    #     inherit system;
+    #     workspaceRoot = ./python-envs/mineru;
+    #     envName = "mineru-venv";
+    #     cudaSupport = false;
+    #   };
+    # in {
+    #   # export mineru Python environment as a package
+    #   mineru = sysPkgs.stdenv.mkDerivation {
+    #     name = "mineru";
+    #     version = "2.6.4";
 
-        buildInputs = [ mineruEnv ];
+    #     buildInputs = [ mineruEnv ];
 
-        unpackPhase = "true";
-        installPhase = ''
-          mkdir -p $out/bin
-          # Link all mineru binaries
-          for bin in mineru mineru-api mineru-gradio mineru-models-download mineru-vllm-server; do
-            ln -s ${mineruEnv}/bin/$bin $out/bin/$bin
-          done
-        '';
+    #     unpackPhase = "true";
+    #     installPhase = ''
+    #       mkdir -p $out/bin
+    #       # Link all mineru binaries
+    #       for bin in mineru mineru-api mineru-gradio mineru-models-download mineru-vllm-server; do
+    #         ln -s ${mineruEnv}/bin/$bin $out/bin/$bin
+    #       done
+    #     '';
 
-        meta = {
-          description = "MinerU - Document processing tool";
-          mainProgram = "mineru";
-        };
-      };
-    });
+    #     meta = {
+    #       description = "MinerU - Document processing tool";
+    #       mainProgram = "mineru";
+    #     };
+    #   };
+    # });
 
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
@@ -504,10 +511,10 @@
               machine.is_darwin = true;
               machine.static_ip = "192.168.1.1";
 
-              # Add mineru package to system packages
-              environment.systemPackages = [
-                self.packages.aarch64-darwin.mineru
-              ];
+              # add mineru package to system packages
+              # environment.systemPackages = [
+              #   self.packages.aarch64-darwin.mineru
+              # ];
             };
           })
           ./config-darwin.nix
