@@ -31,7 +31,7 @@
     llama-cpp-flake = {
       url = "github:ggml-org/llama.cpp";
       # url = "github:ggml-org/llama.cpp/50f4281a6f5c3a5d68bdeb12f904fa01e0e2ba91";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     arion = {
       url = "github:hercules-ci/arion";
