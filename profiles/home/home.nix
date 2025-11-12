@@ -37,17 +37,11 @@ in
       let
         dots = if builtins.pathExists "${work_dir}/otherdots"
                then "${work_dir}/otherdots"
-               else (builtins.fetchGit {
-                 url = "${constants.mygithub}/otherdots.git";
-                 ref = "main";
-               }).outPath;
+               else inputs.otherdots.outPath;
 
         nvim_dots = if builtins.pathExists "${work_dir}/nvim"
                     then "${work_dir}/nvim"
-                    else (builtins.fetchGit {
-                      url = "${constants.mygithub}/nvim.git";
-                      ref = "main";
-                    }).outPath;
+                    else inputs.nvim.outPath;
 
         config_names = [
           "mimeapps.list" "mpv" "vifm" "user-dirs.dirs" "zathura" "wezterm"
@@ -63,10 +57,7 @@ in
 
         scripts_dir = if builtins.pathExists "${work_dir}/scripts"
                       then "${work_dir}/scripts"
-                      else (builtins.fetchGit {
-                        url = "${constants.mygithub}/scripts.git";
-                        ref = "main";
-                      }).outPath;
+                      else inputs.scripts.outPath;
         scripts = builtins.attrNames (builtins.readDir scripts_dir);
         script_files = builtins.filter (name: builtins.match ".*\\.(py|sh|el)$" name != null) scripts;
 

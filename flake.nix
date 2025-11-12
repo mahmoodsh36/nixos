@@ -112,6 +112,20 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    # dotfiles
+    otherdots = {
+      url = "github:mahmoodsh36/otherdots";
+      flake = false;
+    };
+    nvim = {
+      url = "github:mahmoodsh36/nvim";
+      flake = false;
+    };
+    scripts = {
+      url = "github:mahmoodsh36/scripts";
+      flake = false;
+    };
+
     # for python
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
