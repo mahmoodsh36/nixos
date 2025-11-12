@@ -137,7 +137,8 @@ in
             source ~/.zshrc.manual
           '';
           syntaxHighlighting.enable = true;
-          enableCompletion = true;
+          # lsp causes high cpu usage for some reason (400%?)
+          # enableCompletion = true;
           autosuggestion = {
             enable = true;
             strategy = [
