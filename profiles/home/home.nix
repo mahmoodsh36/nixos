@@ -40,8 +40,8 @@ in
                else inputs.otherdots.outPath;
 
         nvim_dots = if builtins.pathExists "${work_dir}/nvim"
-                    then "${work_dir}/nvim"
-                    else inputs.nvim.outPath;
+                     then "${work_dir}/nvim"
+                     else inputs.nvim.outPath;
 
         config_names = [
           "mimeapps.list" "mpv" "vifm" "user-dirs.dirs" "zathura" "wezterm"
@@ -69,6 +69,32 @@ in
             # executable = true;
           };
         }) script_files);
+
+        # restore .emacs.d
+        emacs_d_dir = if builtins.pathExists "${work_dir}/emacs.d"
+                      then "${work_dir}/emacs.d"
+                      else inputs.emacs-d.outPath;
+        emacs_d_files = builtins.attrNames (builtins.readDir emacs_d_dir);
+        emacs_d_entries = lib.listToAttrs (builtins.map (fname: {
+          name = ".emacs.d/${fname}";
+          value = {
+            source = config.lib.file.mkOutOfStoreSymlink "${emacs_d_dir}/${fname}";
+            force = true;
+          };
+        }) emacs_d_files);
+
+        # Lem-config files - symlink individual files, not the whole directory
+        lem_config_dir = if builtins.pathExists "${work_dir}/lem-config"
+                        then "${work_dir}/lem-config"
+                        else inputs.lem-config.outPath;
+        lem_config_files = builtins.attrNames (builtins.readDir lem_config_dir);
+        lem_config_entries = lib.listToAttrs (builtins.map (fname: {
+          name = ".config/lem-config/${fname}";
+          value = {
+            source = config.lib.file.mkOutOfStoreSymlink "${lem_config_dir}/${fname}";
+            force = true;
+          };
+        }) lem_config_files);
       in {
         _module.args = {
           config' = config';
@@ -91,7 +117,7 @@ in
           ../../services/podman-autobuilder.nix
         ];
 
-        home.file = config_entries // script_entries // {
+        home.file = config_entries // script_entries // emacs_d_entries // lem_config_entries // {
           ".zshrc.manual" = {
             source = config.lib.file.mkOutOfStoreSymlink "${dots}/.zshrc";
           };
@@ -142,6 +168,8 @@ in
             NOTES_DIR = "${BRAIN_DIR}/notes";
             SCRIPTS_DIR = "${WORK_DIR}/scripts";
             DOTFILES_DIR = "${WORK_DIR}/otherdots";
+            EMACS_D_DIR = "${WORK_DIR}/emacs.d";
+            LEM_CONFIG_DIR = "${WORK_DIR}/lem-config";
             NIX_CONFIG_DIR = "${WORK_DIR}/nixos";
             BLOG_DIR = "${WORK_DIR}/blog";
             EDITOR = "nvim";
