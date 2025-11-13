@@ -115,11 +115,11 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       python3Packages.huggingface-hub
-      gemini-cli
-      qwen-code
-      claude-code
-      aichat
-      opencode
+      pkgs-master.gemini-cli
+      pkgs-master.qwen-code
+      pkgs-master.claude-code
+      pkgs-master.aichat
+      pkgs-master.opencode
       # gptme
 
       config.machine.llama-cpp.pkg
