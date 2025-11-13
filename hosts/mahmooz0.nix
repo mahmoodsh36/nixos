@@ -64,6 +64,7 @@ in
         "jordanbaird-ice"
         "runescape"
         "utm"
+        "telegram"
       ];
       brews = [
         "mlx"
