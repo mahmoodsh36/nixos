@@ -65,6 +65,7 @@ in
         "runescape"
         "utm"
         "telegram"
+        "discord"
       ];
       brews = [
         "mlx"
