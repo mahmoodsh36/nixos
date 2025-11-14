@@ -358,6 +358,7 @@ in
               ];
               runArgs = [
                 # "--network=host"
+                "--device" "/dev/dri"
               ];
               command = [ "sleep" "infinity" ];
               aliases = {
@@ -373,6 +374,29 @@ in
                 #   command = [ "python3" ];
                 #   interactive = true;
                 # };
+              };
+            };
+
+            fedora-pytorch-vulkan = lib.mkIf config'.machine.is_darwin {
+              imageName = "fedora-pytorch-vulkan";
+              context = ../../containers/fedora-pytorch-vulkan;
+              buildArgs = [
+                # "--network=host"
+              ];
+              runArgs = [
+                # "--network=host"
+                "--device" "/dev/dri"
+              ];
+              command = [ "sleep" "infinity" ];
+              aliases = {
+                "pytorch-vulkan" = {
+                  command = [ "python3" ];
+                  interactive = true;
+                };
+                "pytorch-vulkaninfo" = {
+                  command = [ "vulkaninfo" ];
+                  interactive = true;
+                };
               };
             };
           };
