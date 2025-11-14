@@ -70,6 +70,7 @@ in
       brews = [
         "mlx"
         "krunkit"
+        "mlx-lm"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
         # "ntfs-3g-mac"
