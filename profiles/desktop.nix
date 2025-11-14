@@ -119,11 +119,7 @@ in
       pkgs-master.qwen-code
       pkgs-master.claude-code
       pkgs-master.aichat
-      # pkgs-master.opencode
-      (myutils.packageFromCommit {
-        rev = "daf6dc47aa4b44791372d6139ab7b25269184d55";
-        packageName = "opencode";
-      })
+      inputs.nix-ai-tools.packages.${pkgs.system}.opencode
       # gptme
 
       config.machine.llama-cpp.pkg

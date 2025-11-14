@@ -70,6 +70,10 @@
       url = "github:hraban/mac-app-util";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-ai-tools = {
+      url = "github:numtide/nix-ai-tools";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # macos
     nix-darwin = {
