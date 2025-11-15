@@ -66,11 +66,12 @@ in
         "utm"
         "telegram"
         "discord"
+        "whatsapp"
       ];
       brews = [
         "mlx"
         "krunkit"
-        "mlx-lm"
+        # "mlx-lm"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
         # "ntfs-3g-mac"
