@@ -382,6 +382,7 @@ in
               context = ../../containers/fedora-pytorch-vulkan;
               buildArgs = [
                 # "--network=host"
+                "--memory=32000m"
               ];
               runArgs = [
                 # "--network=host"
