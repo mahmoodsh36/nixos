@@ -240,7 +240,6 @@ in
         pkgs.xorg.libX11
         pkgs.libGL
         pkgs.stdenv.cc.cc.lib
-        pkgs.glib
         pkgs.ncurses5
         pkgs.libzip
         pkgs.cmake
@@ -258,9 +257,10 @@ in
         pkgs.binutils
         pkgs.xz
         pkgs.systemd
-        pkgs.glibc_multi
         pkgs.pkg-config
-        pkgs.glibc
+        # pkgs.glibc_multi
+        # pkgs.glib
+        # pkgs.glibc
         pkgs.pythonManylinuxPackages.manylinux2014Package
       ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
         pkgs.linuxPackages.nvidia_x11
@@ -350,7 +350,7 @@ in
       material-design-icons
       virt-viewer
       openrgb-with-all-plugins
-      tor-browser
+      # tor-browser
 
       vdhcoapp # for firefox video download helper
       woeusb-ng
@@ -358,7 +358,7 @@ in
       ventoy
       acpi lm_sensors
       cryptsetup
-      jellyfin-tui jellycli jellytui
+      # jellyfin-tui jellycli jellytui
 
       steam-run-free
     ];
