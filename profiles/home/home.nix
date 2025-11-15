@@ -386,6 +386,7 @@ in
               runArgs = [
                 # "--network=host"
                 "--device" "/dev/dri"
+                "--memory" "32g"
               ];
               command = [ "sleep" "infinity" ];
               aliases = {
