@@ -119,8 +119,9 @@ in
       pkgs-master.qwen-code
       pkgs-master.claude-code
       pkgs-master.aichat
-      inputs.nix-ai-tools.packages.${pkgs.system}.opencode
-      inputs.nix-ai-tools.packages.${pkgs.system}.amp
+      opencode
+      # inputs.nix-ai-tools.packages.${pkgs.system}.opencode
+      # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       # gptme
 
       config.machine.llama-cpp.pkg
