@@ -69,14 +69,12 @@ let
 
   # MLX environment for Apple Silicon
   mlx-python = (my-python.withPackages (ps: with ps; [
-    mlx
-    mlx-vlm
-    # Common ML dependencies that work well with MLX
+    mlx mlx-lm mlx-vlm
     numpy
     pillow
     transformers
     huggingface-hub
-    torch  # for compatibility with some models
+    # torch
   ]));
 
 in
@@ -94,8 +92,7 @@ in
       (pkgs.writeShellScriptBin "ipython" ''
         exec ${main-python}/bin/ipython --no-confirm-exit "$@"
       '')
-    ] ++ lib.optionals pkgs.stdenv.isDarwin [
-      # MLX environment for Apple Silicon (macOS only)
+    ] ++ lib.optionals config'.machine.is_darwin [
       (pkgs.writeShellScriptBin "mlx-python" ''
         exec ${mlx-python}/bin/python "$@"
       '')

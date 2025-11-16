@@ -67,6 +67,7 @@ in
         "telegram"
         "discord"
         "whatsapp"
+        "obs"
       ];
       brews = [
         "mlx"
