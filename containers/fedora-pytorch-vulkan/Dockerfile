@@ -1,10 +1,12 @@
 # Use the full Fedora 40 image as the base
 ARG FEDORA_VERSION=40
 FROM fedora:${FEDORA_VERSION}
+USER 0
 
-# Install build tools, python dependencies, Vulkan, and enable the COPR repo in one layer
+# Install build tools, python dependencies, Vulkan, and DNF plugins in one layer
 RUN dnf -y install \
     dnf-plugins-core \
+    dnf-plugin-versionlock \
     gcc \
     gcc-c++ \
     make \
@@ -27,12 +29,17 @@ RUN dnf -y install \
     vulkan-loader \
     vulkan-loader-devel \
     vulkan-tools \
-    vulkan-headers
+    vulkan-headers && \
+    dnf clean all
 
-RUN dnf -y copr enable slp/mesa-krunkit && \
-    dnf -y install mesa-vulkan-drivers
-
-RUN dnf clean all && \
+# Enable COPR repo and install Mesa-Krunkit properly
+RUN dnf -y copr enable slp/mesa-krunkit fedora-40-aarch64 && \
+    dnf -y install mesa-vulkan-drivers && \
+    # Downgrade Mesa to COPR version and lock it
+    dnf -y downgrade mesa-vulkan-drivers.aarch64 --repo=copr:copr.fedorainfracloud.org:slp:mesa-krunkit && \
+    dnf versionlock mesa-vulkan-drivers && \
+    dnf update -y && \
+    dnf clean all && \
     rm -rf /var/cache/dnf
 
 # Clone, build, and install llama.cpp with Vulkan support
@@ -53,8 +60,8 @@ RUN git clone --recursive --depth 1 --branch v2.4.0 https://github.com/pytorch/p
     rm -rf /root/pytorch
 
 # Install transformers and other ML libraries
-# RUN python3 -m pip install transformers accelerate datasets tokenizers
-RUN python3 -m pip install transformers accelerate datasets tokenizers --upgrade --ignore-installed
+RUN python3 -m pip install --upgrade --ignore-installed \
+    transformers accelerate datasets tokenizers
 
 # Set working directory
 WORKDIR /app
