@@ -46,12 +46,18 @@ RUN git clone https://github.com/ggerganov/llama.cpp.git /root/llama.cpp && \
 RUN git clone --recursive --depth 1 --branch v2.4.0 https://github.com/pytorch/pytorch.git /root/pytorch && \
     cd /root/pytorch && \
     python3 -m pip install --upgrade pip setuptools wheel && \
-    USE_VULKAN=1 python3 setup.py install && \
+    USE_VULKAN=1 USE_VULKAN_SHADERC_RUNTIME=1 USE_VULKAN_WRAPPER=0 python3 setup.py install && \
     cd / && \
     rm -rf /root/pytorch
 
+# Install transformers and other ML libraries
+RUN python3 -m pip install transformers accelerate datasets tokenizers
+
 # Set working directory
 WORKDIR /app
+
+# Create models directory
+RUN mkdir -p /app/models
 
 # Default command
 CMD ["/bin/bash"]
