@@ -27,10 +27,12 @@ RUN dnf -y install \
     vulkan-loader \
     vulkan-loader-devel \
     vulkan-tools \
-    vulkan-headers && \
-    dnf -y copr enable slp/mesa-krunkit && \
-    dnf -y install mesa-vulkan-drivers && \
-    dnf clean all && \
+    vulkan-headers
+
+RUN dnf -y copr enable slp/mesa-krunkit && \
+    dnf -y install mesa-vulkan-drivers
+
+RUN dnf clean all && \
     rm -rf /var/cache/dnf
 
 # Clone, build, and install llama.cpp with Vulkan support
