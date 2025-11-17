@@ -74,7 +74,7 @@ let
     pillow
     transformers
     huggingface-hub
-    # torch
+    torchWithVulkan
   ]));
 
 in
