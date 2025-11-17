@@ -68,11 +68,11 @@ in
         "discord"
         "whatsapp"
         "obs"
+        "whisky"
       ];
       brews = [
         "mlx"
         "krunkit"
-        "whisky"
         # "mlx-lm"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
