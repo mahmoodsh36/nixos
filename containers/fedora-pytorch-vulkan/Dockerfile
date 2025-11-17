@@ -51,7 +51,8 @@ RUN git clone --recursive --depth 1 --branch v2.4.0 https://github.com/pytorch/p
     rm -rf /root/pytorch
 
 # Install transformers and other ML libraries
-RUN python3 -m pip install transformers accelerate datasets tokenizers
+# RUN python3 -m pip install transformers accelerate datasets tokenizers
+RUN python3 -m pip install transformers accelerate datasets tokenizers --upgrade --ignore-installed
 
 # Set working directory
 WORKDIR /app
