@@ -388,6 +388,10 @@ in
                 # "--network=host"
                 "--device" "/dev/dri"
                 "--memory" "32g"
+                "-v" "${config'.machine.voldir}/models:/app/models"
+                "-e" "HF_HOME=/app/models"
+                "-e" "TRANSFORMERS_CACHE=/app/models"
+                "-e" "HUGGINGFACE_HUB_CACHE=/app/models"
               ];
               command = [ "sleep" "infinity" ];
               aliases = {
@@ -398,6 +402,10 @@ in
                 "pytorch-vulkaninfo" = {
                   command = [ "vulkaninfo" ];
                   interactive = true;
+                };
+                "vulkan-transformers" = {
+                  command = [ "python3" "-m" "transformers" ];
+                  interactive = false;
                 };
               };
             };
