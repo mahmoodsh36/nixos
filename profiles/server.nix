@@ -67,7 +67,7 @@ in
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli
-      ytdl-sub pkgs-master.yt-dlp
+      ytdl-sub yt-dlp
       # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
       #   src = pkgs.fetchFromGitHub {
       #     owner = "yt-dlp";
