@@ -21,34 +21,38 @@ in
 {
   imports = [ ];
 
-  config = lib.mkMerge ([
-  {
+  config = lib.mkMerge ([{
     networking.hostName = config.machine.name;
 
     services.openssh.enable = true;
-  users.users.mahmooz.openssh.authorizedKeys.keys = [
-    constants.ssh_pub_key
-  ];
-  users.users.root.openssh.authorizedKeys.keys = [
-    constants.ssh_pub_key
-  ];
-  programs.ssh.extraConfig = ''
-    Host mahmooz2-2
-        HostName ${constants.mahmooz2_addr}
-        User     mahmooz
-        IdentityFile       ~/brain/keys/hetzner1
+    users.users.mahmooz.openssh.authorizedKeys.keys = [
+      constants.ssh_pub_key
+    ];
+    users.users.root.openssh.authorizedKeys.keys = [
+      constants.ssh_pub_key
+    ];
+    programs.ssh.extraConfig = ''
+      Host mahmooz2-2
+          HostName ${constants.mahmooz2_addr}
+          User     mahmooz
+          IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
 
-    Host mahmooz3
-        HostName ${constants.mahmooz3_addr}
-        User     mahmooz
-        IdentityFile       ~/brain/keys/hetzner1
-  '';
+      Host mahmooz1
+          HostName ${constants.mahmooz1_addr}
+          User     mahmooz
+          IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
 
-  # vpn/etc
-  services.tailscale.enable = true;
+      Host mahmooz3
+          HostName ${constants.mahmooz3_addr}
+          User     mahmooz
+          IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
+    '';
 
-  # boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
-  # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
+    # vpn/etc
+    services.tailscale.enable = true;
+
+    # boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
+    # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
   }
 
   # Linux-specific configurations (only merged if on NixOS, not nix-darwin)
