@@ -191,17 +191,17 @@ in
         };
 
         # ls alternative
-        programs.eza = {
-          enable = true;
-          git = true;
-          icons = "auto";
-          extraOptions = [
-            "--group-directories-first"
-            "--header"
-            "--hyperlink"
-            "--follow-symlinks"
-          ];
-        };
+        # programs.eza = {
+        #   enable = true;
+        #   git = true;
+        #   icons = "auto";
+        #   extraOptions = [
+        #     "--group-directories-first"
+        #     "--header"
+        #     "--hyperlink"
+        #     "--follow-symlinks"
+        #   ];
+        # };
 
         programs.home-manager.enable = true;
 
