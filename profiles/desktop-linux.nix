@@ -294,7 +294,7 @@ in
         echo $@ > /tmp/notif
       '')
 
-      inputs.lem.packages.${pkgs.system}.lem-webview
+      # inputs.lem.packages.${pkgs.system}.lem-webview
       neovide
       # code-cursor windsurf
       # inputs.wezterm.packages.${pkgs.system}.default
