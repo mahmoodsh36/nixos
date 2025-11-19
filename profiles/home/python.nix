@@ -72,9 +72,9 @@ let
     mlx mlx-lm mlx-vlm
     numpy
     pillow
-    transformers
     huggingface-hub
-    torchWithVulkan
+    torch
+    transformers rich
   ]));
 
 in
@@ -98,6 +98,9 @@ in
       '')
       (pkgs.writeShellScriptBin "mlx-ipython" ''
         exec ${mlx-python}/bin/ipython --no-confirm-exit "$@"
+      '')
+      (pkgs.writeShellScriptBin "mps-transformers" ''
+        exec ${mlx-python}/bin/transformers "$@"
       '')
     ];
 
