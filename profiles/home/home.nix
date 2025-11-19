@@ -167,6 +167,7 @@ in
             mahmooz1 = constants.mahmooz1_addr;
             brain = BRAIN_DIR;
             VOLUME_DIR = voldir;
+            vol = VOLUME_DIR;
             NOTES_DIR = "${BRAIN_DIR}/notes";
             SCRIPTS_DIR = "${WORK_DIR}/scripts";
             DOTFILES_DIR = "${WORK_DIR}/otherdots";
