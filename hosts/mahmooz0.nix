@@ -69,6 +69,7 @@ in
         "whatsapp"
         "obs"
         "whisky"
+        "antigravity"
       ];
       brews = [
         "mlx"
