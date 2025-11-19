@@ -1,0 +1,26 @@
+[project]
+name = "transformers-mps-env"
+version = "0.1.0"
+description = "Python environment with transformers serving, PyTorch and MPS support"
+requires-python = "==3.12.*"
+dependencies = [
+    "transformers[serving]>=4.35.0",
+    "torch>=2.1.0",
+    "torchvision>=0.16.0",
+    "torchaudio>=2.1.0",
+    "numpy>=1.24.0",
+    "accelerate>=0.24.0",
+    "optimum>=1.15.0",
+    "tokenizers>=0.14.0",
+    "safetensors>=0.4.0",
+    "huggingface-hub>=0.19.0",
+    "pydantic>=2.0.0",
+    "uvicorn>=0.24.0",
+    "rich>=13.0.0",
+    "aiohttp>=3.13.2",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+]

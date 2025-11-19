@@ -93,6 +93,11 @@ let
         "libtbb.so.12"
       ];
     });
+
+    # transformers - needs specific overrides for macOS/MPS
+    transformers = prev.transformers.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
   };
 
   # CUDA-specific overrides
@@ -204,11 +209,31 @@ let
     });
   };
 
-  # Combine overrides based on cudaSupport flag
-  pyprojectOverrides =
-    if cudaSupport
-    then pkgs.lib.composeManyExtensions [ commonOverrides cudaOverrides ]
-    else commonOverrides;
+  # MPS-specific overrides for macOS systems
+  mpsOverrides = final: prev: {
+    torch = prev.torch.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    torchvision = prev.torchvision.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    # transformers serving might need additional setup for MPS
+    "transformers[serving]" = prev."transformers[serving]" or prev.transformers;
+  };
+
+  # Combine overrides based on platform and support flags
+  pyprojectOverrides = let
+    isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+  in
+    if isDarwin then
+      # On macOS, we use common + MPS-specific overrides
+      pkgs.lib.composeManyExtensions [ commonOverrides mpsOverrides ]
+    else if cudaSupport then
+      # On Linux with CUDA, use common + CUDA-specific overrides
+      pkgs.lib.composeManyExtensions [ commonOverrides cudaOverrides ]
+    else
+      # On other systems without CUDA, use only common overrides
+      commonOverrides;
 
   workspace = uv2nix.lib.workspace.loadWorkspace { inherit workspaceRoot; };
   pythonSet =

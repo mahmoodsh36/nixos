@@ -409,6 +409,28 @@
         # in sysPkgs.mkShell {
         #   packages = [ pythonEnv ];
         # };
+
+        # transformers environment with MPS support for macOS
+        transformers-mps = let
+          pythonEnv = mkPythonEnv {
+            inherit system;
+            workspaceRoot = ./python-envs/transformers-mps;
+            envName = "transformers-mps-venv";
+            # enable CUDA support flag for macOS MPS (it will be handled differently)
+            cudaSupport = nixpkgs.lib.hasInfix "darwin" system;
+          };
+          # create a transformers CLI executable
+          transformers-cli-bin = sysPkgs.writeShellScriptBin "mps-transformers" ''
+            exec ${pythonEnv}/bin/transformers "$@"
+          '';
+        in sysPkgs.mkShell {
+          packages = [ pythonEnv transformers-cli-bin ];
+          # set environment variables for MPS support on macOS
+          env = nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasInfix "darwin" system) {
+            PYTORCH_ENABLE_MPS_FALLBACK = "1";  # enable MPS fallback
+            TORCH_MPS_DEVICE_ENABLED = "1";     # enable MPS device
+          };
+        };
       };
 
       # UV shell - works on all systems
