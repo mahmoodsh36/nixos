@@ -66,15 +66,15 @@
       url = "github:nix-community/robotnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # https://github.com/hraban/mac-app-util/issues/39
     mac-app-util = {
       url = "github:hraban/mac-app-util";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
     };
     nix-ai-tools = {
       url = "github:numtide/nix-ai-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     # macos
     nix-darwin = {
       url = "https://flakehub.com/f/nix-darwin/nix-darwin/0.1";
@@ -530,7 +530,7 @@
         };
         modules = [
           inputs.determinate.darwinModules.default
-          # inputs.mac-app-util.darwinModules.default
+          inputs.mac-app-util.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
           ({ config, pkgs, lib, ... }: {
             config = {

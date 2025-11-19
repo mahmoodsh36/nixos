@@ -28,7 +28,7 @@ in
     ] ++ pkgs.lib.optionals config.machine.is_linux  [
       inputs.plasma-manager.homeModules.plasma-manager
     ] ++ pkgs.lib.optionals config.machine.is_darwin  [
-      # inputs.mac-app-util.homeManagerModules.default
+      inputs.mac-app-util.homeManagerModules.default
     ];
 
     # "lib" in home-manager configs needs to not be overridden. otherwise
