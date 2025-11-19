@@ -99,9 +99,9 @@ in
       (pkgs.writeShellScriptBin "mlx-ipython" ''
         exec ${mlx-python}/bin/ipython --no-confirm-exit "$@"
       '')
-      (pkgs.writeShellScriptBin "mps-transformers" ''
-        exec ${mlx-python}/bin/transformers "$@"
-      '')
+      # (pkgs.writeShellScriptBin "mps-transformers" ''
+      #   exec ${mlx-python}/bin/transformers "$@"
+      # '')
     ];
 
     # Set environment variables for the Python interpreter.
