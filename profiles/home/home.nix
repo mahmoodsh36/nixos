@@ -157,7 +157,6 @@ in
             # ];
 
             PYTHON_HISTORY = "$HOME/brain/python_history";
-
             HOME_DIR = homedir;
             VOL_DIR = voldir;
             BRAIN_DIR = "${VOL_DIR}/brain";
@@ -187,8 +186,7 @@ in
             MAHMOOZ1_ADDR = constants.mahmooz1_addr;
             MYDOMAIN = constants.mydomain;
             # LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
-
-            CONTAINERS_MACHINE_PROVIDER = "libkrun";
+            CONTAINERS_MACHINE_PROVIDER = lib.mkIf config.machine.is_darwin "libkrun";
           };
         };
 
