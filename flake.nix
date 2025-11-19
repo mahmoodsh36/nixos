@@ -411,7 +411,7 @@
         # };
 
         # transformers environment with MPS support for macOS
-        transformers-mps = let
+        mps-transformers = let
           pythonEnv = mkPythonEnv {
             inherit system;
             workspaceRoot = ./python-envs/transformers-mps;

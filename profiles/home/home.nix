@@ -164,6 +164,7 @@ in
             MUSIC_DIR = "${VOL_DIR}/music";
             WORK_DIR = work_dir;
             work = WORK_DIR;
+            mahmooz1 = constants.mahmooz1_addr;
             brain = BRAIN_DIR;
             VOLUME_DIR = voldir;
             NOTES_DIR = "${BRAIN_DIR}/notes";
