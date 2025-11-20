@@ -19,6 +19,10 @@
       url = "github:mahmoodsh36/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mpv-history-daemon = {
+      url = "github:mahmoodsh36/mpv-history-daemon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-alien = {
       url = "github:thiagokokada/nix-alien";
       inputs.nixpkgs.follows = "nixpkgs";
