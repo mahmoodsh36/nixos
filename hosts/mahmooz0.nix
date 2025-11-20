@@ -70,6 +70,7 @@ in
         "obs"
         "whisky"
         "antigravity"
+        "steam"
       ];
       brews = [
         "mlx"
