@@ -228,13 +228,13 @@ in
     # need to set this up
     # services.jellyseerr.enable = true;
 
-    services.karakeep = {
-      enable = true;
-      extraEnvironment = {
-        DISABLE_SIGNUPS = "true";
-        DISABLE_NEW_RELEASE_CHECK = "true";
-      };
-    };
+    # services.karakeep = {
+    #   enable = true;
+    #   extraEnvironment = {
+    #     DISABLE_SIGNUPS = "true";
+    #     DISABLE_NEW_RELEASE_CHECK = "true";
+    #   };
+    # };
 
     services.mysql = {
       enable = false;
