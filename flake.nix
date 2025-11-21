@@ -205,7 +205,6 @@
         ++ extraModules;
       };
 
-    # Generate devShells for multiple systems
     forAllSystems = nixpkgs.lib.genAttrs [
       "x86_64-linux"
       "aarch64-linux"
@@ -213,8 +212,8 @@
       "aarch64-darwin"
     ];
 
-    # Helper to create Python environment for any system
-    # Usage: mkPythonEnv { system = "x86_64-linux"; workspaceRoot = ./path; envName = "my-env"; cudaSupport = true; }
+    # helper to create Python environment for any system
+    # usage: mkPythonEnv { system = "x86_64-linux"; workspaceRoot = ./path; envName = "my-env"; cudaSupport = true; }
     mkPythonEnv = { system, workspaceRoot, envName, cudaSupport ? false }: let
       isLinux = nixpkgs.lib.hasInfix "linux" system;
       sysPkgs = import nixpkgs {
@@ -231,10 +230,8 @@
       inherit workspaceRoot envName cudaSupport;
     };
   in {
-    # Generate NixOS configurations for all supported Linux systems
     nixosConfigurations =
       let
-        # Create configurations for each system
         mkConfigsForSystem = system: {
           "mahmooz1-${system}" = mkSystem system [
             ./hardware-configuration.nix # hardware scan results
@@ -413,28 +410,6 @@
         # in sysPkgs.mkShell {
         #   packages = [ pythonEnv ];
         # };
-
-        # transformers environment with MPS support for macOS
-        mps-transformers = let
-          pythonEnv = mkPythonEnv {
-            inherit system;
-            workspaceRoot = ./python-envs/transformers-mps;
-            envName = "transformers-mps-venv";
-            # enable CUDA support flag for macOS MPS (it will be handled differently)
-            cudaSupport = nixpkgs.lib.hasInfix "darwin" system;
-          };
-          # create a transformers CLI executable
-          transformers-cli-bin = sysPkgs.writeShellScriptBin "mps-transformers" ''
-            exec ${pythonEnv}/bin/transformers "$@"
-          '';
-        in sysPkgs.mkShell {
-          packages = [ pythonEnv transformers-cli-bin ];
-          # set environment variables for MPS support on macOS
-          env = nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasInfix "darwin" system) {
-            PYTORCH_ENABLE_MPS_FALLBACK = "1";  # enable MPS fallback
-            TORCH_MPS_DEVICE_ENABLED = "1";     # enable MPS device
-          };
-        };
       };
 
       # UV shell - works on all systems
@@ -449,6 +424,13 @@
           UV_NO_SYNC = "1";
         };
       };
+
+      # mineruEnv = mkPythonEnv {
+      #   inherit system;
+      #   workspaceRoot = ./python-envs/mineru;
+      #   envName = "mineru-venv";
+      #   cudaSupport = false;
+      # };
 
       # default shell with darwin-rebuild helper for macOS, basic shell for others
       defaultShell = if nixpkgs.lib.hasInfix "darwin" system then
@@ -485,39 +467,6 @@
         default = defaultShell;
       }
     );
-
-    # packages = forAllSystems (system: let
-    #   sysPkgs = mkPkgs system;
-    #   mineruEnv = mkPythonEnv {
-    #     inherit system;
-    #     workspaceRoot = ./python-envs/mineru;
-    #     envName = "mineru-venv";
-    #     cudaSupport = false;
-    #   };
-    # in {
-    #   # export mineru Python environment as a package
-    #   mineru = sysPkgs.stdenv.mkDerivation {
-    #     name = "mineru";
-    #     version = "2.6.4";
-
-    #     buildInputs = [ mineruEnv ];
-
-    #     unpackPhase = "true";
-    #     installPhase = ''
-    #       mkdir -p $out/bin
-    #       # Link all mineru binaries
-    #       for bin in mineru mineru-api mineru-gradio mineru-models-download mineru-vllm-server; do
-    #         ln -s ${mineruEnv}/bin/$bin $out/bin/$bin
-    #       done
-    #     '';
-
-    #     meta = {
-    #       description = "MinerU - Document processing tool";
-    #       mainProgram = "mineru";
-    #     };
-    #   };
-    # });
-
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
@@ -525,39 +474,57 @@
     };
     darwinConfigurations = {
       # silicon macs (M1, M2, M3, etc.)
-      mahmooz0 = inputs.nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = {
-          inherit inputs;
+      mahmooz0 =
+        let
           system = "aarch64-darwin";
-          myutils = import ./lib/utils.nix { };
-        };
-        modules = [
-          inputs.determinate.darwinModules.default
-          inputs.mac-app-util.darwinModules.default
-          inputs.home-manager.darwinModules.home-manager
-          ({ config, pkgs, lib, ... }: {
-            config = {
-              machine.name = "mahmooz0";
-              machine.user = "mahmoodsheikh";
-              machine.is_desktop = true;
-              machine.enable_nvidia = false;
-              machine.is_linux = false;
-              machine.is_darwin = true;
-              machine.static_ip = "192.168.1.1";
-
-              # add mineru package to system packages
-              # environment.systemPackages = [
-              #   self.packages.aarch64-darwin.mineru
-              # ];
+          sysPkgs = mkPkgs system;
+          # transformers environment with MPS support for macOS
+          mps-transformers = mkPythonEnv {
+            inherit system;
+            workspaceRoot = ./python-envs/transformers-mps;
+            envName = "transformers-mps-venv";
+            # should we be enabling cuda support? i think it might be handled differently on macos and might be good to enable
+            # cudaSupport = true;
+          };
+        in
+          inputs.nix-darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            specialArgs = {
+              inherit inputs;
+              system = "aarch64-darwin";
+              myutils = import ./lib/utils.nix { };
             };
-          })
-          ./config-darwin.nix
-          ./hosts/mahmooz0.nix
-          self.darwinModules.nixConfig
-          inputs.nix-homebrew.darwinModules.nix-homebrew
-        ];
-      };
+            modules = [
+              inputs.determinate.darwinModules.default
+              inputs.mac-app-util.darwinModules.default
+              inputs.home-manager.darwinModules.home-manager
+              ({ config, pkgs, lib, ... }: {
+                config = {
+                  machine.name = "mahmooz0";
+                  machine.user = "mahmoodsheikh";
+                  machine.is_desktop = true;
+                  machine.enable_nvidia = false;
+                  machine.is_linux = false;
+                  machine.is_darwin = true;
+                  machine.static_ip = "192.168.1.1";
+
+                  # add mps-transformers package to system packages
+                  environment.systemPackages = [
+                    # create a transformers CLI executable
+                    (sysPkgs.writeShellScriptBin "mps-transformers" ''
+                      export PYTORCH_ENABLE_MPS_FALLBACK="1";  # enable MPS fallback
+                      export TORCH_MPS_DEVICE_ENABLED="1";     # enable MPS device
+                      exec ${mps-transformers}/bin/transformers "$@"
+                    '')
+                  ];
+                };
+              })
+              ./config-darwin.nix
+              ./hosts/mahmooz0.nix
+              self.darwinModules.nixConfig
+              inputs.nix-homebrew.darwinModules.nix-homebrew
+            ];
+          };
       # for intel macs
       mahmooz0-intel = inputs.nix-darwin.lib.darwinSystem {
         system = "x86_64-darwin";
