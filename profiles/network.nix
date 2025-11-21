@@ -82,10 +82,9 @@ in
         # the base domain for internal MagicDNS names
         base_domain = "https://${mydomain}";
         magic_dns = true;
-        # upstream resolvers for the Headscale server itself. use public IPs.
+        # upstream resolvers for the Headscale server itself. use Blocky for filtering.
         nameservers.global = [
-          "1.1.1.1" # cloudflare
-          "9.9.9.9" # quad9
+          "127.0.0.1:${toString blocky_port}" # use local Blocky instance for ad-blocking
         ];
       };
     };
