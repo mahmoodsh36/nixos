@@ -60,7 +60,7 @@ in
       # })
       wezterm
       fdupes
-      jellyfin-web jellyfin-ffmpeg jellyfin
+      # jellyfin-web jellyfin-ffmpeg jellyfin
       miller
       bc # used for some arithmetic in shell scripts
       postgresql
