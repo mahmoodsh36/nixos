@@ -1,4 +1,4 @@
-{ lib, inputs, pkgs, config, config', pkgs-master, ... }:
+{ lib, inputs, pkgs, config, config', pkgs-pinned, ... }:
 
 let
   pythonStartupScript = pkgs.writers.writePython3 "startup.py" {
@@ -33,8 +33,7 @@ let
     print("----------------------")
   '';
 
-  my-python-1 = pkgs.python3;
-  # python-pkgs = pkgs;
+  my-python-1 = pkgs-pinned.python3;
   my-python = my-python-1.override {
     packageOverrides = self: super: {
       spotdl = super.toPythonModule super.pkgs.spotdl;
