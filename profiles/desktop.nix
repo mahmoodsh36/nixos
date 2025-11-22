@@ -3,6 +3,19 @@
 let
   constants = (import ../lib/constants.nix);
   # main_julia = pkgs.julia;
+  emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
+  emacs_pkg = (emacs_base_pkg.override {
+    withImageMagick = false;
+    withXwidgets = false;
+    withPgtk = true;
+    withNativeCompilation = true;
+    withCompressInstall = false;
+    withTreeSitter = true;
+    withGTK3 = true;
+    withX = false;
+  }).overrideAttrs (oldAttrs: rec {
+    imagemagick = pkgs.imagemagickBig;
+  });
 in
 {
   config = lib.mkIf config.machine.is_desktop {
@@ -58,6 +71,12 @@ in
       #   export DISPLAY=:0 # cheating so it can compile
       #   exec ${main_julia}/bin/julia "$@"
       # '')
+
+      ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
+        treesit-grammars.with-all-grammars
+      ]))
+
+      neovide
 
       # other
       # adb-sync
@@ -123,6 +142,12 @@ in
       # inputs.nix-ai-tools.packages.${pkgs.system}.opencode
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       # gptme
+      pkgs-master.antigravity
+      youtube-music
+      telegram-desktop
+      discord
+      transmission_4-qt
+      darktable # image editor
 
       config.machine.llama-cpp.pkg
       koboldcpp
