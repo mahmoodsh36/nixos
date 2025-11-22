@@ -11,6 +11,11 @@ let
     config.allowUnfree = true;
     config.cudaSupport = config.machine.enable_nvidia;
   };
+  pkgs-pinned = import inputs.pkgs-pinned {
+    inherit system;
+    config.allowUnfree = true;
+    config.cudaSupport = config.machine.enable_nvidia;
+  };
 in
 {
   imports = [
@@ -27,6 +32,7 @@ in
     _module.args = {
       inherit pkgs-master;
       inherit pkgs-unstable;
+      inherit pkgs-pinned;
     };
 
     nixpkgs.config.allowUnfree = true;
