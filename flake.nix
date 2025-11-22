@@ -184,7 +184,7 @@
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
     # Helper function to create uvpkgs for any system
-    mkUvPkgs = system: import nixpkgs {
+    mkUvPkgs = system: import inputs.pkgs-pinned {
       inherit system;
       config.allowUnfree = true;
       config.cudaSupport = true;
@@ -217,7 +217,7 @@
     # usage: mkPythonEnv { system = "x86_64-linux"; workspaceRoot = ./path; envName = "my-env"; cudaSupport = true; }
     mkPythonEnv = { system, workspaceRoot, envName, cudaSupport ? false }: let
       isLinux = nixpkgs.lib.hasInfix "linux" system;
-      sysPkgs = import nixpkgs {
+      sysPkgs = import inputs.pkgs-pinned {
         inherit system;
         config.allowUnfree = true;
         config.cudaSupport = isLinux && cudaSupport;

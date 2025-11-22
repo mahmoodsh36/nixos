@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
+{ config, pkgs, lib, inputs, pkgs-master, myutils, pkgs-pinned, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -96,7 +96,7 @@ in
       # arion
       inputs.disko.packages.${pkgs.system}.default
       ] ++ pkgs.lib.optionals config.machine.is_darwin [
-        python3Packages.mlx-lm
+        pkgs-pinned.python3Packages.mlx-lm
       ];
 
     # some apps respect XDG paths even on macos
