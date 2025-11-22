@@ -48,11 +48,8 @@ in
       #   "nohajc/anylinuxfs"
       # ];
       casks = [
-        "emacs-app"
         # "wezterm"
-        "firefox"
         "fuse-t"
-        "transmission"
         "raycast"
         # this errors out :/
         # "youtube-music"
@@ -60,20 +57,16 @@ in
         "pear"
         "karabiner-elements"
         "utm"
-        "xnviewmp" "openmtp" "darktable"
+        "xnviewmp" "openmtp"
         "jordanbaird-ice"
         "runescape"
         "utm"
-        "telegram"
-        "discord"
         "whatsapp"
-        "obs"
         "whisky"
-        "antigravity"
         "google-chrome"
+        "obs"
       ];
       brews = [
-        "mlx"
         "krunkit"
         # "mlx-lm"
         # "anylinuxfs"
