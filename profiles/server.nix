@@ -79,6 +79,7 @@ in
       inputs.cltpt.packages.${pkgs.system}.default
       expect # for unbuffer etc
       mpris-scrobbler
+      coreutils-full
       inputs.mpv-history-daemon.packages.${pkgs.system}.default
 
       # networking tools
