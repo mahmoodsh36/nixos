@@ -54,7 +54,7 @@ in
         # this errors out :/
         # "youtube-music"
         # "podman-desktop"
-        "pear"
+        # "pear"
         "karabiner-elements"
         "utm"
         "xnviewmp" "openmtp"
