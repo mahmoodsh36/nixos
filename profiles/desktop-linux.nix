@@ -90,11 +90,11 @@ in
     };
 
     # graphical stuff (wayland,x11,etc)
-    services.xserver = {
-      enable = true;
-      xkb.layout = "us,il,ara";
-      desktopManager.xfce.enable = (!constants.enable_plasma);
-    };
+    # services.xserver = {
+    #   enable = true;
+    #   xkb.layout = "us,il,ara";
+    #   desktopManager.xfce.enable = (!constants.enable_plasma);
+    # };
     services.desktopManager.gnome.enable = true;
     services.libinput = {
       enable = true;
@@ -162,12 +162,12 @@ in
     ];
 
     # tty configs
-    console = {
-      #earlySetup = true;
-      font = "ter-i14b";
-      packages = with pkgs; [ terminus_font ];
-      useXkbConfig = true; # remap caps to escape
-    };
+    # console = {
+    #   earlySetup = true;
+    #   font = "ter-i14b";
+    #   packages = with pkgs; [ terminus_font ];
+    #   useXkbConfig = true; # remap caps to escape
+    # };
     security.audit.enable = true;
     security.auditd.enable = true;
 
@@ -338,8 +338,6 @@ in
       acpi lm_sensors
       cryptsetup
       # jellyfin-tui jellycli jellytui
-
-      steam-run-free
     ];
 
     systemd.services.my_mpv_logger_service = {

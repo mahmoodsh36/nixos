@@ -145,7 +145,6 @@ in
       pkgs-master.antigravity
       youtube-music
       telegram-desktop
-      discord
       transmission_4-qt
       darktable # image editor
 
