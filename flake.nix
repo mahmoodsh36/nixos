@@ -261,7 +261,6 @@
                 machine.static_ip = "192.168.1.2";
                 machine.is_home_server = true;
                 # embed executable for mlpython
-                # To enable this, uncomment and adapt the following:
                 # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
                 #   (mkUvPkgs system).writeShellScriptBin "mlpython2" ''
                 #     export LD_LIBRARY_PATH=/run/opengl-driver/lib

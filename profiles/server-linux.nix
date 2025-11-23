@@ -64,7 +64,7 @@ in
 
     hardware.graphics = {
       enable = true;
-      enable32Bit = true;
+      # enable32Bit = true;
     };
     hardware.nvidia.open = false;
     hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
