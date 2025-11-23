@@ -97,6 +97,7 @@ in
       inputs.disko.packages.${pkgs.system}.default
       ] ++ pkgs.lib.optionals config.machine.is_darwin [
         pkgs-pinned.python3Packages.mlx-lm
+        pkgs-pinned.python3Packages.mlx-vlm
       ];
 
     # some apps respect XDG paths even on macos
