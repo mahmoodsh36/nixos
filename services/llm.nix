@@ -58,7 +58,7 @@ in
           --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on \
           --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
           --port 5000 --host 0.0.0.0 --seed 2 \
-          --cache-type-k q8_0 --cache-type-v q8_0
+          --cache-type-k q8_0 --cache-type-v q8_0 --jinja
       '';
 
       serviceConfig = {
@@ -103,7 +103,7 @@ in
            --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on \
            --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
            --port 5000 --host 0.0.0.0 --seed 2 \
-           --cache-type-k q8_0 --cache-type-v q8_0
+           --cache-type-k q8_0 --cache-type-v q8_0 --jinja
        '';
 
       serviceConfig = {
