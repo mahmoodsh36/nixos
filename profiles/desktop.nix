@@ -75,7 +75,7 @@ in
       ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
         treesit-grammars.with-all-grammars
       ]))
-
+      firefox
       neovide
 
       # other
@@ -145,7 +145,7 @@ in
       pkgs-master.antigravity
       youtube-music
       telegram-desktop
-      transmission_4-qt
+      transmission_4-gtk
       darktable # image editor
 
       config.machine.llama-cpp.pkg

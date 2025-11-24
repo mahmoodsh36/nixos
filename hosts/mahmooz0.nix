@@ -98,10 +98,10 @@ in
         autohide-delay = 0.2;
         autohide-time-modifier = 0.1;
         persistent-apps = [
-          "/Applications/Firefox.app"
+          "/Applications/Nix Apps/Firefox.app"
           "/Applications/Nix Apps/WezTerm.app"
-          "/Applications/Emacs.app"
-          "/Applications/Transmission.app"
+          "/Applications/Nix Apps/Emacs.app"
+          "/Applications/Nix Apps/Transmission.app"
         ];
       };
       finder = {
