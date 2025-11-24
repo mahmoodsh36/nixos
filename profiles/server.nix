@@ -6,6 +6,7 @@ in
 {
   imports = [
     ../services/llm.nix
+    ../services/mpv-daemon.nix
     ./network.nix
   ];
 
@@ -160,5 +161,8 @@ in
       llama-cpp.enable = config.machine.name == "mahmooz0";
       llama-cpp-embeddings.enable = config.machine.name == "mahmooz0";
     };
+
+    # Enable MPV History Daemon
+    mpv-daemon.enable = true;
   };
 }
