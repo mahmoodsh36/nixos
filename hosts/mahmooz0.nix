@@ -67,6 +67,7 @@ in
         "google-chrome"
         "obs"
         "emacs"
+        "transmission"
       ];
       brews = [
         "krunkit"
@@ -102,7 +103,7 @@ in
           "/Applications/Nix Apps/Firefox.app"
           "/Applications/Nix Apps/WezTerm.app"
           "/Applications/Emacs.app"
-          "/Applications/Nix Apps/Transmission.app"
+          "/Applications/Transmission.app"
         ];
       };
       finder = {
