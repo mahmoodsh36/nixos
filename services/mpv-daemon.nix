@@ -4,6 +4,7 @@ let
   isDarwin = builtins.match ".*-darwin" system != null;
   isLinux = builtins.match ".*-linux" system != null;
   mpvHistoryDaemonPkg = inputs.mpv-history-daemon.packages.${pkgs.system}.default;
+  sockets_dir = "/tmp/mpv_sockets/";
 in
 {
   options.mpv-daemon = {
@@ -15,16 +16,16 @@ in
     launchd.agents.mpv-history-daemon = lib.mkIf config.mpv-daemon.enable {
       command = pkgs.writeShellScript "start-mpv-history-daemon.sh" ''
         #!${pkgs.stdenv.shell}
-        # Ensure directories exist
-        mkdir -p ${config.machine.voldir}/data/mpv_data/sockets
+        # ensure directories exist
+        mkdir -p ${sockets_dir}
         mkdir -p ${config.machine.voldir}/data/mpv_data
 
-        # Start the daemon
+        # start the daemon
         exec ${mpvHistoryDaemonPkg}/bin/mpv-history-daemon daemon \
           --log-file ${config.machine.voldir}/data/mpv_data/my_log_file \
           --write-period 30 \
           --scan-time 1 \
-          ${config.machine.voldir}/data/mpv_data/sockets \
+          ${sockets_dir} \
           ${config.machine.voldir}/data/mpv_data
       '';
 
@@ -51,7 +52,7 @@ in
             --log-file ${config.machine.voldir}/data/mpv_data/my_log_file \
             --write-period 30 \
             --scan-time 1 \
-            ${config.machine.voldir}/data/mpv_data/sockets \
+            ${sockets_dir} \
             ${config.machine.voldir}/data/mpv_data
         '';
         Restart = "on-failure";
@@ -61,7 +62,7 @@ in
 
       # Ensure the data directories exist
       preStart = ''
-        mkdir -p ${config.machine.voldir}/data/mpv_data/sockets
+        mkdir -p ${sockets_dir}
         mkdir -p ${config.machine.voldir}/data/mpv_data
       '';
     };
