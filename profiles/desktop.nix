@@ -129,8 +129,8 @@ in
       pkgs-master.antigravity
       youtube-music
       telegram-desktop
-      transmission_4-gtk
       darktable # image editor
+      transmission_4-gtk
 
       config.machine.llama-cpp.pkg
       koboldcpp
