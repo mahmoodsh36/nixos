@@ -61,6 +61,7 @@ in
 
       firefox
       neovide
+      mpv
 
       # other
       # adb-sync
