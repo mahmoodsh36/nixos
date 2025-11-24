@@ -66,7 +66,7 @@ in
         "whisky"
         "google-chrome"
         "obs"
-        "emacs"
+        "emacs-app"
         "transmission"
       ];
       brews = [
