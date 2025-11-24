@@ -31,6 +31,19 @@ let
       chmod +x $out/bin/gtkpython
     '';
   };
+  emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
+  emacs_pkg = (emacs_base_pkg.override {
+    withImageMagick = false;
+    withXwidgets = false;
+    withPgtk = true;
+    withNativeCompilation = true;
+    withCompressInstall = false;
+    withTreeSitter = true;
+    withGTK3 = true;
+    withX = false;
+  }).overrideAttrs (oldAttrs: rec {
+    imagemagick = pkgs.imagemagickBig;
+  });
 in
 {
   config = lib.mkIf (config.machine.is_linux && config.machine.is_desktop) {
@@ -284,6 +297,10 @@ in
       # inputs.lem.packages.${pkgs.system}.lem-webview
       # code-cursor windsurf
       # inputs.wezterm.packages.${pkgs.system}.default
+
+      ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
+        treesit-grammars.with-all-grammars
+      ]))
 
       # media tools
       # feh # image viewer (can it set wallpaper on wayland?)

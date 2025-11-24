@@ -3,19 +3,6 @@
 let
   constants = (import ../lib/constants.nix);
   # main_julia = pkgs.julia;
-  emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
-  emacs_pkg = (emacs_base_pkg.override {
-    withImageMagick = false;
-    withXwidgets = false;
-    withPgtk = true;
-    withNativeCompilation = true;
-    withCompressInstall = false;
-    withTreeSitter = true;
-    withGTK3 = true;
-    withX = false;
-  }).overrideAttrs (oldAttrs: rec {
-    imagemagick = pkgs.imagemagickBig;
-  });
 in
 {
   config = lib.mkIf config.machine.is_desktop {
@@ -72,9 +59,6 @@ in
       #   exec ${main_julia}/bin/julia "$@"
       # '')
 
-      ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
-        treesit-grammars.with-all-grammars
-      ]))
       firefox
       neovide
 

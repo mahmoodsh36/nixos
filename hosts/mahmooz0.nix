@@ -66,6 +66,7 @@ in
         "whisky"
         "google-chrome"
         "obs"
+        "emacs"
       ];
       brews = [
         "krunkit"
@@ -100,7 +101,7 @@ in
         persistent-apps = [
           "/Applications/Nix Apps/Firefox.app"
           "/Applications/Nix Apps/WezTerm.app"
-          "/Applications/Nix Apps/Emacs.app"
+          "/Applications/Emacs.app"
           "/Applications/Nix Apps/Transmission.app"
         ];
       };
