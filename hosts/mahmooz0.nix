@@ -84,11 +84,11 @@ in
       onActivation.autoUpdate = true;
       onActivation.upgrade = true;
       onActivation.cleanup = "zap";
-      # masApps = {
-      #   "XCode" = 497799835;
-      #   "Lockbook" = 1526775001;
-      #   "Lightroom" = 1451544217;
-      # };
+      masApps = {
+        "XCode" = 497799835;
+        # "Lockbook" = 1526775001;
+        # "Lightroom" = 1451544217;
+      };
     };
 
     system.defaults = {
