@@ -62,6 +62,7 @@ in
       firefox
       neovide
       mpv
+      waveterm
 
       # other
       # adb-sync
