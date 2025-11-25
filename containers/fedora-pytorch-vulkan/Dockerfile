@@ -1,38 +1,78 @@
-FROM registry.fedoraproject.org/fedora:40
+FROM quay.io/slopezpa/fedora-vgpu:latest
 
-RUN dnf install -y dnf-plugins-core gcc gcc-c++ make cmake git vim-enhanced ccache glslc glslang \
-    python3-devel python3-pip python3-setuptools python3-wheel python3-pyyaml \
-    python3-typing-extensions python3-numpy python3-sympy python3-networkx python3-jinja2
+# basic dependencies
+RUN dnf -y update && \
+    dnf -y install \
+    git \
+    cmake \
+    gcc-c++ \
+    ninja-build \
+    python3-devel \
+    python3-pip \
+    python3-numpy \
+    python3-pyyaml \
+    vulkan-headers \
+    vulkan-loader-devel \
+    libshaderc-devel \
+    glslc \
+    glslang-devel \
+    libdrm-devel \
+    which \
+    findutils && \
+    dnf clean all
 
-RUN dnf install -y vulkan-loader vulkan-loader-devel vulkan-tools vulkan-headers
+WORKDIR /build
 
-ENV mesa_version=24.1.5-101
-RUN dnf copr enable -y slp/mesa-krunkit
+RUN git clone --recursive --depth 1 --branch v2.9.1 https://github.com/pytorch/pytorch.git
+
+WORKDIR /build/pytorch
+
+# some compilation flags
+# fix C++ Header missing (uint8_t error)
+ENV CXXFLAGS="-include cstdint"
+ENV CMAKE_CXX_FLAGS="-include cstdint"
+# GCC 15 is too strict about float16 vs uint16 pointers. we must allow it.
+ENV CFLAGS="-Wno-incompatible-pointer-types -Wno-error=incompatible-pointer-types"
+ENV CMAKE_C_FLAGS="-Wno-incompatible-pointer-types -Wno-error=incompatible-pointer-types"
+
+# limit parallel jobs to prevent OOM
+ENV MAX_JOBS=2
+
+# vulkan config
+ENV USE_VULKAN=1
+ENV USE_VULKAN_API=1
+ENV USE_VULKAN_SHADERC_RUNTIME=1
+# disable others to speed up build
+ENV USE_CUDA=0
+ENV USE_ROCM=0
+ENV USE_DISTRIBUTED=0
+ENV USE_MKLDNN=0
+ENV CMAKE_PREFIX_PATH="/usr"
+
+# get pytorch
+RUN pip3 install -r requirements.txt && \
+    python3 setup.py install
+
+# llama.cpp specific dependencies
 RUN dnf install -y \
-    mesa-dri-drivers-${mesa_version} \
-    mesa-filesystem-${mesa_version} \
-    mesa-libOpenCL-${mesa_version} \
-    mesa-libgbm-${mesa_version} \
-    mesa-libglapi-${mesa_version} \
-    mesa-va-drivers-${mesa_version} \
-    mesa-vulkan-drivers-${mesa_version}
+    libcurl-devel \
+    openssl-devel \
+    zlib-devel \
+    pkgconf
 
-# Build llama.cpp with Vulkan
+# get llama-cpp
 RUN git clone https://github.com/ggerganov/llama.cpp.git /root/llama.cpp
 RUN cd /root/llama.cpp && \
-    git checkout 56d03d92be57f5880b9ed94542d87bb6effae31f && \
+    git checkout 05872ac88532585fb198f1113be43ac654955cba && \
     cmake -B build -DLLAMA_VULKAN=1 && \
     cmake --build build --target install && \
     rm -rf /root/llama.cpp
 
-# Build PyTorch with Vulkan
-RUN git clone --recursive --depth 1 --branch v2.9.1 https://github.com/pytorch/pytorch.git /root/pytorch && \
-    cd /root/pytorch && \
-    python3 -m pip install --upgrade pip setuptools wheel && \
-    USE_VULKAN=1 MAX_JOBS=2 python3 setup.py install && \
-    cd / && \
-    rm -rf /root/pytorch
+# cleanup
+WORKDIR /app
+RUN rm -rf /build
 
-RUN python3 -m pip install \
-    transformers \
-    accelerate
+# runtime config
+ENV VK_ICD_FILENAMES="/usr/share/vulkan/icd.d/virtio_icd.aarch64.json"
+
+CMD ["bash"]
