@@ -108,7 +108,7 @@ in
     #   xkb.layout = "us,il,ara";
     #   desktopManager.xfce.enable = (!constants.enable_plasma);
     # };
-    services.desktopManager.gnome.enable = true;
+    services.desktopManager.gnome.enable = constants.enable_gnome;
     services.libinput = {
       enable = true;
       touchpad = {
@@ -134,7 +134,7 @@ in
       # xdgOpenUsePortal = true; # this seems to override my .desktop definitions in home-manager?
       enable = true;
       extraPortals = [
-        # pkgs.xdg-desktop-portal-gnome
+        (lib.mkIf constants.enable_gnome pkgs.xdg-desktop-portal-gnome)
         pkgs.xdg-desktop-portal-gtk
         # pkgs.xdg-desktop-portal-hyprland
         (lib.mkIf constants.enable_plasma pkgs.kdePackages.xdg-desktop-portal-kde)
