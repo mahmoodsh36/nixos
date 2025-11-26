@@ -2,7 +2,7 @@
 
 let
   constants = (import ../lib/constants.nix);
-  enable_nm = false;
+  enable_nm = true;
 in
 {
   config = lib.mkMerge [
