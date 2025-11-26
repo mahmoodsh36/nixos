@@ -520,42 +520,9 @@
               })
               ./config-darwin.nix
               ./hosts/mahmooz0.nix
-              self.darwinModules.nixConfig
               inputs.nix-homebrew.darwinModules.nix-homebrew
             ];
           };
-      # for intel macs
-      mahmooz0-intel = inputs.nix-darwin.lib.darwinSystem {
-        system = "x86_64-darwin";
-        modules = [
-        ];
-      };
-    };
-    # nix-darwin module outputs
-    darwinModules = {
-      # nix configuration
-      nixConfig =
-        {
-          config,
-          pkgs,
-          lib,
-          ...
-        }:
-        {
-          # let determinate nix handle your nix configuration
-          nix.enable = false;
-
-          # custom determinate nix settings written to /etc/nix/nix.custom.conf
-          determinate-nix.customSettings = {
-            # enables parallel evaluation (remove this setting or set the value to 1 to disable)
-            eval-cores = 0;
-            extra-experimental-features = [
-              "build-time-fetch-tree" # enables build-time flake inputs
-              "parallel-eval" # enables parallel evaluation
-            ];
-            # other settings
-          };
-        };
     };
   };
 }
