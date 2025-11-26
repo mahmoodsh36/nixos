@@ -357,16 +357,16 @@ in
       # jellyfin-tui jellycli jellytui
     ];
 
-    systemd.services.my_mpv_logger_service = {
-      description = "mpv logger";
-      wantedBy = [ "multi-user.target" ];
-      script = "${pkgs.dash}/bin/dash ${scripts_dir}/mpv_logger.sh";
-      serviceConfig = {
-        User = config.machine.user;
-        Restart = "always";
-        RuntimeMaxSec = "3600";
-      };
-    };
+    # systemd.services.my_mpv_logger_service = {
+    #   description = "mpv logger";
+    #   wantedBy = [ "multi-user.target" ];
+    #   script = "${pkgs.dash}/bin/dash ${scripts_dir}/mpv_logger.sh";
+    #   serviceConfig = {
+    #     User = config.machine.user;
+    #     Restart = "always";
+    #     RuntimeMaxSec = "3600";
+    #   };
+    # };
 
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";
