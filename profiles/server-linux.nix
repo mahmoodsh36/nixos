@@ -310,5 +310,15 @@ in
     zramSwap.enable = true;
     # zramSwap.memoryPercent = 50; # 50% of available ram
     zramSwap.memoryMax = (10 * 1024 * 1024 * 1024); # 10gb
+
+    virtualisation.vmVariant = {
+      # following configuration is added only when building VM with build-vm
+      virtualisation = {
+        memorySize = 8000;
+        cores = 8;
+        graphics = false;
+      };
+      networking.usePredictableInterfaceNames = lib.mkForce false;
+    };
   };
 }
