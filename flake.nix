@@ -84,10 +84,10 @@
       url = "https://flakehub.com/f/nix-darwin/nix-darwin/0.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # determinate = {
+    #   url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
       # inputs.nixpkgs.follows = "nixpkgs";
@@ -491,7 +491,7 @@
               myutils = import ./lib/utils.nix { };
             };
             modules = [
-              inputs.determinate.darwinModules.default
+              # inputs.determinate.darwinModules.default
               inputs.mac-app-util.darwinModules.default
               inputs.home-manager.darwinModules.home-manager
               ({ config, pkgs, lib, ... }: {
