@@ -16,6 +16,8 @@ in
     # required for nix-darwin to work
     system.stateVersion = 1;
     system.primaryUser = "${config.machine.user}";
+
+    # necessary temporary fix
     ids.gids.nixbld = 350;
 
     environment.variables.HOMEBREW_NO_ANALYTICS = "1";
@@ -146,6 +148,25 @@ in
         # privacy
         "com.apple.AdLib".allowApplePersonalizedAdvertising = false;
       };
+    };
+
+    # linux-builder
+    nix = {
+      linux-builder = {
+        enable = true;
+        ephemeral = true;
+        maxJobs = 4;
+        config = {
+          virtualisation = {
+            darwin-builder = {
+              diskSize = 80 * 1024;
+              memorySize = 8 * 1024;
+            };
+            cores = 8;
+          };
+        };
+      };
+      settings.trusted-users = [ "@admin" ];
     };
 
     # https://github.com/nix-darwin/nix-darwin/issues/1041

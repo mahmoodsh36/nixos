@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
+{ system, config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -318,6 +318,9 @@ in
         cores = 8;
         graphics = false;
       };
+      # to disable some settings that would prevent things from working on different architectures
+      nixpkgs.hostPlatform = lib.mkForce system;
+      hardware.cpu.intel.updateMicrocode = lib.mkForce false;
       networking.usePredictableInterfaceNames = lib.mkForce false;
     };
   };
