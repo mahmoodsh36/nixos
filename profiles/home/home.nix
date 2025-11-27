@@ -235,30 +235,29 @@ in
           podmanPackage = pkgs.podman;
 
           containers = {
-            # Simple test container (Alpine Linux - very fast to build)
-            test-alpine = {
-              imageName = "test-alpine:latest";
-              context = ../../containers/test-container;
-              dockerfile = "Dockerfile";
-              runArgs = [
-                "--network=host"
-              ];
-              command = [ "sleep" "infinity" ];
-              aliases = {
-                "test-shell" = {
-                  command = [ "sh" ];
-                  interactive = true;
-                };
-                "test-bash" = {
-                  command = [ "bash" ];
-                  interactive = true;
-                };
-                "test-curl" = {
-                  command = [ "curl" ];
-                  interactive = false;
-                };
-              };
-            };
+            # test-alpine = {
+            #   imageName = "test-alpine:latest";
+            #   context = ../../containers/test-container;
+            #   dockerfile = "Dockerfile";
+            #   runArgs = [
+            #     "--network=host"
+            #   ];
+            #   command = [ "sleep" "infinity" ];
+            #   aliases = {
+            #     "test-shell" = {
+            #       command = [ "sh" ];
+            #       interactive = true;
+            #     };
+            #     "test-bash" = {
+            #       command = [ "bash" ];
+            #       interactive = true;
+            #     };
+            #     "test-curl" = {
+            #       command = [ "curl" ];
+            #       interactive = false;
+            #     };
+            #   };
+            # };
 
             # ML Python environment with CUDA support (for Linux/NVIDIA)
             # mlpython = lib.mkIf (config'.machine.is_linux && config'.machine.enable_nvidia) {
@@ -321,61 +320,61 @@ in
             # };
 
             # CPU version (for macOS - MLX not available in containers)
-            mineru-mlx = lib.mkIf config'.machine.is_darwin {
-              imageName = "mineru-mlx";
-              context = ../../containers/mineru-mlx;
-              buildArgs = [
-                "--network=host"
-                "--platform=linux/arm64"
-              ];
-              runArgs = [
-                "-v" "/:/host"
-                "--network=host"
-                "--platform=linux/arm64"
-              ];
-              command = [ "sleep" "infinity" ];
-              aliases = {
-                "minerupython" = {
-                  command = [ "python3" ];
-                  interactive = true;
-                };
-                # "mineru" = {
-                #   command = [ "mineru" ];
-                #   interactive = true;
-                # };
-                # "mineru-mlx" = {
-                #   command = [ "python3" ];
-                #   interactive = true;
-                # };
-              };
-            };
+            # mineru-mlx = lib.mkIf config'.machine.is_darwin {
+            #   imageName = "mineru-mlx";
+            #   context = ../../containers/mineru-mlx;
+            #   buildArgs = [
+            #     "--network=host"
+            #     "--platform=linux/arm64"
+            #   ];
+            #   runArgs = [
+            #     "-v" "/:/host"
+            #     "--network=host"
+            #     "--platform=linux/arm64"
+            #   ];
+            #   command = [ "sleep" "infinity" ];
+            #   aliases = {
+            #     "minerupython" = {
+            #       command = [ "python3" ];
+            #       interactive = true;
+            #     };
+            #     # "mineru" = {
+            #     #   command = [ "mineru" ];
+            #     #   interactive = true;
+            #     # };
+            #     # "mineru-mlx" = {
+            #     #   command = [ "python3" ];
+            #     #   interactive = true;
+            #     # };
+            #   };
+            # };
 
-            fedora-vulkan = lib.mkIf config'.machine.is_darwin {
-              imageName = "fedora-vulkan";
-              context = ../../containers/fedora-vulkan;
-              buildArgs = [
-                # "--network=host"
-              ];
-              runArgs = [
-                # "--network=host"
-                "--device" "/dev/dri"
-              ];
-              command = [ "sleep" "infinity" ];
-              aliases = {
-                "myvulkaninfo" = {
-                  command = [ "vulkaninfo" ];
-                  interactive = true;
-                };
-                # "mineru" = {
-                #   command = [ "mineru" ];
-                #   interactive = true;
-                # };
-                # "mineru-mlx" = {
-                #   command = [ "python3" ];
-                #   interactive = true;
-                # };
-              };
-            };
+            # fedora-vulkan = lib.mkIf config'.machine.is_darwin {
+            #   imageName = "fedora-vulkan";
+            #   context = ../../containers/fedora-vulkan;
+            #   buildArgs = [
+            #     # "--network=host"
+            #   ];
+            #   runArgs = [
+            #     # "--network=host"
+            #     "--device" "/dev/dri"
+            #   ];
+            #   command = [ "sleep" "infinity" ];
+            #   aliases = {
+            #     "myvulkaninfo" = {
+            #       command = [ "vulkaninfo" ];
+            #       interactive = true;
+            #     };
+            #     # "mineru" = {
+            #     #   command = [ "mineru" ];
+            #     #   interactive = true;
+            #     # };
+            #     # "mineru-mlx" = {
+            #     #   command = [ "python3" ];
+            #     #   interactive = true;
+            #     # };
+            #   };
+            # };
 
             fedora-pytorch-vulkan = lib.mkIf config'.machine.is_darwin {
               imageName = "fedora-pytorch-vulkan";
