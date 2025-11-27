@@ -33,19 +33,19 @@ in
     ];
     programs.ssh.extraConfig = ''
       Host mahmooz2-2
-          HostName ${constants.mahmooz2_addr}
-          User     mahmooz
-          IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
+           HostName ${constants.mahmooz2_addr}
+           User     mahmooz
+           IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
 
       Host mahmooz1
-          HostName ${constants.mahmooz1_addr}
-          User     mahmooz
-          IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
+           HostName ${constants.mahmooz1_addr}
+           User     mahmooz
+           IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
 
       Host mahmooz3
-          HostName ${constants.mahmooz3_addr}
-          User     mahmooz
-          IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
+           HostName ${constants.mahmooz3_addr}
+           User     mahmooz
+           IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
     '';
 
     # vpn/etc
@@ -378,7 +378,6 @@ in
     };
   };
 
-
   services.searx = lib.mkIf (searxng_secret != "") {
     enable = true;
     redisCreateLocally = true;
@@ -545,60 +544,60 @@ in
     };
   };
 
-    networking.usePredictableInterfaceNames = true;
+  networking.usePredictableInterfaceNames = true;
 
     # make caddy_dir owned by caddy:caddy (uses systemd)
-    systemd.tmpfiles.rules = [
-      # create the directory if it doesn't exist
-      # Type Path                  Mode    User   Group  Age Argument
-      "d ${caddy_dir} 0755 caddy caddy - -"
-      # recursively apply permissions to the directory and its contents
-      # Type Path                  Mode  User   Group  Age Argument
-      "z ${caddy_dir} - caddy caddy - -"
-      # dir for caddy's access logs
-      "d /var/log/caddy 0755 caddy caddy - -"
-    ];
+  systemd.tmpfiles.rules = [
+    # create the directory if it doesn't exist
+    # Type Path                  Mode    User   Group  Age Argument
+    "d ${caddy_dir} 0755 caddy caddy - -"
+    # recursively apply permissions to the directory and its contents
+    # Type Path                  Mode  User   Group  Age Argument
+    "z ${caddy_dir} - caddy caddy - -"
+    # dir for caddy's access logs
+    "d /var/log/caddy 0755 caddy caddy - -"
+  ];
 
-    networking.firewall = {
-      allowedTCPPorts = [
-        22 2222 # ssh
-        80 # nginx - http
-        443 # nginx - https
-      ];
-      enable = is_exit_node;
-      allowedUDPPorts = [
-        config.services.tailscale.port
-        blocky_port
-      ];
-      trustedInterfaces = [ config.services.tailscale.interfaceName ];
-      checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
-    };
+  networking.firewall = {
+    allowedTCPPorts = [
+      22 2222 # ssh
+      80 # nginx - http
+      443 # nginx - https
+    ];
+    enable = is_exit_node;
+    allowedUDPPorts = [
+      config.services.tailscale.port
+      blocky_port
+    ];
+    trustedInterfaces = [ config.services.tailscale.interfaceName ];
+    checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111
+  };
 
     # dns filtering and ad blocking
-    services.blocky = {
-      enable = is_exit_node;
-      settings = {
-        ports.dns = blocky_port; # port for incoming DNS Queries.
-        upstreams.groups.default = [
-          "https://one.one.one.one/dns-query" # using cloudflare's DNS over HTTPS server for resolving queries.
-        ];
-        # for initially solving DoH/DoT Requests when no system resolver is available.
-        bootstrapDns = {
-          upstream = "https://one.one.one.one/dns-query";
-          ips = [ "1.1.1.1" "1.0.0.1" ];
+  services.blocky = {
+    enable = is_exit_node;
+    settings = {
+      ports.dns = blocky_port; # port for incoming DNS Queries.
+      upstreams.groups.default = [
+        "https://one.one.one.one/dns-query" # using cloudflare's DNS over HTTPS server for resolving queries.
+      ];
+      # for initially solving DoH/DoT Requests when no system resolver is available.
+      bootstrapDns = {
+        upstream = "https://one.one.one.one/dns-query";
+        ips = [ "1.1.1.1" "1.0.0.1" ];
+      };
+      # enable blocking of certain domains.
+      blocking = {
+        blackLists = {
+          # adblocking
+          ads = [ "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" ];
         };
-        # enable blocking of certain domains.
-        blocking = {
-          blackLists = {
-            # adblocking
-            ads = [ "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" ];
-          };
-          # configure what block categories are used
-          clientGroupsBlock = {
-            default = [ "ads" ];
-          };
+        # configure what block categories are used
+        clientGroupsBlock = {
+          default = [ "ads" ];
         };
       };
     };
+  };
   }));
 }
