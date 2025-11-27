@@ -162,7 +162,16 @@ in
       llama-cpp-embeddings.enable = config.machine.name == "mahmooz0";
     };
 
-    # Enable MPV History Daemon
+    # mpv history daemon
     mpv-daemon.enable = true;
+
+    virtualisation.vmVariant = {
+      # following configuration is added only when building VM with build-vm
+      virtualisation = {
+        memorySize = 8000;
+        cores = 8;
+        graphics = false;
+      };
+    };
   };
 }
