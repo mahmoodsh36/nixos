@@ -431,16 +431,13 @@
       #   cudaSupport = false;
       # };
 
-      # default shell with darwin-rebuild helper for macOS, basic shell for others
+      # this is from the nix-determinate tutorial i think, im leaving it here
       defaultShell = if nixpkgs.lib.hasInfix "darwin" system then
         sysPkgs.mkShellNoCC {
           packages = with sysPkgs; [
-            # Shell script for applying the nix-darwin configuration.
-            # Run this to apply the configuration in this flake to your macOS system.
             (writeShellApplication {
               name = "apply-nix-darwin-configuration";
               runtimeInputs = [
-                # Make the darwin-rebuild package available in the script
                 inputs.nix-darwin.packages.${system}.darwin-rebuild
               ];
               text = ''
@@ -460,7 +457,7 @@
             packages = [ ];
           };
     in
-      # Merge all shells together
+      # merge all shells together
       pythonShells // {
         uv = uvShell;
         default = defaultShell;
@@ -511,9 +508,10 @@
                   environment.systemPackages = [
                     # create a transformers CLI executable
                     (sysPkgs.writeShellScriptBin "mps-transformers" ''
-                      export PYTORCH_ENABLE_MPS_FALLBACK="1";  # enable MPS fallback
-                      export TORCH_MPS_DEVICE_ENABLED="1";     # enable MPS device
                       exec ${mps-transformers}/bin/transformers "$@"
+                    '')
+                    (sysPkgs.writeShellScriptBin "mps-python" ''
+                      exec ${mps-transformers}/bin/python "$@"
                     '')
                   ];
                 };
