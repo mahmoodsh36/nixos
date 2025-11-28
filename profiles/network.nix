@@ -49,7 +49,10 @@ in
     '';
 
     # vpn/etc
-    services.tailscale.enable = true;
+    services.tailscale = {
+      enable = true;
+      package = inputs.pkgs-pinned.legacyPackages.${pkgs.system}.tailscale;
+    };
 
     # boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
     # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
@@ -57,10 +60,8 @@ in
 
   # Linux-specific configurations (only merged if on NixOS, not nix-darwin)
   ] ++ (lib.optional isLinux {
-    services.tailscale = {
-      port = 12345; # (default: 41641)
-      useRoutingFeatures = "both";
-    };
+    services.tailscale.port = 12345; # (default: 41641)
+    services.tailscale.useRoutingFeatures = "both";
 
     services.openssh = {
       ports = [ 22 2222 ]; # my uni wifi blocks port 22..
