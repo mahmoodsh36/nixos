@@ -316,7 +316,10 @@ in
       virtualisation = {
         memorySize = 8000;
         cores = 8;
-        graphics = false;
+        graphics = true;
+        diskImage = "./mahmooz1.qcow2";
+        resolution = { x = 1280; y = 720; };
+        host.pkgs = inputs.nixpkgs.legacyPackages.${builtins.currentSystem};
       };
       # to disable some settings that would prevent things from working on different architectures
       nixpkgs.hostPlatform = lib.mkForce system;
