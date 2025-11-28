@@ -124,6 +124,7 @@ in
       pkgs-master.qwen-code
       pkgs.claude-code
       pkgs-master.aichat
+      goose-cli
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
