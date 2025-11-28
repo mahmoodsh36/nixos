@@ -388,10 +388,11 @@ in
                 "--entrypoint=" # Clear the broken ENTRYPOINT from base image
                 "--device" "/dev/dri"
                 "--memory" "32g"
-                # "-v" "${config'.machine.voldir}/models:/app/models"
+                "-v" "${config'.machine.voldir}/models:/app/models"
                 "-e" "HF_HOME=/app/models"
                 "-e" "TRANSFORMERS_CACHE=/app/models"
                 "-e" "HUGGINGFACE_HUB_CACHE=/app/models"
+                "-e" "LLAMA_CACHE=/app/models"
               ];
               command = [ "sleep" "infinity" ];
               aliases = {
@@ -405,6 +406,10 @@ in
                 };
                 "vulkan-transformers" = {
                   command = [ "transformers" ];
+                  interactive = false;
+                };
+                "vulkan-llama-server" = {
+                  command = [ "llama-server" ];
                   interactive = false;
                 };
               };
