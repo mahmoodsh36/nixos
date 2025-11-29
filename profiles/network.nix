@@ -1,8 +1,9 @@
-{ config, pkgs, lib, inputs, myutils, options, ... }:
+{ config, pkgs, lib, inputs, myutils, options, pkgs-pinned, system, ... }:
 
 let
   constants = (import ../lib/constants.nix);
   isLinux = options ? boot.kernelPackages; # NixOS-specific option, not in nix-darwin
+  isDarwin = lib.strings.hasInfix "darwin" system;
   is_exit_node = config.machine.name == "mahmooz3";
   # mydomain = (if is_exit_node then constants.mydomain else config.machine.name);
   mydomain = (if is_exit_node then constants.mydomain else "localhost");
@@ -48,18 +49,19 @@ in
            IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
     '';
 
-    # vpn/etc
-    services.tailscale = {
-      enable = true;
-      package = inputs.pkgs-pinned.legacyPackages.${pkgs.system}.tailscale;
-    };
+
 
     # boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
     # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
   }
 
-  # Linux-specific configurations (only merged if on NixOS, not nix-darwin)
-  ] ++ (lib.optional isLinux {
+  ] ++ (lib.optional isDarwin {
+    services.tailscale = {
+      enable = true;
+      package = pkgs-pinned.tailscale;
+      overrideLocalDns = true;
+    };
+  }) ++ (lib.optional isLinux {
     services.tailscale.port = 12345; # (default: 41641)
     services.tailscale.useRoutingFeatures = "both";
 
@@ -75,21 +77,21 @@ in
     services.fail2ban.enable = is_exit_node;
 
     services.headscale = {
-    enable = is_exit_node;
-    address = "0.0.0.0";
-    settings = {
-      server_url = "https://${headscale_host}";
-      dns = {
-        # the base domain for internal MagicDNS names
-        base_domain = "https://${mydomain}";
-        magic_dns = true;
-        # upstream resolvers for the Headscale server itself. use Blocky for filtering.
-        nameservers.global = [
-          "127.0.0.1:${toString blocky_port}" # use local Blocky instance for ad-blocking
-        ];
+      enable = is_exit_node;
+      address = "0.0.0.0";
+      settings = {
+        server_url = "https://${headscale_host}";
+        dns = {
+          # the base domain for internal MagicDNS names
+          base_domain = "https://${mydomain}";
+          magic_dns = true;
+          # upstream resolvers for the Headscale server itself. use Blocky for filtering.
+          nameservers.global = [
+            "127.0.0.1:${toString blocky_port}" # use local Blocky instance for ad-blocking
+          ];
+        };
       };
     };
-  };
 
     services.prometheus = {
       enable = true;
