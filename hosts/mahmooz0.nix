@@ -66,7 +66,7 @@ in
         "runescape"
         "utm"
         "whatsapp"
-        "whisky"
+        # "whisky"
         "google-chrome"
         "obs"
         "emacs-app"
