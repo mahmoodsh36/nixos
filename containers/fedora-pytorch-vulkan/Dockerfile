@@ -63,7 +63,7 @@ RUN dnf install -y \
 # get llama-cpp
 RUN git clone https://github.com/ggerganov/llama.cpp.git /root/llama.cpp
 RUN cd /root/llama.cpp && \
-    git checkout d82b7a7c1d73c0674698d9601b1bbb0200933f29 && \
+    git checkout 0874693b449a847de2d052f2afb5d0cbe9409f92 && \
     cmake -B build -DLLAMA_VULKAN=1 && \
     cmake --build build --target install && \
     rm -rf /root/llama.cpp
