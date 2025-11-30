@@ -45,7 +45,6 @@ in
       lshw
       libva-utils
       nethogs
-      glxinfo
     ];
 
     # enable some programs/services
