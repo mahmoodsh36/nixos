@@ -150,12 +150,13 @@ in
       sddm = {
         enable = true;
         wayland.enable = true;
-        enableHidpi = true;
+        # enableHidpi = true;
         settings.General.DisplayServer = "wayland";
       };
-      defaultSession = "hyprland";
-      # defaultSession = "gnome";
+      # defaultSession = "hyprland";
+      defaultSession = "gnome";
       # defaultSession = "plasma";
+      # defaultSession = "cosmic";
     };
     services.desktopManager.plasma6.enable = constants.enable_plasma;
     environment.etc."xdg/baloofilerc".source = lib.mkIf constants.enable_plasma (
@@ -168,6 +169,10 @@ in
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
       spectacle # to avoid building opencv
     ];
+
+    # cosmic DE
+    services.desktopManager.cosmic.enable = true;
+    # services.displayManager.cosmic-greeter.enable = true;
 
     # tty configs
     # console = {

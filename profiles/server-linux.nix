@@ -307,15 +307,17 @@ in
     #   };
     # };
 
-    zramSwap.enable = true;
+    # zramSwap.enable = true;
     # zramSwap.memoryPercent = 50; # 50% of available ram
-    zramSwap.memoryMax = (10 * 1024 * 1024 * 1024); # 10gb
+    # zramSwap.memoryMax = (10 * 1024 * 1024 * 1024); # 10gb
 
     virtualisation.vmVariant = {
       # following configuration is added only when building VM with build-vm
       virtualisation = rec {
-        memorySize = 8000;
+        memorySize = 16000;
         cores = 8;
+        diskSize = 80 * 1024;
+        fileSystems."/".autoResize = true;
         graphics = true;
         diskImage = "./mahmooz1.qcow2";
         resolution = { x = 1280; y = 720; };
