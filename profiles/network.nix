@@ -20,8 +20,6 @@ let
   blocky_port = 53;
 in
 {
-  imports = [ ];
-
   config = lib.mkMerge ([{
     networking.hostName = config.machine.name;
 
@@ -48,14 +46,7 @@ in
            User     mahmooz
            IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
     '';
-
-
-
-    # boot.kernel.sysctl."net.ipv4.ip_forward" = "1";
-    # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = "1";
-  }
-
-  ] ++ (lib.optional isDarwin {
+  }] ++ (lib.optional isDarwin {
     services.tailscale = {
       enable = true;
       package = pkgs-pinned.tailscale;
@@ -96,7 +87,6 @@ in
     services.prometheus = {
       enable = true;
       port = 9090; # default
-
       exporters = {
         node = {
           port = 9100;
@@ -104,7 +94,6 @@ in
           enable = true;
         };
       };
-
       scrapeConfigs = [
         # scrape metrics from the node_exporter
         {
@@ -200,7 +189,6 @@ in
         grpc_listen_port = null;
       };
       auth_enabled = false;
-
       ingester = {
         lifecycler = {
           address = "127.0.0.1";
@@ -217,7 +205,6 @@ in
         chunk_target_size = 99999999; # this seems to be in kilobytes?
         chunk_retain_period = "30s";
       };
-
       schema_config = {
         configs = [{
           from = "2025-05-05";
@@ -230,30 +217,25 @@ in
           };
         }];
       };
-
       storage_config = {
         boltdb_shipper = {
           active_index_directory = "/var/lib/loki/boltdb-shipper-active";
           cache_location = "/var/lib/loki/boltdb-shipper-cache";
           cache_ttl = "24h";
         };
-
         filesystem = {
           directory = "/var/lib/loki/chunks";
         };
       };
-
       limits_config = {
         reject_old_samples = true;
         reject_old_samples_max_age = "168h";
         allow_structured_metadata = false;
       };
-
       table_manager = {
         retention_deletes_enabled = false;
         retention_period = "0s";
       };
-
       compactor = {
         working_directory = "/var/lib/loki";
         compactor_ring = {

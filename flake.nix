@@ -192,7 +192,7 @@
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs;
+          inherit inputs self;
           inherit system;
           myutils = import ./lib/utils.nix { };
         };
@@ -463,6 +463,15 @@
         default = defaultShell;
       }
     );
+    packages = forAllSystems (system: let
+      sysPkgs = mkPkgs system;
+      isDarwin = nixpkgs.lib.hasInfix "darwin" system;
+    in
+      nixpkgs.lib.optionalAttrs isDarwin {
+        qemu-darwin = sysPkgs.callPackage ./packages/qemu-darwin.nix { };
+      }
+    );
+
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
