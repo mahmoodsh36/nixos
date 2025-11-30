@@ -53,6 +53,10 @@ ENV CMAKE_PREFIX_PATH="/usr"
 RUN pip3 install -r requirements.txt && \
     python3 setup.py install
 
+# install additional python requirements after pytorch is built
+COPY requirements-additional.txt .
+RUN pip3 install -r requirements-additional.txt
+
 # llama.cpp specific dependencies
 RUN dnf install -y \
     libcurl-devel \
