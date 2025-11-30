@@ -123,11 +123,6 @@ in
     };
     programs.hyprland = {
       enable = true;
-      package = pkgs.hyprland;
-      # package = (myutils.packageFromCommit {
-      #   rev = "ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
-      #   packageName = "hyprland";
-      # });
       xwayland.enable = true;
     };
     xdg.portal = {
