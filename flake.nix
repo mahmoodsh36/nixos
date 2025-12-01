@@ -366,6 +366,11 @@
           packages = [ pythonEnv ];
         };
 
+        # mlx-lm environment
+        mlx-lm = sysPkgs.mkShell {
+          packages = [ self.packages.${system}.mlx-lm-env ];
+        };
+
         # ML/CUDA environment (torch, torchvision, etc.)
         # Only works with CUDA support on Linux systems
         ml-cuda = let
@@ -463,7 +468,14 @@
       sysPkgs = mkPkgs system;
       isDarwin = nixpkgs.lib.hasInfix "darwin" system;
     in
-      nixpkgs.lib.optionalAttrs isDarwin {
+      {
+        mlx-lm-env = mkPythonEnv {
+          inherit system;
+          workspaceRoot = ./python-envs/mlx-lm;
+          envName = "mlx-lm-venv";
+          cudaSupport = false;
+        };
+      } // nixpkgs.lib.optionalAttrs isDarwin {
         qemu-darwin = sysPkgs.callPackage ./packages/qemu-darwin.nix { };
       }
     );
@@ -487,6 +499,8 @@
             # should we be enabling cuda support? i think it might be handled differently on macos and might be good to enable
             # cudaSupport = true;
           };
+          # mlx-lm environment
+          mlx-lm = self.packages.${system}.mlx-lm-env;
         in
           inputs.nix-darwin.lib.darwinSystem {
             system = "aarch64-darwin";
@@ -517,6 +531,25 @@
                     '')
                     (sysPkgs.writeShellScriptBin "mps-python" ''
                       exec ${mps-transformers}/bin/python "$@"
+                    '')
+                    # mlx-lm scripts
+                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-generate" ''
+                      exec ${mlx-lm}/bin/mlx_lm.generate "$@"
+                    '')
+                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-convert" ''
+                      exec ${mlx-lm}/bin/mlx_lm.convert "$@"
+                    '')
+                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-lora" ''
+                      exec ${mlx-lm}/bin/mlx_lm.lora "$@"
+                    '')
+                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-merge" ''
+                      exec ${mlx-lm}/bin/mlx_lm.merge "$@"
+                    '')
+                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-chat" ''
+                      exec ${mlx-lm}/bin/mlx_lm.chat "$@"
+                    '')
+                    (sysPkgs.writeShellScriptBin "uv-mlx-python" ''
+                      exec ${mlx-lm}/bin/python "$@"
                     '')
                   ];
                 };

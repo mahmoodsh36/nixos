@@ -79,6 +79,45 @@ let
     scipy = prev.scipy or python.pkgs.scipy;
     # scikit-image also has complex build requirements - use nixpkgs version
     scikit-image = prev.scikit-image or python.pkgs.scikit-image;
+    # Manually install mlx wheel using mkDerivation
+    mlx = pkgs.stdenv.mkDerivation {
+      pname = "mlx";
+      version = "0.30.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/94/a3/32c4c05d8967591e2a1a1e7e3fc9cece8821f5aea8ac8f3bcfdb203f4722/mlx-0.30.0-cp312-cp312-macosx_14_0_arm64.whl";
+        hash = "sha256-EfuuWLHpkq/exnCdXigZMocaAThYKnlM3Mgv+JWihnA=";
+      };
+      nativeBuildInputs = [ pkgs.unzip ];
+      propagatedBuildInputs = [ final.mlx-metal ];
+      unpackPhase = "unzip $src";
+      installPhase = ''
+        mkdir -p $out/lib/python3.12/site-packages
+        cp -r mlx* $out/lib/python3.12/site-packages/
+      '';
+      postFixup = ''
+        metalLib="${final.mlx-metal}/lib/python3.12/site-packages/mlx/lib"
+        find $out/lib/python3.12/site-packages/mlx -name "*.so" -exec install_name_tool -add_rpath "$metalLib" {} \;
+        find $out/lib/python3.12/site-packages/mlx -name "*.so" -exec install_name_tool -change @rpath/libmlx.dylib "$metalLib/libmlx.dylib" {} \;
+      '';
+    };
+    # Manually install mlx-metal wheel
+    mlx-metal = pkgs.stdenv.mkDerivation {
+      pname = "mlx-metal";
+      version = "0.30.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/64/9f/47ebb6e9b2c33371c6ca3733e70324ed064f49e790ee4e194b713d6d7d84/mlx_metal-0.30.0-py3-none-macosx_14_0_arm64.whl";
+        hash = "sha256-9IVDsQ0TvwWRs/mcbrWF3SwuXbN57a5d8PGacoy0F0I=";
+      };
+      nativeBuildInputs = [ pkgs.unzip ];
+      unpackPhase = "unzip $src";
+      installPhase = ''
+        mkdir -p $out/lib/python3.12/site-packages
+        cp -r * $out/lib/python3.12/site-packages/
+      '';
+    };
+    mlx-lm = prev.mlx-lm.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ final.resolveBuildSystem { setuptools = []; };
+    });
     torchdata = prev.torchdata.overrideAttrs (old: {
       buildInputs = with pkgs; [
         curl
