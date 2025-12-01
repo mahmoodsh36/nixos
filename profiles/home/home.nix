@@ -384,7 +384,7 @@ in
                 "--memory=32000m"
               ];
               runArgs = [
-                # "--network=host"
+                "--network=host"
                 "--entrypoint=" # Clear the broken ENTRYPOINT from base image
                 "--device" "/dev/dri"
                 "--memory" "32g"
