@@ -5,4 +5,5 @@ description = "Environment for mlx-lm"
 requires-python = ">=3.12"
 dependencies = [
     "mlx-lm @ git+https://github.com/ml-explore/mlx-lm",
+    "tiktoken>=0.12.0",
 ]
