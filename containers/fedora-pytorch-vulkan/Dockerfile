@@ -56,6 +56,7 @@ RUN pip3 install -r requirements.txt && \
 # install additional python requirements after pytorch is built
 COPY requirements-additional.txt .
 RUN pip3 install -r requirements-additional.txt
+RUN pip3 install transformers[serving]
 
 # llama.cpp specific dependencies
 RUN dnf install -y \
