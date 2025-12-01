@@ -45,6 +45,26 @@ in
       lshw
       libva-utils
       nethogs
+      (pkgs.writeShellScriptBin "unlock-data" ''
+        set -e
+        echo -n "enter LUKS password: "
+        read -s password
+        echo ""
+
+        echo "unlocking disk1 (crypted1)..."
+        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50CE23 crypted1 -
+
+        echo "unlocking disk2 (crypted2)..."
+        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50H9LF crypted2 -
+
+        # clear password from memory (best effort in shell)
+        unset password
+
+        echo "mounting /mnt/data..."
+        sudo mount /mnt/data
+
+        echo "done! /mnt/data is mounted."
+      '')
     ];
 
     # enable some programs/services
