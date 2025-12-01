@@ -244,12 +244,8 @@
               };
             })
             ./profiles/network-local.nix
-            # disko
-            # inputs.disko.nixosModules.disko
-            # ./disko-config.nix
-            # {
-            #   _module.args.disks = [ "/dev/vda" ];
-            # }
+            inputs.disko.nixosModules.disko
+            ./disko-raid1.nix
           ];
           "mahmooz2-${system}" = mkSystem system [
             ./hardware-configuration.nix
