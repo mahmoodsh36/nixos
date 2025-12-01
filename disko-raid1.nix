@@ -17,6 +17,8 @@
                 # file containing the password to use for encryption during installation.
                 # you must create this file on the target machine before running nixos-anywhere.
                 passwordFile = "/tmp/secret.key";
+                # prevent asking for password at boot (for remote servers)
+                initrdUnlock = false;
                 settings = {
                   allowDiscards = true;
                   # keyFile = "/tmp/secret.key"; # commented out to enable interactive password entry at boot
@@ -27,7 +29,9 @@
                   subvolumes = {
                     "/data" = {
                       mountpoint = "/mnt/data";
-                      mountOptions = [ "compress=zstd" "noatime" ];
+                      # nofail: don't hang boot if drive is missing/locked
+                      # noauto: don't mount automatically at boot (wait for manual unlock)
+                      mountOptions = [ "compress=zstd" "noatime" "nofail" "noauto" ];
                     };
                   };
                 };
@@ -48,6 +52,7 @@
                 type = "luks";
                 name = "crypted2";
                 passwordFile = "/tmp/secret.key";
+                initrdUnlock = false;
                 settings = {
                   allowDiscards = true;
                 };
