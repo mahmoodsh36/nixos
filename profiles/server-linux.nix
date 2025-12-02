@@ -45,6 +45,7 @@ in
       lshw
       libva-utils
       nethogs
+      cryptsetup
       (pkgs.writeShellScriptBin "unlock-data" ''
         set -e
         echo -n "enter LUKS password: "
