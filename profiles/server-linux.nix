@@ -53,18 +53,31 @@ in
         echo ""
 
         echo "unlocking disk1 (crypted1)..."
-        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50CE23 crypted1 -
+        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50CE23-part1 crypted1 -
 
         echo "unlocking disk2 (crypted2)..."
-        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50H9LF crypted2 -
+        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50H9LF-part1 crypted2 -
 
         # clear password from memory (best effort in shell)
         unset password
 
-        echo "mounting /mnt/data..."
-        sudo mount /mnt/data
+        echo "mounting /data..."
+        sudo mount /data
 
-        echo "done! /mnt/data is mounted."
+        echo "done! /data is mounted."
+      '')
+      (pkgs.writeShellScriptBin "lock-data" ''
+        set -e
+        echo "unmounting /data..."
+        sudo umount /data || true
+
+        echo "locking disk2 (crypted2)..."
+        sudo cryptsetup close crypted2
+
+        echo "locking disk1 (crypted1)..."
+        sudo cryptsetup close crypted1
+
+        echo "done! /data is unmounted and disks are locked."
       '')
     ];
 
