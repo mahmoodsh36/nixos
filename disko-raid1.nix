@@ -28,7 +28,7 @@
                   extraArgs = [ "-f" ]; # override existing partition
                   subvolumes = {
                     "/data" = {
-                      mountpoint = "/mnt/data";
+                      mountpoint = "/data";
                       # nofail: don't hang boot if drive is missing/locked
                       # noauto: don't mount automatically at boot (wait for manual unlock)
                       mountOptions = [ "compress=zstd" "noatime" "nofail" "noauto" ];
