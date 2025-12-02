@@ -5,7 +5,7 @@
     disk = {
       disk1 = {
         type = "disk";
-        device = "ata-ST18000NM000J-2TV103_WR50CE23";
+        device = "/dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50CE23";
         content = {
           type = "gpt";
           partitions = {
@@ -42,7 +42,7 @@
       };
       disk2 = {
         type = "disk";
-        device = "ata-ST18000NM000J-2TV103_WR50H9LF";
+        device = "/dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50H9LF";
         content = {
           type = "gpt";
           partitions = {
