@@ -10,9 +10,9 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf config'.machine.is_desktop {
-      programs.firefox = {
-        enable = true;
-      };
+      # programs.firefox = {
+      #   enable = true;
+      # };
       programs.mpv = {
         enable = true;
         scripts = [

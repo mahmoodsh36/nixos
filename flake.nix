@@ -183,7 +183,8 @@
       # isoImage.contents = [ { source = /home/mahmooz/work/scripts; target = "/home/mahmooz/scripts"; } ];
     };
     # Helper function to create uvpkgs for any system
-    mkUvPkgs = system: import inputs.pkgs-pinned {
+    # mkUvPkgs = system: import inputs.pkgs-pinned {
+    mkUvPkgs = system: import inputs.nixpkgs {
       inherit system;
       config.allowUnfree = true;
       config.cudaSupport = true;

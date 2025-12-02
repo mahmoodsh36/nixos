@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, pkgs-unstable, myutils, ... }:
+{ config, pkgs, lib, inputs, pkgs-master, pkgs-unstable, myutils, pkgs-pinned, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -59,7 +59,7 @@ in
       #   exec ${main_julia}/bin/julia "$@"
       # '')
 
-      firefox
+      pkgs-pinned.firefox
       neovide
       mpv
       waveterm
