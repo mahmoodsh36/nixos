@@ -23,18 +23,7 @@
                   allowDiscards = true;
                   # keyFile = "/tmp/secret.key"; # commented out to enable interactive password entry at boot
                 };
-                content = {
-                  type = "btrfs";
-                  extraArgs = [ "-f" ]; # override existing partition
-                  subvolumes = {
-                    "/data" = {
-                      mountpoint = "/data";
-                      # nofail: don't hang boot if drive is missing/locked
-                      # noauto: don't mount automatically at boot (wait for manual unlock)
-                      mountOptions = [ "compress=zstd" "noatime" "nofail" "noauto" ];
-                    };
-                  };
-                };
+                content = null;
               };
             };
           };
@@ -58,9 +47,15 @@
                 };
                 content = {
                   type = "btrfs";
-                  extraArgs = [ "-f" "-d" "raid1" "/dev/mapper/crypted1" ];
-                  # subvolumes are already defined on the filesystem created on disk1 (which this joins)
-                  # so we don't need to redefine them here.
+                  extraArgs = [ "-f" "--data raid1" "--metadata raid1" "/dev/mapper/crypted1" ]; # override existing partition
+                  subvolumes = {
+                    "/data" = {
+                      mountpoint = "/data";
+                      # nofail: don't hang boot if drive is missing/locked
+                      # noauto: don't mount automatically at boot (wait for manual unlock)
+                      mountOptions = [ "compress=zstd" "noatime" "nofail" "noauto" ];
+                    };
+                  };
                 };
               };
             };
