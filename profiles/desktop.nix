@@ -108,6 +108,7 @@ in
         (myutils.packageFromCommit {
           rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
           packageName = "sageWithDoc";
+          sha256 = "1fsnvjvg7z2nvs876ig43f8z6cbhhma72cbxczs30ld0cqgy5dks";
         }))
 
       # lsp

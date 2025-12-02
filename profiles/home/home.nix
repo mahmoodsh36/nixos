@@ -226,8 +226,10 @@ in
 
         programs.git = {
           enable = true;
-          userName = "mahmoodsh36";
-          userEmail = "mahmod.m2015@gmail.com";
+          settings.user = {
+            name = "mahmoodsh36";
+            email = "mahmod.m2015@gmail.com";
+          };
         };
 
         services.podman-autobuilder = {
