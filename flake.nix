@@ -232,76 +232,87 @@
   in {
     nixosConfigurations =
       let
-        mkConfigsForSystem = system: {
-          "mahmooz1-${system}" = mkSystem system [
-            ./hardware-configuration.nix # hardware scan results
-            ({ lib, ... }: {
-              config = {
-                machine.name = "mahmooz1";
-                machine.is_desktop = true;
-                machine.enable_nvidia = false;
-                machine.static_ip = "192.168.1.1";
-              };
-            })
-            ./profiles/network-local.nix
-            inputs.disko.nixosModules.disko
-            ./disko-raid1.nix
-          ];
-          "mahmooz2-${system}" = mkSystem system [
-            ./hardware-configuration.nix
-            ({ lib, ... }: {
-              config = {
-                machine.name = "mahmooz2";
-                machine.is_desktop = true;
-                machine.enable_nvidia = true;
-                machine.static_ip = "192.168.1.2";
-                machine.is_home_server = true;
-                # embed executable for mlpython
-                # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
-                #   (mkUvPkgs system).writeShellScriptBin "mlpython2" ''
-                #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
-                #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
-                #     export TRITON_PTXAS_PATH="${(mkUvPkgs system).cudatoolkit}/bin/ptxas"
-                #     exec ${mlvenv}/bin/python "$@"
-                #   ''
-                # ];
-              };
-            })
-            ./profiles/network-local.nix
-          ];
-          # for hetzner etc
-          "mahmooz3-${system}" = mkSystem system [
-            ./hardware-configuration.nix
-            {
-              config = {
-                machine.name = "mahmooz3";
-                machine.is_desktop = false;
-                machine.enable_nvidia = false;
-                # needed for virtual machines
-                boot.loader.grub.efiInstallAsRemovable = true;
-                boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
-                boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
-
-                # this might help prevent system freezing on rebuilds
-                nix.settings.max-jobs = 1;
-                nix.settings.cores = 1;
-                systemd.slices.anti-hungry.sliceConfig = {
-                  CPUAccounting = true;
-                  CPUQuota = "50%";
-                  MemoryAccounting = true; # allow to control with systemd-cgtop
-                  MemoryHigh = "50%";
-                  MemoryMax = "75%";
-                  MemorySwapMax = "50%";
-                  MemoryZSwapMax = "50%";
+        mkConfigsForSystem = system: let
+          machineConfigs = {
+            mahmooz1 = [
+              ./hardware-configuration.nix # hardware scan results
+              ({ lib, ... }: {
+                config = {
+                  machine.name = "mahmooz1";
+                  machine.is_desktop = true;
+                  machine.enable_nvidia = false;
+                  machine.static_ip = "192.168.1.1";
                 };
-                systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
-                # kill process using most ram after ram availability drops below
-                # a specific threshold.
-                services.earlyoom.enable = true;
-                services.earlyoom.enableNotifications = true;
-              };
-            }
-          ];
+              })
+              ./profiles/network-local.nix
+              inputs.disko.nixosModules.disko
+              ./disko-raid1.nix
+            ];
+            mahmooz2 = [
+              ./hardware-configuration.nix
+              ({ lib, ... }: {
+                config = {
+                  machine.name = "mahmooz2";
+                  machine.is_desktop = true;
+                  machine.enable_nvidia = true;
+                  machine.static_ip = "192.168.1.2";
+                  machine.is_home_server = true;
+                  # embed executable for mlpython
+                  # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
+                  #   (mkUvPkgs system).writeShellScriptBin "mlpython2" ''
+                  #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
+                  #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
+                  #     export TRITON_PTXAS_PATH="${(mkUvPkgs system).cudatoolkit}/bin/ptxas"
+                  #     exec ${mlvenv}/bin/python "$@"
+                  #   ''
+                  # ];
+                };
+              })
+              ./profiles/network-local.nix
+            ];
+            mahmooz3 = [
+              ./hardware-configuration.nix
+              {
+                config = {
+                  machine.name = "mahmooz3";
+                  machine.is_desktop = false;
+                  machine.enable_nvidia = false;
+                  # needed for virtual machines
+                  boot.loader.grub.efiInstallAsRemovable = true;
+                  boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
+                  boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
+
+                  # this might help prevent system freezing on rebuilds
+                  nix.settings.max-jobs = 1;
+                  nix.settings.cores = 1;
+                  systemd.slices.anti-hungry.sliceConfig = {
+                    CPUAccounting = true;
+                    CPUQuota = "50%";
+                    MemoryAccounting = true; # allow to control with systemd-cgtop
+                    MemoryHigh = "50%";
+                    MemoryMax = "75%";
+                    MemorySwapMax = "50%";
+                    MemoryZSwapMax = "50%";
+                  };
+                  systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
+                  # kill process using most ram after ram availability drops below
+                  # a specific threshold.
+                  services.earlyoom.enable = true;
+                  services.earlyoom.enableNotifications = true;
+                };
+              }
+            ];
+          };
+        in {
+          "mahmooz1-${system}" = mkSystem system machineConfigs.mahmooz1;
+          "mahmooz1-headless-${system}" = mkSystem system (machineConfigs.mahmooz1 ++ [
+            ({ lib, ... }: {
+              machine.is_desktop = lib.mkForce false;
+            })
+          ]);
+          "mahmooz2-${system}" = mkSystem system machineConfigs.mahmooz2;
+          "mahmooz3-${system}" = mkSystem system machineConfigs.mahmooz3;
+
           "mahmooz1_iso-${system}" = mkSystem system [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
             isobase
@@ -467,6 +478,7 @@
     packages = forAllSystems (system: let
       sysPkgs = mkPkgs system;
       isDarwin = nixpkgs.lib.hasInfix "darwin" system;
+      linuxSystem = if nixpkgs.lib.hasInfix "aarch64" system then "aarch64-linux" else "x86_64-linux";
     in
       {
         mlx-lm-env = mkPythonEnv {
@@ -475,6 +487,8 @@
           envName = "mlx-lm-venv";
           cudaSupport = false;
         };
+        vm = self.nixosConfigurations."mahmooz1-${linuxSystem}".config.system.build.vm;
+        headless-vm = self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".config.system.build.vm;
       } // nixpkgs.lib.optionalAttrs isDarwin {
         qemu-darwin = sysPkgs.callPackage ./packages/qemu-darwin.nix { };
       }

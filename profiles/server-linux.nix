@@ -338,8 +338,8 @@ in
         cores = 8;
         diskSize = 80 * 1024;
         fileSystems."/".autoResize = true;
-        graphics = true;
-        diskImage = "./mahmooz1.qcow2";
+        graphics = config.machine.is_desktop;
+        diskImage = "\${NIX_DISK_IMAGE:-./mahmooz1${if config.machine.is_desktop then "" else "-headless"}.qcow2}";
         resolution = { x = 1280; y = 720; };
         host.pkgs = inputs.nixpkgs.legacyPackages.${builtins.currentSystem};
         qemu = {
@@ -368,9 +368,10 @@ in
             });
           options = [
             "-device qemu-xhci"
+            "-device virtio-serial-pci"
+          ] ++ lib.optionals config.machine.is_desktop [
             "-device virtio-gpu-pci" # virtio-gpu-gl requires OpenGL support (disabled on macOS)
             "-display cocoa,gl=off" # gl=es requires OpenGL which needs EGL (Linux-only)
-            "-device virtio-serial-pci"
           ];
         };
       };
