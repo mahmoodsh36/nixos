@@ -195,7 +195,7 @@
         specialArgs = {
           inherit inputs self;
           inherit system;
-          myutils = import ./lib/utils.nix { };
+          myutils = import ./lib/utils.nix { inherit system; };
         };
         modules = [
           ./config.nix
@@ -522,7 +522,7 @@
             specialArgs = {
               inherit inputs;
               system = "aarch64-darwin";
-              myutils = import ./lib/utils.nix { };
+              myutils = import ./lib/utils.nix { inherit system; };
             };
             modules = [
               # inputs.determinate.darwinModules.default

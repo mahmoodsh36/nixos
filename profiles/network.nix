@@ -373,6 +373,7 @@ in
     package = myutils.packageFromCommit {
       rev = "8eb28adfa3dc4de28e792e3bf49fcf9007ca8ac9";
       packageName = "searxng";
+      sha256 = "0vi9nycvag2a9142n6gi5migp7fl5wdzsi1xk8p8542ki2sd9sil";
     };
 
     # rate limiting
