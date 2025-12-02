@@ -71,6 +71,7 @@ in
         "obs"
         "emacs-app"
         "transmission"
+        "comfyui"
       ];
       brews = [
         "krunkit"
