@@ -53,8 +53,12 @@ in
       overrideLocalDns = true;
     };
   }) ++ (lib.optional isLinux {
-    services.tailscale.port = 12345; # (default: 41641)
-    services.tailscale.useRoutingFeatures = "both";
+    services.tailscale = {
+      enable = true;
+      package = pkgs-pinned.tailscale;
+      useRoutingFeatures = "both";
+      port = 12345; # (default: 41641)
+    };
 
     services.openssh = {
       ports = [ 22 2222 ]; # my uni wifi blocks port 22..
