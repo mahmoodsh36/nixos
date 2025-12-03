@@ -296,7 +296,6 @@ in
 
       # inputs.lem.packages.${pkgs.system}.lem-webview
       # code-cursor windsurf
-      # inputs.wezterm.packages.${pkgs.system}.default
 
       ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
         treesit-grammars.with-all-grammars

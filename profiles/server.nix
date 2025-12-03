@@ -59,7 +59,8 @@ in
       #   rev = "ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
       #   packageName = "wezterm";
       # })
-      wezterm
+      # wezterm
+      inputs.wezterm.packages.${pkgs.system}.default
       fdupes
       # jellyfin-web jellyfin-ffmpeg jellyfin
       miller
