@@ -1,5 +1,5 @@
 # echo -n "your-password" > /tmp/secret.key
-# sudo disko --mode destroy,format,mount ./disko-raid1.nix
+# sudo disko --mode destroy,format,mount --root-mountpoint / ./disko-raid1.nix
 {
   disko.devices = {
     disk = {
