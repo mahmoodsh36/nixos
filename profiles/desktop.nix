@@ -59,10 +59,10 @@ in
       #   exec ${main_julia}/bin/julia "$@"
       # '')
 
-      pkgs-pinned.firefox
       neovide
-      mpv
       waveterm
+      pkgs-pinned.firefox
+      mpv
 
       # other
       # adb-sync

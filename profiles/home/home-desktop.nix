@@ -1,4 +1,4 @@
-{ lib, pkgs, config, config', ... }:
+{ lib, pkgs, config, config', pkgs-pinned, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -10,9 +10,10 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf config'.machine.is_desktop {
-      # programs.firefox = {
-      #   enable = true;
-      # };
+      programs.firefox = {
+        enable = true;
+        package = pkgs-pinned.firefox;
+      };
       programs.mpv = {
         enable = true;
         scripts = [
@@ -20,8 +21,6 @@ in
         ];
       };
       home.packages = with pkgs; [
-        # mpv
-        # firefox
       ];
     })
 

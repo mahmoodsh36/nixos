@@ -4,7 +4,7 @@ let
   isDarwin = builtins.match ".*-darwin" system != null;
   isLinux = builtins.match ".*-linux" system != null;
   mpvHistoryDaemonPkg = inputs.mpv-history-daemon.packages.${pkgs.system}.default;
-  sockets_dir = "/tmp/mpv_sockets/";
+  sockets_dir = "${config.machine.voldir}/data/mpv_data/sockets/";
 in
 {
   options.mpv-daemon = {
