@@ -72,6 +72,7 @@ in
         "emacs-app"
         "transmission"
         "comfyui"
+        "tor-browser"
       ];
       brews = [
         "krunkit"
