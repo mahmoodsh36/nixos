@@ -387,14 +387,14 @@ in
               ];
               runArgs = [
                 "--network=host"
-                "--entrypoint=" # Clear the broken ENTRYPOINT from base image
+                "--entrypoint=" # clear the broken ENTRYPOINT from base image
                 "--device" "/dev/dri"
                 "--memory" "32g"
-                # "-v" "${config'.machine.voldir}/models:/app/models"
-                "-e" "HF_HOME=/app/models"
-                "-e" "TRANSFORMERS_CACHE=/app/models"
-                "-e" "HUGGINGFACE_HUB_CACHE=/app/models"
-                "-e" "LLAMA_CACHE=/app/models"
+                "-v" "${config'.machine.voldir}/models:/models"
+                "-e" "HF_HOME=/models"
+                "-e" "TRANSFORMERS_CACHE=/models"
+                "-e" "HUGGINGFACE_HUB_CACHE=/models"
+                "-e" "LLAMA_CACHE=/models"
               ];
               command = [ "sleep" "infinity" ];
               aliases = {
