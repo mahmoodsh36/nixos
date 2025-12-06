@@ -1,10 +1,7 @@
-{ pkgs, lib, pkgs-master, config, ... }:
+{ pkgs, lib, pkgs-master, config, config', ... }:
 
 {
-  imports = [
-  ];
-
-  config = lib.mkIf config.machine.is_desktop {
+  config = lib.mkIf config'.machine.is_desktop {
     programs.zed-editor = {
       enable = true;
       extensions = ["nix" "toml" "make"];

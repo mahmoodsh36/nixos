@@ -67,7 +67,6 @@ in
         "utm"
         "whatsapp"
         # "whisky"
-        "google-chrome"
         "obs"
         "emacs-app"
         "transmission"
