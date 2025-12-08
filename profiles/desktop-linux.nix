@@ -31,7 +31,8 @@ let
       chmod +x $out/bin/gtkpython
     '';
   };
-  emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
+  # emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
+  emacs_base_pkg = pkgs.emacs;
   emacs_pkg = (emacs_base_pkg.override {
     withImageMagick = false;
     withXwidgets = false;
