@@ -1,7 +1,7 @@
 { pkgs, lib, config, config', ... }:
 
 {
-  config = lib.mkIf config'.machine.is_desktop {
+  config = lib.mkIf config'.machine.is_darwin {
     home.packages = with pkgs; [
       antigravity
       google-chrome
