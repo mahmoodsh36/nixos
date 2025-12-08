@@ -1,5 +1,5 @@
 rec {
-  mahmooz3_addr = "95.217.163.31";
+  mahmooz3_addr = "199.247.22.252";
   # static addr..
   mahmooz2_addr = "192.168.1.2";
   mahmooz1_addr = "100.64.0.4"; # tailscale ip?
