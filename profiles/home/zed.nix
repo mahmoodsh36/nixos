@@ -3,7 +3,7 @@
 {
   config = lib.mkIf config'.machine.is_desktop {
     programs.zed-editor = {
-      enable = true;
+      enable = false;
       extensions = ["nix" "toml" "make"];
       # userKeymaps = [
       #   {
