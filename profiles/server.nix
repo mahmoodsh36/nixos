@@ -69,7 +69,7 @@ in
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli
-      ytdl-sub yt-dlp
+      ytdl-sub pkgs-master.yt-dlp
       # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
       #   src = pkgs.fetchFromGitHub {
       #     owner = "yt-dlp";
@@ -159,8 +159,8 @@ in
     llms = {
       enable = true;
       modelsDirectory = "${config.machine.voldir}/models";
-      llama-cpp.enable = config.machine.name == "mahmooz0";
-      llama-cpp-embeddings.enable = config.machine.name == "mahmooz0";
+      # llama-cpp.enable = config.machine.name == "mahmooz0";
+      # llama-cpp-embeddings.enable = config.machine.name == "mahmooz0";
     };
 
     # mpv history daemon
