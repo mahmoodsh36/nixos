@@ -566,6 +566,9 @@
                     (sysPkgs.writeShellScriptBin "uv-mlx-python" ''
                       exec ${mlx-lm}/bin/python "$@"
                     '')
+                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-server" ''
+                      exec ${mlx-lm}/bin/mlx_lm.server "$@"
+                    '')
                   ];
                 };
               })
