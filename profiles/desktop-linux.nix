@@ -171,6 +171,10 @@ in
       spectacle # to avoid building opencv
     ];
 
+    programs.niri = {
+      enable = true;
+    };
+
     # cosmic DE
     services.desktopManager.cosmic.enable = true;
     # services.displayManager.cosmic-greeter.enable = true;
