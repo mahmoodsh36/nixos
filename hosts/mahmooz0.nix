@@ -72,10 +72,12 @@ in
         "transmission"
         "comfyui"
         "tor-browser"
+        "lm-studio"
+        "cherry-studio"
       ];
       brews = [
         "krunkit"
-        # "mlx-lm"
+        "mlx-lm"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
         # "ntfs-3g-mac"
