@@ -297,7 +297,6 @@ in
         echo $@ > /tmp/notif
       '')
 
-      # inputs.lem.packages.${pkgs.system}.lem-webview
       # code-cursor windsurf
 
       ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
