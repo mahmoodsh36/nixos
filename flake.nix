@@ -254,7 +254,6 @@
               ./profiles/network-local.nix
               inputs.disko.nixosModules.disko
               ./disko-raid1.nix
-              ./profiles/niri.nix
             ];
             mahmooz2 = [
               ./hardware-configuration.nix
