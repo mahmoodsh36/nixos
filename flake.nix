@@ -66,19 +66,15 @@
       url = "github:wezterm/wezterm?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    robotnix = {
-      url = "github:nix-community/robotnix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # https://github.com/hraban/mac-app-util/issues/39
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
-    };
     nix-ai-tools = {
       url = "github:numtide/nix-ai-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri-flake = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # macos
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";
@@ -113,11 +109,21 @@
       url = "github:slp/homebrew-krunkit";
       flake = false;
     };
+    # https://github.com/hraban/mac-app-util/issues/39
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
+    };
 
+    # android
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
+    };
+    robotnix = {
+      url = "github:nix-community/robotnix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # dotfiles
@@ -248,6 +254,7 @@
               ./profiles/network-local.nix
               inputs.disko.nixosModules.disko
               ./disko-raid1.nix
+              ./profiles/niri.nix
             ];
             mahmooz2 = [
               ./hardware-configuration.nix

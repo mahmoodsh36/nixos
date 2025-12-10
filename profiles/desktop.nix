@@ -128,6 +128,7 @@ in
       goose-cli
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
+      inputs.nix-ai-tools.packages.${pkgs.system}.mistral-vibe
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       # gptme
       pkgs-master.antigravity
@@ -151,14 +152,14 @@ in
       whisper-cpp
 
       # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
-      mcp-server-everything
-      mcp-server-time
-      mcp-server-git
-      mcp-server-sequential-thinking
-      mcp-server-filesystem
-      playwright-mcp
-      mcp-server-github github-mcp-server
-      mcp-server-sqlite
+      # mcp-server-everything
+      # mcp-server-time
+      # mcp-server-git
+      # mcp-server-sequential-thinking
+      # mcp-server-filesystem
+      # playwright-mcp
+      # mcp-server-github github-mcp-server
+      # mcp-server-sqlite
 
       pkgs.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
