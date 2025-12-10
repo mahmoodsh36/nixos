@@ -114,7 +114,7 @@ in
       isNormalUser = true;
       extraGroups = [ "audio" "wheel" "podman" "incus-admin" "libvirtd" "caddy" ];
       shell = pkgs.zsh;
-      initialPassword = "123";
+      initialPassword = constants.password;
       packages = with pkgs; [];
     };
 
@@ -194,7 +194,7 @@ in
       users.mahmooz = {
         mutable = false; # overwrite user settings
         permissions.isAdministrator = true;
-        password = "mahmooz";
+        password = constants.password;
       };
       libraries = {
         Movies = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/movies") {

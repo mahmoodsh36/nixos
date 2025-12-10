@@ -144,10 +144,10 @@ in
       };
     };
     services.displayManager = {
-      autoLogin = {
-        enable = true;
-        user = "${config.machine.user}";
-      };
+      # autoLogin = {
+      #   enable = true;
+      #   user = "${config.machine.user}";
+      # };
       sddm = {
         enable = true;
         wayland.enable = true;

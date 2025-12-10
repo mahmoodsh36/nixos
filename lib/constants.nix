@@ -14,4 +14,5 @@ rec {
   enable_plasma = true;
   enable_gnome = true;
   models_dir = "${extra_storage_dir}/models";
+  password = "mahmooz";
 }
