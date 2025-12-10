@@ -370,6 +370,11 @@ in
     #   };
     # };
 
+    systemd.settings.Manager = {
+      DefaultTimeoutStopSec = "10s";
+      DefaultTimeoutStartSec = "15s";
+    };
+
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";
       wantedBy = [ "multi-user.target" ];
