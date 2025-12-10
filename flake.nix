@@ -12,8 +12,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
-      url = "github:mahmoodsh36/lem";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:lem-project/lem";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     mcp-servers-nix = {
       url = "github:mahmoodsh36/mcp-servers-nix";
@@ -497,6 +497,7 @@
         vm = self.nixosConfigurations."mahmooz1-${linuxSystem}".config.system.build.vm;
         headless-vm = self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".config.system.build.vm;
       } // nixpkgs.lib.optionalAttrs isDarwin {
+        virglrenderer-venus = sysPkgs.callPackage ./packages/virglrenderer-venus.nix { };
         qemu-darwin = sysPkgs.callPackage ./packages/qemu-darwin.nix { };
       }
     );

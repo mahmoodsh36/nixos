@@ -63,6 +63,7 @@ in
       waveterm
       pkgs-pinned.firefox
       mpv
+      inputs.lem.packages.${pkgs.system}.lem
 
       # other
       # adb-sync
