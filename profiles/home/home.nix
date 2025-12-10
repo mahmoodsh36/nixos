@@ -27,6 +27,7 @@ in
     home-manager.sharedModules = [
     ] ++ pkgs.lib.optionals config.machine.is_linux  [
       inputs.plasma-manager.homeModules.plasma-manager
+      inputs.niri-flake.homeModules.niri
     ] ++ pkgs.lib.optionals config.machine.is_darwin  [
       inputs.mac-app-util.homeManagerModules.default
     ];

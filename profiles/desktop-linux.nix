@@ -171,6 +171,7 @@ in
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
       spectacle # to avoid building opencv
     ];
+    programs.niri.enable = true;
 
     # cosmic DE
     services.desktopManager.cosmic.enable = true;

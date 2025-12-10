@@ -127,6 +127,7 @@ in
       inputs.nix-alien.overlays.default
       inputs.mcp-servers-nix.overlays.default
       inputs.stable-diffusion-webui-nix.overlays.default
+      inputs.niri-flake.overlays.niri
       # TODO: needed for robotnix.. but im not using this..
       (self: super: {
         ccacheWrapper = super.ccacheWrapper.override {
