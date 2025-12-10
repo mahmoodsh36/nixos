@@ -72,7 +72,6 @@ in
         "transmission"
         "comfyui"
         "tor-browser"
-        "lm-studio"
         "cherry-studio"
       ];
       brews = [
