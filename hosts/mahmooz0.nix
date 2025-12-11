@@ -17,6 +17,10 @@ in
     system.stateVersion = 1;
     system.primaryUser = "${config.machine.user}";
 
+    environment.systemPackages = with pkgs; [
+      lima
+    ];
+
     # necessary temporary fix
     ids.gids.nixbld = 350;
 
