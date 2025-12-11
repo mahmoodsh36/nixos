@@ -183,7 +183,7 @@ in
     services.declarative-jellyfin = {
       enable = config.machine.is_home_server;
       system = {
-        serverName = "My Declarative Jellyfin Server";
+        serverName = "declarative jellyfin";
         # use hardware acceleration for trickplay image generation
         trickplayOptions = lib.mkIf config.machine.enable_nvidia {
           enableHwAcceleration = true;
@@ -197,15 +197,15 @@ in
         password = constants.password;
       };
       libraries = {
-        Movies = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/movies") {
+        Movies = lib.mkIf (builtins.pathExists "${config.machine.datadir}/movies") {
           enabled = true;
           contentType = "movies";
-          pathInfos = [ "${constants.extra_storage_dir}/movies" ];
+          pathInfos = [ "${config.machine.datadir}/movies" ];
         };
-        Shows = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/shows") {
+        Shows = lib.mkIf (builtins.pathExists "${config.machine.datadir}/shows") {
           enabled = true;
           contentType = "tvshows";
-          pathInfos = [ "${constants.extra_storage_dir}/shows" ];
+          pathInfos = [ "${config.machine.datadir}/shows" ];
         };
         # Books = lib.mkIf (builtins.pathExists "${constants.brain_dir}/resources" ) {
         #   enabled = true;
@@ -250,14 +250,7 @@ in
           sha256 = "sha256:1fbh0ajjvgm879jkj3y77jy49axyax0gh2kiqp9m7phsb1330qvl";
         }
       ];
-      # this is from older config of builtin jellyfin service
-      # user = constants.myuser; # might need: sudo chown -R mahmooz:users /var/lib/jellyfin
-      # this causes the directory to be created automatically even if my extra storage dir isnt mounted, which would then later prevent it from being mounted because the path is taken
-      # dataDir = lib.mkIf (builtins.pathExists constants.extra_storage_dir) jellyfin_dir;
     };
-    # systemd.services.jellyfin.unitConfig = {
-    #   ConditionPathExists = constants.extra_storage_dir;
-    # };
     # need to set this up
     # services.jellyseerr.enable = true;
 
