@@ -65,6 +65,21 @@ in
       mpv
       # inputs.lem.packages.${pkgs.system}.lem
 
+      # music
+      # strawberry
+      spotube
+      # tauon
+      # (deadbeef-with-plugins.override {
+      #   plugins = with deadbeefPlugins; [
+      #     mpris2
+      #     statusnotifier
+      #     lyricbar
+      #     waveform-seekbar
+      #     # playlist-manager
+      #     # musical-spectrum
+      #   ];
+      # })
+
       # other
       # adb-sync
       ntfs3g
