@@ -187,7 +187,6 @@ in
             MAHMOOZ2_ADDR = constants.mahmooz2_addr;
             MAHMOOZ1_ADDR = constants.mahmooz1_addr;
             MYDOMAIN = constants.mydomain;
-            # LLAMA_CACHE = lib.mkIf (builtins.pathExists constants.models_dir) constants.models_dir;
             CONTAINERS_MACHINE_PROVIDER = "libkrun";
           };
         };

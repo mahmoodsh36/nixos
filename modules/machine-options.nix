@@ -36,6 +36,10 @@
       type = lib.types.str;
       default = "/Volumes/main";
     };
+    machine.datadir = lib.mkOption {
+      type = lib.types.str;
+      default = "/data";
+    };
 
     machine.llama-cpp = {
       pkg = lib.mkOption {
