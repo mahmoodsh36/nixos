@@ -428,6 +428,7 @@ in
               ];
               runArgs = [
                 "--network=host"
+                "--entrypoint=" # clear the broken ENTRYPOINT from base image
                 "--device" "/dev/dri"
                 "--memory" "32g"
                 # "-v" "${config'.machine.voldir}/models:/models"
