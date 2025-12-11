@@ -355,7 +355,7 @@ in
       ventoy
       acpi lm_sensors
       cryptsetup
-      # jellyfin-tui jellycli jellytui
+      jellyfin-tui jellycli jellytui
     ];
 
     # systemd.services.my_mpv_logger_service = {
