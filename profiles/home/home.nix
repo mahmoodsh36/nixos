@@ -418,38 +418,6 @@ in
                 };
               };
             };
-
-            # nix-based llama-cpp container with Vulkan support
-            nix-llama-cpp = lib.mkIf config'.machine.is_darwin {
-              imageName = "nix-llama-cpp";
-              context = ../../containers/nix-llama-cpp;
-              buildArgs = [
-                "--memory=32000m"
-              ];
-              runArgs = [
-                "--network=host"
-                "--entrypoint=" # clear the broken ENTRYPOINT from base image
-                "--device" "/dev/dri"
-                "--memory" "32g"
-                # "-v" "${config'.machine.voldir}/models:/models"
-                "-e" "LLAMA_CACHE=/models"
-              ];
-              command = [ "sleep" "infinity" ];
-              aliases = {
-                "nix-llama-server" = {
-                  command = [ "llama-server" ];
-                  interactive = false;
-                };
-                "nix-llama-cli" = {
-                  command = [ "llama-cli" ];
-                  interactive = true;
-                };
-                "nix-vulkaninfo" = {
-                  command = [ "vulkaninfo" ];
-                  interactive = true;
-                };
-              };
-            };
           };
 
           composeFiles = {
