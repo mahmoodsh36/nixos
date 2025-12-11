@@ -80,6 +80,7 @@ in
       #   ];
       # })
       # audacious
+      jellyfin-tui jellytui
 
       # other
       # adb-sync
