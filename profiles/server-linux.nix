@@ -6,6 +6,7 @@ in
 {
   imports = [
     ./nvidia.nix
+    ../services/jellyfin.nix
   ];
 
   config = lib.mkIf config.machine.is_linux {
@@ -179,78 +180,6 @@ in
     services.gnome.gnome-keyring.enable = true;
     security.pam.services.sddm.enableGnomeKeyring = true;
 
-    # self-hosted media service
-    services.declarative-jellyfin = {
-      enable = config.machine.is_home_server;
-      system = {
-        serverName = "declarative jellyfin";
-        # use hardware acceleration for trickplay image generation
-        trickplayOptions = lib.mkIf config.machine.enable_nvidia {
-          enableHwAcceleration = true;
-          enableHwEncoding = true;
-        };
-        UICulture = "en";
-      };
-      users.mahmooz = {
-        mutable = false; # overwrite user settings
-        permissions.isAdministrator = true;
-        password = constants.password;
-      };
-      libraries = {
-        Movies = lib.mkIf (builtins.pathExists "${config.machine.datadir}/movies") {
-          enabled = true;
-          contentType = "movies";
-          pathInfos = [ "${config.machine.datadir}/movies" ];
-        };
-        Shows = lib.mkIf (builtins.pathExists "${config.machine.datadir}/shows") {
-          enabled = true;
-          contentType = "tvshows";
-          pathInfos = [ "${config.machine.datadir}/shows" ];
-        };
-        # Books = lib.mkIf (builtins.pathExists "${constants.brain_dir}/resources" ) {
-        #   enabled = true;
-        #   contentType = "books";
-        #   pathInfos = [ "${constants.brain_dir}/resources" ];
-        # };
-        # Music = lib.mkIf (builtins.pathExists "${constants.extra_storage_dir}/music" ) {
-        #   enabled = true;
-        #   contentType = "music";
-        #   pathInfos = [ "${constants.extra_storage_dir}/music" ];
-        # };
-      };
-      # hardware acceleration
-      encoding = lib.mkIf config.machine.enable_nvidia {
-        enableHardwareEncoding = true;
-        hardwareAccelerationType = "vaapi";
-        enableDecodingColorDepth10Hevc = true;
-        allowHevcEncoding = true;
-        allowAv1Encoding = true;
-        hardwareDecodingCodecs = [
-          "h264"
-          "hevc"
-          "mpeg2video"
-          "vc1"
-          "vp9"
-          "av1"
-        ];
-      };
-      plugins = [
-        {
-          name = "intro skipper";
-          url = "https://github.com/intro-skipper/intro-skipper/releases/download/10.10/v1.10.10.19/intro-skipper-v1.10.10.19.zip";
-          version = "1.10.10.19";
-          targetAbi = "10.10.7.0"; # required as intro-skipper doesn't provide a meta.json file
-          sha256 = "sha256:12hby8vkb6q2hn97a596d559mr9cvrda5wiqnhzqs41qg6i8p2fd";
-        }
-        {
-          name = "jellyfin-plugin-listenbrainz";
-          url = "https://github.com/lyarenei/jellyfin-plugin-listenbrainz/releases/download/5.2.0.4/listenbrainz_5.2.0.4.zip";
-          version = "5.2.0.4";
-          targetAbi = "10.10.0.0";
-          sha256 = "sha256:1fbh0ajjvgm879jkj3y77jy49axyax0gh2kiqp9m7phsb1330qvl";
-        }
-      ];
-    };
     # need to set this up
     # services.jellyseerr.enable = true;
 
