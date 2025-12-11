@@ -79,6 +79,7 @@ in
       #     # musical-spectrum
       #   ];
       # })
+      # audacious
 
       # other
       # adb-sync

@@ -77,6 +77,9 @@ in
         "comfyui"
         "tor-browser"
         "cherry-studio"
+        # "audacious"
+        # "deadbeef"
+        "petrichor"
       ];
       brews = [
         "krunkit"
