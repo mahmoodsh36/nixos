@@ -249,6 +249,7 @@
                   machine.is_desktop = true;
                   machine.enable_nvidia = false;
                   machine.static_ip = "192.168.1.1";
+                  machine.is_home_server = true;
                 };
               })
               ./profiles/network-local.nix
