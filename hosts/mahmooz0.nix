@@ -77,6 +77,7 @@ in
         "comfyui"
         "tor-browser"
         "cherry-studio"
+        "lm-studio"
         # "audacious"
         # "deadbeef"
         "petrichor"
