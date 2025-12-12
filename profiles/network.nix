@@ -388,6 +388,8 @@ in
 
       # UWSGI configuration
       configureUwsgi = true;
+      # it doesnt work without this.
+      runInUwsgi = true;
       uwsgiConfig = {
         socket = "/run/searx/searx.sock";
         http = ":8888";
@@ -431,7 +433,7 @@ in
 
         # server configuration
         server = {
-          base_url = "http://${searxng_host}:${toString searxng_port}";
+          base_url = "https://${searxng_host}:${toString searxng_port}";
           port = searxng_port;
           bind_address = "127.0.0.1";
           secret_key = searxng_secret;
