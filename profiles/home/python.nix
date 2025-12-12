@@ -91,6 +91,13 @@ in
       (pkgs.writeShellScriptBin "ipython" ''
         exec ${main-python}/bin/ipython --no-confirm-exit "$@"
       '')
+      # some older python version i might need sometimes
+      (pkgs.writeShellScriptBin "python3.11" ''
+        exec ${pkgs.python311}/bin/python "$@"
+      '')
+      (pkgs.writeShellScriptBin "python3.12" ''
+        exec ${pkgs.python312}/bin/python "$@"
+      '')
     ] ++ lib.optionals config'.machine.is_darwin [
       (pkgs.writeShellScriptBin "mlx-python" ''
         exec ${mlx-python}/bin/python "$@"
