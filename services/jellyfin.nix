@@ -6,6 +6,7 @@ in
 {
   services.declarative-jellyfin = {
     enable = config.machine.is_home_server;
+    serverId = "15c08c006d9f44048bdf5bb0b2a66f6a";
     dataDir = "${config.machine.datadir}/jellyfin";
     system = {
       serverName = "declarative jellyfin";
@@ -67,7 +68,8 @@ in
       };
     };
     # hardware acceleration
-    encoding = lib.mkIf config.machine.enable_nvidia {
+    encoding = {
+      encoderAppPathDisplay = "${pkgs.ffmpeg}"; # default is jellyfin-ffmpeg which doesnt give us all features but ofcourse is ideal when suitable
       enableHardwareEncoding = true;
       hardwareAccelerationType = "vaapi";
       enableDecodingColorDepth10Hevc = true;
