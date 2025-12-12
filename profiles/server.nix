@@ -91,6 +91,7 @@ in
       # some build systems
       cmake gnumake automake autoconf
       pkg-config
+      rustc cargo
 
       # nix specific stuff
       compose2nix
