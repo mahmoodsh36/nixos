@@ -577,6 +577,9 @@
                     (sysPkgs.writeShellScriptBin "uv-mlx-lm-server" ''
                       exec ${mlx-lm}/bin/mlx_lm.server "$@"
                     '')
+                    (sysPkgs.writeShellScriptBin "uv-fastmlx" ''
+                      exec ${mlx-lm}/bin/fastmlx "$@"
+                    '')
                   ];
                 };
               })

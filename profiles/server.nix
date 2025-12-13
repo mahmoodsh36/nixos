@@ -83,6 +83,7 @@ in
       mpris-scrobbler
       coreutils-full
       inputs.mpv-history-daemon.packages.${pkgs.system}.default
+      git-filter-repo
 
       # networking tools
       curl wget nmap socat arp-scan tcpdump iftop

@@ -94,8 +94,8 @@ in
         # "rsync"
         # "llama.cpp"
       ];
-      onActivation.autoUpdate = true;
-      onActivation.upgrade = true;
+      # onActivation.autoUpdate = true;
+      # onActivation.upgrade = true;
       onActivation.cleanup = "zap";
       masApps = {
         "XCode" = 497799835;
