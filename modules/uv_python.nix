@@ -73,8 +73,17 @@ let
     word2number = prev.word2number.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
     });
+    fastmlx = prev.fastmlx.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+    pyarrow = prev.pyarrow.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ])
+        ++ final.resolveBuildSystem { setuptools = [ ]; cython = [ ]; numpy = [ ]; }
+        ++ [ pkgs.cmake pkgs.pkg-config ];
+      buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.arrow-cpp ];
+    });
     # opencv-python has complex build requirements - use nixpkgs version
-    opencv-python = prev.opencv-python or python.pkgs.opencv4;
+    opencv-python = python.pkgs.opencv4;
     # scipy has complex build requirements - prefer wheel or use nixpkgs version as fallback
     scipy = prev.scipy or python.pkgs.scipy;
     # scikit-image also has complex build requirements - use nixpkgs version
