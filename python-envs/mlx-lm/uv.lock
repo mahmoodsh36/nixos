@@ -344,17 +344,13 @@ wheels = [
 [[package]]
 name = "fastmlx"
 version = "0.2.1"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/arcee-ai/fastmlx#1fe5d766ac05f4f31daf446f99360aa8fd92938e" }
 dependencies = [
     { name = "fastapi" },
     { name = "jinja2" },
     { name = "mlx" },
     { name = "mlx-lm" },
     { name = "mlx-vlm" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/57/f0/04018afe0fc8ee066ef8b657b51965b693ecf7a174371c19c8e72fdcd49b/fastmlx-0.2.1.tar.gz", hash = "sha256:7e42e6ef103c0248d71f9a9edfe982eb00d16a410b18de0981c1b344d8c6f5fc", size = 25268, upload-time = "2024-08-10T20:35:44.77Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/01/30/f8f54c8556d5e074b3cd68e753cf288cc049ed7526e216a217e8329025cd/fastmlx-0.2.1-py2.py3-none-any.whl", hash = "sha256:77e08d01c04de718feddabb4942ca8bb4f41197be0b4dfad0652b8781b28281a", size = 16855, upload-time = "2024-08-10T20:35:43.243Z" },
 ]
 
 [[package]]
@@ -656,14 +652,16 @@ source = { virtual = "." }
 dependencies = [
     { name = "fastmlx" },
     { name = "mlx-lm" },
+    { name = "mlx-vlm" },
     { name = "pyarrow" },
     { name = "tiktoken" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "fastmlx" },
+    { name = "fastmlx", git = "https://github.com/arcee-ai/fastmlx" },
     { name = "mlx-lm", git = "https://github.com/ml-explore/mlx-lm" },
+    { name = "mlx-vlm" },
     { name = "pyarrow", specifier = "==20.0.0" },
     { name = "tiktoken", specifier = ">=0.12.0" },
 ]

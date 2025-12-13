@@ -75,6 +75,35 @@ let
     });
     fastmlx = prev.fastmlx.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ final.resolveBuildSystem { setuptools = [ ]; };
+      postInstall = (old.postInstall or "") + ''
+        # Manually copy 'tools' directory which is missing from the installation
+        # This fixes FileNotFoundError: [Errno 2] No such file or directory: '.../fastmlx/tools'
+        if [ -d "fastmlx/tools" ]; then
+          mkdir -p $out/lib/python3.12/site-packages/fastmlx/tools
+          cp -r fastmlx/tools/* $out/lib/python3.12/site-packages/fastmlx/tools/
+        fi
+
+        # Patch fastmlx utils.py to fix import paths for newer mlx_lm/mlx_vlm versions
+        # In mlx_lm 0.29+, generate_step and stream_generate moved from utils to generate module
+        # In mlx_vlm, stream_generate also moved from utils to generate module
+        substituteInPlace $out/lib/python*/site-packages/fastmlx/utils.py \
+          --replace 'from mlx_lm.utils import generate_step' 'from mlx_lm.generate import generate_step' \
+          --replace 'from mlx_lm.utils import stream_generate as lm_stream_generate' 'from mlx_lm.generate import stream_generate as lm_stream_generate' \
+          --replace 'from mlx_vlm.utils import stream_generate as vlm_stream_generate' 'from mlx_vlm.generate import stream_generate as vlm_stream_generate'
+        # Also wrap MODELS dict in try/except to handle import failures gracefully
+        substituteInPlace $out/lib/python*/site-packages/fastmlx/utils.py \
+          --replace 'MODELS = {
+    "vlm": get_model_type_list(vlm_models),
+    "lm": get_model_type_list(lm_models, "lm"),
+}' 'try:
+    MODELS = {
+        "vlm": get_model_type_list(vlm_models),
+        "lm": get_model_type_list(lm_models, "lm"),
+    }
+except NameError:
+    print("WARNING: fastmlx: NameError encountered. vlm_models or lm_models undefined. Defaulting to empty lists.")
+    MODELS = {"vlm": [], "lm": []}'
+      '';
     });
     pyarrow = prev.pyarrow.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ])
