@@ -69,7 +69,7 @@ in
     };
     # hardware acceleration
     encoding = {
-      encoderAppPathDisplay = "${pkgs.ffmpeg}"; # default is jellyfin-ffmpeg which doesnt give us all features but ofcourse is ideal when suitable
+      # encoderAppPathDisplay = "${pkgs.ffmpeg}"; # default is jellyfin-ffmpeg
       enableHardwareEncoding = true;
       hardwareAccelerationType = "vaapi";
       enableDecodingColorDepth10Hevc = true;
