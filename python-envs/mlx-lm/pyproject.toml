@@ -6,4 +6,10 @@ requires-python = ">=3.12"
 dependencies = [
     "mlx-lm @ git+https://github.com/ml-explore/mlx-lm",
     "tiktoken>=0.12.0",
+    "fastmlx",
+    "pyarrow==20.0.0",
 ]
+
+[tool.uv.extra-build-dependencies]
+fastmlx = ["setuptools"]
+pyarrow = ["setuptools", "cython"]
