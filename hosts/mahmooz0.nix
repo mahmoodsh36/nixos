@@ -80,7 +80,8 @@ in
         "lm-studio"
         # "audacious"
         # "deadbeef"
-        "petrichor"
+        # "petrichor"
+        "swama"
       ];
       brews = [
         "krunkit"
