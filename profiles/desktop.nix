@@ -138,7 +138,7 @@ in
       # dictionary
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
-      python3Packages.huggingface-hub
+      pkgs-pinned.python3Packages.huggingface-hub
       pkgs-master.gemini-cli
       pkgs-master.qwen-code
       pkgs.claude-code
