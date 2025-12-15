@@ -36,7 +36,19 @@
         "keyboard.dispatch" = "keyCode";
         "nix.serverPath" = "";
         "terminal.integrated.defaultProfile.linux" = "bash";
+
+        "terminal.integrated.profiles.osx" = {
+          "bash" = {
+            "path" = "bash";
+            "args" = ["-l"];
+          };
+        };
         "terminal.integrated.defaultProfile.osx" = "bash";
+        "terminal.integrated.automationProfile.linux" = {
+          "path" = "bash";
+          "args" = ["-l"];
+        };
+
         "window.menuBarVisibility" = "compact";
         "workbench.activityBar.location" = "top";
         "workbench.colorCustomizations" = {
