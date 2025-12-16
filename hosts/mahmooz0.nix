@@ -9,6 +9,17 @@ let
     "Neved4/homebrew-tap" = inputs.neved4-tap;
     "slp/homebrew-krunkit" = inputs.krunkit;
   };
+
+  llama-cpp-src = pkgs.fetchFromGitHub {
+    owner = "ggerganov";
+    repo = "llama.cpp";
+    rev = "ec98e20021f7611db3bbcf6bb6629fed6e1ce4f0";
+    hash = "sha256-0O7dtGrIK7wG2DE4fEDcdWkAa5tdYnMJDBxCczgEZgs=";
+  };
+
+  llama-cpp-custom = pkgs.llama-cpp.overrideAttrs (old: {
+    src = llama-cpp-src;
+  });
 in
 
 {
@@ -32,7 +43,7 @@ in
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-users.users
     };
 
-    # machine.llama-cpp.pkg = inputs.llama-cpp-flake.packages.${pkgs.system}.default;
+    machine.llama-cpp.pkg = llama-cpp-custom;
 
     nix-homebrew = {
       taps = taps;
