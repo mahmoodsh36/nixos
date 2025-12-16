@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
-      url = "github:lem-project/lem/68aa16396f1af18bf5a2a3a4ea79ad07ed2cec7e";
+      url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mcp-servers-nix = {
