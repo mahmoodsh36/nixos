@@ -584,17 +584,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1765586536,
-        "narHash": "sha256-tFWHNXluTE2+tkgBWb4s0hquPGUaYytH08Ph4M/geeE=",
+        "lastModified": 1765869798,
+        "narHash": "sha256-xtoWATnrurGGFPDYNiymiFdkh8JgkzbafxBrbFyqtgg=",
         "owner": "lem-project",
         "repo": "lem",
-        "rev": "68aa16396f1af18bf5a2a3a4ea79ad07ed2cec7e",
+        "rev": "cfdab241ced6cd40051704414b05d61511ce036b",
         "type": "github"
       },
       "original": {
         "owner": "lem-project",
         "repo": "lem",
-        "rev": "68aa16396f1af18bf5a2a3a4ea79ad07ed2cec7e",
         "type": "github"
       }
     },
