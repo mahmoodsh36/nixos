@@ -2,9 +2,7 @@
 
 let
   cfg = config.llms;
-  llamaPkg = if cfg.llama-cpp.package != null
-             then cfg.llama-cpp.package
-             else pkgs.llama-cpp;
+  llamaPkg = cfg.llama-cpp.package;
   isDarwin = builtins.match ".*-darwin" system != null;
   isLinux = builtins.match ".*-linux" system != null;
 in
@@ -19,22 +17,20 @@ in
 
     llama-cpp = {
       enable = lib.mkEnableOption "the llama.cpp server";
-      # allow null here so we don't reference `pkgs` at import time
       package = lib.mkOption {
-        type = lib.types.nullOr lib.types.package;
-        default = null;
-        defaultText = "null (falls back to pkgs.llama-cpp)";
-        description = "The llama.cpp package to use for server. Leave null to use pkgs.llama-cpp.";
+        type = lib.types.package;
+        default = pkgs.llama-cpp;
+        description = "The llama.cpp package to use for server.";
       };
     };
 
     llama-cpp-embeddings = {
       enable = lib.mkEnableOption "the llama.cpp embeddings server";
       package = lib.mkOption {
-        type = lib.types.nullOr lib.types.package;
-        default = null;
-        defaultText = "null (falls back to pkgs.llama-cpp)";
-        description = "The llama.cpp package to use for embeddings server. Leave null to use pkgs.llama-cpp.";
+        type = lib.types.package;
+        default = cfg.llama-cpp.package;
+        defaultText = "config.llms.llama-cpp.package";
+        description = "The llama.cpp package to use for embeddings server. Defaults to the same package as the main server.";
       };
       model = lib.mkOption {
         type = lib.types.str;
