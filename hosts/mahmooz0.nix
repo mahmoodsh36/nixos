@@ -13,8 +13,8 @@ let
   llama-cpp-src = pkgs.fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
-    rev = "ec98e20021f7611db3bbcf6bb6629fed6e1ce4f0";
-    hash = "sha256-0O7dtGrIK7wG2DE4fEDcdWkAa5tdYnMJDBxCczgEZgs=";
+    rev = "5166aaf86898c5d5268b2c4f770a35cb7ca1a0f6";
+    hash = "sha256-vP+fxdaaD0vnR7eWk2r0+wKSDnnjrVWTgiNksm76UFw=";
   };
 
   llama-cpp-custom = pkgs.llama-cpp.overrideAttrs (old: {

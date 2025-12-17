@@ -54,8 +54,8 @@ in
         #!${pkgs.stdenv.shell}
         export LLAMA_CACHE="${cfg.modelsDirectory}"
         exec ${llamaPkg}/bin/llama-server \
-          -hf Qwen/Qwen3-VL-30B-A3B-Instruct-GGUF:Q4_K_M \
-          --jinja -ngl 99 --threads 16 --ctx-size 200000 -fa on \
+          -hf ggml-org/GLM-4.6V-GGUF:Q4_K_M \
+          --jinja -ngl 99 --threads 16 --ctx-size 100000 -fa on \
           --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --presence-penalty 1.4 \
           --port 5002 --host 0.0.0.0 --seed 2 \
           --cache-type-k q8_0 --cache-type-v q8_0 --jinja
