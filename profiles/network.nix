@@ -23,6 +23,9 @@ in
   config = lib.mkMerge ([{
     networking.hostName = config.machine.name;
 
+    # enable ip forwarding on exit node
+    boot.kernel.sysctl."net.ipv4.ip_forward" = lib.mkIf is_exit_node 1;
+
     services.openssh.enable = true;
     users.users.mahmooz.openssh.authorizedKeys.keys = [
       constants.ssh_pub_key
