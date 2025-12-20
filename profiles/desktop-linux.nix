@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
+{ config, pkgs, lib, inputs, pkgs-master, myutils, pkgs-pinned, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -300,7 +300,20 @@ in
       # code-cursor windsurf
 
       ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
-        treesit-grammars.with-all-grammars
+        (treesit-grammars.with-grammars (
+          p: with p; [
+            tree-sitter-bash
+            tree-sitter-css
+            tree-sitter-html
+            tree-sitter-javascript
+            tree-sitter-json
+            tree-sitter-nix
+            tree-sitter-python
+            tree-sitter-rust
+            tree-sitter-typescript
+            tree-sitter-yaml
+          ]
+        ))
       ]))
 
       # media tools
