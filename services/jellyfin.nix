@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, pkgs-pinned, ... }:
 
 let
   constants = import ../lib/constants.nix;
@@ -6,6 +6,7 @@ in
 {
   services.declarative-jellyfin = {
     enable = config.machine.is_home_server;
+    package = pkgs-pinned.jellyfin;
     serverId = "15c08c006d9f44048bdf5bb0b2a66f6a";
     dataDir = "${config.machine.datadir}/jellyfin";
     system = {

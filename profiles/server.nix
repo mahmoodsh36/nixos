@@ -62,7 +62,7 @@ in
       wezterm
       # inputs.wezterm.packages.${pkgs.system}.default
       fdupes
-      jellyfin-web jellyfin-ffmpeg jellyfin
+      # jellyfin jellyfin-web
       miller
       bc # used for some arithmetic in shell scripts
       postgresql
