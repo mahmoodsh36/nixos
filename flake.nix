@@ -487,20 +487,36 @@
       sysPkgs = mkPkgs system;
       isDarwin = nixpkgs.lib.hasInfix "darwin" system;
       linuxSystem = if nixpkgs.lib.hasInfix "aarch64" system then "aarch64-linux" else "x86_64-linux";
-    in
-      {
-        mlx-lm-env = mkPythonEnv {
-          inherit system;
-          workspaceRoot = ./python-envs/mlx-lm;
-          envName = "mlx-lm-venv";
-          cudaSupport = false;
-        };
-        vm = self.nixosConfigurations."mahmooz1-${linuxSystem}".config.system.build.vm;
-        headless-vm = self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".config.system.build.vm;
-      } // nixpkgs.lib.optionalAttrs isDarwin {
-        virglrenderer-venus = sysPkgs.callPackage ./packages/virglrenderer-venus.nix { };
-        qemu-darwin = sysPkgs.callPackage ./packages/qemu-darwin.nix { };
-      }
+    in {
+      mlx-lm-env = mkPythonEnv {
+        inherit system;
+        workspaceRoot = ./python-envs/mlx-lm;
+        envName = "mlx-lm-venv";
+        cudaSupport = false;
+      };
+      vm = (self.nixosConfigurations."mahmooz1-${linuxSystem}".extendModules {
+        modules = [
+          ({ ... }: {
+            _module.args.hostPkgs = sysPkgs;
+            _module.args.hostVoldir =
+              if isDarwin
+              then self.darwinConfigurations.mahmooz0.config.machine.voldir
+              else "/home/mahmooz";
+          })
+        ];
+      }).config.system.build.vm;
+      headless-vm = (self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".extendModules {
+        modules = [
+          ({ ... }: {
+            _module.args.hostPkgs = sysPkgs;
+            _module.args.hostVoldir =
+              if isDarwin
+              then self.darwinConfigurations.mahmooz0.config.machine.voldir
+              else "/home/mahmooz";
+          })
+        ];
+      }).config.system.build.vm;
+    }
     );
 
     robotnixConfigurations = {
@@ -580,6 +596,8 @@
                     (sysPkgs.writeShellScriptBin "uv-fastmlx" ''
                       exec ${mlx-lm}/bin/fastmlx "$@"
                     '')
+                    # VM package - provides run-mahmooz1-vm command
+                    self.packages.${system}.vm
                   ];
                 };
               })

@@ -268,53 +268,7 @@ in
     # zramSwap.memoryMax = (10 * 1024 * 1024 * 1024); # 10gb
 
     virtualisation.vmVariant = {
-      # following configuration is added only when building VM with build-vm
-      virtualisation = rec {
-        memorySize = 16000;
-        cores = 8;
-        diskSize = 80 * 1024;
-        fileSystems."/".autoResize = true;
-        graphics = config.machine.is_desktop;
-        diskImage = "\${NIX_DISK_IMAGE:-./mahmooz1${if config.machine.is_desktop then "" else "-headless"}.qcow2}";
-        resolution = { x = 1280; y = 720; };
-        host.pkgs = inputs.nixpkgs.legacyPackages.${builtins.currentSystem};
-        qemu = {
-          guestAgent.enable = true;
-          package =
-            # use custom Darwin QEMU build with OpenGL support when host is macOS
-            if (builtins.match ".*darwin" builtins.currentSystem) != null
-            then self.packages.${builtins.currentSystem}.qemu-darwin or host.pkgs.qemu_full
-            # fall back to override for Linux hosts
-            else (host.pkgs.qemu_full.override {
-              virglSupport = true;
-              openGLSupport = true;
-              gtkSupport = false;
-              sdlSupport = false;
-            }).overrideAttrs (old: {
-              buildInputs = (old.buildInputs or []) ++ [
-                host.pkgs.libepoxy
-                host.pkgs.virglrenderer
-                host.pkgs.mesa
-              ];
-              configureFlags = (old.configureFlags or []) ++ [
-                "--enable-opengl"
-                "--enable-virglrenderer"
-                "--enable-cocoa"
-              ];
-            });
-          options = [
-            "-device qemu-xhci"
-            "-device virtio-serial-pci"
-          ] ++ lib.optionals config.machine.is_desktop [
-            "-device virtio-gpu-pci" # virtio-gpu-gl requires OpenGL support (disabled on macOS)
-            "-display cocoa,gl=off" # gl=es requires OpenGL which needs EGL (Linux-only)
-          ];
-        };
-      };
-      # to disable some settings that would prevent things from working on different architectures
-      nixpkgs.hostPlatform = lib.mkForce system;
-      hardware.cpu.intel.updateMicrocode = lib.mkForce false;
-      networking.usePredictableInterfaceNames = lib.mkForce false;
+      imports = [ ./vm.nix ];
     };
   };
 }
