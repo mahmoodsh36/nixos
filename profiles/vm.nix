@@ -15,17 +15,11 @@
     host.pkgs = hostPkgs;
 
     qemu = {
-      networkingOptions = [
-        # port 2222 to port 22
-        "-nic user,model=virtio-net-pci,hostfwd=tcp::2222-:22"
-        "-nic user,model=virtio-net-pci,hostfwd=tcp::8088-:8088"
-      ];
-      options = [
-        "-device qemu-xhci"
-        "-device virtio-serial-pci"
-      ] ++ lib.optionals config.machine.is_desktop [
-        "-device virtio-gpu-pci" # virtio-gpu-gl requires OpenGL support (disabled on macOS)
-        "-display cocoa,gl=off" # gl=es requires OpenGL which needs EGL (Linux-only)
+      # use mkForce to override the default virtio networking from qemu-vm.nix module
+      # which causes TX timeout issues on macOS hosts
+      networkingOptions = lib.mkForce [
+        "-net nic,netdev=user.0,model=e1000"
+        "-netdev user,id=user.0,hostfwd=tcp::2222-:22,hostfwd=tcp::8088-:8088"
       ];
     };
   };
