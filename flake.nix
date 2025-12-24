@@ -123,7 +123,6 @@
     };
     robotnix = {
       url = "github:nix-community/robotnix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # dotfiles
