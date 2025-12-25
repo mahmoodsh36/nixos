@@ -172,23 +172,37 @@ in
       };
     };
 
-    # linux-builder
+    # we're using rosetta-builder instead of linux-builder now because it support x86 by default and works with rosetta 2 which is fast
     nix = {
-      linux-builder = {
-        enable = true;
-        ephemeral = true;
-        maxJobs = 4;
-        config = {
-          virtualisation = {
-            darwin-builder = {
-              diskSize = 80 * 1024;
-              memorySize = 8 * 1024;
-            };
-            cores = 8;
-          };
-        };
-      };
+      # linux-builder = {
+      #   # https://github.com/nix-darwin/nix-darwin/issues/1192
+      #   enable = true;
+      #   ephemeral = true;
+      #   maxJobs = 4;
+      #   systems = [ "aarch64-linux" "x86_64-linux" ];
+      #   config = {
+      #     # i think this is a replacement for rosetta.enable = true?
+      #     # boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+      #     virtualisation = {
+      #       darwin-builder = {
+      #         diskSize = 80 * 1024;
+      #         memorySize = 8 * 1024;
+      #       };
+      #       cores = 8;
+      #       rosetta.enable = true;
+      #     };
+      #   };
+      # };
       settings.trusted-users = [ "@admin" ];
+    };
+
+    nix-rosetta-builder = {
+      onDemand = true;
+      cores = 8;
+      memory = "32GiB";
+      permitNonRootSshAccess = true;
+      diskSize = "32GiB";
+      onDemandLingerMinutes = 30;
     };
 
     # https://github.com/nix-darwin/nix-darwin/issues/1041

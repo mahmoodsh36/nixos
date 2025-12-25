@@ -114,6 +114,10 @@
       url = "github:hraban/mac-app-util";
       inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
     };
+    nix-rosetta-builder = {
+      url = "github:cpick/nix-rosetta-builder";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # android
     nix-on-droid = {
@@ -548,6 +552,16 @@
               myutils = import ./lib/utils.nix { inherit system; };
             };
             modules = [
+              # from https://github.com/cpick/nix-rosetta-builder
+              # an existing Linux builder is needed to initially bootstrap `nix-rosetta-builder`.
+              # if one isn't already available: comment out the `nix-rosetta-builder` module below,
+              # uncomment this `linux-builder` module, and run `darwin-rebuild switch`:
+              # { nix.linux-builder.enable = true; }
+              # then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
+              # a second time. Subsequently, `nix-rosetta-builder` can rebuild itself.
+              # also might need 'softwareupdate --install-rosetta --agree-to-license'
+              inputs.nix-rosetta-builder.darwinModules.default
+
               # inputs.determinate.darwinModules.default
               inputs.mac-app-util.darwinModules.default
               inputs.home-manager.darwinModules.home-manager
