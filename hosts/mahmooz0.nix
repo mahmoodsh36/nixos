@@ -201,7 +201,7 @@ in
       cores = 8;
       memory = "32GiB";
       permitNonRootSshAccess = true;
-      diskSize = "32GiB";
+      diskSize = "150GiB";
       onDemandLingerMinutes = 30;
     };
 
