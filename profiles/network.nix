@@ -122,6 +122,7 @@ in
     };
 
     services.caddy = {
+      package = pkgs-pinned.caddy;
       enable = true;
       globalConfig = ''
         # this option enables the caddy admin endpoint which prometheus needs.
