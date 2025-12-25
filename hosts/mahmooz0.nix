@@ -196,15 +196,15 @@ in
       settings.trusted-users = [ "@admin" ];
     };
 
-    nix-rosetta-builder = {
-      enable = true;
-      onDemand = true;
-      cores = 8;
-      memory = "32GiB";
-      permitNonRootSshAccess = true;
-      diskSize = "150GiB";
-      onDemandLingerMinutes = 30;
-    };
+    # nix-rosetta-builder = {
+    #   enable = true;
+    #   onDemand = true;
+    #   cores = 8;
+    #   memory = "32GiB";
+    #   permitNonRootSshAccess = true;
+    #   diskSize = "150GiB";
+    #   onDemandLingerMinutes = 30;
+    # };
 
     # https://github.com/nix-darwin/nix-darwin/issues/1041
     # services.karabiner-elements = {
@@ -219,28 +219,6 @@ in
     #
     #     dontFixup = true;
     #   });
-    # };
-
-    # let determinate nix handle your nix configuration
-    # nix.enable = false;
-
-    # # custom determinate nix settings written to /etc/nix/nix.custom.conf
-    # determinate-nix.customSettings = {
-    #   # enables parallel evaluation (remove this setting or set the value to 1 to disable)
-    #   eval-cores = 0;
-    #   extra-experimental-features = [
-    #     "build-time-fetch-tree" # enables build-time flake inputs
-    #     "parallel-eval" # enables parallel evaluation
-    #     "external-builders"
-    #   ];
-    #   external-builders = builtins.toJSON [{
-    #     systems = ["aarch64-linux" "x86_64-linux"];
-    #     program = "/usr/local/bin/determinate-nixd";
-    #     args = ["builder"];
-    #   }];
-    #   extra-trusted-users = ["${config.machine.user}" "@admin" "@root" "@sudo" "@wheel" "@staff"];
-    #   keep-outputs = true;
-    #   keep-derivations = true;
     # };
 
     # https://github.com/NixOS/nix/issues/8081#issuecomment-1962419263

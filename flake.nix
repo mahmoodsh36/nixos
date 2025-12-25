@@ -80,10 +80,10 @@
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # determinate = {
-    #   url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
       # inputs.nixpkgs.follows = "nixpkgs";
@@ -560,9 +560,11 @@
               # then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
               # a second time. subsequently, `nix-rosetta-builder` can rebuild itself.
               # also might need 'softwareupdate --install-rosetta --agree-to-license'
-              inputs.nix-rosetta-builder.darwinModules.default
+              # inputs.nix-rosetta-builder.darwinModules.default
 
-              # inputs.determinate.darwinModules.default
+              inputs.determinate.darwinModules.default
+              ./profiles/determinate.nix
+
               inputs.mac-app-util.darwinModules.default
               inputs.home-manager.darwinModules.home-manager
               ({ config, pkgs, lib, ... }: {
@@ -610,7 +612,7 @@
                       exec ${mlx-lm}/bin/fastmlx "$@"
                     '')
                     # VM package - provides run-mahmooz1-vm command
-                    self.packages.${system}.vm
+                    # self.packages.${system}.vm
                   ];
                 };
               })
