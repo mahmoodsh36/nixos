@@ -30,12 +30,14 @@ in
       "https://cache.nixos.org/"
       "https://llama-cpp.cachix.org"
       "https://cuda-maintainers.cachix.org"
+      "https://robotnix.cachix.org"
     ];
     nix.settings.trusted-public-keys = [
       # compare to the key published at https://nix-community.org/cache
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "llama-cpp.cachix.org-1:H75X+w83wUKTIPSO1KWy9ADUrzThyGs8P5tmAbkWhQc="
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      "robotnix.cachix.org-1:+y88eX6KTvkJyernp1knbpttlaLTboVp4vq/b24BIv0="
     ];
 
     environment.systemPackages = with pkgs; [
