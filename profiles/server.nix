@@ -86,6 +86,7 @@ in
       coreutils-full
       inputs.mpv-history-daemon.packages.${pkgs.system}.default
       git-filter-repo
+      dust
 
       # networking tools
       curl wget nmap socat arp-scan tcpdump iftop

@@ -558,7 +558,7 @@
               # uncomment this `linux-builder` module, and run `darwin-rebuild switch`:
               # { nix.linux-builder.enable = true; }
               # then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
-              # a second time. Subsequently, `nix-rosetta-builder` can rebuild itself.
+              # a second time. subsequently, `nix-rosetta-builder` can rebuild itself.
               # also might need 'softwareupdate --install-rosetta --agree-to-license'
               inputs.nix-rosetta-builder.darwinModules.default
 
