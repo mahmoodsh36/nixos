@@ -59,7 +59,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs = {
-      url = "github:nix-community/emacs-overlay/7caed42858e94832749eb0087bd6b1c7eab1752b";
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     wezterm = {
