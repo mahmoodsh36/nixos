@@ -43,7 +43,8 @@ in
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-users.users
     };
 
-    llms.llama-cpp.package = llama-cpp-custom;
+    # llms.llama-cpp.package = llama-cpp-custom;
+    llms.llama-cpp.package = inputs.llama-cpp-flake.packages.${pkgs.system}.default;
 
     nix-homebrew = {
       taps = taps;
