@@ -65,19 +65,19 @@ in
     };
 
     # better safe than sorry (for having to deal with firmware/driver issues)..?
-    hardware.enableAllHardware = true;
-    hardware.enableAllFirmware = true;
+    hardware.enableAllHardware = (!config.machine.is_vm);
+    hardware.enableAllFirmware = (!config.machine.is_vm);
     hardware.usb-modeswitch.enable = true;
     services.hardware.bolt.enable = true;
 
     # for firmware updates
-    services.fwupd.enable = true;
+    services.fwupd.enable = (!config.machine.is_vm);
 
     # automatic screen rotation?
-    hardware.sensor.iio.enable = true;
+    hardware.sensor.iio.enable = (!config.machine.is_vm);
 
     # openrgb for controlling rgb lighting
-    services.hardware.openrgb.enable = true;
+    services.hardware.openrgb.enable = (!config.machine.is_vm);
     hardware.i2c.enable = true;
 
     # enable sound and bluetooth
@@ -193,7 +193,7 @@ in
     # enable some programs/services
     services.printing.enable = true; # CUPS
     services.touchegg.enable = true;
-    programs.thunar = {
+    programs.thunar = lib.mkIf (!config.machine.is_vm) {
       enable = true;
       plugins = with pkgs.xfce; [
         thunar-archive-plugin
@@ -299,7 +299,7 @@ in
 
       # code-cursor windsurf
 
-      ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
+      (lib.mkIf (!config.machine.is_vm) ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
         (treesit-grammars.with-grammars (
           p: with p; [
             tree-sitter-bash
@@ -314,7 +314,7 @@ in
             tree-sitter-yaml
           ]
         ))
-      ]))
+      ])))
 
       # media tools
       # feh # image viewer (can it set wallpaper on wayland?)
