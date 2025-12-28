@@ -32,6 +32,11 @@
       type = lib.types.bool;
       default = false;
     };
+    machine.is_vm = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "is this a VM build?";
+    };
     machine.voldir = lib.mkOption {
       type = lib.types.str;
       default = "/Volumes/main";

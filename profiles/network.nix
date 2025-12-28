@@ -123,7 +123,7 @@ in
 
     services.caddy = {
       package = pkgs-pinned.caddy;
-      enable = true;
+      enable = !config.machine.is_vm;
       globalConfig = ''
         # this option enables the caddy admin endpoint which prometheus needs.
         admin 127.0.0.1:2019

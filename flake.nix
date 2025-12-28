@@ -499,23 +499,27 @@
       };
       vm = (self.nixosConfigurations."mahmooz1-${linuxSystem}".extendModules {
         modules = [
-          ({ ... }: {
+          ({ config, pkgs, lib, ... }: {
             _module.args.hostPkgs = sysPkgs;
             _module.args.hostVoldir =
               if isDarwin
               then self.darwinConfigurations.mahmooz0.config.machine.voldir
               else "/home/mahmooz";
+            # VM mode to simplify build
+            machine.is_vm = true;
           })
         ];
       }).config.system.build.vm;
       headless-vm = (self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".extendModules {
         modules = [
-          ({ ... }: {
+          ({ config, pkgs, lib, ... }: {
             _module.args.hostPkgs = sysPkgs;
             _module.args.hostVoldir =
               if isDarwin
               then self.darwinConfigurations.mahmooz0.config.machine.voldir
               else "/home/mahmooz";
+            # VM mode to simplify build
+            machine.is_vm = true;
           })
         ];
       }).config.system.build.vm;

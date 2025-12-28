@@ -122,7 +122,7 @@ in
       (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs.sagetex ])))
       typst
       # (lib.mkIf (!config.machine.enable_nvidia) pkgs.sageWithDoc) # to avoid building
-      (lib.mkIf (!config.machine.enable_nvidia)
+      (lib.mkIf (!config.machine.enable_nvidia && !config.machine.is_vm)
         (myutils.packageFromCommit {
           rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
           packageName = "sageWithDoc";
@@ -146,10 +146,12 @@ in
       goose-cli
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
-      inputs.nix-ai-tools.packages.${pkgs.system}.mistral-vibe
+
+      (lib.mkIf (!config.machine.is_vm)
+        inputs.nix-ai-tools.packages.${pkgs.system}.mistral-vibe)
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       # gptme
-      pkgs-master.antigravity
+      (lib.mkIf (!config.machine.is_vm) pkgs-master.antigravity)
       youtube-music
       telegram-desktop
       darktable # image editor
