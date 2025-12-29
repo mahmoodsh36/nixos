@@ -68,7 +68,7 @@ in
       # ];
       casks = [
         # "wezterm"
-        "fuse-t"
+        # "fuse-t"
         "raycast"
         # this errors out :/
         # "youtube-music"
@@ -80,7 +80,6 @@ in
         "openmtp"
         "jordanbaird-ice"
         "runescape"
-        "utm"
         "whatsapp"
         # "whisky"
         "obs"
