@@ -18,8 +18,6 @@
       # use mkForce to override the default virtio networking from qemu-vm.nix module
       # which causes TX timeout issues on macOS hosts
       networkingOptions = lib.mkForce [
-        "-net nic,netdev=user.0,model=e1000"
-        "-netdev user,id=user.0,hostfwd=tcp::2222-:22,hostfwd=tcp::8088-:8088"
       ];
     };
   };
