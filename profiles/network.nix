@@ -18,6 +18,11 @@ let
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
   blocky_port = 53;
+  tailscale-pkg = myutils.packageFromCommit {
+    rev = "2fb006b87f04c4d3bdf08cfdbc7fab9c13d94a15";
+    packageName = "tailscale";
+    sha256 = "1v7xb8aamka3ajv6na7m41fq65xig7h1pacwj2dyjg12kchjb7wh";
+  };
 in
 {
   config = lib.mkMerge ([{
@@ -47,9 +52,9 @@ in
            IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
     '';
   }] ++ (lib.optional isDarwin {
-    services.tailscale = {
+     services.tailscale = {
       enable = true;
-      package = pkgs-pinned.tailscale;
+      package = tailscale-pkg;
       overrideLocalDns = true;
     };
   }) ++ (lib.optional isLinux {
@@ -58,7 +63,7 @@ in
 
     services.tailscale = {
       enable = true;
-      package = pkgs-pinned.tailscale;
+      package = tailscale-pkg;
       useRoutingFeatures = "both";
       port = 12345; # (default: 41641)
     };
