@@ -50,7 +50,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     cltpt = {
-      # url = "github:mahmoodsh36/cltpt/196bde809af1091846f5967578e57911b2a0fae6";
       url = "github:mahmoodsh36/cltpt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -59,7 +58,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs = {
-      url = "github:nix-community/emacs-overlay";
+      url = "github:nix-community/emacs-overlay/e434cb40e1a77ef70a4d8a848ccca91d0a7e42ad";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     wezterm = {
