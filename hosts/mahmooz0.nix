@@ -30,6 +30,7 @@ in
 
     environment.systemPackages = with pkgs; [
       lima
+      macpm # asitop
     ];
 
     # necessary temporary fix
@@ -96,6 +97,7 @@ in
       ];
       brews = [
         "krunkit"
+        "mole"
         # "mlx-lm"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
