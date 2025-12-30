@@ -21,7 +21,6 @@ let
   #   src = llama-cpp-src;
   # });
 in
-
 {
   config = {
     # required for nix-darwin to work
