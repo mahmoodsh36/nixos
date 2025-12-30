@@ -96,7 +96,7 @@ in
       ];
       brews = [
         "krunkit"
-        "mlx-lm"
+        # "mlx-lm"
         # "anylinuxfs"
         # "pkg-config" "cmake" "make"
         # "ntfs-3g-mac"
