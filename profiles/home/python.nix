@@ -45,7 +45,7 @@ let
     matplotlib numpy sympy networkx pydot
     seaborn pillow rich pandas graphviz
     python-lsp-server flask imageio
-    openai regex filetype
+    openai regex
 
     # for system/scripts etc
     musicbrainzngs ytmusicapi tinytag python-magic
@@ -53,6 +53,7 @@ let
     pdf2image
     music-tag
     spotdl
+    filetype pyexiftool
   ] ++ pkgs.lib.optionals config'.machine.enable_nvidia [
     # ml/ai stuff
     torch torchvision torchaudio accelerate
