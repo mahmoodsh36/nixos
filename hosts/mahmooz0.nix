@@ -94,6 +94,9 @@ in
         # "deadbeef"
         # "petrichor"
         "swama"
+        "shortcat"
+        "keka"
+        "rectangle"
       ];
       brews = [
         "krunkit"
