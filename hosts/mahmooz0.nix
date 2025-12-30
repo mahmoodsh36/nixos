@@ -96,7 +96,7 @@ in
         "swama"
         "shortcat"
         "keka"
-        "rectangle"
+        "lulu"
       ];
       brews = [
         "krunkit"
