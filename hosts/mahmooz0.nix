@@ -10,16 +10,16 @@ let
     "slp/homebrew-krunkit" = inputs.krunkit;
   };
 
-  llama-cpp-src = pkgs.fetchFromGitHub {
-    owner = "ggerganov";
-    repo = "llama.cpp";
-    rev = "5166aaf86898c5d5268b2c4f770a35cb7ca1a0f6";
-    hash = "sha256-vP+fxdaaD0vnR7eWk2r0+wKSDnnjrVWTgiNksm76UFw=";
-  };
+  # llama-cpp-src = pkgs.fetchFromGitHub {
+  #   owner = "ggerganov";
+  #   repo = "llama.cpp";
+  #   rev = "5166aaf86898c5d5268b2c4f770a35cb7ca1a0f6";
+  #   hash = "sha256-vP+fxdaaD0vnR7eWk2r0+wKSDnnjrVWTgiNksm76UFw=";
+  # };
 
-  llama-cpp-custom = pkgs.llama-cpp.overrideAttrs (old: {
-    src = llama-cpp-src;
-  });
+  # llama-cpp-custom = pkgs.llama-cpp.overrideAttrs (old: {
+  #   src = llama-cpp-src;
+  # });
 in
 
 {
@@ -44,7 +44,8 @@ in
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-users.users
     };
 
-    llms.llama-cpp.package = llama-cpp-custom;
+    # llms.llama-cpp.package = llama-cpp-custom;
+    llms.llama-cpp.package = pkgs.llama-cpp;
     # llms.llama-cpp.package = inputs.llama-cpp-flake.packages.${pkgs.system}.default;
 
     nix-homebrew = {
