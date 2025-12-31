@@ -140,7 +140,7 @@ in
 
       pkgs-pinned.python3Packages.huggingface-hub
       gemini-cli
-      pkgs-master.qwen-code
+      qwen-code
       pkgs.claude-code
       pkgs-master.aichat
       goose-cli
