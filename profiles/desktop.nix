@@ -139,7 +139,7 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       pkgs-pinned.python3Packages.huggingface-hub
-      pkgs-master.gemini-cli
+      gemini-cli
       pkgs-master.qwen-code
       pkgs.claude-code
       pkgs-master.aichat
