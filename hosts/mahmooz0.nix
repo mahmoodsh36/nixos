@@ -149,6 +149,8 @@ in
       NSGlobalDomain = {
         AppleICUForce24HourTime = true;
         AppleInterfaceStyle = "Dark";
+        ApplePressAndHoldEnabled = false;
+        AppleKeyboardUIMode = 3; # full control/keyboard-navigation
         KeyRepeat = 1; # fastest
         InitialKeyRepeat = 15;
         AppleShowAllExtensions = true;
