@@ -796,26 +796,6 @@
         "type": "github"
       }
     },
-    "mcp-servers-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1745069042,
-        "narHash": "sha256-ESWJkT3xNbDI2DvMVMuyqByI10G/JVdDy9dycj885dA=",
-        "owner": "mahmoodsh36",
-        "repo": "mcp-servers-nix",
-        "rev": "ab9605b8657ec7690d1799e44474d0395872e317",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mahmoodsh36",
-        "repo": "mcp-servers-nix",
-        "type": "github"
-      }
-    },
     "mpv-history-daemon": {
       "inputs": {
         "flake-utils": "flake-utils_3",
@@ -1648,7 +1628,6 @@
         "lem-config": "lem-config",
         "llama-cpp-flake": "llama-cpp-flake",
         "mac-app-util": "mac-app-util",
-        "mcp-servers-nix": "mcp-servers-nix",
         "mpv-history-daemon": "mpv-history-daemon",
         "neved4-tap": "neved4-tap",
         "niri-flake": "niri-flake",
