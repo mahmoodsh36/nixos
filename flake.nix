@@ -15,10 +15,6 @@
       url = "github:lem-project/lem";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mcp-servers-nix = {
-      url = "github:mahmoodsh36/mcp-servers-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     mpv-history-daemon = {
       url = "github:mahmoodsh36/mpv-history-daemon";
       inputs.nixpkgs.follows = "nixpkgs";

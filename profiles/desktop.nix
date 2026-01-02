@@ -139,8 +139,8 @@ in
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       pkgs-pinned.python3Packages.huggingface-hub
-      gemini-cli
-      qwen-code
+      # gemini-cli
+      # qwen-code
       pkgs.claude-code
       pkgs-master.aichat
       goose-cli
@@ -170,16 +170,6 @@ in
       #   };
       # }))
       whisper-cpp
-
-      # https://github.com/natsukium/mcp-servers-nix/blob/main/pkgs/default.nix
-      mcp-server-everything
-      mcp-server-time
-      mcp-server-git
-      mcp-server-sequential-thinking
-      # mcp-server-filesystem
-      playwright-mcp
-      mcp-server-github github-mcp-server
-      mcp-server-sqlite
 
       pkgs.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
