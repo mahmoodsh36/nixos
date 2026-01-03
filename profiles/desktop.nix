@@ -147,8 +147,8 @@ in
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
 
-      (lib.mkIf (!config.machine.is_vm)
-        inputs.nix-ai-tools.packages.${pkgs.system}.mistral-vibe)
+      # (lib.mkIf (!config.machine.is_vm)
+      #   inputs.nix-ai-tools.packages.${pkgs.system}.mistral-vibe)
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       # gptme
       (lib.mkIf (!config.machine.is_vm) pkgs-master.antigravity)
