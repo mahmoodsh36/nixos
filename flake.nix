@@ -57,6 +57,10 @@
       url = "github:nix-community/emacs-overlay/e434cb40e1a77ef70a4d8a848ccca91d0a7e42ad";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    darwin-emacs = {
+      url = "github:nix-giant/nix-darwin-emacs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     wezterm = {
       url = "github:wezterm/wezterm?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -553,7 +557,7 @@
             modules = [
               # from https://github.com/cpick/nix-rosetta-builder
               # an existing Linux builder is needed to initially bootstrap `nix-rosetta-builder`.
-              # if one isn't already available: comment out the `nix-rosetta-builder` module below,
+              # if one isn't already available: comment out `nix-rosetta-builder` module below,
               # uncomment this `linux-builder` module, and run `darwin-rebuild switch`:
               # { nix.linux-builder.enable = true; }
               # then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
@@ -566,6 +570,9 @@
 
               inputs.mac-app-util.darwinModules.default
               inputs.home-manager.darwinModules.home-manager
+              ({ pkgs, ... }: {
+                nixpkgs.overlays = [ inputs.darwin-emacs.overlays.emacs ];
+              })
               ({ config, pkgs, lib, ... }: {
                 config = {
                   machine.name = "mahmooz0";
