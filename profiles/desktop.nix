@@ -1,9 +1,26 @@
 { config, pkgs, lib, inputs, pkgs-master, pkgs-unstable, myutils, pkgs-pinned, ... }:
 
-let
-  constants = (import ../lib/constants.nix);
-  # main_julia = pkgs.julia;
-in
+ let
+   constants = (import ../lib/constants.nix);
+   # main_julia = pkgs.julia;
+
+   emacs_base_pkg = if config.machine.is_darwin
+                    then pkgs.emacs-30
+                    else pkgs.emacs;
+   emacs_pkg = (emacs_base_pkg.override {
+     withImageMagick = false;
+     withNativeCompilation = true;
+     withCompressInstall = false;
+     withTreeSitter = true;
+   } // lib.optionalAttrs config.machine.is_linux {
+     withXwidgets = false;
+     withPgtk = true;
+     withGTK3 = true;
+     withX = false;
+   }).overrideAttrs (oldAttrs: rec {
+     imagemagick = pkgs.imagemagickBig;
+   });
+ in
 {
   config = lib.mkIf config.machine.is_desktop {
     # some of the font options are commented out because they're not available on nix-darwin
@@ -172,7 +189,7 @@ in
       whisper-cpp
 
       pkgs.gitingest
-    ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
+    ] ++ (lib.optional (!config.machine.is_vm) emacs_pkg) ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
 
       vllm

@@ -31,21 +31,7 @@ let
       chmod +x $out/bin/gtkpython
     '';
   };
-  # emacs_base_pkg = inputs.emacs.packages.${pkgs.system}.emacs-git;
-  emacs_base_pkg = pkgs.emacs;
-  emacs_pkg = (emacs_base_pkg.override {
-    withImageMagick = false;
-    withXwidgets = false;
-    withPgtk = true;
-    withNativeCompilation = true;
-    withCompressInstall = false;
-    withTreeSitter = true;
-    withGTK3 = true;
-    withX = false;
-  }).overrideAttrs (oldAttrs: rec {
-    imagemagick = pkgs.imagemagickBig;
-  });
-in
+ in
 {
   config = lib.mkIf (config.machine.is_linux && config.machine.is_desktop) {
     boot = {

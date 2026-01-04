@@ -84,7 +84,7 @@ in
         "whatsapp"
         # "whisky"
         "obs"
-        "emacs-app"
+        # "emacs-app"
         "transmission"
         "comfyui"
         "tor-browser"
