@@ -12,11 +12,10 @@ let
     # list of modules to preload in the interactive session.
     # for each module, we specify the import statement to execute.
     packages_to_load = {
-        "rich": "from rich import print, inspect",
         "pathlib": "from pathlib import Path",
         "os": "import os",
         "sys": "import sys",
-        "math": "from math import *",  # Wildcard is convenient for a REPL
+        "math": "from math import *",
     }
 
     for name, statement in packages_to_load.items():
@@ -122,42 +121,5 @@ in
       # set a persistent location for the repl history file.
       # PYTHON_HISTORY = "${config.xdg.cacheHome}/python/python_history";
     };
-
-    # PDB (Python Debugger) configuration
-    # https://kylekizirian.github.io/ned-batchelders-updated-pdbrc.html
-    home.file.".pdbrc".text = ''
-      import pdb
-
-      try:
-        from rich import print
-      except ModuleNotFoundError:
-        pass
-
-      try:
-        from IPython import print
-      except ModuleNotFoundError:
-        pass
-
-      # Print a dictionary's keys and values, nicely formatted.
-      # Usage: p_ locals()
-      alias p_ for k in sorted(%1.keys()): print(f"%2{k.ljust(max(len(s) for s in %1.keys()))} = {%1[k]}")
-
-      # Print the member variables of an object.
-      # Usage: pi my_object
-      alias pi p_ %1.__dict__ %1.
-
-      # Print the member variables of self.
-      alias ps pi self
-
-      # Print the locals.
-      alias pl p_ locals() local:
-
-      # Next and list, and step and list.
-      alias nl n;;l
-      alias sl s;;l
-
-      # Print the current process ID
-      alias pid import os; os.getpid()
-    '';
   };
 }
