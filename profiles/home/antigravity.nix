@@ -7,10 +7,6 @@
       google-chrome
     ];
 
-    home.sessionVariables = {
-      CHROME_BIN = "${pkgs.google-chrome}/bin/google-chrome-stable";
-    };
-
     xdg.configFile = {
       "Antigravity/User/settings.json".text = builtins.toJSON {
         "antigravity.autocompleteSpeed" = "fast";

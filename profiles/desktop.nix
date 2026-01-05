@@ -183,7 +183,7 @@
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
 
-      mistral-vibe
+      # mistral-vibe
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       # gptme
       antigravity
