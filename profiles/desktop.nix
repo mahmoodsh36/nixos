@@ -82,6 +82,8 @@
         ))
       ])))
 
+      zed-editor
+
       # (pkgs.writeShellScriptBin "julia" ''
       #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
       #     pkgs.stdenv.cc.cc.lib
@@ -181,11 +183,10 @@
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
 
-      # (lib.mkIf (!config.machine.is_vm)
-      #   inputs.nix-ai-tools.packages.${pkgs.system}.mistral-vibe)
+      mistral-vibe
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       # gptme
-      (lib.mkIf (!config.machine.is_vm) pkgs-master.antigravity)
+      antigravity
       youtube-music
       telegram-desktop
       darktable # image editor
