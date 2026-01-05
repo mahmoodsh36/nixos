@@ -65,6 +65,23 @@
 
     # packages
     environment.systemPackages = with pkgs; [
+      (lib.mkIf (!config.machine.is_vm) ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
+        (treesit-grammars.with-grammars (
+          p: with p; [
+            tree-sitter-bash
+            tree-sitter-css
+            tree-sitter-html
+            tree-sitter-javascript
+            tree-sitter-json
+            tree-sitter-nix
+            tree-sitter-python
+            tree-sitter-rust
+            tree-sitter-typescript
+            tree-sitter-yaml
+          ]
+        ))
+      ])))
+
       # (pkgs.writeShellScriptBin "julia" ''
       #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
       #     pkgs.stdenv.cc.cc.lib
@@ -189,7 +206,7 @@
       whisper-cpp
 
       pkgs.gitingest
-    ] ++ (lib.optional (!config.machine.is_vm) emacs_pkg) ++ pkgs.lib.optionals config.machine.enable_nvidia [
+    ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
 
       vllm

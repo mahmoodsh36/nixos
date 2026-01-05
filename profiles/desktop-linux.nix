@@ -285,23 +285,6 @@ let
 
       # code-cursor windsurf
 
-      (lib.mkIf (!config.machine.is_vm) ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
-        (treesit-grammars.with-grammars (
-          p: with p; [
-            tree-sitter-bash
-            tree-sitter-css
-            tree-sitter-html
-            tree-sitter-javascript
-            tree-sitter-json
-            tree-sitter-nix
-            tree-sitter-python
-            tree-sitter-rust
-            tree-sitter-typescript
-            tree-sitter-yaml
-          ]
-        ))
-      ])))
-
       # media tools
       # feh # image viewer (can it set wallpaper on wayland?)
       kdePackages.okular zathura foliate mupdf
