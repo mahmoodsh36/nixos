@@ -3,7 +3,7 @@
 {
   config = lib.mkIf config'.machine.is_darwin {
     home.packages = with pkgs; [
-      antigravity
+      # antigravity
       google-chrome
     ];
 
