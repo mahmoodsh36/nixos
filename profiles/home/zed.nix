@@ -4,7 +4,6 @@
   config = lib.mkIf config'.machine.is_desktop {
     programs.zed-editor = {
       enable = false;
-      package = pkgs-pinned.zed-editor;
       extensions = ["nix" "toml" "make"];
       # userKeymaps = [
       #   {

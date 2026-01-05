@@ -97,6 +97,7 @@ in
         "shortcat"
         "keka"
         "lulu"
+        "google-chrome"
       ];
       brews = [
         "krunkit"

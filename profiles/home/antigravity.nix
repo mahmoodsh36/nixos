@@ -18,7 +18,6 @@
         "antigravity.browserCDPPort" = 9222;
         "antigravity.browserUserProfilePath" = "${config.home.homeDirectory}/.gemini/antigravity-browser-profile";
         "antigravity.chatFontSize" = "default";
-        "antigravity.chromeBinaryPath" = "${pkgs.google-chrome}/bin/google-chrome-stable";
         "antigravity.explainAndFixInCurrentConversation" = true;
         "antigravity.marketplaceExtensionGalleryServiceURL" = "https://marketplace.visualstudio.com/_apis/public/gallery";
         "antigravity.marketplaceExtensionGallerySource" = "https://marketplace.visualstudio.com/_apis/public/gallery";
