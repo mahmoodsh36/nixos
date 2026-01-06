@@ -191,6 +191,19 @@ in
           };
         };
 
+        programs.atuin = {
+          enable = true;
+          settings = {
+            auto_sync = false;
+            update_check = false;
+            # show_preview = true;
+            sync_frequency = "5m";
+            # style = "full";
+            # sync_address = "https://api.atuin.sh";
+            search_mode = "fuzzy";
+          };
+        };
+
         # ls alternative
         # programs.eza = {
         #   enable = true;
