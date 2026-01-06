@@ -73,6 +73,10 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixarr = {
+      url = "github:rasmus-kirk/nixarr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # macos
     nix-darwin = {
@@ -210,6 +214,7 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.arion.nixosModules.arion
           inputs.declarative-jellyfin.nixosModules.default
+          inputs.nixarr.nixosModules.default
         ]
         ++ extraModules;
       };

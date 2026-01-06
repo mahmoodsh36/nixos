@@ -26,6 +26,7 @@ in
     ./profiles/desktop.nix
     ./profiles/desktop-linux.nix
     ./profiles/home/home.nix
+    ./services/nixarr.nix
   ];
 
   config = {
