@@ -97,7 +97,7 @@
 
       neovide
       waveterm
-      pkgs-pinned.firefox
+      firefox
       mpv
       inputs.lem.packages.${pkgs.system}.lem-webview
 

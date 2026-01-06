@@ -98,6 +98,7 @@ in
         "keka"
         "lulu"
         "google-chrome"
+        "sabnzbd"
       ];
       brews = [
         "krunkit"
