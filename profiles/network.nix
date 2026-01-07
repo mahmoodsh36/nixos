@@ -61,7 +61,7 @@ in
     # enable ip forwarding on exit node
     boot.kernel.sysctl."net.ipv4.ip_forward" = lib.mkIf is_exit_node 1;
 
-    services.tailscale = {
+    services.tailscale = lib.mkIf (!config.machine.is_vm) {
       enable = true;
       package = tailscale-pkg;
       useRoutingFeatures = "both";
