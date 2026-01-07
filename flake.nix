@@ -376,10 +376,11 @@
         allConfigs = nixpkgs.lib.foldl' (acc: system: acc // (mkConfigsForSystem system)) {} supportedSystems;
       in
         allConfigs // {
-          # Default aliases for x86_64 systems
+          # default aliases for x86_64 systems
           mahmooz1 = allConfigs."mahmooz1-x86_64-linux";
           mahmooz2 = allConfigs."mahmooz2-x86_64-linux";
           mahmooz3 = allConfigs."mahmooz3-x86_64-linux";
+          mahmooz4 = allConfigs."mahmooz4-x86_64-linux";
         };
     nixOnDroidConfigurations.droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       pkgs = import nixpkgs { system = "aarch64-linux"; };
