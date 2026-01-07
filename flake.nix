@@ -256,6 +256,20 @@
                   machine.is_desktop = true;
                   machine.enable_nvidia = false;
                   machine.static_ip = "192.168.1.1";
+                };
+              })
+              ./profiles/network-local.nix
+              inputs.disko.nixosModules.disko
+              ./disko-raid1.nix
+            ];
+            mahmooz4 = [
+              ./hardware-configuration.nix
+              ({ lib, ... }: {
+                config = {
+                  machine.name = "mahmooz4";
+                  machine.is_desktop = true;
+                  machine.enable_nvidia = false;
+                  machine.static_ip = "192.168.1.1";
                   machine.is_home_server = true;
                 };
               })
@@ -327,6 +341,7 @@
           ]);
           "mahmooz2-${system}" = mkSystem system machineConfigs.mahmooz2;
           "mahmooz3-${system}" = mkSystem system machineConfigs.mahmooz3;
+          "mahmooz4-${system}" = mkSystem system machineConfigs.mahmooz3;
 
           "mahmooz1_iso-${system}" = mkSystem system [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
