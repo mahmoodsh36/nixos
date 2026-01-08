@@ -24,7 +24,7 @@
     qemu = {
       package = hostPkgs.qemu.override {
         virglSupport = true;
-        gtkSupport = true;
+        # gtkSupport = true;
         # sdlSupport = true;
       };
       # use mkForce to override the default virtio networking from qemu-vm.nix module
