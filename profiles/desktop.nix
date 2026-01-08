@@ -185,7 +185,7 @@
 
       # mistral-vibe
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
-      # gptme
+      (pkgs.callPackage ../packages/gptme.nix {})
       antigravity
       youtube-music
       telegram-desktop
