@@ -130,10 +130,10 @@ let
       };
     };
     services.displayManager = {
-      # autoLogin = {
-      #   enable = true;
-      #   user = "${config.machine.user}";
-      # };
+      autoLogin = {
+        enable = true;
+        user = config.machine.user;
+      };
       sddm = {
         enable = true;
         wayland.enable = true;
@@ -142,8 +142,8 @@ let
       };
       # defaultSession = "hyprland";
       # defaultSession = "gnome";
-      defaultSession = "niri";
-      # defaultSession = "plasma";
+      # defaultSession = "niri";
+      defaultSession = "plasma";
       # defaultSession = "cosmic";
     };
     services.desktopManager.plasma6.enable = constants.enable_plasma;
