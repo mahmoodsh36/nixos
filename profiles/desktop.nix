@@ -182,11 +182,12 @@
       goose-cli
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
-
       # mistral-vibe
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
-      (pkgs.callPackage ../packages/gptme.nix {})
       antigravity
+      (pkgs.callPackage ../packages/gptme.nix {})
+      pre-commit
+
       youtube-music
       telegram-desktop
       darktable # image editor
