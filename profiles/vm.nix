@@ -21,6 +21,11 @@
     host.pkgs = hostPkgs;
 
     qemu = {
+      package = hostPkgs.qemu.override {
+        virglSupport = true;
+        gtkSupport = true;
+        # sdlSupport = true;
+      };
       # use mkForce to override the default virtio networking from qemu-vm.nix module
       # which causes TX timeout issues on macOS hosts
       networkingOptions = lib.mkForce [
@@ -29,6 +34,9 @@
       options = [
         "-fsdev" "local,id=fsdev0,path=${hostVoldir},security_model=none"
         "-device" "virtio-9p-pci,id=fs0,fsdev=fsdev0,mount_tag=host_share"
+        # use virgl/opengl etc
+        "-vga" "virtio"
+        "-display" "gtk,gl=on"
       ];
     };
   };

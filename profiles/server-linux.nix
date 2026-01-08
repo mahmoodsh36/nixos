@@ -96,14 +96,12 @@ in
     programs.wireshark.enable = true;
     programs.traceroute.enable = true;
 
-    hardware.graphics = {
-      enable = true;
-      # enable32Bit = true;
-    };
     hardware.nvidia.open = false;
     hardware.nvidia-container-toolkit.enable = config.machine.enable_nvidia;
 
     hardware.graphics = {
+      enable = true;
+      # enable32Bit = true;
       extraPackages = with pkgs; [
       ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
         nvidia-vaapi-driver
