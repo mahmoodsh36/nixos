@@ -2,6 +2,7 @@
 
 {
   services.qemuGuest.enable = true;
+  services.spice-vdagentd.enable = true;
 
   virtualisation = {
     memorySize = 16000;
@@ -35,8 +36,14 @@
         "-fsdev" "local,id=fsdev0,path=${hostVoldir},security_model=none"
         "-device" "virtio-9p-pci,id=fs0,fsdev=fsdev0,mount_tag=host_share"
         # use virgl/opengl etc
-        "-vga" "virtio"
-        "-display" "gtk,gl=on"
+        # "-vga" "virtio"
+        # "-display" "gtk,gl=on"
+        # with spice?
+        # "-device" "virtio-gpu-gl-pci"
+        # "-spice" "unix=on,addr=/tmp/spice.sock,disable-ticketing=on,gl=on"
+        # with cocoa (mac native gui)
+        # "-device" "virtio-gpu-gl-pci"
+        # "-display" "cocoa,gl=on"
       ];
     };
   };
