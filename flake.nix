@@ -511,6 +511,7 @@
       isDarwin = nixpkgs.lib.hasInfix "darwin" system;
       linuxSystem = if nixpkgs.lib.hasInfix "aarch64" system then "aarch64-linux" else "x86_64-linux";
     in {
+      gptme = sysPkgs.callPackage ./packages/gptme.nix {};
       mlx-lm-env = mkPythonEnv {
         inherit system;
         workspaceRoot = ./python-envs/mlx-lm;
