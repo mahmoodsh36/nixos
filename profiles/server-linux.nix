@@ -19,6 +19,14 @@ in
     boot.tmp.cleanOnBoot = true;
     system.etc.overlay.enable = false;
 
+    systemd.settings.Manager = {
+      DefaultTimeoutStopSec = "10s";
+      DefaultTimeoutStartSec = "15s";
+      # this didnt help with too many open files errors
+      # https://discourse.nixos.org/t/unable-to-fix-too-many-open-files-error/27094/10
+      DefaultLimitNOFILE = "10000";
+    };
+
     # use the systemd-boot EFI boot loader.
     # boot.loader.systemd-boot.enable = true;
     # boot.loader.efi.canTouchEfiVariables = true;
