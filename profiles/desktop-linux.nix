@@ -296,7 +296,7 @@ let
 
       scrcpy
       pavucontrol
-      libreoffice
+      pkgs-pinned.libreoffice
       pulsemixer # tui for pulseaudio control
       alsa-utils
       playerctl # media control
