@@ -190,7 +190,6 @@ let
     programs.xfconf.enable = true;
     services.tumbler.enable = lib.mkForce false;
     programs.light.enable = true;
-    programs.adb.enable = true;
 
     # hybrid sleep when press power button. doesnt work anymore
     # services.logind.extraConfig = ''
@@ -350,11 +349,6 @@ let
     #     RuntimeMaxSec = "3600";
     #   };
     # };
-
-    systemd.settings.Manager = {
-      DefaultTimeoutStopSec = "10s";
-      DefaultTimeoutStartSec = "15s";
-    };
 
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";

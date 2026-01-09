@@ -82,7 +82,7 @@
         ))
       ])))
 
-      zed-editor
+      pkgs-pinned.zed-editor
 
       # (pkgs.writeShellScriptBin "julia" ''
       #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
@@ -146,6 +146,7 @@
       kando
       (pkgs.callPackage ../packages/vend.nix {})
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
+      android-tools
 
       # nix specific
       nixos-generators
