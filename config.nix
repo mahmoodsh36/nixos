@@ -1,11 +1,6 @@
 { config, pkgs, lib, inputs, system, ... }:
 
 let
-  pkgs-master = import inputs.pkgs-master {
-    inherit system;
-    config.allowUnfree = true;
-    config.cudaSupport = config.machine.enable_nvidia;
-  };
   pkgs-unstable = import inputs.pkgs-unstable {
     inherit system;
     config.allowUnfree = true;
@@ -31,7 +26,6 @@ in
 
   config = {
     _module.args = {
-      inherit pkgs-master;
       inherit pkgs-unstable;
       inherit pkgs-pinned;
     };

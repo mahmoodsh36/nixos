@@ -692,11 +692,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1767975399,
-        "narHash": "sha256-PKT1yZq94+GzBmbkLqrywc6YtQmTDMu8PeTV7d+Bz9I=",
+        "lastModified": 1767999323,
+        "narHash": "sha256-4YilXKIffvOSr9dcPYO8fkeacHOj6aleY/es/z11HqY=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "9a92702a0f7c12ecf4c0ce5595b888a31cfb13c4",
+        "rev": "e6015715eeefc52ffedd3155b281742fbcd566be",
         "type": "github"
       },
       "original": {
@@ -708,11 +708,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1767975343,
-        "narHash": "sha256-IbZj4uUSim/yXg3QNRxTEb4dW79zSTPWIN4HGQ4ln+Y=",
+        "lastModified": 1767999091,
+        "narHash": "sha256-1OwNUxFhwNJ2PuVGEiecv2bP2txiJh6c8K4gDhBMJM0=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "c1a20ff52e47583dc2079b2b51ea71bffb5766ea",
+        "rev": "12c9fa0058eef829b7266f04447d4b81eacd33fa",
         "type": "github"
       },
       "original": {
@@ -799,11 +799,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767975438,
-        "narHash": "sha256-W3Y71Ll7VXBYxnFLoQ44I8xslpMUFL5il73VblFksoA=",
+        "lastModified": 1767999641,
+        "narHash": "sha256-ldVGXP7X4Louk16dvEppGgQuZtX/foymb38c83V/+f8=",
         "owner": "ggml-org",
         "repo": "llama.cpp",
-        "rev": "9e41884dce4719d8d901058613ea7a700dc3697d",
+        "rev": "9ac2693a302adab4b5b44fb1fef52c9e6d14a770",
         "type": "github"
       },
       "original": {
@@ -859,11 +859,11 @@
     "neved4-tap": {
       "flake": false,
       "locked": {
-        "lastModified": 1767838807,
-        "narHash": "sha256-VzpkhAaTmQ2+/WErGZt7TQhIZ8i+yvPVALsjNNh0LR0=",
+        "lastModified": 1767976735,
+        "narHash": "sha256-HDQtC9IHiDJI0IeDmCY3uvmitTZQH7PHtPffYzfRLak=",
         "owner": "Neved4",
         "repo": "homebrew-tap",
-        "rev": "0169cef2b287e63205d138a3d104f2f4d2c1ac40",
+        "rev": "6754b3caf05795ce18e1a85fe1a9fddcb5dd36bb",
         "type": "github"
       },
       "original": {
@@ -960,11 +960,11 @@
         "treefmt-nix": "treefmt-nix_4"
       },
       "locked": {
-        "lastModified": 1767969305,
-        "narHash": "sha256-Ia1NdDjrSxU3j5ozJnLeD6mx8Gu4jQCd7mE92IXkSNE=",
+        "lastModified": 1767978163,
+        "narHash": "sha256-e0cs8NKjWpEfXpeiCvVM5XZM/eC8h32uRatgZdqfXjY=",
         "owner": "numtide",
         "repo": "nix-ai-tools",
-        "rev": "0270c84e60744d64ca88a7beda027a8e9db58bcf",
+        "rev": "b29fe7f9fe43029f299b782ecb98050bea2981d5",
         "type": "github"
       },
       "original": {
@@ -1394,11 +1394,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1767976264,
-        "narHash": "sha256-NszZHs8xXBqzkAEI8LhNTl0FhxuaBgon2738wh+F2NU=",
+        "lastModified": 1767999276,
+        "narHash": "sha256-9PyiitVHk2BxcejGXoHKqJR1EcKERw5md1kop+CSNgM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "545bc019a2d6de04415d4189c3053cfec53258be",
+        "rev": "bee157dbc154540c8c08531ec42b640eded5e042",
         "type": "github"
       },
       "original": {
@@ -1506,22 +1506,6 @@
       "original": {
         "owner": "mahmoodsh36",
         "repo": "otherdots",
-        "type": "github"
-      }
-    },
-    "pkgs-master": {
-      "locked": {
-        "lastModified": 1767975653,
-        "narHash": "sha256-U5CDeoP+otypgTU4ylSh/BvpdyvqgOt5eOlu9latZ9U=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "89670f31b2f8a13b74d332a5983bb91628a143e8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -1703,7 +1687,6 @@
         "nixpkgs": "nixpkgs_5",
         "nvim": "nvim",
         "otherdots": "otherdots",
-        "pkgs-master": "pkgs-master",
         "pkgs-pinned": "pkgs-pinned",
         "pkgs-unstable": "pkgs-unstable",
         "plasma-manager": "plasma-manager",

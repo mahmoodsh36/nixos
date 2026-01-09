@@ -1,5 +1,5 @@
 # this is for macos
-{ config, pkgs, lib, inputs, pkgs-master, myutils, ... }:
+{ config, pkgs, lib, inputs, myutils, ... }:
 
 {
   # let determinate nix handle your nix configuration
