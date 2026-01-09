@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, myutils, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, myutils, pkgs-pinned, ... }:
 
 let
   constants = (import ../lib/constants.nix);

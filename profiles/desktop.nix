@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, pkgs-unstable, myutils, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, pkgs-unstable, myutils, pkgs-pinned, ... }:
 
  let
    constants = (import ../lib/constants.nix);
@@ -179,7 +179,7 @@
       gemini-cli
       qwen-code
       pkgs.claude-code
-      pkgs-master.aichat
+      aichat
       goose-cli
       # opencode
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode
@@ -190,7 +190,7 @@
       pre-commit
 
       youtube-music
-      telegram-desktop
+      # telegram-desktop
       darktable # image editor
       transmission_4-gtk
 

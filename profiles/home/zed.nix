@@ -1,4 +1,4 @@
-{ pkgs, lib, pkgs-master, config, config', pkgs-pinned, ... }:
+{ pkgs, lib, config, config', pkgs-pinned, ... }:
 
 {
   config = lib.mkIf config'.machine.is_desktop {

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-master, myutils, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, myutils, pkgs-pinned, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -71,7 +71,7 @@ in
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli
-      pkgs-master.yt-dlp (lib.mkIf (!config.machine.is_vm) ytdl-sub)
+      yt-dlp (lib.mkIf (!config.machine.is_vm) ytdl-sub)
       # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
       #   src = pkgs.fetchFromGitHub {
       #     owner = "yt-dlp";

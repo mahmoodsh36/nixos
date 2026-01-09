@@ -1,4 +1,4 @@
-{ lib, config, pkgs, inputs, pkgs-master, pkgs-unstable, pkgs-pinned, ... }:
+{ lib, config, pkgs, inputs, pkgs-unstable, pkgs-pinned, ... }:
 
 let
   constants = (import ../../lib/constants.nix);
@@ -23,7 +23,7 @@ in
     home-manager.useGlobalPkgs = true;
     home-manager.useUserPackages = true;
     home-manager.backupFileExtension = "hmbkup";
-    home-manager.extraSpecialArgs = { inherit pkgs pkgs-master pkgs-unstable pkgs-pinned inputs; };
+    home-manager.extraSpecialArgs = { inherit pkgs pkgs-unstable pkgs-pinned inputs; };
     home-manager.sharedModules = [
     ] ++ pkgs.lib.optionals config.machine.is_linux  [
       inputs.plasma-manager.homeModules.plasma-manager
