@@ -320,15 +320,15 @@ in
             };
             orgId = 1;
           }
-          # {
-          #   name = "caddy";
-          #   options.path = pkgs.fetchurl {
-          #     name = "caddy.json";
-          #     url = "https://grafana.com/api/dashboards/20802/revisions/1/download";
-          #     hash = "sha256-vSt63PakGp5NzKFjbU5Yh0nDbKET5QRWp5nusM76/O4=";
-          #   };
-          #   orgId = 1;
-          # }
+          {
+            name = "caddy";
+            options.path = pkgs.fetchurl {
+              name = "caddy.json";
+              url = "https://grafana.com/api/dashboards/22870/revisions/3/download";
+              hash = "sha256-T/oImuRQrEGWLlaaMnBVNFNeAoKR1j1IiDoAlGmYnPU=";
+            };
+            orgId = 1;
+          }
         ];
       };
       settings = {
