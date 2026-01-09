@@ -15,9 +15,15 @@
       "external-builders"
     ];
     external-builders = builtins.toJSON [{
-      systems = ["aarch64-linux" "x86_64-linux"];
+      systems = [ "aarch64-linux" "x86_64-linux" ];
       program = "/usr/local/bin/determinate-nixd";
-      args = ["builder"];
+      args = [
+        "builder"
+        "--memory-size"
+        "30000000000" # 30GB?
+        "--cpu-count"
+        "1" # according to detsys's blog increasing this makes things slower
+      ];
     }];
     extra-trusted-users = ["${config.machine.user}" "@admin" "@root" "@sudo" "@wheel" "@staff"];
     keep-outputs = true;
