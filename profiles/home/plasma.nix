@@ -2,7 +2,7 @@
 {
   config = lib.mkIf config'.machine.is_desktop {
     programs.plasma = {
-      enable = true;
+      enable = config'.machine.enable_plasma;
 
       workspace = {
         clickItemTo = "open";

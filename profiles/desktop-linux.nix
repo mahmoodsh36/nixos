@@ -141,19 +141,19 @@ let
         settings.General.DisplayServer = "wayland";
       };
       # defaultSession = "hyprland";
-      # defaultSession = "gnome";
+      defaultSession = "gnome";
       # defaultSession = "niri";
-      defaultSession = "plasma";
+      # defaultSession = "plasma";
       # defaultSession = "cosmic";
     };
     services.desktopManager.plasma6.enable = constants.enable_plasma;
-    environment.etc."xdg/baloofilerc".source = lib.mkIf constants.enable_plasma (
-      (pkgs.formats.ini {}).generate "baloorc" {
+    environment.etc."xdg/baloofilerc" = lib.mkIf constants.enable_plasma {
+      source = (pkgs.formats.ini {}).generate "baloorc" {
         "Basic Settings" = {
           "Indexing-Enabled" = false;
         };
-      }
-    );
+      };
+    };
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
       spectacle # to avoid building opencv
     ];
