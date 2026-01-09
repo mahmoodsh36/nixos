@@ -208,12 +208,6 @@ in
       bind_ip = "0.0.0.0";
     };
 
-    # vector database for RAG
-    services.qdrant = {
-      enable = config.machine.is_desktop;
-      settings.service.host = "0.0.0.0";
-    };
-
     # http://localhost:28981
     environment.etc."paperless-admin-pass".text = "admin";
     services.paperless = {
