@@ -102,11 +102,11 @@ in
       nvfetcher
       # arion
       inputs.disko.packages.${pkgs.system}.default
-      ] ++ pkgs.lib.optionals config.machine.is_darwin [
-        pkgs-pinned.python3Packages.mlx-lm
-        pkgs-pinned.python3Packages.mlx-vlm
-        pkgs-pinned.ramalama
-      ];
+    ] ++ pkgs.lib.optionals config.machine.is_darwin [
+      pkgs-pinned.python3Packages.mlx-lm
+      pkgs-pinned.python3Packages.mlx-vlm
+      pkgs-pinned.ramalama
+    ];
 
     # some apps respect XDG paths even on macos
     environment.variables = rec {
