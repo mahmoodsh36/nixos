@@ -320,15 +320,15 @@ in
             };
             orgId = 1;
           }
-          {
-            name = "caddy";
-            options.path = pkgs.fetchurl {
-              name = "caddy.json";
-              url = "https://grafana.com/api/dashboards/22870/revisions/3/download";
-              hash = "sha256-T/oImuRQrEGWLlaaMnBVNFNeAoKR1j1IiDoAlGmYnPU=";
-            };
-            orgId = 1;
-          }
+          # {
+          #   name = "caddy";
+          #   options.path = pkgs.fetchurl {
+          #     name = "caddy.json";
+          #     url = "https://grafana.com/api/dashboards/22870/revisions/3/download";
+          #     hash = "sha256-T/oImuRQrEGWLlaaMnBVNFNeAoKR1j1IiDoAlGmYnPU=";
+          #   };
+          #   orgId = 1;
+          # }
         ];
       };
       settings = {
@@ -542,7 +542,7 @@ in
 
   networking.usePredictableInterfaceNames = true;
 
-    # make caddy_dir owned by caddy:caddy (uses systemd)
+  # make caddy_dir owned by caddy:caddy (uses systemd)
   systemd.tmpfiles.rules = [
     # create the directory if it doesn't exist
     # Type Path                  Mode    User   Group  Age Argument
