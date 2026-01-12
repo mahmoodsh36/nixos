@@ -67,7 +67,8 @@ in
       # jellyfin jellyfin-web
       miller
       bc # used for some arithmetic in shell scripts
-      postgresql
+      # postgresql
+      pgadmin4 pgadmin4-desktopmode
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli

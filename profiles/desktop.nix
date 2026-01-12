@@ -131,6 +131,7 @@
       # python3Packages.chromadb # vector database
       nodePackages.prettier
       nodejs pnpm
+      yarn
       exiftool
       spotdl
       openjdk
