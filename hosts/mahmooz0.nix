@@ -101,6 +101,8 @@ in
         "sabnzbd"
       ];
       brews = [
+        "postgresql@17"
+        "postgis"
         "krunkit"
         "mole"
         # "mlx-lm"
