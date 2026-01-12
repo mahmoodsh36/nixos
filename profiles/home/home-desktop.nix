@@ -10,10 +10,6 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf config'.machine.is_desktop {
-      programs.firefox = {
-        enable = true;
-        package = pkgs-pinned.firefox;
-      };
       programs.mpv = {
         enable = true;
         scripts = [
