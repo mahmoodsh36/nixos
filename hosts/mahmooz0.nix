@@ -6,7 +6,6 @@ let
     "homebrew/homebrew-core" = inputs.homebrew-core;
     "homebrew/homebrew-cask" = inputs.homebrew-cask;
     # we need to add "homebrew-" prefix
-    "Neved4/homebrew-tap" = inputs.neved4-tap;
     "slp/homebrew-krunkit" = inputs.krunkit;
   };
 
@@ -74,7 +73,6 @@ in
         # this errors out :/
         # "youtube-music"
         # "podman-desktop"
-        # "pear"
         "karabiner-elements"
         "utm"
         "xnviewmp"
