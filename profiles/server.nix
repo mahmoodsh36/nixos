@@ -132,7 +132,6 @@ in
 
     nixpkgs.overlays = [
       inputs.nix-alien.overlays.default
-      inputs.stable-diffusion-webui-nix.overlays.default
       inputs.niri-flake.overlays.niri
       # TODO: needed for robotnix.. but im not using this..
       (self: super: {

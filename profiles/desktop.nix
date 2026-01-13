@@ -164,39 +164,25 @@
       aichat
       goose-cli
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
-      # mistral-vibe
-      # inputs.nix-ai-tools.packages.${pkgs.system}.amp
+      mistral-vibe
       antigravity
       (pkgs.callPackage ../packages/gptme.nix {})
       pre-commit
 
       youtube-music
-      # telegram-desktop
+      telegram-desktop
       darktable # image editor
       transmission_4-gtk
 
       config.machine.llama-cpp.pkg
       koboldcpp
       mistral-rs
-      # i think this fixed an issue that existed in the nixpkgs version at the time
-      # (whisper-cpp.overrideAttrs (old: {
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "ggml-org";
-      #     repo = "whisper.cpp";
-      #     rev = "c85b1ae84eecbf797f77a76a30e648c5054ee663";
-      #     sha256 = "sha256-ABgsfkT7ghOGe2KvcnyP98J7mDI18BWtJGb1WheAduE=";
-      #   };
-      # }))
       whisper-cpp
 
       pkgs.gitingest
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
-
       vllm
-
-      stable-diffusion-webui.forge.cuda # for lllyasviel's fork of AUTOMATIC1111 WebUI
-      stable-diffusion-webui.comfy.cuda # for ComfyUI
     ];
   };
 }

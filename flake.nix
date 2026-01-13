@@ -29,7 +29,6 @@
     };
     llama-cpp-flake = {
       url = "github:ggml-org/llama.cpp";
-      # url = "github:ggml-org/llama.cpp/50f4281a6f5c3a5d68bdeb12f904fa01e0e2ba91";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     arion = {
@@ -38,10 +37,6 @@
     };
     declarative-jellyfin = {
       url = "github:Sveske-Juice/declarative-jellyfin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    stable-diffusion-webui-nix = {
-      url = "github:Janrupf/stable-diffusion-webui-nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     cltpt = {
@@ -96,15 +91,6 @@
     };
     homebrew-cask = {
       url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    # yt-music-tap = {
-    #   url = "github:th-ch/homebrew-youtube-music";
-    #   flake = false;
-    # };
-    # for pear-desktop (yt music)
-    neved4-tap = {
-      url = "github:Neved4/homebrew-tap";
       flake = false;
     };
     krunkit = {
@@ -381,39 +367,23 @@
           mahmooz3 = allConfigs."mahmooz3-x86_64-linux";
           mahmooz4 = allConfigs."mahmooz4-x86_64-linux";
         };
+
     nixOnDroidConfigurations.droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       pkgs = import nixpkgs { system = "aarch64-linux"; };
       modules = [ ./hosts/droid.nix ];
     };
 
-    # development shells for all systems
     devShells = forAllSystems (system: let
       sysPkgs = mkPkgs system;
       isLinux = nixpkgs.lib.hasInfix "linux" system;
 
-      # Python environment shells (work on all systems)
-      # NOTE: You must generate uv.lock first:
-      #   cd python-envs/tesseract && uv lock --python python3.12
       pythonShells = {
-        # Tesseract environment (pytesseract + PIL)
-        tesseract = let
-          pythonEnv = mkPythonEnv {
-            inherit system;
-            workspaceRoot = ./python-envs/tesseract;
-            envName = "tesseract-venv";
-            cudaSupport = false;
-          };
-        in sysPkgs.mkShell {
-          packages = [ pythonEnv ];
-        };
-
         # mlx-lm environment
         mlx-lm = sysPkgs.mkShell {
           packages = [ self.packages.${system}.mlx-lm-env ];
         };
 
-        # ML/CUDA environment (torch, torchvision, etc.)
-        # Only works with CUDA support on Linux systems
+        # ML/CUDA environment
         ml-cuda = let
           pythonEnv = mkPythonEnv {
             inherit system;
@@ -422,7 +392,7 @@
             cudaSupport = isLinux;  # Enable CUDA only on Linux
           };
         in if isLinux then
-          # Full CUDA environment for Linux
+          # CUDA environment for Linux
           sysPkgs.mkShell {
             packages = [ pythonEnv ];
             env = {
@@ -440,20 +410,7 @@
              sysPkgs.mkShell {
                packages = [ pythonEnv ];
              };
-
-        # mineru = let
-        #   pythonEnv = mkPythonEnv {
-        #     inherit system;
-        #     workspaceRoot = ./python-envs/mineru;
-        #     envName = "mineru-venv";
-        #     cudaSupport = false;
-        #   };
-        # in sysPkgs.mkShell {
-        #   packages = [ pythonEnv ];
-        # };
       };
-
-      # UV shell - works on all systems
       uvShell = sysPkgs.mkShell {
         packages = with sysPkgs; [
           python312
@@ -465,14 +422,6 @@
           UV_NO_SYNC = "1";
         };
       };
-
-      # mineruEnv = mkPythonEnv {
-      #   inherit system;
-      #   workspaceRoot = ./python-envs/mineru;
-      #   envName = "mineru-venv";
-      #   cudaSupport = false;
-      # };
-
       # this is from the nix-determinate tutorial i think, im leaving it here
       defaultShell = if nixpkgs.lib.hasInfix "darwin" system then
         sysPkgs.mkShellNoCC {
@@ -543,14 +492,14 @@
           })
         ];
       }).config.system.build.vm;
-    }
-    );
+    });
 
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
       "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
       "mygrapheneos" = inputs.robotnix.lib.robotnixSystem ./android/grapheneos.nix;
     };
+
     darwinConfigurations = {
       # silicon macs (M1, M2, M3, etc.)
       mahmooz0 =
@@ -562,8 +511,6 @@
             inherit system;
             workspaceRoot = ./python-envs/transformers-mps;
             envName = "transformers-mps-venv";
-            # should we be enabling cuda support? i think it might be handled differently on macos and might be good to enable
-            # cudaSupport = true;
           };
           # mlx-lm environment
           mlx-lm = self.packages.${system}.mlx-lm-env;
