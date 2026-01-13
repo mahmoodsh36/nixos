@@ -138,9 +138,21 @@
 
       # lsp
       nodePackages.bash-language-server
-      nil
+      typescript-language-server
       python3Packages.python-lsp-server
+      yaml-language-server
+      tailwindcss-language-server
+      postgres-language-server
+      lua-language-server
+      java-language-server
+      dockerfile-language-server
+      dot-language-server
+      cmake-language-server
+      bash-language-server
+      autotools-language-server
+      llm-ls
       vscode-langservers-extracted
+      nil
 
       # dictionary
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
@@ -148,11 +160,10 @@
       pkgs-pinned.python3Packages.huggingface-hub
       gemini-cli
       qwen-code
-      pkgs.claude-code
+      claude-code
       aichat
       goose-cli
-      # opencode
-      inputs.nix-ai-tools.packages.${pkgs.system}.opencode
+      inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
       # mistral-vibe
       # inputs.nix-ai-tools.packages.${pkgs.system}.amp
       antigravity
