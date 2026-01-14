@@ -45,7 +45,6 @@ let
     }];
     conditions = [];
   };
-
 in
 {
   xdg.configFile."karabiner/HomeManagerInit_karabiner.json" = {
