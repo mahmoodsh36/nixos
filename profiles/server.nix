@@ -68,7 +68,6 @@ in
       miller
       bc # used for some arithmetic in shell scripts
       # postgresql
-      pgadmin4 pgadmin4-desktopmode
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli

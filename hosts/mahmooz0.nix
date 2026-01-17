@@ -97,6 +97,8 @@ in
         "lulu"
         "google-chrome"
         "sabnzbd"
+        "wacom-tablet"
+        "xournal++"
       ];
       brews = [
         "krunkit"
