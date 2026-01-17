@@ -117,6 +117,7 @@
       (pkgs.callPackage ../packages/vend.nix {})
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
+      xournalpp rnote # krita
 
       # nix specific
       nixos-generators

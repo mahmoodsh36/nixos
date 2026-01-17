@@ -98,7 +98,8 @@ in
         "google-chrome"
         "sabnzbd"
         "wacom-tablet"
-        "xournal++"
+        "zoom"
+        "slack"
       ];
       brews = [
         "krunkit"
