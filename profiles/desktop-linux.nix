@@ -287,7 +287,6 @@ let
       # media tools
       # feh # image viewer (can it set wallpaper on wayland?)
       kdePackages.okular zathura foliate mupdf
-      xournalpp # rnote krita
       ocrmypdf pdftk pdfgrep poppler-utils
       imv # nice image viewer
       spotube # open source spotify client?
