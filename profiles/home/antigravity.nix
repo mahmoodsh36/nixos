@@ -25,6 +25,7 @@
         "editor.guides.indentation" = false;
         "editor.inlayHints.enabled" = "off";
         "editor.wordWrap" = "off";
+        "editor.formatOnSave" = false;
         "explorer.confirmDelete" = false;
         "explorer.confirmDragAndDrop" = false;
         "git.confirmSync" = false;
