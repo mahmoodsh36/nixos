@@ -29,6 +29,7 @@ in
     environment.systemPackages = with pkgs; [
       lima
       macpm # asitop
+      utm
     ];
 
     # necessary temporary fix
@@ -74,7 +75,6 @@ in
         # "youtube-music"
         # "podman-desktop"
         "karabiner-elements"
-        "utm"
         "xnviewmp"
         "openmtp"
         "jordanbaird-ice"
