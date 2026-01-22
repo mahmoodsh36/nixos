@@ -22,7 +22,7 @@
         ubuntu-classic
         noto-fonts
         noto-fonts-cjk-sans
-        noto-fonts-color-emoji
+        pkgs-pinned.noto-fonts-color-emoji
         dejavu_fonts
         cm_unicode
         unicode-emoji
@@ -163,7 +163,7 @@
       qwen-code
       claude-code
       aichat
-      goose-cli
+      # goose-cli
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
       mistral-vibe
       antigravity
