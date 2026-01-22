@@ -14,20 +14,22 @@
       "parallel-eval" # enables parallel evaluation
       "external-builders"
     ];
-    external-builders = builtins.toJSON [{
-      systems = [ "aarch64-linux" "x86_64-linux" ];
-      program = "/usr/local/bin/determinate-nixd";
-      args = [
-        "builder"
-        "--memory-size"
-        "30000000000" # 30GB?
-        "--cpu-count"
-        "1" # according to detsys's blog increasing this makes things slower
-      ];
-    }];
     extra-trusted-users = ["${config.machine.user}" "@admin" "@root" "@sudo" "@wheel" "@staff"];
     keep-outputs = true;
     keep-derivations = true;
     # flake-registry = "/etc/nix/flake-registry.json";
   };
+
+  # linux builder etc
+  nix.buildMachines = [{
+    systems = [ "aarch64-linux" "x86_64-linux" ];
+    program = "/usr/local/bin/determinate-nixd";
+    args = [
+      "builder"
+      "--memory-size"
+      "30000000000" # 30GB?
+      "--cpu-count"
+      "1" # according to detsys's blog increasing this makes things slower
+    ];
+  }];
 }
