@@ -100,6 +100,7 @@ in
         "wacom-tablet"
         "zoom"
         "slack"
+        "steam"
       ];
       brews = [
         "krunkit"
