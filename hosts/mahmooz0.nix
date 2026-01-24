@@ -101,6 +101,7 @@ in
         "zoom"
         "slack"
         "steam"
+        "rnote"
       ];
       brews = [
         "krunkit"
