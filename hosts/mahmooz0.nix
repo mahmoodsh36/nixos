@@ -29,7 +29,7 @@ in
     environment.systemPackages = with pkgs; [
       lima
       macpm # asitop
-      utm
+      # utm
     ];
 
     # necessary temporary fix
