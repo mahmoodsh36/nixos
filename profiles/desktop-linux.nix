@@ -284,6 +284,8 @@ let
 
       # code-cursor windsurf
 
+      vulkan-tools mesa-demos
+
       # media tools
       # feh # image viewer (can it set wallpaper on wayland?)
       kdePackages.okular zathura foliate mupdf
