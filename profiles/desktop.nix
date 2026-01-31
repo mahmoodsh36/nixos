@@ -166,7 +166,7 @@
       # goose-cli
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
       mistral-vibe
-      antigravity
+      pkgs-unstable.antigravity
       (pkgs.callPackage ../packages/gptme.nix {})
       pre-commit
 
