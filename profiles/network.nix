@@ -41,8 +41,8 @@ in
            User     mahmooz
            IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
 
-      Host mahmooz1
-           HostName ${constants.mahmooz1_addr}
+      Host mahmooz4
+           HostName ${constants.mahmooz4_addr}
            User     mahmooz
            IdentityFile       ${config.machine.voldir}/brain/keys/hetzner1
 

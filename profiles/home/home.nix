@@ -165,7 +165,7 @@ in
             MUSIC_DIR = "${VOL_DIR}/music";
             WORK_DIR = work_dir;
             work = WORK_DIR;
-            mahmooz1 = constants.mahmooz1_addr;
+            mahmooz4 = constants.mahmooz4_addr;
             brain = BRAIN_DIR;
             VOLUME_DIR = voldir;
             vol = VOLUME_DIR;
@@ -185,7 +185,7 @@ in
             PERSONAL_WEBSITE = constants.personal_website;
             MAHMOOZ3_ADDR = constants.mahmooz3_addr;
             MAHMOOZ2_ADDR = constants.mahmooz2_addr;
-            MAHMOOZ1_ADDR = constants.mahmooz1_addr;
+            MAHMOOZ4_ADDR = constants.mahmooz4_addr;
             MYDOMAIN = constants.mydomain;
             CONTAINERS_MACHINE_PROVIDER = "libkrun";
           };
