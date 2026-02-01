@@ -2,7 +2,7 @@ rec {
   mahmooz3_addr = "199.247.22.252";
   # static addr..
   mahmooz2_addr = "192.168.1.2";
-  mahmooz1_addr = "100.64.0.3"; # tailscale ip?
+  mahmooz4_addr = "100.64.0.3"; # tailscale ip?
   # private_domain = "mahmooz3.lan";
   mydomain = "mahmoodsh.com";
   mygithub = "https://github.com/mahmoodsh36";
