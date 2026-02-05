@@ -90,7 +90,7 @@ in
                         else inputs.lem-config.outPath;
         lem_config_files = builtins.attrNames (builtins.readDir lem_config_dir);
         lem_config_entries = lib.listToAttrs (builtins.map (fname: {
-          name = ".config/lem-config/${fname}";
+          name = ".lem/${fname}";
           value = {
             source = config.lib.file.mkOutOfStoreSymlink "${lem_config_dir}/${fname}";
             force = true;
