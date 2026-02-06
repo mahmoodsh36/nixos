@@ -104,7 +104,7 @@ in
         "rnote"
       ];
       brews = [
-        "krunkit"
+        # "krunkit"
         "mole"
         # "mlx-lm"
         # "anylinuxfs"
