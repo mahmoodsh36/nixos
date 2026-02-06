@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
-      url = "github:lem-project/lem";
+      url = "github:mahmoodsh36/lem-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mpv-history-daemon = {

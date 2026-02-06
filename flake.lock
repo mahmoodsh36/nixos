@@ -43,6 +43,22 @@
         "type": "github"
       }
     },
+    "async-process-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1765867240,
+        "narHash": "sha256-2qBjZ7ruhz6zmhkQBOkIQ/4eKH1Nvzfr5Gsa+0P8OFA=",
+        "owner": "lem-project",
+        "repo": "async-process",
+        "rev": "3ea46fcd238fdda101b644221ecf5e311c171a21",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lem-project",
+        "repo": "async-process",
+        "type": "github"
+      }
+    },
     "blueprint": {
       "inputs": {
         "nixpkgs": [
@@ -98,6 +114,22 @@
         "type": "github"
       }
     },
+    "cl-webview-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1755914064,
+        "narHash": "sha256-PsHF4PoSa93x2vHrqU1aeNHKutli6Y//Yqs5SQGxGWU=",
+        "owner": "lem-project",
+        "repo": "webview",
+        "rev": "238a0be10c6c37311ce2587ef99142f65abd880a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lem-project",
+        "repo": "webview",
+        "type": "github"
+      }
+    },
     "cltpt": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -111,6 +143,22 @@
         "owner": "mahmoodsh36",
         "repo": "cltpt",
         "rev": "bedfe84dff7670ab381404fef8c181d15ceae30b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "cltpt",
+        "type": "github"
+      }
+    },
+    "cltpt-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770321254,
+        "narHash": "sha256-MWthVPiXVDWxzXskfW8gP9/DHblw5R6MdAQR8SfvZqA=",
+        "owner": "mahmoodsh36",
+        "repo": "cltpt",
+        "rev": "bdee31e34c4911b2b96210d2aa418c0523ef91c8",
         "type": "github"
       },
       "original": {
@@ -434,11 +482,11 @@
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
-        "lastModified": 1763759067,
-        "narHash": "sha256-LlLt2Jo/gMNYAwOgdRQBrsRoOz7BPRkzvNaI/fzXi2Q=",
+        "lastModified": 1769996383,
+        "narHash": "sha256-AnYjnFWgS49RlqX7LrC4uA+sCCDBj0Ry/WOJ5XWAsa0=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "2cccadc7357c0ba201788ae99c4dfa90728ef5e0",
+        "rev": "57928607ea566b5db3ad13af0e57e921e6b12381",
         "type": "github"
       },
       "original": {
@@ -703,6 +751,22 @@
         "type": "github"
       }
     },
+    "jsonrpc-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1754241876,
+        "narHash": "sha256-tG2poXDvHX6twLmW8keaJedKfrFpmoHJZAmyuN0NRFk=",
+        "owner": "cxxxr",
+        "repo": "jsonrpc",
+        "rev": "42fa96ec34f6b6be77a6f12f7c4e84f375eff019",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cxxxr",
+        "repo": "jsonrpc",
+        "type": "github"
+      }
+    },
     "krunkit": {
       "flake": false,
       "locked": {
@@ -721,22 +785,32 @@
     },
     "lem": {
       "inputs": {
+        "async-process-src": "async-process-src",
+        "cl-webview-src": "cl-webview-src",
+        "cltpt-src": "cltpt-src",
         "flake-parts": "flake-parts_4",
+        "jsonrpc-src": "jsonrpc-src",
+        "lem-mailbox-src": "lem-mailbox-src",
+        "lem-src": "lem-src",
+        "micros-src": "micros-src",
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "organ-mode-src": "organ-mode-src",
+        "tree-sitter-cl-src": "tree-sitter-cl-src",
+        "webview-upstream-src": "webview-upstream-src"
       },
       "locked": {
-        "lastModified": 1769717179,
-        "narHash": "sha256-bKWjA/IhwAgtjB+65udOmfm4jaw++3hc1pyamYl8L1U=",
-        "owner": "lem-project",
-        "repo": "lem",
-        "rev": "88844059559a081651eb690b66438a93256639f5",
+        "lastModified": 1770390144,
+        "narHash": "sha256-+aAV1vJeVaPCe8DLiYPdVu0Qr1PDZ9RMjz3KKr5Z7WI=",
+        "owner": "mahmoodsh36",
+        "repo": "lem-flake",
+        "rev": "1cf06e2d138949d0a6f4e538ae81af46656f7404",
         "type": "github"
       },
       "original": {
-        "owner": "lem-project",
-        "repo": "lem",
+        "owner": "mahmoodsh36",
+        "repo": "lem-flake",
         "type": "github"
       }
     },
@@ -753,6 +827,38 @@
       "original": {
         "owner": "mahmoodsh36",
         "repo": "lem-config",
+        "type": "github"
+      }
+    },
+    "lem-mailbox-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694350537,
+        "narHash": "sha256-hb6GSWA7vUuvSSPSmfZ80aBuvSVyg74qveoCPRP2CeI=",
+        "owner": "lem-project",
+        "repo": "lem-mailbox",
+        "rev": "12d629541da440fadf771b0225a051ae65fa342a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lem-project",
+        "repo": "lem-mailbox",
+        "type": "github"
+      }
+    },
+    "lem-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770317110,
+        "narHash": "sha256-15dxpZ+E074SEa3GdCHFFVHeYVtp1mxoQROskExMtI0=",
+        "owner": "mahmoodsh36",
+        "repo": "lem",
+        "rev": "91bbc5d65e0d75480854fcc455aa21a7837e1fae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "lem",
         "type": "github"
       }
     },
@@ -814,6 +920,22 @@
       "original": {
         "owner": "hraban",
         "repo": "mac-app-util",
+        "type": "github"
+      }
+    },
+    "micros-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1765983031,
+        "narHash": "sha256-HGcKeHy5foq2M1sKQRr7eahYLTESBbQAr7ufz1+Dyhw=",
+        "owner": "lem-project",
+        "repo": "micros",
+        "rev": "2ec61c8d6028d219cc511a0e41d9228761c84251",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lem-project",
+        "repo": "micros",
         "type": "github"
       }
     },
@@ -1239,11 +1361,11 @@
     },
     "nixpkgs-lib": {
       "locked": {
-        "lastModified": 1761765539,
-        "narHash": "sha256-b0yj6kfvO8ApcSE+QmA6mUfu8IYG6/uU28OFn4PaC8M=",
+        "lastModified": 1769909678,
+        "narHash": "sha256-cBEymOf4/o3FD5AZnzC3J9hLbiZ+QDT/KDuyHXVJOpM=",
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "rev": "719359f4562934ae99f5443f20aa06c2ffff91fc",
+        "rev": "72716169fe93074c333e8d0173151350670b824c",
         "type": "github"
       },
       "original": {
@@ -1457,6 +1579,22 @@
       "original": {
         "owner": "mahmoodsh36",
         "repo": "nvim",
+        "type": "github"
+      }
+    },
+    "organ-mode-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770323327,
+        "narHash": "sha256-NncwyMmrF72l1nIgdi8wNT4sIwfRSNBntemc+oKHXOU=",
+        "owner": "mahmoodsh36",
+        "repo": "organ-mode",
+        "rev": "ed2d2aa92f0cee77fa0fe3414c92012f84315fad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "organ-mode",
         "type": "github"
       }
     },
@@ -1811,6 +1949,22 @@
         "type": "github"
       }
     },
+    "tree-sitter-cl-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1766193408,
+        "narHash": "sha256-XbChbpGoS1oDB7r3PiNBqbZUqAAYSgW+vF9xtMqky4Y=",
+        "owner": "lem-project",
+        "repo": "tree-sitter-cl",
+        "rev": "431b572d0e49d64a78320cc5f4b4a90391024ce6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lem-project",
+        "repo": "tree-sitter-cl",
+        "type": "github"
+      }
+    },
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
@@ -1970,6 +2124,22 @@
       "original": {
         "owner": "rasmus-kirk",
         "repo": "website-builder",
+        "type": "github"
+      }
+    },
+    "webview-upstream-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767701518,
+        "narHash": "sha256-cuogMVE8TC85Q73rV1hcWBakEOerIYJPRAf1wqu/2c8=",
+        "owner": "webview",
+        "repo": "webview",
+        "rev": "5c5db3f31bf644f673d9dc817e935815b590c30e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "webview",
+        "repo": "webview",
         "type": "github"
       }
     },

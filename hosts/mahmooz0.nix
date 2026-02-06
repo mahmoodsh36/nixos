@@ -116,9 +116,12 @@ in
         # "rsync"
         # "llama.cpp"
       ];
+      global = {
+        autoUpdate = false;
+      };
       onActivation.autoUpdate = true;
       onActivation.upgrade = true;
-      onActivation.cleanup = "zap";
+      onActivation.cleanup = "uninstall";
       masApps = {
         # "XCode" = 497799835;
         # "Lockbook" = 1526775001;

@@ -68,7 +68,7 @@
       waveterm
       pkgs-pinned.firefox
       mpv
-      inputs.lem.packages.${pkgs.system}.lem-webview
+      inputs.lem.packages.${pkgs.system}.lem-webview-run
 
       # music
       # strawberry

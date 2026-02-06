@@ -3,7 +3,7 @@
 let
   mysbcl = (pkgs.sbcl.withPackages (ps: with ps; [
     inputs.cltpt.packages.${pkgs.system}.cltpt-lib
-    inputs.lem.packages.${pkgs.system}.lem-webview
+    # inputs.lem.packages.${pkgs.system}.lem-webview
     serapeum
     lparallel
     cl-csv
