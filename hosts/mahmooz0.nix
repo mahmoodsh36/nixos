@@ -119,8 +119,8 @@ in
       global = {
         autoUpdate = false;
       };
-      onActivation.autoUpdate = true;
-      onActivation.upgrade = true;
+      onActivation.autoUpdate = false;
+      onActivation.upgrade = false;
       onActivation.cleanup = "uninstall";
       masApps = {
         # "XCode" = 497799835;
