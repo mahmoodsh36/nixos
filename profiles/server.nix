@@ -71,7 +71,7 @@ in
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli
-      yt-dlp (lib.mkIf (!config.machine.is_vm) ytdl-sub)
+      pkgs-unstable.yt-dlp (lib.mkIf (!config.machine.is_vm) ytdl-sub)
       # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
       #   src = pkgs.fetchFromGitHub {
       #     owner = "yt-dlp";
