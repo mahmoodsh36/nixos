@@ -8,17 +8,6 @@ let
     # we need to add "homebrew-" prefix
     "slp/homebrew-krunkit" = inputs.krunkit;
   };
-
-  # llama-cpp-src = pkgs.fetchFromGitHub {
-  #   owner = "ggerganov";
-  #   repo = "llama.cpp";
-  #   rev = "5166aaf86898c5d5268b2c4f770a35cb7ca1a0f6";
-  #   hash = "sha256-vP+fxdaaD0vnR7eWk2r0+wKSDnnjrVWTgiNksm76UFw=";
-  # };
-
-  # llama-cpp-custom = pkgs.llama-cpp.overrideAttrs (old: {
-  #   src = llama-cpp-src;
-  # });
 in
 {
   config = {
@@ -43,7 +32,6 @@ in
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-users.users
     };
 
-    # llms.llama-cpp.package = llama-cpp-custom;
     llms.llama-cpp.package = pkgs.llama-cpp;
     # llms.llama-cpp.package = inputs.llama-cpp-flake.packages.${pkgs.system}.default;
 
@@ -63,17 +51,9 @@ in
       enable = true;
       # align homebrew taps config with nix-homebrew
       taps = builtins.attrNames config.nix-homebrew.taps;
-      # taps = builtins.attrNames taps;
-      # taps = [
-      #   "nohajc/anylinuxfs"
-      # ];
       casks = [
-        # "wezterm"
         "fuse-t"
         "raycast"
-        # this errors out :/
-        # "youtube-music"
-        # "podman-desktop"
         "karabiner-elements"
         "xnviewmp"
         "openmtp"
@@ -81,7 +61,6 @@ in
         "whatsapp"
         # "whisky"
         "obs"
-        # "emacs-app"
         "transmission"
         "comfyui"
         "tor-browser"
@@ -105,15 +84,6 @@ in
       brews = [
         "krunkit"
         "mole"
-        # "mlx-lm"
-        # "anylinuxfs"
-        # "pkg-config" "cmake" "make"
-        # "ntfs-3g-mac"
-        # "ext4fuse-mac"
-        # "ext4fuse"
-        # "gromgit/fuse/ntfs-3g-mac"
-        # "rsync"
-        # "llama.cpp"
       ];
       global = {
         autoUpdate = false;
@@ -233,20 +203,6 @@ in
     #
     #     dontFixup = true;
     #   });
-    # };
-
-    # https://github.com/NixOS/nix/issues/8081#issuecomment-1962419263
-    # https://discourse.nixos.org/t/ssl-ca-cert-error-on-macos/31171/6
-    # system.activationScripts."ssl-ca-cert-fix".text = ''
-    #   if [ ! -f /etc/nix/ca_cert.pem ]; then
-    #     security export -t certs -f pemseq -k /Library/Keychains/System.keychain -o /tmp/certs-system.pem
-    #     security export -t certs -f pemseq -k /System/Library/Keychains/SystemRootCertificates.keychain -o /tmp/certs-root.pem
-    #     cat /tmp/certs-root.pem /tmp/certs-system.pem > /tmp/ca_cert.pem
-    #     sudo mv /tmp/ca_cert.pem /etc/nix/
-    #   fi
-    # '';
-    # nix.settings = {
-    #   ssl-cert-file = "/etc/nix/ca_cert.pem";
     # };
   };
 }
