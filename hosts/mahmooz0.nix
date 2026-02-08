@@ -78,7 +78,6 @@ in
         "xnviewmp"
         "openmtp"
         "jordanbaird-ice"
-        "runescape"
         "whatsapp"
         # "whisky"
         "obs"
