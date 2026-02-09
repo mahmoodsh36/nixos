@@ -160,7 +160,7 @@
       pkgs-pinned.python3Packages.huggingface-hub
       gemini-cli
       qwen-code
-      claude-code
+      pkgs-unstable.claude-code
       aichat
       # goose-cli
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
