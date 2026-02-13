@@ -2,7 +2,6 @@
 
  let
     constants = (import ../lib/constants.nix);
-    # main_julia = pkgs.julia;
   in
 {
   imports = [
@@ -52,17 +51,6 @@
     # packages
     environment.systemPackages = with pkgs; [
       pkgs-pinned.zed-editor
-
-      # (pkgs.writeShellScriptBin "julia" ''
-      #   export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-      #     pkgs.stdenv.cc.cc.lib
-      #     pkgs.libGL
-      #     pkgs.glib
-      #     pkgs.zlib
-      #   ]}:$LD_LIBRARY_PATH
-      #   export DISPLAY=:0 # cheating so it can compile
-      #   exec ${main_julia}/bin/julia "$@"
-      # '')
 
       neovide
       pkgs-pinned.firefox
