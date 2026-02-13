@@ -271,6 +271,7 @@
                   machine.is_desktop = false;
                   machine.enable_nvidia = false;
                   machine.is_home_server = false;
+                  machine.can_compile = false;
                 };
               })
               ./profiles/network-local.nix

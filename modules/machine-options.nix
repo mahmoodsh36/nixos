@@ -45,6 +45,10 @@
       type = lib.types.str;
       default = "/data";
     };
+    machine.can_compile = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+    };
 
     machine.llama-cpp = {
       pkg = lib.mkOption {

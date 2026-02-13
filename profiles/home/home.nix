@@ -250,8 +250,8 @@ in
         };
 
         services.podman-autobuilder = {
-          enable = true;
-          podmanPackage = pkgs.podman;
+          enable = config'.machine.can_compile;
+          podmanPackage = config'.machine.podman.pkg;
 
           containers = {
             # test-alpine = {
