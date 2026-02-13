@@ -78,7 +78,6 @@ in
         "wacom-tablet"
         "zoom"
         "slack"
-        "steam"
         "rnote"
       ];
       brews = [
