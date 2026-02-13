@@ -161,13 +161,13 @@ in
     virtualisation.podman = {
       package = config.machine.podman.pkg;
       enableNvidia = config.machine.enable_nvidia;
+      enable = config.machine.can_compile;
       dockerCompat = true;
       dockerSocket.enable = true;
       defaultNetwork.settings = {
         dns_enabled = true;
         # dns_servers = [ "8.8.8.8" "1.1.1.1" ];
       };
-      enable = true;
       autoPrune.enable = true;
       # dont add extraPackages on server to avoid building (building podman is resource intensive..)
       extraPackages = lib.mkIf config.machine.is_desktop [
@@ -185,17 +185,6 @@ in
     # may also need it to avoid other issues
     services.gnome.gnome-keyring.enable = true;
     security.pam.services.sddm.enableGnomeKeyring = true;
-
-    # need to set this up
-    # services.jellyseerr.enable = true;
-
-    # services.karakeep = {
-    #   enable = true;
-    #   extraEnvironment = {
-    #     DISABLE_SIGNUPS = "true";
-    #     DISABLE_NEW_RELEASE_CHECK = "true";
-    #   };
-    # };
 
     services.mysql = {
       enable = false;
@@ -219,11 +208,11 @@ in
       enable = false;
       enableTCPIP = true;
       authentication = pkgs.lib.mkOverride 10 ''
-      # generated file; do not edit!
-      # TYPE  DATABASE        USER            ADDRESS                 METHOD
-      local   all             all                                     trust
-      host    all             all             127.0.0.1/32            trust
-      host    all             all             ::1/128                 trust
+        # generated file; do not edit!
+        # TYPE  DATABASE        USER            ADDRESS                 METHOD
+        local   all             all                                     trust
+        host    all             all             127.0.0.1/32            trust
+        host    all             all             ::1/128                 trust
       '';
       # package = pkgs.postgresql_16;
       ensureDatabases = [ "mahmooz" ];
@@ -238,7 +227,6 @@ in
         ensureDBOwnership = true;
       }];
     };
-
 
     services.open-webui = lib.mkIf (lib.and config.machine.is_desktop (!config.machine.enable_nvidia)) {
       enable = false;

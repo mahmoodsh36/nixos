@@ -126,7 +126,8 @@
       nix-init
 
       # some programming languages/environments
-      (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs.sagetex ])))
+      (lib.mkIf config.machine.can_compile
+        (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs.sagetex ]))))
       typst
       # (lib.mkIf (!config.machine.enable_nvidia) pkgs.sageWithDoc) # to avoid building
       (lib.mkIf (!config.machine.enable_nvidia && !config.machine.is_vm)
@@ -158,13 +159,11 @@
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       pkgs-pinned.python3Packages.huggingface-hub
-      gemini-cli
       qwen-code
       pkgs-unstable.claude-code
       aichat
       # goose-cli
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
-      mistral-vibe
       pkgs-unstable.antigravity
       (pkgs.callPackage ../packages/gptme.nix {})
       pre-commit
@@ -175,8 +174,6 @@
       transmission_4-gtk
 
       config.machine.llama-cpp.pkg
-      koboldcpp
-      mistral-rs
       whisper-cpp
 
       pkgs.gitingest
