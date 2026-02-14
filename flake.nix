@@ -343,7 +343,7 @@
           "mahmooz2-${system}" = mkSystem system machineConfigs.mahmooz2;
           "mahmooz3-${system}" = mkSystem system machineConfigs.mahmooz3;
           "mahmooz4-${system}" = mkSystem system machineConfigs.mahmooz4;
-          "mahmooz5-${system}" = mkSystem system machineConfigs.mahmooz4;
+          "mahmooz5-${system}" = mkSystem system machineConfigs.mahmooz5;
 
           "mahmooz1_iso-${system}" = mkSystem system [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
