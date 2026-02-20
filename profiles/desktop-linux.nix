@@ -405,5 +405,7 @@ let
     programs.dconf.enable = true;
 
     services.spice-webdavd.enable = true;
+    services.qemuGuest.enable = true;
+    services.spice-vdagentd.enable = true;
   };
 }

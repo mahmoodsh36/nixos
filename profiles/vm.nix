@@ -1,9 +1,6 @@
 { config, lib, system, hostPkgs, hostVoldir, ... }:
 
 {
-  services.qemuGuest.enable = true;
-  services.spice-vdagentd.enable = true;
-
   virtualisation = {
     memorySize = 16000;
     cores = 8;
