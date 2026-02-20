@@ -41,7 +41,7 @@
     };
     cltpt = {
       url = "github:mahmoodsh36/cltpt";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "pkgs-pinned";
     };
     disko = {
       url = "github:nix-community/disko";
