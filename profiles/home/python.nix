@@ -32,12 +32,7 @@ let
     print("----------------------")
   '';
 
-  my-python-1 = pkgs-pinned.python3;
-  my-python = my-python-1.override {
-    packageOverrides = self: super: {
-      spotdl = super.toPythonModule super.pkgs.spotdl;
-    };
-  };
+  my-python = pkgs-pinned.python3;
 
   main-python = (my-python.withPackages (ps: with ps; [
     requests beautifulsoup4 dash ipython
@@ -51,7 +46,6 @@ let
     # evdev
     pdf2image
     music-tag
-    spotdl
     filetype pyexiftool
   ] ++ pkgs.lib.optionals config'.machine.enable_nvidia [
     # ml/ai stuff
