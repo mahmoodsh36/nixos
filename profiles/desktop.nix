@@ -90,9 +90,7 @@
       nodejs pnpm
       yarn
       exiftool
-      spotdl
       openjdk
-      transmission_4
       you-get aria2
       playwright
       uv
@@ -159,12 +157,17 @@
       youtube-music
       telegram-desktop
       darktable # image editor
-      transmission_4-gtk
 
       config.machine.llama-cpp.pkg
       whisper-cpp
 
       pkgs.gitingest
+    ] ++ pkgs.lib.optionals (!config.machine.is_darwin) [
+      # spotdl fails on darwin due to rapidfuzz C++ atomics issue
+      # transmission fails on darwin due to fmt build issue
+      spotdl
+      transmission_4
+      transmission_4-gtk
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       vllm

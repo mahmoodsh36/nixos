@@ -1,7 +1,7 @@
-{ lib, inputs, pkgs, config, config', ... }:
+{ lib, inputs, pkgs, config, config', pkgs-pinned, ... }:
 
 let
-  mysbcl = (pkgs.sbcl.withPackages (ps: with ps; [
+  mysbcl = (pkgs-pinned.sbcl.withPackages (ps: with ps; [
     inputs.cltpt.packages.${pkgs.system}.cltpt-lib
     serapeum
     lparallel

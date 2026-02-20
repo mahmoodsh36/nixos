@@ -51,7 +51,7 @@ in
       lsof tree
       tree-sitter
       glances btop ncdu
-      gcc clang gdb clang-tools
+      gcc clang pkgs-pinned.gdb clang-tools
       file zip unzip fzf p7zip unrar-wrapper
       gnupg
       openssl
