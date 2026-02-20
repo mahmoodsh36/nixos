@@ -71,15 +71,7 @@ in
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli
-      pkgs-unstable.yt-dlp (lib.mkIf (!config.machine.is_vm) ytdl-sub)
-      # (yt-dlp.overrideAttrs (finalAttrs: prevAttrs: {
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "yt-dlp";
-      #     repo = "yt-dlp";
-      #     rev = "a75399d89f90b249ccfda148987e10bc688e2f84";
-      #     sha256 = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
-      #   };
-      # }))
+      yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
       inputs.cltpt.packages.${pkgs.system}.default
       expect # for unbuffer etc
       mpris-scrobbler
@@ -130,6 +122,14 @@ in
     } else {});
 
     nixpkgs.overlays = [
+      (final: prev: {
+        yt-dlp = prev.yt-dlp.overrideAttrs (old: {
+          src = inputs.yt-dlp;
+          version = "unstable";
+          patches = [];
+          postPatch = "";
+        });
+      })
       inputs.nix-alien.overlays.default
       inputs.niri-flake.overlays.niri
       # TODO: needed for robotnix.. but im not using this..

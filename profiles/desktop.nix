@@ -72,7 +72,8 @@
       #   ];
       # })
       # audacious
-      jellyfin-tui jellytui
+      # this causes build cuz of the yt-dlp overlay
+      # jellyfin-tui jellytui
 
       # other
       # adb-sync
@@ -153,7 +154,6 @@
       # goose-cli
       inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
       pkgs-unstable.antigravity
-      (pkgs.callPackage ../packages/gptme.nix {})
       pre-commit
 
       youtube-music
