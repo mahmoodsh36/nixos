@@ -403,5 +403,7 @@ let
     programs.command-not-found.enable = false; # needed for nix-index
 
     programs.dconf.enable = true;
+
+    services.spice-webdavd.enable = true;
   };
 }
