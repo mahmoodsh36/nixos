@@ -331,7 +331,6 @@ let
       openrgb-with-all-plugins
       # tor-browser
 
-      vdhcoapp # for firefox video download helper
       woeusb-ng
       quickemu # quickly start VMs
       ventoy
