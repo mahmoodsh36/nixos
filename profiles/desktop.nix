@@ -150,7 +150,7 @@
       pkgs-unstable.claude-code
       aichat
       # goose-cli
-      inputs.nix-ai-tools.packages.${pkgs.system}.opencode # opencode
+      inputs.llm-agents.packages.${pkgs.system}.opencode
       pkgs-unstable.antigravity
       pre-commit
 
