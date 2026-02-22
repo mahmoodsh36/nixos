@@ -236,7 +236,11 @@ in
         };
 
         home.packages = with pkgs; [
-        ] ++ lib.optionals config'.machine.is_linux [
+        ] ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+          beads
+          openclaw
+          zeroclaw
+        ]) ++ lib.optionals config'.machine.is_linux [
           # to avoid some errors
           pkgs.dconf
         ];
