@@ -147,6 +147,7 @@
 
       pkgs-pinned.python3Packages.huggingface-hub
       qwen-code
+      gemini-cli
       pkgs-unstable.claude-code
       aichat
       # goose-cli
