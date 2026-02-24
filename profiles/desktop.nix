@@ -54,7 +54,7 @@
 
       neovide
       pkgs-pinned.firefox
-      pkgs-unstable.mpv
+      pkgs-pinned.mpv
       inputs.lem.packages.${pkgs.system}.lem-webview
 
       # music

@@ -71,7 +71,7 @@ in
       devenv
       podman-compose
       sbcl.pkgs.qlot-cli
-      pkgs-unstable.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
+      pkgs-pinned.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
       inputs.cltpt.packages.${pkgs.system}.default
       expect # for unbuffer etc
       mpris-scrobbler
