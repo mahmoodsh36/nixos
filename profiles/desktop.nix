@@ -54,7 +54,7 @@
 
       neovide
       pkgs-pinned.firefox
-      mpv
+      pkgs-unstable.mpv
       inputs.lem.packages.${pkgs.system}.lem-webview
 
       # music
@@ -84,7 +84,7 @@
       notmuch
       monolith # save webpages
       djvulibre djvu2pdf
-      czkawka czkawka-full # file dupe finder/cleaner? has a gui too
+      # czkawka-full # file dupe finder/cleaner? has a gui too
       # python3Packages.chromadb # vector database
       nodePackages.prettier
       nodejs pnpm

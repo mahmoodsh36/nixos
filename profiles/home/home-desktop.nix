@@ -10,12 +10,12 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf config'.machine.is_desktop {
-      programs.mpv = {
-        enable = true;
-        scripts = [
-          pkgs.mpvScripts.memo
-        ];
-      };
+      # programs.mpv = {
+      #   enable = true;
+      #   scripts = [
+      #     pkgs.mpvScripts.memo
+      #   ];
+      # };
       home.packages = with pkgs; [
       ];
     })
