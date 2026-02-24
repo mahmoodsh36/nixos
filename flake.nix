@@ -48,7 +48,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs = {
-      url = "github:nix-community/emacs-overlay/e434cb40e1a77ef70a4d8a848ccca91d0a7e42ad";
+      # url = "github:nix-community/emacs-overlay/e434cb40e1a77ef70a4d8a848ccca91d0a7e42ad";
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     darwin-emacs = {
