@@ -48,29 +48,24 @@ in
       parallel
       fd # alternative to find
       dash
-      lsof tree
-      tree-sitter
+      lsof
+      tree
       glances btop ncdu
       gcc clang pkgs-pinned.gdb clang-tools
       file zip unzip fzf p7zip unrar-wrapper
       gnupg
       openssl
       man-pages man-pages-posix
-      # wezterm # we need it installed on the server too, for persistent sessions
-      # (myutils.packageFromCommit {
-      #   rev = "ab0f3607a6c7486ea22229b92ed2d355f1482ee0";
-      #   packageName = "wezterm";
-      # })
+      # we need wezterm installed on the server too, for persistent sessions
       wezterm
       # inputs.wezterm.packages.${pkgs.system}.default
       fdupes
-      # jellyfin jellyfin-web
+      jellyfin jellyfin-web
       miller
       bc # used for some arithmetic in shell scripts
-      # postgresql
+      postgresql
       devenv
       podman-compose
-      sbcl.pkgs.qlot-cli
       pkgs-pinned.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
       inputs.cltpt.packages.${pkgs.system}.default
       expect # for unbuffer etc
@@ -97,7 +92,6 @@ in
     ] ++ pkgs.lib.optionals config.machine.is_darwin [
       pkgs-pinned.python3Packages.mlx-lm
       pkgs-pinned.python3Packages.mlx-vlm
-      pkgs-pinned.ramalama
     ];
 
     # some apps respect XDG paths even on macos
@@ -130,7 +124,6 @@ in
       #     postPatch = "";
       #   });
       # })
-      # put this in your flake as an overlay (outputs -> pkgs import overlays = [ ... ])
       inputs.nix-alien.overlays.default
       inputs.niri-flake.overlays.niri
       # TODO: needed for robotnix.. but im not using this..
