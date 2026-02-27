@@ -16,9 +16,9 @@ in
     system.primaryUser = "${config.machine.user}";
 
     environment.systemPackages = with pkgs; [
-      lima
       macpm # asitop
       # utm
+      keycastr
     ];
 
     # necessary temporary fix
