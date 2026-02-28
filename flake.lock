@@ -655,11 +655,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1772308054,
-        "narHash": "sha256-00vDpVbcGonRK5gPBvSsMs0t+PYvsrD2VMJXZNJKHLw=",
+        "lastModified": 1772317323,
+        "narHash": "sha256-Y1sKjsA7hNm5SLdK4qU01jwmTYwjVDjLSZo9/l1pJLc=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "061569009cb23f9e286dd5ffa0a3a3b4a6a71df0",
+        "rev": "e589442cd18e23f97a682b16411fb6d14565f614",
         "type": "github"
       },
       "original": {
@@ -671,11 +671,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1772310529,
-        "narHash": "sha256-IkcbbuyF5YS1usW93EOu+CKX1a+e47QUbmLu92L+VIE=",
+        "lastModified": 1772315977,
+        "narHash": "sha256-nR+9N/vNCTRRf/fyPE7l0ATjcTsm6Qu2UGgLmfgImJ4=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "32a583e720b4b50e1569ecef965476107dfc3dad",
+        "rev": "5748863dac370e5f1864eddc47dbffbf0e1a8f3a",
         "type": "github"
       },
       "original": {
@@ -813,11 +813,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1772281965,
-        "narHash": "sha256-SecgdYWt4Fahw6Kk+RnKwSZYDCaObVkRSPDB8BMMhPw=",
-        "rev": "d52033fc7705c8cf20c524dd5589272143419b6a",
+        "lastModified": 1772311990,
+        "narHash": "sha256-zeyShabef4MP2/E06y9a5Rt0+q4O0h0w/38nyoNbp0A=",
+        "rev": "f856d4fd2501a904084f923fc0a2f0f47284a7b6",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/d52033fc7705c8cf20c524dd5589272143419b6a.tar.gz?rev=d52033fc7705c8cf20c524dd5589272143419b6a"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/f856d4fd2501a904084f923fc0a2f0f47284a7b6.tar.gz?rev=f856d4fd2501a904084f923fc0a2f0f47284a7b6"
       },
       "original": {
         "type": "tarball",
@@ -1589,11 +1589,11 @@
         "treefmt-nix": "treefmt-nix_5"
       },
       "locked": {
-        "lastModified": 1772112759,
-        "narHash": "sha256-DkpAyEoh+ZuQsGBiK9m4LqEWqlxfOVFVpEcQCbeBsho=",
+        "lastModified": 1772316429,
+        "narHash": "sha256-pWNd1zJBf+A5k0rClKpm/r7FcKflBlQ6WMT5upVp8eg=",
         "owner": "nix-community",
         "repo": "robotnix",
-        "rev": "7dc963b1ab315292c601a2ac980968c19750ce46",
+        "rev": "4d90d2ddd61fb11492b2302f91274b5f02579020",
         "type": "github"
       },
       "original": {
