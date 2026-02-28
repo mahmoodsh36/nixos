@@ -82,10 +82,6 @@
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
       # inputs.nixpkgs.follows = "nixpkgs";
@@ -110,6 +106,15 @@
     nix-rosetta-builder = {
       url = "github:cpick/nix-rosetta-builder";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    lix = {
+      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
+      flake = false;
+    };
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.lix.follows = "lix";
     };
 
     # android
@@ -443,36 +448,10 @@
           UV_NO_SYNC = "1";
         };
       };
-      # this is from the nix-determinate tutorial i think, im leaving it here
-      defaultShell = if nixpkgs.lib.hasInfix "darwin" system then
-        sysPkgs.mkShellNoCC {
-          packages = with sysPkgs; [
-            (writeShellApplication {
-              name = "apply-nix-darwin-configuration";
-              runtimeInputs = [
-                inputs.nix-darwin.packages.${system}.darwin-rebuild
-              ];
-              text = ''
-                echo "> Applying nix-darwin configuration..."
-
-                echo "> Running darwin-rebuild switch as root..."
-                sudo darwin-rebuild switch --flake .
-                echo "> darwin-rebuild switch was successful ✅"
-
-                echo "> macOS config was successfully applied 🚀"
-              '';
-            })
-          ] ++ nixpkgs.lib.optional (self ? formatter.${system}) self.formatter.${system};
-        } else
-          # basic shell for linux and other systems
-          sysPkgs.mkShellNoCC {
-            packages = [ ];
-          };
     in
       # merge all shells together
       pythonShells // {
         uv = uvShell;
-        default = defaultShell;
       }
     );
     packages = forAllSystems (system: let
@@ -543,28 +522,17 @@
               myutils = import ./lib/utils.nix { inherit system; };
             };
             modules = [
-              # from https://github.com/cpick/nix-rosetta-builder
-              # an existing Linux builder is needed to initially bootstrap `nix-rosetta-builder`.
-              # if one isn't already available: comment out `nix-rosetta-builder` module below,
-              # uncomment this `linux-builder` module, and run `darwin-rebuild switch`:
-              # { nix.linux-builder.enable = true; }
-              # then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
-              # a second time. subsequently, `nix-rosetta-builder` can rebuild itself.
-              # also might need 'softwareupdate --install-rosetta --agree-to-license'
-              # inputs.nix-rosetta-builder.darwinModules.default
-
-              inputs.determinate.darwinModules.default
-              ./profiles/determinate.nix
+              inputs.lix-module.darwinModules.default
 
               inputs.mac-app-util.darwinModules.default
               inputs.home-manager.darwinModules.home-manager
               ({ pkgs, ... }: {
-                nixpkgs.overlays = [ inputs.darwin-emacs.overlays.emacs ];
+                 nixpkgs.overlays = [ inputs.darwin-emacs.overlays.emacs ];
               })
               ({ config, pkgs, lib, ... }: {
                 config = {
                   machine.name = "mahmooz0";
-                  machine.user = "mahmoodsheikh";
+                  machine.user = "mahmooz";
                   machine.is_desktop = true;
                   machine.enable_nvidia = false;
                   machine.is_linux = false;

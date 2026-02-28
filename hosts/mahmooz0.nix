@@ -64,7 +64,6 @@ in
         "transmission"
         "comfyui"
         "tor-browser"
-        "cherry-studio"
         "lm-studio"
         # "audacious"
         # "deadbeef"
