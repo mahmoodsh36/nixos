@@ -130,6 +130,7 @@ in
         InitialKeyRepeat = 15;
         AppleShowAllExtensions = true;
         "com.apple.trackpad.enableSecondaryClick" = true;
+        "com.apple.mouse.tapBehavior" = 1;
       };
       CustomUserPreferences = {
         # settings of plist in /Users/${vars.user}/Library/Preferences/
