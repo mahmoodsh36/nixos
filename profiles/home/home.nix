@@ -110,7 +110,6 @@ in
           ./home-desktop.nix
           ./vscode.nix
           ./zed.nix
-          ./antigravity.nix
           # ./plasma.nix
           ./python.nix
           # ./julia.nix
