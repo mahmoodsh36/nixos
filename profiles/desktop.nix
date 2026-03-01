@@ -21,7 +21,7 @@
         ubuntu-classic
         noto-fonts
         noto-fonts-cjk-sans
-        pkgs-pinned.noto-fonts-color-emoji
+        noto-fonts-color-emoji
         dejavu_fonts
         cm_unicode
         unicode-emoji
@@ -50,10 +50,8 @@
 
     # packages
     environment.systemPackages = with pkgs; [
-      pkgs-pinned.zed-editor
-
       neovide
-      pkgs-pinned.firefox
+      firefox
       pkgs-pinned.mpv
       inputs.lem.packages.${pkgs.system}.lem-webview
 
@@ -141,7 +139,7 @@
       # dictionary
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
-      pkgs-pinned.python3Packages.huggingface-hub
+      python3Packages.huggingface-hub
       qwen-code
       gemini-cli
       pkgs.claude-code
