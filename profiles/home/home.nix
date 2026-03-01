@@ -224,7 +224,7 @@ in
         # i dont think im even making use of this
         programs.neovim = {
           enable = true;
-          plugins = with pkgs-pinned.vimPlugins; [
+          plugins = with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
           ];
           viAlias = true;
