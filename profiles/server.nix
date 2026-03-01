@@ -58,7 +58,6 @@ in
       man-pages man-pages-posix
       # we need wezterm installed on the server too, for persistent sessions
       wezterm
-      # inputs.wezterm.packages.${pkgs.system}.default
       fdupes
       jellyfin jellyfin-web
       miller

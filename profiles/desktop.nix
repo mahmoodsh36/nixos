@@ -85,10 +85,8 @@
       monolith # save webpages
       djvulibre djvu2pdf
       # czkawka-full # file dupe finder/cleaner? has a gui too
-      # python3Packages.chromadb # vector database
       nodePackages.prettier
-      nodejs pnpm
-      yarn
+      nodejs pnpm yarn
       exiftool
       openjdk
       you-get aria2
@@ -116,13 +114,11 @@
       (lib.mkIf config.machine.can_compile
         (texlive.combined.scheme-full.withPackages((ps: with ps; [ pkgs.sagetex ]))))
       typst
-      # (lib.mkIf (!config.machine.enable_nvidia) pkgs.sageWithDoc) # to avoid building
-      (lib.mkIf (!config.machine.enable_nvidia && !config.machine.is_vm)
-        (myutils.packageFromCommit {
-          rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
-          packageName = "sageWithDoc";
-          sha256 = "1fsnvjvg7z2nvs876ig43f8z6cbhhma72cbxczs30ld0cqgy5dks";
-        }))
+      (myutils.packageFromCommit {
+        rev = "c2ae88e026f9525daf89587f3cbee584b92b6134b9";
+        packageName = "sageWithDoc";
+        sha256 = "1fsnvjvg7z2nvs876ig43f8z6cbhhma72cbxczs30ld0cqgy5dks";
+      })
 
       # lsp
       nodePackages.bash-language-server
@@ -148,11 +144,11 @@
       pkgs-pinned.python3Packages.huggingface-hub
       qwen-code
       gemini-cli
-      pkgs-unstable.claude-code
+      pkgs.claude-code
       aichat
-      # goose-cli
+      goose-cli
       inputs.llm-agents.packages.${pkgs.system}.opencode
-      pkgs-unstable.antigravity
+      pkgs.antigravity
       pre-commit
 
       youtube-music

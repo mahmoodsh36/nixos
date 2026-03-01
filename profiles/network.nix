@@ -2,10 +2,9 @@
 
 let
   constants = (import ../lib/constants.nix);
-  isLinux = options ? boot.kernelPackages; # NixOS-specific option, not in nix-darwin
+  isLinux = options ? boot.kernelPackages;
   isDarwin = lib.strings.hasInfix "darwin" system;
   is_exit_node = config.machine.name == "mahmooz3";
-  # mydomain = (if is_exit_node then constants.mydomain else config.machine.name);
   mydomain = (if is_exit_node then constants.mydomain else "localhost");
   headscale_host = "headscale.${mydomain}";
   grafana_host = "grafana.${mydomain}";
@@ -18,11 +17,6 @@ let
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
   blocky_port = 53;
-  tailscale-pkg = myutils.packageFromCommit {
-    rev = "2fb006b87f04c4d3bdf08cfdbc7fab9c13d94a15";
-    packageName = "tailscale";
-    sha256 = "1v7xb8aamka3ajv6na7m41fq65xig7h1pacwj2dyjg12kchjb7wh";
-  };
 in
 {
   config = lib.mkMerge ([{
@@ -54,7 +48,7 @@ in
   }] ++ (lib.optional isDarwin {
      services.tailscale = {
       enable = true;
-      package = tailscale-pkg;
+      # package = tailscale-pkg;
       overrideLocalDns = true;
     };
   }) ++ (lib.optional isLinux {
@@ -63,7 +57,7 @@ in
 
     services.tailscale = lib.mkIf (!config.machine.is_vm) {
       enable = true;
-      package = tailscale-pkg;
+      # package = tailscale-pkg;
       useRoutingFeatures = "both";
       port = 12345; # (default: 41641)
     };
