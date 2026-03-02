@@ -133,7 +133,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": [
-          "pkgs-pinned"
+          "nixpkgs"
         ]
       },
       "locked": {
