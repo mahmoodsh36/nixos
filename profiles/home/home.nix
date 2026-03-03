@@ -238,7 +238,7 @@ in
         ] ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
           beads
           # openclaw
-          zeroclaw
+          # zeroclaw
         ]) ++ lib.optionals config'.machine.is_linux [
           # to avoid some errors
           pkgs.dconf
