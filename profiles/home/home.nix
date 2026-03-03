@@ -251,6 +251,15 @@ in
             email = "mahmod.m2015@gmail.com";
           };
         };
+        programs.difftastic = {
+          enable = true;
+          git = {
+            enable = true;
+          };
+          options = {
+            tab-width = 2;
+          };
+        };
 
         services.podman-autobuilder = {
           enable = config'.machine.can_compile;

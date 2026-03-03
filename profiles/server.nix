@@ -73,7 +73,6 @@ in
       inputs.mpv-history-daemon.packages.${pkgs.system}.default
       git-filter-repo
       dust
-      difftastic
 
       # networking tools
       curl wget nmap socat arp-scan tcpdump iftop
