@@ -73,6 +73,7 @@ in
       inputs.mpv-history-daemon.packages.${pkgs.system}.default
       git-filter-repo
       dust
+      difftastic
 
       # networking tools
       curl wget nmap socat arp-scan tcpdump iftop
@@ -115,14 +116,14 @@ in
     } else {});
 
     nixpkgs.overlays = [
-      # (final: prev: {
-      #   yt-dlp = prev.yt-dlp.overrideAttrs (old: {
-      #     src = inputs.yt-dlp;
-      #     version = "unstable";
-      #     patches = [];
-      #     postPatch = "";
-      #   });
-      # })
+      (final: prev: {
+        yt-dlp = prev.yt-dlp.overrideAttrs (old: {
+          src = inputs.yt-dlp;
+          version = "unstable";
+          patches = [];
+          postPatch = "";
+        });
+      })
       inputs.nix-alien.overlays.default
       inputs.niri-flake.overlays.niri
       # TODO: needed for robotnix.. but im not using this..
