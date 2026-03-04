@@ -157,10 +157,9 @@
       whisper-cpp
 
       pkgs.gitingest
-    ] ++ pkgs.lib.optionals (!config.machine.is_darwin) [
-      # spotdl fails on darwin due to rapidfuzz C++ atomics issue
-      # transmission fails on darwin due to fmt build issue
       spotdl
+    ] ++ pkgs.lib.optionals (!config.machine.is_darwin) [
+      # transmission fails on darwin due to fmt build issue
       transmission_4
       transmission_4-gtk
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
