@@ -66,7 +66,7 @@ let
 
   # MLX environment for Apple Silicon
   mlx-python = (my-python.withPackages (ps: with ps; [
-    mlx mlx-lm mlx-vlm
+    # mlx mlx-lm mlx-vlm
     numpy
     pillow
     huggingface-hub
