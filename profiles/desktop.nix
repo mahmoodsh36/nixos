@@ -95,7 +95,6 @@
       ffmpeg-full.bin # untrunc-anthwlock
       pandoc
       pigz # for compression
-      kando
       (pkgs.callPackage ../packages/vend.nix {})
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
