@@ -31,6 +31,5 @@
   # an additional sandbox path to your Nix config.
   ccache.enable = true;
 
-  # not tested yet.
-  signing.enable = false;
+  stateVersion = "3";
 }
