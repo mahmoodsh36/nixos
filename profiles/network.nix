@@ -547,7 +547,7 @@ in
     "d /var/log/caddy 0755 caddy caddy - -"
   ];
 
-  networking.firewall = {
+  networking.firewall = lib.mkIf (!config.machine.is_avf) {
     allowedTCPPorts = [
       22 2222 # ssh
       80 # nginx - http
