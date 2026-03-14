@@ -274,6 +274,7 @@
               ./disko-raid1.nix
             ];
             mahmooz5 = [
+              ./hardware-configuration.nix
               ({ lib, ... }: {
                 config = {
                   machine.name = "mahmooz5";
