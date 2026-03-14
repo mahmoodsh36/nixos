@@ -278,6 +278,7 @@
               <nixos-avf/avf>
               ({ lib, ... }: {
                 config = {
+                  avf.defaultUser = "mahmooz";
                   machine.name = "mahmooz5";
                   machine.is_desktop = false;
                   machine.enable_nvidia = false;
