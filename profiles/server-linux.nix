@@ -122,6 +122,7 @@ in
       extraGroups = [ "audio" "wheel" "podman" "incus-admin" "libvirtd" "caddy" ];
       shell = pkgs.zsh;
       initialPassword = constants.password;
+      group = "${config.machine.user}";
       packages = with pkgs; [];
     };
 
