@@ -274,7 +274,6 @@
               ./disko-raid1.nix
             ];
             mahmooz5 = [
-              ./hardware-configuration.nix
               ({ lib, ... }: {
                 config = {
                   machine.name = "mahmooz5";
@@ -284,9 +283,6 @@
                   machine.can_compile = false;
                 };
               })
-              ./profiles/network-local.nix
-              inputs.disko.nixosModules.disko
-              ./disko-raid1.nix
             ];
             mahmooz2 = [
               ./hardware-configuration.nix
@@ -393,6 +389,7 @@
           mahmooz2 = allConfigs."mahmooz2-x86_64-linux";
           mahmooz3 = allConfigs."mahmooz3-x86_64-linux";
           mahmooz4 = allConfigs."mahmooz4-x86_64-linux";
+          mahmooz5 = allConfigs."mahmooz5-aarch64-linux";
         };
 
     nixOnDroidConfigurations.droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
