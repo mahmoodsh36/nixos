@@ -283,6 +283,7 @@
                   machine.enable_nvidia = false;
                   machine.is_home_server = false;
                   machine.can_compile = false;
+                  machine.is_avf = true;
                 };
               })
             ];

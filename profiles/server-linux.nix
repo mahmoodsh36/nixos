@@ -10,7 +10,7 @@ in
   ];
 
   config = lib.mkIf config.machine.is_linux {
-    system.stateVersion = "24.05"; # dont change
+    system.stateVersion = "${config.system.nixos.release}";
 
     _module.args = {
       inherit inputs;
@@ -32,9 +32,9 @@ in
     # boot.loader.efi.canTouchEfiVariables = true;
 
     # use grub
-    boot.loader.systemd-boot.enable = false;
+    boot.loader.systemd-boot.enable = config.machine.is_avf;
     # boot.supportedFilesystems = [ "ntfs" ];
-    boot.loader.grub = {
+    boot.loader.grub = lib.mkIf (!config.machine.is_avf) {
       enable = true;
       efiSupport = true;
       useOSProber = true;
