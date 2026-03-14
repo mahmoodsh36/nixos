@@ -4,7 +4,7 @@ let
   emacs_base_pkg = if config.machine.is_darwin
                    then pkgs.emacs-30
                    else pkgs.emacs;
-  emacs_pkg = (emacs_base_pkg.override {
+  emacs_pkg = if config.machine.can_compile then (emacs_base_pkg.override {
     withImageMagick = false;
     withNativeCompilation = true;
     withCompressInstall = false;
@@ -16,7 +16,7 @@ let
     withX = false;
   }).overrideAttrs (oldAttrs: rec {
     imagemagick = pkgs.imagemagickBig;
-  });
+  }) else pkgs.emacs;
 in
 {
   config = {
