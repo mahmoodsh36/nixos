@@ -279,6 +279,7 @@
               ({ lib, ... }: {
                 config = {
                   machine.name = "mahmooz5";
+                  machine.user = "droid";
                   machine.is_desktop = false;
                   machine.enable_nvidia = false;
                   machine.is_home_server = false;
