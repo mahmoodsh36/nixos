@@ -189,7 +189,6 @@ let
     };
     programs.xfconf.enable = true;
     services.tumbler.enable = lib.mkForce false;
-    programs.light.enable = true;
 
     # hybrid sleep when press power button. doesnt work anymore
     # services.logind.extraConfig = ''
