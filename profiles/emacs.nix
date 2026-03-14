@@ -19,7 +19,7 @@ let
   });
 in
 {
-  config = lib.mkIf config.machine.is_desktop {
+  config = {
     # packages
     environment.systemPackages = with pkgs; [
       (lib.mkIf (!config.machine.is_vm) ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
