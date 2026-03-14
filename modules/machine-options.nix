@@ -32,6 +32,10 @@
       type = lib.types.bool;
       default = false;
     };
+    machine.is_avf = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
     machine.is_vm = lib.mkOption {
       type = lib.types.bool;
       default = false;
