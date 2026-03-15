@@ -17,7 +17,7 @@ let
     cl-cuda
     clingon # command-line options parser
     ironclad # crypto functions
-    fiveam # tests
+    fiveam rove # tests
     closer-mop
     local-time
     cl-json
