@@ -141,8 +141,8 @@ let
         settings.General.DisplayServer = "wayland";
       };
       # defaultSession = "hyprland";
-      defaultSession = "gnome";
-      # defaultSession = "niri";
+      # defaultSession = "gnome";
+      defaultSession = "niri";
       # defaultSession = "plasma";
       # defaultSession = "cosmic";
     };
