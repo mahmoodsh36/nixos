@@ -145,7 +145,8 @@
         "type": "github"
       },
       "original": {
-        "owner": "hraban",
+        "owner": "r4v3n6101",
+        "ref": "url-fix",
         "repo": "cl-nix-lite",
         "type": "github"
       }
@@ -320,7 +321,7 @@
       "flake": false,
       "locked": {
         "lastModified": 1773504751,
-        "narHash": "sha256-vwU3l5B+h4jKfZpuhcy3yjrbPuczVxGXaVTKsT2MqtE=",
+        "narHash": "sha256-7nbGeKF9RzJeiQViiVBDrKFM7h6PNzuKKN1SmeIxx1w=",
         "owner": "mahmoodsh36",
         "repo": ".emacs.d",
         "rev": "d6b3721b1c8d576ac46a56eb2f75143403ec6e03",
