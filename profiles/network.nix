@@ -350,6 +350,7 @@ in
           cookie_secure = true;
           cookie_samesite = "strict";
           content_security_policy = true;
+          secret_key = grafana_password;
         };
         server = {
           http_addr = "127.0.0.1";
