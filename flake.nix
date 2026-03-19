@@ -317,6 +317,7 @@
                   machine.name = "mahmooz3";
                   machine.is_desktop = false;
                   machine.enable_nvidia = false;
+                  machine.can_compile = false;
                   # needed for virtual machines
                   boot.loader.grub.efiInstallAsRemovable = true;
                   boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
