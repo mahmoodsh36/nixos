@@ -16,6 +16,7 @@ let
   caddy_log_dir = "/var/log/caddy";
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
+  umami_secret = builtins.getEnv "UMAMI_SECRET";
   blocky_port = 53;
 in
 {
@@ -141,6 +142,11 @@ in
         "https://${grafana_host}" = {
           extraConfig = ''
             reverse_proxy 127.0.0.1:${toString grafana_port}
+          '';
+        };
+        "analytics.${mydomain}" = {
+          extraConfig = ''
+            reverse_proxy 127.0.0.1:3001
           '';
         };
         "https://${searxng_host}" = {
@@ -586,6 +592,16 @@ in
           default = [ "ads" ];
         };
       };
+    };
+  };
+
+  services.umami = lib.mkIf (is_exit_node && isLinux && umami_secret != "") {
+    enable = true;
+    settings = {
+      HOSTNAME = "0.0.0.0";
+      PORT = 3001;
+      APP_SECRET = umami_secret;
+      DISABLE_TELEMETRY = true;
     };
   };
   }));

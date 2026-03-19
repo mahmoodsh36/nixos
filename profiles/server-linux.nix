@@ -205,7 +205,7 @@ in
     };
 
     services.postgresql = {
-      enable = false;
+      enable = true;
       enableTCPIP = true;
       authentication = pkgs.lib.mkOverride 10 ''
         # generated file; do not edit!
