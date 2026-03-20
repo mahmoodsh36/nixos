@@ -43,7 +43,7 @@ let
     matplotlib numpy sympy networkx pydot
     seaborn pillow rich pandas graphviz
     python-lsp-server flask imageio
-    openai regex
+    openai regex pydantic instructor
 
     # for system/scripts etc
     musicbrainzngs ytmusicapi tinytag python-magic
