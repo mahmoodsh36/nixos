@@ -141,7 +141,7 @@
       python3Packages.huggingface-hub
       qwen-code
       gemini-cli
-      pkgs.claude-code
+      pkgs-unstable.claude-code
       aichat
       goose-cli
       inputs.llm-agents.packages.${pkgs.system}.opencode
