@@ -48,7 +48,7 @@ in
     };
 
     homebrew = {
-      enable = true;
+      enable = false;
       # align homebrew taps config with nix-homebrew
       taps = builtins.attrNames config.nix-homebrew.taps;
       casks = [
@@ -86,8 +86,8 @@ in
       global = {
         autoUpdate = false;
       };
-      onActivation.autoUpdate = false;
-      onActivation.upgrade = false;
+      onActivation.autoUpdate = true;
+      onActivation.upgrade = true;
       onActivation.cleanup = "uninstall";
       masApps = {
         # "XCode" = 497799835;
