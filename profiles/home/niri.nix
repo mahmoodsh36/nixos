@@ -57,8 +57,7 @@
 
           # application launching
           "Mod+D".action.spawn = [ "fuzzel" ];
-          "Mod+Return".action.spawn = [ "kitty" ];
-          "Mod+W".action.spawn = [ "wezterm" ];
+          "Alt+Return".action.spawn = [ "wezterm" ];
           "Mod+Shift+E".action = quit;
 
           # window management

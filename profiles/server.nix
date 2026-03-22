@@ -50,7 +50,7 @@ in
       dash
       lsof
       tree
-      glances btop ncdu
+      pkgs-pinned.glances btop ncdu
       gcc clang clang-tools # gdb
       file zip unzip fzf p7zip unrar-wrapper
       gnupg

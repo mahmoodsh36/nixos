@@ -163,7 +163,7 @@ in
         ephemeral = true;
         maxJobs = 4;
         # comment the following 2 expressions out on first run?
-        systems = [ "aarch64-linux" "x86_64-linux" ];
+        # systems = [ "aarch64-linux" "x86_64-linux" ];
         config = {
           virtualisation = {
             darwin-builder = {
@@ -171,7 +171,7 @@ in
               memorySize = 8 * 1024;
             };
             cores = 8;
-            rosetta.enable = true;
+            # rosetta.enable = true;
           };
         };
       };
