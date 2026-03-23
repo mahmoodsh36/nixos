@@ -143,7 +143,6 @@
       gemini-cli
       pkgs-unstable.claude-code
       aichat
-      goose-cli
       inputs.llm-agents.packages.${pkgs.system}.opencode
       pkgs.antigravity
       pre-commit
