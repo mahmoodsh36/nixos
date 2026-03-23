@@ -141,8 +141,8 @@ let
         settings.General.DisplayServer = "wayland";
       };
       # defaultSession = "hyprland";
-      # defaultSession = "gnome";
-      defaultSession = "niri";
+      defaultSession = "gnome";
+      # defaultSession = "niri";
       # defaultSession = "plasma";
       # defaultSession = "cosmic";
     };
@@ -160,7 +160,7 @@ let
     programs.niri.enable = true;
 
     # cosmic DE
-    services.desktopManager.cosmic.enable = true;
+    # services.desktopManager.cosmic.enable = true;
     # services.displayManager.cosmic-greeter.enable = true;
 
     # tty configs
