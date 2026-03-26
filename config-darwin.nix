@@ -22,6 +22,13 @@ in
   ];
 
   config = {
+    nixpkgs.overlays = [
+      (final: prev: {
+        nss_wrapper = prev.runCommand "nss_wrapper-stub" {} ''
+          mkdir -p $out/lib $out/bin
+        '';
+      })
+    ];
     _module.args = {
       inherit pkgs-unstable;
       inherit pkgs-pinned;
@@ -33,8 +40,5 @@ in
     nixpkgs.config.permittedInsecurePackages = [
       "ventoy-1.1.10"
     ];
-    nixpkgs.config.problems.handlers = {
-      nss_wrapper.broken = "warn";
-    };
   };
 }
