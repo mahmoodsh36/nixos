@@ -33,5 +33,8 @@ in
     nixpkgs.config.permittedInsecurePackages = [
       "ventoy-1.1.10"
     ];
+    nixpkgs.config.problems.handlers = {
+      nss_wrapper.broken = "warn";
+    };
   };
 }
