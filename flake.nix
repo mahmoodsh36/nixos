@@ -149,6 +149,10 @@
       url = "github:mahmoodsh36/lem-config";
       flake = false;
     };
+    hermes-agent = {
+      url = "github:0xrsydn/nix-hermes-agent";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for python
     pyproject-nix = {
