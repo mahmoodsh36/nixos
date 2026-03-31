@@ -65,7 +65,7 @@ in
       postgresql
       devenv
       podman-compose
-      pkgs-unstable.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
+      yt-dlp #pkgs-unstable.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
       inputs.cltpt.packages.${pkgs.system}.default
       expect # for unbuffer etc
       mpris-scrobbler
@@ -89,7 +89,7 @@ in
       nvfetcher
       # arion
       inputs.disko.packages.${pkgs.system}.default
-      inputs.hermes-agent.packages.${pkgs.system}.default
+      # inputs.hermes-agent.packages.${pkgs.system}.default
     ] ++ pkgs.lib.optionals config.machine.is_darwin [
       # pkgs-pinned.python3Packages.mlx-lm
       # pkgs-pinned.python3Packages.mlx-vlm
@@ -117,14 +117,14 @@ in
     } else {});
 
     nixpkgs.overlays = [
-      (final: prev: {
-        yt-dlp = prev.yt-dlp.overrideAttrs (old: {
-          src = inputs.yt-dlp;
-          version = "unstable";
-          patches = [];
-          postPatch = "";
-        });
-      })
+      # (final: prev: {
+      #   yt-dlp = prev.yt-dlp.overrideAttrs (old: {
+      #     src = inputs.yt-dlp;
+      #     version = "unstable";
+      #     patches = [];
+      #     postPatch = "";
+      #   });
+      # })
       inputs.nix-alien.overlays.default
       inputs.niri-flake.overlays.niri
       # TODO: needed for robotnix.. but im not using this..
