@@ -181,11 +181,6 @@ in
       Delegate = "cpu cpuset io memory pids";
     };
 
-    # will this help prevent the dbus org.freedesktop.secrets error when using goose-cli?
-    # may also need it to avoid other issues
-    services.gnome.gnome-keyring.enable = true;
-    security.pam.services.sddm.enableGnomeKeyring = true;
-
     services.mysql = {
       enable = false;
       settings.mysqld.bind-address = "0.0.0.0";
