@@ -53,7 +53,7 @@
       neovide
       firefox
       pkgs-pinned.mpv
-      inputs.lem.packages.${pkgs.system}.lem-webview
+      inputs.lem.packages.${pkgs.system}.lem-webview-app
 
       # music
       # strawberry
