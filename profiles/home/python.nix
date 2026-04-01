@@ -32,7 +32,7 @@ let
     print("----------------------")
   '';
 
-  my-python = pkgs-pinned.python3.override {
+  my-python = pkgs.python3.override {
     packageOverrides = self: super: {
       spotdl = super.toPythonModule super.pkgs.spotdl;
     };
