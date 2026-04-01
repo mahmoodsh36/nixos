@@ -75,7 +75,7 @@ in
                   (launchApp "b" "Firefox")
                   (launchApp "e" "Emacs")
                   (launchApp "u" "Youtube Music")
-                  (launchApp "l" "Lem")
+                  (launchApp "m" "Lem")
                   # (launchApp "return_or_enter" "WezTerm")
                   (launchCommand "return_or_enter" "export WEZTERM_CONFIG_FILE=$HOME/.config/wezterm/wezterm.lua; open -a wezterm")
                   (openLatestScreenshot "i")
