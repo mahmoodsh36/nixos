@@ -319,6 +319,7 @@
               {
                 config = {
                   machine.name = "mahmooz3";
+                  networking.firewall.allowedTCPPorts = [ 43594 ];
                   machine.is_desktop = false;
                   machine.enable_nvidia = false;
                   machine.can_compile = false;
