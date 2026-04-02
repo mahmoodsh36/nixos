@@ -83,7 +83,7 @@
       monolith # save webpages
       djvulibre djvu2pdf
       # czkawka-full # file dupe finder/cleaner? has a gui too
-      nodePackages.prettier
+      prettier
       nodejs pnpm yarn
       exiftool
       openjdk
@@ -118,7 +118,7 @@
       })
 
       # lsp
-      nodePackages.bash-language-server
+      bash-language-server
       typescript-language-server
       python3Packages.python-lsp-server
       yaml-language-server
@@ -155,7 +155,6 @@
       whisper-cpp
 
       pkgs.gitingest
-      spotdl
     ] ++ pkgs.lib.optionals (!config.machine.is_darwin) [
       # transmission fails on darwin due to fmt build issue
       transmission_4
