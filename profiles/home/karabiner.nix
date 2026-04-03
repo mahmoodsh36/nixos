@@ -90,7 +90,7 @@ in
                       modifiers = { mandatory = [ "left_command" ]; };
                     };
                     to = [{
-                      shell_command = "filepath=\"${config'.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png\" && screencapture -x \"$filepath\" && printf \"%s\" \"$filepath\" | pbcopy";
+                      shell_command = "filepath=\"${config'.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png\" && screencapture -C -x \"$filepath\" && printf \"%s\" \"$filepath\" | pbcopy";
                     }];
                     type = "basic";
                   }
@@ -100,7 +100,7 @@ in
                       modifiers = { mandatory = [ "left_command" "left_shift" ]; };
                     };
                     to = [{
-                      shell_command = "filepath=\"${config'.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png\" && screencapture -i -x \"$filepath\" && printf \"%s\" \"$filepath\" | pbcopy";
+                      shell_command = "filepath=\"${config'.machine.voldir}/data/images/scrots/Screen-$(date +'%Y-%m-%d_%H.%M.%S').png\" && screencapture -C -i -x \"$filepath\" && printf \"%s\" \"$filepath\" | pbcopy";
                     }];
                     type = "basic";
                   }
