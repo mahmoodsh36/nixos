@@ -142,6 +142,7 @@
       qwen-code
       gemini-cli
       pkgs-unstable.claude-code
+      pkgs-unstable.codex
       aichat
       inputs.llm-agents.packages.${pkgs.system}.opencode
       pkgs.antigravity

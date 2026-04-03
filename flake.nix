@@ -582,7 +582,7 @@
                       exec ${mlx-lm}/bin/fastmlx "$@"
                     '')
                     # VM package - provides run-mahmooz1-vm command
-                    self.packages.${system}.vm
+                    # self.packages.${system}.vm
                   ];
                 };
               })
