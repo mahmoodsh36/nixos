@@ -329,22 +329,23 @@
                   boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
 
                   # this might help prevent system freezing on rebuilds
-                  nix.settings.max-jobs = 1;
-                  nix.settings.cores = 1;
-                  systemd.slices.anti-hungry.sliceConfig = {
-                    CPUAccounting = true;
-                    CPUQuota = "50%";
-                    MemoryAccounting = true; # allow to control with systemd-cgtop
-                    MemoryHigh = "50%";
-                    MemoryMax = "75%";
-                    MemorySwapMax = "50%";
-                    MemoryZSwapMax = "50%";
-                  };
-                  systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
+                  # enabling this would be problematic because it might make us unable to nixos-rebuild in some cases which is hard to recover from
+                  # nix.settings.max-jobs = 1;
+                  # nix.settings.cores = 1;
+                  # systemd.slices.anti-hungry.sliceConfig = {
+                  #   CPUAccounting = true;
+                  #   CPUQuota = "50%";
+                  #   MemoryAccounting = true; # allow to control with systemd-cgtop
+                  #   MemoryHigh = "50%";
+                  #   MemoryMax = "75%";
+                  #   MemorySwapMax = "50%";
+                  #   MemoryZSwapMax = "50%";
+                  # };
+                  # systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
                   # kill process using most ram after ram availability drops below
                   # a specific threshold.
-                  services.earlyoom.enable = true;
-                  services.earlyoom.enableNotifications = true;
+                  # services.earlyoom.enable = true;
+                  # services.earlyoom.enableNotifications = true;
                 };
               }
             ];

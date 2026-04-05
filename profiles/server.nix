@@ -18,6 +18,7 @@ in
     time.timeZone = "Asia/Jerusalem";
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.auto-optimise-store = true;
     # not needed with flakes and causes a bunch of warnings
     nix.channel.enable = false;
 
