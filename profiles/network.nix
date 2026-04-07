@@ -191,7 +191,6 @@ in
       };
     };
 
-    # this service will collect logs sent by promtail.
     services.loki = {
       enable = true;
       configuration = {
@@ -256,33 +255,6 @@ in
             };
           };
         };
-      };
-    };
-
-    # this service watches the caddy log file and sends new entries to Loki.
-    # even with this promtail stil throws permission denied errors? weird
-    users.users.promtail.extraGroups = [ "caddy" ];
-    services.promtail = {
-      enable = true;
-      configuration = {
-        server.http_listen_port = 9080;
-        clients = [
-          # tells promtail where to send the logs.
-          { url = "http://localhost:${toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push"; }
-        ];
-        scrape_configs = [
-          {
-            job_name = "caddy";
-            static_configs = [{
-              targets = [ "localhost" ];
-              labels = {
-                __path__ = "${caddy_log_dir}/access*";
-                job = "caddy";
-                host = config.networking.hostName;
-              };
-            }];
-          }
-        ];
       };
     };
 
