@@ -536,7 +536,10 @@
               inputs.mac-app-util.darwinModules.default
               inputs.home-manager.darwinModules.home-manager
               ({ pkgs, ... }: {
-                 nixpkgs.overlays = [ inputs.darwin-emacs.overlays.emacs ];
+                nixpkgs.overlays = [
+                  inputs.emacs.overlays.package
+                  inputs.darwin-emacs.overlays.emacs
+                ];
               })
               ({ config, pkgs, lib, ... }: {
                 config = {
