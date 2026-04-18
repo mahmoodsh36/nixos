@@ -99,6 +99,7 @@
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
       xournalpp rnote # krita
+      discord
 
       # nix specific
       nixos-generators
