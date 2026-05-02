@@ -48,7 +48,7 @@ in
     };
 
     homebrew = {
-      enable = false;
+      enable = true;
       # align homebrew taps config with nix-homebrew
       taps = builtins.attrNames config.nix-homebrew.taps;
       casks = [
