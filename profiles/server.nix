@@ -52,33 +52,37 @@ in
       lsof
       tree
       btop ncdu # glances
-      gcc clang clang-tools # gdb
       file zip unzip fzf p7zip unrar-wrapper
       gnupg
       openssl
-      man-pages man-pages-posix
       # we need wezterm installed on the server too, for persistent sessions
       wezterm
+      bc # used for some arithmetic in shell scripts
+      yt-dlp #pkgs-unstable.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
+      expect # for unbuffer etc
+      coreutils-full
+
+      # networking tools
+      curl wget socat
+      inetutils rclone sshfs bind
+    ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
+      git-filter-repo
+      gcc clang clang-tools # gdb
+      man-pages man-pages-posix
       fdupes
       jellyfin jellyfin-web
       miller
-      bc # used for some arithmetic in shell scripts
       postgresql
       devenv
       podman-compose
-      yt-dlp #pkgs-unstable.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
       inputs.cltpt.packages.${pkgs.system}.default
-      expect # for unbuffer etc
       mpris-scrobbler
-      coreutils-full
       inputs.mpv-history-daemon.packages.${pkgs.system}.default
-      git-filter-repo
       dust
       inputs.lem.packages.${pkgs.system}.lem-ncurses
 
-      # networking tools
-      curl wget nmap socat arp-scan tcpdump iftop
-      inetutils rclone sshfs bind
+      # heavier networking tools
+      nmap arp-scan tcpdump iftop
 
       # some build systems
       cmake gnumake automake autoconf
@@ -165,6 +169,6 @@ in
     };
 
     # mpv history daemon
-    mpv-daemon.enable = true;
+    mpv-daemon.enable = !config.machine.low_resources;
   };
 }

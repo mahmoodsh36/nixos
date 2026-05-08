@@ -12,17 +12,20 @@
     fonts = {
       # enableDefaultPackages = true;
       packages = with pkgs; [
+        nerd-fonts.jetbrains-mono
+        iosevka
+        noto-fonts
+        noto-fonts-color-emoji
+        dejavu_fonts
+        font-awesome
+      ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
         fantasque-sans-mono
         google-fonts
         cascadia-code
-        nerd-fonts.inconsolata nerd-fonts.jetbrains-mono nerd-fonts.fira-code nerd-fonts.iosevka
-        iosevka
+        nerd-fonts.inconsolata nerd-fonts.fira-code nerd-fonts.iosevka
         fira-code
         ubuntu-classic
-        noto-fonts
         noto-fonts-cjk-sans
-        noto-fonts-color-emoji
-        dejavu_fonts
         cm_unicode
         unicode-emoji
         unicode-character-database
@@ -30,7 +33,6 @@
         symbola
         # persian font
         vazir-fonts
-        font-awesome
         corefonts # for good arabic/hebrew/etc fonts
         mplus-outline-fonts.githubRelease
         dina-font
@@ -50,9 +52,17 @@
 
     # packages
     environment.systemPackages = with pkgs; [
-      neovide
       firefox
       pkgs-pinned.mpv
+      ntfs3g
+      gnupg
+      uv
+
+      nix-prefetch-git
+      nix-tree
+      nil
+    ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
+      neovide
       inputs.lem.packages.${pkgs.system}.lem-webview-app
 
       # music
@@ -73,10 +83,12 @@
       # this causes build cuz of the yt-dlp overlay
       # jellyfin-tui jellytui
 
+      ffmpeg-full.bin # untrunc-anthwlock
+      pandoc
+      nodejs
+
       # other
       # adb-sync
-      ntfs3g
-      gnupg
       graphviz
       isync
       notmuch
@@ -84,16 +96,13 @@
       djvulibre djvu2pdf
       # czkawka-full # file dupe finder/cleaner? has a gui too
       prettier
-      nodejs pnpm yarn
+      pnpm yarn
       exiftool
       openjdk
       you-get aria2
       playwright
-      uv
       argc
       imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
-      ffmpeg-full.bin # untrunc-anthwlock
-      pandoc
       pigz # for compression
       (pkgs.callPackage ../packages/vend.nix {})
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
@@ -103,8 +112,6 @@
 
       # nix specific
       nixos-generators
-      nix-prefetch-git
-      nix-tree
       nixos-anywhere
       nix-init
 
@@ -134,7 +141,6 @@
       autotools-language-server
       llm-ls
       vscode-langservers-extracted
-      nil
 
       # dictionary
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
@@ -159,7 +165,7 @@
       whisper-cpp
 
       pkgs.gitingest
-    ] ++ pkgs.lib.optionals (!config.machine.is_darwin) [
+    ] ++ pkgs.lib.optionals (!config.machine.is_darwin && !config.machine.low_resources) [
       # transmission fails on darwin due to fmt build issue
       transmission_4
       transmission_4-gtk
