@@ -53,6 +53,17 @@
       type = lib.types.bool;
       default = true;
     };
+    machine.low_resources = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        trim the config for resource-constrained machines: skip large
+        package sets (texlive, sage, llm CLIs, full font collection),
+        heavy services (postgresql, libvirtd, podman, jellyfin, mpv-daemon),
+        extra desktop environments, dev docs, audit, ccache, full nix-ld
+        library set, and similar. enables zramSwap.
+      '';
+    };
 
     machine.llama-cpp = {
       pkg = lib.mkOption {

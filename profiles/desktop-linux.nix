@@ -51,20 +51,20 @@ let
     };
 
     # better safe than sorry (for having to deal with firmware/driver issues)..?
-    hardware.enableAllHardware = (!config.machine.is_vm);
-    hardware.enableAllFirmware = (!config.machine.is_vm);
-    hardware.usb-modeswitch.enable = true;
-    services.hardware.bolt.enable = true;
+    hardware.enableAllHardware = (!config.machine.is_vm) && (!config.machine.low_resources);
+    hardware.enableAllFirmware = (!config.machine.is_vm) && (!config.machine.low_resources);
+    hardware.usb-modeswitch.enable = !config.machine.low_resources;
+    services.hardware.bolt.enable = !config.machine.low_resources;
 
     # for firmware updates
-    services.fwupd.enable = (!config.machine.is_vm);
+    services.fwupd.enable = (!config.machine.is_vm) && (!config.machine.low_resources);
 
     # automatic screen rotation?
-    hardware.sensor.iio.enable = (!config.machine.is_vm);
+    hardware.sensor.iio.enable = (!config.machine.is_vm) && (!config.machine.low_resources);
 
     # openrgb for controlling rgb lighting
-    services.hardware.openrgb.enable = (!config.machine.is_vm);
-    hardware.i2c.enable = true;
+    services.hardware.openrgb.enable = (!config.machine.is_vm) && (!config.machine.low_resources);
+    hardware.i2c.enable = !config.machine.low_resources;
 
     # enable sound and bluetooth
     # services.blueman.enable = true;
@@ -95,7 +95,7 @@ let
     #   xkb.layout = "us,il,ara";
     #   desktopManager.xfce.enable = (!constants.enable_plasma);
     # };
-    services.desktopManager.gnome.enable = constants.enable_gnome;
+    services.desktopManager.gnome.enable = constants.enable_gnome && !config.machine.low_resources;
     services.libinput = {
       enable = true;
       touchpad = {
@@ -141,12 +141,12 @@ let
         settings.General.DisplayServer = "wayland";
       };
       # defaultSession = "hyprland";
-      defaultSession = "gnome";
+      defaultSession = if config.machine.low_resources then "hyprland" else "gnome";
       # defaultSession = "niri";
       # defaultSession = "plasma";
       # defaultSession = "cosmic";
     };
-    services.desktopManager.plasma6.enable = constants.enable_plasma;
+    services.desktopManager.plasma6.enable = constants.enable_plasma && !config.machine.low_resources;
     environment.etc."xdg/baloofilerc" = lib.mkIf constants.enable_plasma {
       source = (pkgs.formats.ini {}).generate "baloorc" {
         "Basic Settings" = {
@@ -170,16 +170,16 @@ let
     #   packages = with pkgs; [ terminus_font ];
     #   useXkbConfig = true; # remap caps to escape
     # };
-    security.audit.enable = true;
-    security.auditd.enable = true;
+    security.audit.enable = !config.machine.low_resources;
+    security.auditd.enable = !config.machine.low_resources;
 
     # ask for password in terminal instead of x11-ash-askpass
     programs.ssh.askPassword = "";
 
     # enable some programs/services
-    services.printing.enable = true; # CUPS
-    services.touchegg.enable = true;
-    programs.thunar = lib.mkIf (!config.machine.is_vm) {
+    services.printing.enable = !config.machine.low_resources; # CUPS
+    services.touchegg.enable = !config.machine.low_resources;
+    programs.thunar = lib.mkIf (!config.machine.is_vm && !config.machine.low_resources) {
       enable = true;
       plugins = with pkgs.xfce; [
         thunar-archive-plugin
@@ -187,7 +187,7 @@ let
         thunar-volman
       ];
     };
-    programs.xfconf.enable = true;
+    programs.xfconf.enable = !config.machine.low_resources;
     services.tumbler.enable = lib.mkForce false;
 
     # hybrid sleep when press power button. doesnt work anymore
@@ -200,33 +200,34 @@ let
     services.logind.lidSwitch = "ignore";
 
     # spice-gtk?
-    programs.virt-manager.enable = true;
-    users.groups.libvirtd.members = [ config.machine.user ];
-    virtualisation.spiceUSBRedirection.enable = true;
+    programs.virt-manager.enable = !config.machine.low_resources;
+    users.groups.libvirtd.members = lib.mkIf (!config.machine.low_resources) [ config.machine.user ];
+    virtualisation.spiceUSBRedirection.enable = !config.machine.low_resources;
 
     # dictionaries
-    services.dictd.enable = true;
+    services.dictd.enable = !config.machine.low_resources;
     services.dictd.DBs = with pkgs.dictdDBs; [ wiktionary wordnet ];
-    environment.wordlist.enable = true;
+    environment.wordlist.enable = !config.machine.low_resources;
 
-    documentation.dev.enable = true;
+    documentation.dev.enable = !config.machine.low_resources;
 
     # needed for uvx too
     programs.nix-ld = {
       enable = true;
       libraries = [
-        # pkgs.python3Packages.torch.lib
         pkgs.stdenv.cc.cc
         pkgs.zlib
+        pkgs.openssl
+        pkgs.stdenv.cc.cc.lib
+      ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
+        # pkgs.python3Packages.torch.lib
         pkgs.fuse3
         pkgs.icu
         pkgs.nss
-        pkgs.openssl
         pkgs.curl
         pkgs.expat
         pkgs.xorg.libX11
         pkgs.libGL
-        pkgs.stdenv.cc.cc.lib
         pkgs.ncurses5
         pkgs.libzip
         pkgs.cmake
@@ -274,12 +275,24 @@ let
     };
 
     environment.systemPackages = with pkgs; [
-      gtkpython
-
       # overwrite notify-send to not let anything handle notifications
       (pkgs.writeShellScriptBin "notify-send" ''
         echo $@ > /tmp/notif
       '')
+
+      zathura
+      pavucontrol
+      alsa-utils
+      playerctl # media control
+
+      # wayland
+      wl-clipboard
+      grim slurp # for screenshots
+      brightnessctl
+      libnotify
+      swww # wallpaper setter
+    ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
+      gtkpython
 
       # code-cursor windsurf
 
@@ -287,7 +300,7 @@ let
 
       # media tools
       # feh # image viewer (can it set wallpaper on wayland?)
-      kdePackages.okular zathura foliate mupdf
+      kdePackages.okular foliate mupdf
       ocrmypdf pdftk pdfgrep poppler-utils
       imv # nice image viewer
       spotube # open source spotify client?
@@ -295,26 +308,17 @@ let
       nyxt
 
       scrcpy
-      pavucontrol
       libreoffice
       pulsemixer # tui for pulseaudio control
-      alsa-utils
-      playerctl # media control
       gptfdisk parted
       libtool # to compile vterm
       btrfs-progs
 
-      # wayland
-      wl-clipboard
-      grim slurp # for screenshots
-      brightnessctl
       wf-recorder
       iio-hyprland
       wvkbd # onboard alternative (on-screen keyboard)
       wl-screenrec
-      libnotify
       # digikam # another image viewer?
-      swww # wallpaper setter
 
       simplescreenrecorder
       usbutils
@@ -382,17 +386,17 @@ let
 
     powerManagement = {
       enable = true;
-      powertop.enable = true;
+      powertop.enable = !config.machine.low_resources;
       cpuFreqGovernor = "ondemand";
     };
 
     # ccache is needed for robotnix
-    nix.settings.extra-sandbox-paths = [ config.programs.ccache.cacheDir ];
-    programs.ccache.enable = true;
+    nix.settings.extra-sandbox-paths = lib.mkIf (!config.machine.low_resources) [ config.programs.ccache.cacheDir ];
+    programs.ccache.enable = !config.machine.low_resources;
 
     # helps finding the package that contains a specific file
     programs.nix-index = {
-      enable = true;
+      enable = !config.machine.low_resources;
       enableZshIntegration = true;
       enableBashIntegration = true;
     };
@@ -400,8 +404,8 @@ let
 
     programs.dconf.enable = true;
 
-    services.spice-webdavd.enable = true;
-    services.qemuGuest.enable = true;
-    services.spice-vdagentd.enable = true;
+    services.spice-webdavd.enable = !config.machine.low_resources;
+    services.qemuGuest.enable = !config.machine.low_resources;
+    services.spice-vdagentd.enable = !config.machine.low_resources;
   };
 }

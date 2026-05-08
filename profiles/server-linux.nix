@@ -94,15 +94,15 @@ in
     # enable some programs/services
     programs.git = {
       enable = true;
-      package = pkgs.gitFull;
-      lfs.enable = true;
+      package = if config.machine.low_resources then pkgs.git else pkgs.gitFull;
+      lfs.enable = !config.machine.low_resources;
     };
     programs.htop.enable = true;
-    programs.iotop.enable = true;
-    programs.java.enable = true;
-    programs.mosh.enable = true;
-    programs.sniffnet.enable = true;
-    programs.wireshark.enable = true;
+    programs.iotop.enable = !config.machine.low_resources;
+    programs.java.enable = !config.machine.low_resources;
+    programs.mosh.enable = !config.machine.low_resources;
+    programs.sniffnet.enable = !config.machine.low_resources;
+    programs.wireshark.enable = !config.machine.low_resources;
     programs.traceroute.enable = true;
 
     hardware.nvidia.open = false;
@@ -152,7 +152,7 @@ in
 
     # virtualization
     virtualisation.libvirtd = {
-      enable = true;
+      enable = !config.machine.low_resources;
       qemu = {
         package = pkgs.qemu_kvm;
         runAsRoot = true;
@@ -162,7 +162,7 @@ in
     virtualisation.podman = {
       package = config.machine.podman.pkg;
       enableNvidia = config.machine.enable_nvidia;
-      enable = config.machine.can_compile;
+      enable = config.machine.can_compile && !config.machine.low_resources;
       dockerCompat = true;
       dockerSocket.enable = true;
       defaultNetwork.settings = {
@@ -201,7 +201,7 @@ in
     };
 
     services.postgresql = {
-      enable = true;
+      enable = !config.machine.low_resources;
       enableTCPIP = true;
       authentication = pkgs.lib.mkOverride 10 ''
         # generated file; do not edit!
@@ -246,9 +246,10 @@ in
     #   };
     # };
 
-    # zramSwap.enable = true;
-    # zramSwap.memoryPercent = 50; # 50% of available ram
-    # zramSwap.memoryMax = (10 * 1024 * 1024 * 1024); # 10gb
+    zramSwap = lib.mkIf config.machine.low_resources {
+      enable = true;
+      memoryPercent = 50;
+    };
 
     virtualisation.vmVariant = {
       imports = [ ./vm.nix ];
