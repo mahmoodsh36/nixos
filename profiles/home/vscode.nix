@@ -7,7 +7,7 @@
 }: let
   extensions = inputs.nix-vscode-extensions.extensions.${pkgs.system};
 in {
-  config = lib.mkIf config.machine.is_desktop {
+  config = lib.mkIf (config.machine.is_desktop && !config.machine.low_resources) {
     home.file.".continue/config.json".text = builtins.toJSON {
       models = [
         {

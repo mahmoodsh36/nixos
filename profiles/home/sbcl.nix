@@ -24,7 +24,7 @@ let
   ]));
 in
 {
-  config = lib.mkIf config'.machine.is_desktop {
+  config = lib.mkIf (config'.machine.is_desktop && !config'.machine.low_resources) {
     home.packages = [
       mysbcl
       inputs.lem.packages.${pkgs.system}.lem-repl

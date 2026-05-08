@@ -76,7 +76,7 @@ let
 
 in
 {
-  config = lib.mkIf config'.machine.is_desktop {
+  config = lib.mkIf (config'.machine.is_desktop && !config'.machine.low_resources) {
     home.packages = [
       (pkgs.writeShellScriptBin "python" ''
         # may not need LD_* here

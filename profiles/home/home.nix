@@ -224,14 +224,14 @@ in
         # i dont think im even making use of this
         programs.neovim = {
           enable = true;
-          plugins = with pkgs.vimPlugins; [
+          plugins = lib.optionals (!config'.machine.low_resources) (with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
-          ];
+          ]);
           viAlias = true;
           vimAlias = true;
           vimdiffAlias = true;
-          withNodeJs = true;
-          withPython3 = true;
+          withNodeJs = !config'.machine.low_resources;
+          withPython3 = !config'.machine.low_resources;
         };
 
         home.packages = with pkgs; [
