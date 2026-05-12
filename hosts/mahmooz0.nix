@@ -71,7 +71,7 @@ in
         "swama"
         "shortcat"
         "keka"
-        "lulu"
+        # "lulu"
         "google-chrome"
         "sabnzbd"
         "wacom-tablet"
