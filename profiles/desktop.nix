@@ -83,7 +83,7 @@
       # this causes build cuz of the yt-dlp overlay
       # jellyfin-tui jellytui
 
-      ffmpeg-full.bin # untrunc-anthwlock
+      pkgs-pinned.ffmpeg-full.bin # untrunc-anthwlock
       pandoc
       nodejs
 
@@ -107,7 +107,7 @@
       (pkgs.callPackage ../packages/vend.nix {})
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
-      xournalpp rnote # krita
+      xournalpp pkgs-pinned.rnote # krita
       discord
 
       # nix specific
@@ -158,7 +158,7 @@
       pre-commit
 
       youtube-music
-      telegram-desktop
+      # telegram-desktop
       darktable # image editor
 
       config.machine.llama-cpp.pkg

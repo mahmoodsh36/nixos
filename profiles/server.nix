@@ -70,7 +70,7 @@ in
       gcc clang clang-tools # gdb
       man-pages man-pages-posix
       fdupes
-      jellyfin jellyfin-web
+      pkgs-pinned.jellyfin pkgs-pinned.jellyfin-web
       miller
       postgresql
       devenv

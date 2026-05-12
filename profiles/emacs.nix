@@ -1,8 +1,13 @@
 { config, pkgs, lib, inputs, pkgs-unstable, myutils, pkgs-pinned, ... }:
 
 let
+  pkgs-pinned-with-darwin-emacs = import inputs.pkgs-pinned {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+    overlays = [ inputs.darwin-emacs.overlays.emacs ];
+  };
   emacs_base_pkg = if config.machine.is_darwin
-                   then pkgs.emacs-30
+                   then pkgs-pinned-with-darwin-emacs.emacs-30
                    else pkgs.emacs;
   emacs_pkg = if config.machine.can_compile then (emacs_base_pkg.override {
     withImageMagick = false;
