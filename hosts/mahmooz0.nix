@@ -77,7 +77,7 @@ in
         "wacom-tablet"
         "zoom"
         "slack"
-        "rnote"
+        # "rnote"
       ];
       brews = [
         "krunkit"
