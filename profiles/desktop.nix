@@ -108,7 +108,6 @@
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
       xournalpp pkgs-pinned.rnote # krita
-      discord
 
       # nix specific
       nixos-generators
@@ -172,6 +171,9 @@
     ] ++ pkgs.lib.optionals config.machine.enable_nvidia [
       cudatoolkit nvtopPackages.full
       vllm
+    ] ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
+      # x86_64-only upstream binaries (no aarch64-linux builds).
+      pkgs.discord
     ];
   };
 }

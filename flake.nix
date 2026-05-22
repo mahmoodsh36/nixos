@@ -166,6 +166,7 @@
       inputs.pyproject-nix.follows = "pyproject-nix";
       inputs.uv2nix.follows = "uv2nix";
     };
+
   };
 
   outputs = {
@@ -464,40 +465,102 @@
       sysPkgs = mkPkgs system;
       isDarwin = nixpkgs.lib.hasInfix "darwin" system;
       linuxSystem = if nixpkgs.lib.hasInfix "aarch64" system then "aarch64-linux" else "x86_64-linux";
-    in {
-      mlx-lm-env = mkPythonEnv {
-        inherit system;
-        workspaceRoot = ./python-envs/mlx-lm;
-        envName = "mlx-lm-venv";
-        cudaSupport = false;
+
+      # mahmooz1 extended with the venus-guest profile, so `nix run .#vm`
+      # boots the real system under Venus rather than the stub guest.
+      # Only on darwin (where the launcher builds) and only if mahmooz1
+      # exists for the linux arch.
+      venusCustomGuest =
+        if (system == "aarch64-darwin"
+            && self.nixosConfigurations ? "mahmooz1-${linuxSystem}")
+        then self.nixosConfigurations."mahmooz1-${linuxSystem}".extendModules {
+          modules = [
+            (import ./modules/venus/guest.nix)
+            ({ config, pkgs, lib, ... }: {
+              # hardware-configuration.nix is the x86 bare-metal install
+              # config (pins x86_64-linux, Intel modules, disk UUIDs);
+              # wrong for the VM. venus-guest.nix replaces it.
+              disabledModules = [ ./hardware-configuration.nix ];
+
+              _module.args.hostPkgs = sysPkgs;
+              _module.args.hostVoldir =
+                if isDarwin
+                then self.darwinConfigurations.mahmooz0.config.machine.voldir
+                else "/home/mahmooz";
+              machine.is_vm = true;
+              venus.guest.enable = true;
+              nixpkgs.hostPlatform = linuxSystem;
+            })
+          ];
+        }
+        else null;
+
+      venus = import ./modules/venus {
+        inherit nixpkgs;
+        lib = nixpkgs.lib;
+        customGuest = venusCustomGuest;
       };
-      vm = (self.nixosConfigurations."mahmooz1-${linuxSystem}".extendModules {
-        modules = [
-          ({ config, pkgs, lib, ... }: {
-            _module.args.hostPkgs = sysPkgs;
-            _module.args.hostVoldir =
-              if isDarwin
-              then self.darwinConfigurations.mahmooz0.config.machine.voldir
-              else "/home/mahmooz";
-            # VM mode to simplify build
-            machine.is_vm = true;
-          })
-        ];
-      }).config.system.build.vm;
-      headless-vm = (self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".extendModules {
-        modules = [
-          ({ config, pkgs, lib, ... }: {
-            _module.args.hostPkgs = sysPkgs;
-            _module.args.hostVoldir =
-              if isDarwin
-              then self.darwinConfigurations.mahmooz0.config.machine.voldir
-              else "/home/mahmooz";
-            # VM mode to simplify build
-            machine.is_vm = true;
-          })
-        ];
-      }).config.system.build.vm;
-    });
+
+      venusDarwinPackages = nixpkgs.lib.optionalAttrs (system == "aarch64-darwin") {
+        launcher         = venus.launchers.launcher;
+        launcher-console = venus.launchers.launcher-console;
+        qemu-venus       = venus.qemu-venus;
+        qemu-venus-spice = venus.qemu-venus-spice;
+      };
+
+      venusLinuxPackages = nixpkgs.lib.optionalAttrs (system == "aarch64-linux") {
+        venus-guest-image    = venus.guestImage;
+        venus-guest-kernel   = venus.guestKernel;
+        venus-guest-initrd   = venus.guestInitrd;
+        venus-guest-toplevel = venus.guestToplevel;
+      };
+
+      basePackages = {
+        mlx-lm-env = mkPythonEnv {
+          inherit system;
+          workspaceRoot = ./python-envs/mlx-lm;
+          envName = "mlx-lm-venv";
+          cudaSupport = false;
+        };
+        # darwin: mahmooz1 under Venus (`vm` = Cocoa window, `vm-headless`
+        # = serial console). Linux: standard NixOS test-vm runner.
+        vm =
+          if system == "aarch64-darwin"
+          then venus.launchers.launcher
+          else (self.nixosConfigurations."mahmooz1-${linuxSystem}".extendModules {
+            modules = [
+              ({ config, pkgs, lib, ... }: {
+                _module.args.hostPkgs = sysPkgs;
+                _module.args.hostVoldir =
+                  if isDarwin
+                  then self.darwinConfigurations.mahmooz0.config.machine.voldir
+                  else "/home/mahmooz";
+                machine.is_vm = true;
+              })
+            ];
+          }).config.system.build.vm;
+
+        vm-headless =
+          if system == "aarch64-darwin"
+          then venus.launchers.launcher-console
+          else (self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".extendModules {
+            modules = [
+              ({ config, pkgs, lib, ... }: {
+                _module.args.hostPkgs = sysPkgs;
+                _module.args.hostVoldir =
+                  if isDarwin
+                  then self.darwinConfigurations.mahmooz0.config.machine.voldir
+                  else "/home/mahmooz";
+                machine.is_vm = true;
+              })
+            ];
+          }).config.system.build.vm;
+      };
+    in basePackages // venusDarwinPackages // venusLinuxPackages);
+
+    nixosModules = {
+      venus-guest = import ./modules/venus/guest.nix;
+    };
 
     robotnixConfigurations = {
       # nix build .#robotnixConfigurations.mylineageos.ota.
