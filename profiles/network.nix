@@ -192,7 +192,7 @@ in
     };
 
     services.loki = {
-      enable = true;
+      enable = !config.machine.is_vm;
       configuration = {
         server = {
           http_listen_address = "127.0.0.1";

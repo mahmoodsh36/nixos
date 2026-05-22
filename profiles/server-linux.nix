@@ -201,7 +201,7 @@ in
     };
 
     services.postgresql = {
-      enable = lib.mkDefault (!config.machine.low_resources);
+      enable = lib.mkDefault (!config.machine.low_resources && !config.machine.is_vm);
       enableTCPIP = true;
       authentication = pkgs.lib.mkOverride 10 ''
         # generated file; do not edit!

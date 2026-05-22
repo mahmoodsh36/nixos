@@ -78,6 +78,7 @@ in
         "zoom"
         "slack"
         # "rnote"
+        "discord"
       ];
       brews = [
         "krunkit"
@@ -167,7 +168,7 @@ in
         config = {
           virtualisation = {
             darwin-builder = {
-              diskSize = 80 * 1024;
+              diskSize = 150 * 1024;
               memorySize = 8 * 1024;
             };
             cores = 8;
