@@ -482,11 +482,6 @@
               # wrong for the VM. venus-guest.nix replaces it.
               disabledModules = [ ./hardware-configuration.nix ];
 
-              _module.args.hostPkgs = sysPkgs;
-              _module.args.hostVoldir =
-                if isDarwin
-                then self.darwinConfigurations.mahmooz0.config.machine.voldir
-                else "/home/mahmooz";
               machine.is_vm = true;
               venus.guest.enable = true;
               nixpkgs.hostPlatform = linuxSystem;
@@ -528,32 +523,14 @@
           if system == "aarch64-darwin"
           then venus.launchers.launcher
           else (self.nixosConfigurations."mahmooz1-${linuxSystem}".extendModules {
-            modules = [
-              ({ config, pkgs, lib, ... }: {
-                _module.args.hostPkgs = sysPkgs;
-                _module.args.hostVoldir =
-                  if isDarwin
-                  then self.darwinConfigurations.mahmooz0.config.machine.voldir
-                  else "/home/mahmooz";
-                machine.is_vm = true;
-              })
-            ];
+            modules = [{ machine.is_vm = true; }];
           }).config.system.build.vm;
 
         vm-headless =
           if system == "aarch64-darwin"
           then venus.launchers.launcher-console
           else (self.nixosConfigurations."mahmooz1-headless-${linuxSystem}".extendModules {
-            modules = [
-              ({ config, pkgs, lib, ... }: {
-                _module.args.hostPkgs = sysPkgs;
-                _module.args.hostVoldir =
-                  if isDarwin
-                  then self.darwinConfigurations.mahmooz0.config.machine.voldir
-                  else "/home/mahmooz";
-                machine.is_vm = true;
-              })
-            ];
+            modules = [{ machine.is_vm = true; }];
           }).config.system.build.vm;
       };
     in basePackages // venusDarwinPackages // venusLinuxPackages);
@@ -645,8 +622,10 @@
                     (sysPkgs.writeShellScriptBin "uv-fastmlx" ''
                       exec ${mlx-lm}/bin/fastmlx "$@"
                     '')
-                    # VM package - provides run-mahmooz1-vm command
-                    # self.packages.${system}.vm
+                    # Venus launchers: `run-mahmooz1-vm` (Cocoa window) and
+                    # `run-mahmooz1-vm-console` (serial console).
+                    self.packages.${system}.vm
+                    self.packages.${system}.vm-headless
                   ];
                 };
               })
