@@ -289,6 +289,11 @@ let
     qemu-img convert -f raw -O qcow2 raw.img "$out/nixos.qcow2"
   '';
 
+  # Binary name derives from the wrapped guest's hostname:
+  #   mahmooz1 -> run-mahmooz1-vm  (matches the convention NixOS uses
+  #   for system.build.vm, so this drops in as a replacement).
+  launcherBaseName = "run-${nixosGuest.config.networking.hostName}-vm";
+
   # launcher         - foreground Cocoa window (cocoa-GL qemu).
   # launcher-console - serial console on the calling terminal, no
   #                    NSWindow (spice-IOSurface qemu). Ctrl-A X quits.
@@ -342,7 +347,7 @@ let
         -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store,readonly=on
         ${if consoleMode
           then ''-spice unix=on,addr="$SPICE_SOCK",disable-ticketing=on,gl=es''
-          else ''-display cocoa,gl=es''}
+          else ''-display cocoa,gl=es,zoom-to-fit=on''}
         -device virtio-gpu-gl-pci,hostmem=8G,blob=true,venus=true
         -device virtio-keyboard-pci
         -device virtio-tablet-pci
@@ -362,10 +367,10 @@ let
   };
 
   launcher = mkLauncher {
-    name = "launch-venus-guest";
+    name = launcherBaseName;
   };
   launcherConsole = mkLauncher {
-    name        = "launch-venus-guest-console";
+    name        = "${launcherBaseName}-console";
     qemu        = hostPkgs.qemu-venus-spice;
     consoleMode = true;
   };

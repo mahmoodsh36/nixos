@@ -250,9 +250,5 @@ in
       enable = true;
       memoryPercent = 50;
     };
-
-    virtualisation.vmVariant = {
-      imports = [ ./vm.nix ];
-    };
   };
 }

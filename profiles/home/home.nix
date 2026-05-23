@@ -36,13 +36,19 @@ in
     # we might cause issues
     home-manager.users."${config.machine.user}" = { lib, config, ... }:
       let
-        dots = if builtins.pathExists "${work_dir}/otherdots"
-               then "${work_dir}/otherdots"
-               else inputs.otherdots.outPath;
+        # In VMs the host work_dir isn't mounted, so out-of-store symlinks
+        # to /home/mahmooz/work/... would dangle. Force the flake-input
+        # fallback so paths resolve into /nix/store (shared via 9p).
+        pickDir = name: input:
+          if (!config'.machine.is_vm) && builtins.pathExists "${work_dir}/${name}"
+          then "${work_dir}/${name}"
+          else input.outPath;
 
-        nvim_dots = if builtins.pathExists "${work_dir}/nvim"
-                     then "${work_dir}/nvim"
-                     else inputs.nvim.outPath;
+        dots           = pickDir "otherdots"  inputs.otherdots;
+        nvim_dots      = pickDir "nvim"       inputs.nvim;
+        scripts_dir    = pickDir "scripts"    inputs.scripts;
+        emacs_d_dir    = pickDir "emacs.d"    inputs.emacs-d;
+        lem_config_dir = pickDir "lem-config" inputs.lem-config;
 
         config_names = [
           "mimeapps.list" "mpv" "vifm" "user-dirs.dirs" "zathura" "wezterm"
@@ -56,25 +62,16 @@ in
           };
         }) config_names);
 
-        scripts_dir = if builtins.pathExists "${work_dir}/scripts"
-                      then "${work_dir}/scripts"
-                      else inputs.scripts.outPath;
         scripts = builtins.attrNames (builtins.readDir scripts_dir);
         script_files = builtins.filter (name: builtins.match ".*\\.(py|sh|el)$" name != null) scripts;
-
         script_entries = lib.listToAttrs (builtins.map (fname: {
           name  = ".local/bin/${fname}";
           value = {
             source = config.lib.file.mkOutOfStoreSymlink "${scripts_dir}/${fname}";
             force = true;
-            # executable = true;
           };
         }) script_files);
 
-        # restore .emacs.d
-        emacs_d_dir = if builtins.pathExists "${work_dir}/emacs.d"
-                      then "${work_dir}/emacs.d"
-                      else inputs.emacs-d.outPath;
         emacs_d_files = builtins.attrNames (builtins.readDir emacs_d_dir);
         emacs_d_entries = lib.listToAttrs (builtins.map (fname: {
           name = ".emacs.d/${fname}";
@@ -84,10 +81,6 @@ in
           };
         }) emacs_d_files);
 
-        # Lem-config files - symlink individual files, not the whole directory
-        lem_config_dir = if builtins.pathExists "${work_dir}/lem-config"
-                        then "${work_dir}/lem-config"
-                        else inputs.lem-config.outPath;
         lem_config_files = builtins.attrNames (builtins.readDir lem_config_dir);
         lem_config_entries = lib.listToAttrs (builtins.map (fname: {
           name = ".lem/${fname}";
