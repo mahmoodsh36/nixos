@@ -13,7 +13,6 @@
       # enableDefaultPackages = true;
       packages = with pkgs; [
         nerd-fonts.jetbrains-mono
-        iosevka
         noto-fonts
         noto-fonts-color-emoji
         dejavu_fonts
@@ -22,7 +21,7 @@
         fantasque-sans-mono
         google-fonts
         cascadia-code
-        nerd-fonts.inconsolata nerd-fonts.fira-code nerd-fonts.iosevka
+        nerd-fonts.inconsolata nerd-fonts.fira-code
         fira-code
         ubuntu-classic
         noto-fonts-cjk-sans
@@ -149,7 +148,7 @@
       pkgs-unstable.codex
       inputs.llm-agents.packages.${pkgs.system}.opencode
       inputs.llm-agents.packages.${pkgs.system}.pi
-      inputs.llm-agents.packages.${pkgs.system}.hermes-agent
+      # inputs.llm-agents.packages.${pkgs.system}.hermes-agent
       inputs.llm-agents.packages.${pkgs.system}.beads
       inputs.llm-agents.packages.${pkgs.system}.claude-code
       inputs.llm-agents.packages.${pkgs.system}.gemini-cli
