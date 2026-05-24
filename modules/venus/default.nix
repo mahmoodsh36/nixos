@@ -14,6 +14,9 @@
 # extended with the venus-guest module). When null, builds the stub
 # guest in ./guest.nix.
 , customGuest ? null
+# Absolute path on the host to share into the guest at /data via 9p.
+# When null, /data is left unmounted.
+, hostVoldir ? null
 }:
 
 let
@@ -303,6 +306,8 @@ let
         -drive if=virtio,format=qcow2,file="$DISK"
         # Host /nix/store via 9p — avoids baking the closure into the disk.
         -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store,readonly=on
+        ${lib.optionalString (hostVoldir != null)
+          "-virtfs local,path=${hostVoldir},security_model=none,mount_tag=host-data"}
         ${if consoleMode
           then ''-spice unix=on,addr="$SPICE_SOCK",disable-ticketing=on,gl=es''
           else ''-display cocoa,gl=es,zoom-to-fit=on''}

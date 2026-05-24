@@ -494,6 +494,10 @@
         inherit nixpkgs;
         lib = nixpkgs.lib;
         customGuest = venusCustomGuest;
+        hostVoldir =
+          if isDarwin && (self ? darwinConfigurations.mahmooz0)
+          then self.darwinConfigurations.mahmooz0.config.machine.voldir
+          else null;
       };
 
       venusDarwinPackages = nixpkgs.lib.optionalAttrs (system == "aarch64-darwin") {

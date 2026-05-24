@@ -116,6 +116,19 @@ in {
       options = [ "mode=1777" ];
     };
 
+    # Host machine.voldir (e.g. /Volumes/main on mahmooz0) shared as 9p.
+    # mkForce because mahmooz1's disko-raid1.nix declares /data as btrfs.
+    # security_model=none passes through host UIDs — guest sees files
+    # owned by host's uid (501 on macOS), which mismatches guest
+    # mahmooz=1000; access as root or fix perms if you need to write
+    # as user. `nofail` so the VM boots even when launched without
+    # the corresponding -virtfs (linux host build path).
+    fileSystems."/data" = mkForce {
+      device  = "host-data";
+      fsType  = "9p";
+      options = [ "trans=virtio" "version=9p2000.L" "msize=1048576" "rw" "nofail" ];
+    };
+
     # /nix/store: 9p RO lower + tmpfs upper overlayfs. nix-daemon dies
     # on a RO store, which breaks HM activation. tmpfs writes are lost
     # on reboot — fine, the VM shouldn't persist new store paths.
