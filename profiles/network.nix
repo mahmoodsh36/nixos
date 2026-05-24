@@ -92,7 +92,7 @@ in
     };
 
     services.prometheus = {
-      enable = true;
+      enable = !config.machine.is_vm;
       port = 9090; # default
       exporters = {
         node = {

@@ -1,10 +1,10 @@
-# Venus GPU passthrough host-side machinery: aarch64-linux NixOS guest
-# with Venus -> Metal passthrough on an aarch64-darwin host, built from
-# UTM's macOS-Venus tree.
+# Venus GPU passthrough: aarch64-linux NixOS guest with Venus->Metal
+# on aarch64-darwin, built from UTM's macOS-Venus tree.
 #
-# Produces aarch64-linux derivations (guest kernel, initrd, qcow2) that
-# can't build natively on darwin; needs a remote builder or
-# nix.linux-builder.
+# Replaces qemu-vm.nix/vmVariant (which is Linux-host-only) — the
+# launcher is a darwin writeShellApplication wrapping the UTM-fork
+# qemu; the guest's filesystem/init bits live in ./guest.nix.
+# Guest derivations (kernel/initrd) need a linux builder.
 
 { nixpkgs
 , hostSystem ? "aarch64-darwin"
@@ -36,14 +36,6 @@ let
     moltenvk = {
       rev  = "6f2002d1a583c3347827cbce1c1b8a33aeec2077";
       hash = "sha256-wYBRMscfiyrKpqjoyGTJ6ukhTLTNlkSvJ/h1kfTxl3Q=";
-    };
-
-    # Guest Mesa hack: round virtio-gpu blob mappings up to 16 KiB to
-    # match the host's Apple-Silicon page size. Obsolete once drm/virtio
-    # F_BLOB_ALIGNMENT lands.
-    mesa16kAlign = {
-      url  = "https://gist.githubusercontent.com/osy/a8f705050eed1c8421ad1a0855a8faa9/raw/1080c476b50ac1ec379def46ba9d78561e582635/0001-DO-NOT-MERGE-venus-hack-to-align-mappings-to-16KiB.patch";
-      hash = "sha256-DbitYq+/wl5SSHk+jeIcTvReZZ3Vojx5alicYShC/qU=";
     };
   };
 
@@ -223,41 +215,6 @@ let
     config.allowUnfree = true;
   };
 
-  guestOverlay = final: prev: {
-    mesa = prev.mesa.overrideAttrs (old: {
-      patches = (old.patches or []) ++ [
-        (final.fetchurl {
-          name = "mesa-venus-16k-blob-align.patch";
-          url  = sources.mesa16kAlign.url;
-          hash = sources.mesa16kAlign.hash;
-        })
-      ];
-    });
-
-    # nihui/vkpeak - pure-compute Vulkan benchmark. Definitive check
-    # that Venus dispatches run on the GPU (llvmpipe: MFLOPS, real HW:
-    # TFLOPS).
-    vkpeak = prev.stdenv.mkDerivation {
-      pname = "vkpeak";
-      version = "20260112";
-      src = final.fetchFromGitHub {
-        owner = "nihui";
-        repo  = "vkpeak";
-        rev   = "1c5c383c79cb0ff2485ac453f3ddd25535f41ca5";
-        hash  = "sha256-PoZ6p0XGt5NZ5sH/171IKK5n8lYHSqYfox36QPWLIvw=";
-        fetchSubmodules = true;
-      };
-      nativeBuildInputs = [ final.cmake ];
-      buildInputs       = [ final.vulkan-loader final.vulkan-headers ];
-      # Upstream cmake has no install rule for the binary; copy by hand.
-      installPhase = ''
-        runHook preInstall
-        install -Dm755 vkpeak "$out/bin/vkpeak"
-        runHook postInstall
-      '';
-    };
-  };
-
   nixosGuest =
     if customGuest != null then customGuest
     else nixpkgs.lib.nixosSystem {
@@ -276,10 +233,14 @@ let
   guestInitrd    = nixosGuest.config.system.build.initialRamdisk;
   guestToplevel  = nixosGuest.config.system.build.toplevel;
 
-  # Empty 1 GiB ext4 scratch disk, label="nixos". /nix/store is shared
-  # from the host over 9p (see -virtfs in mkLauncher), so this only holds
-  # the writable tree (/etc, /var, /home, ...). mkfs runs unprivileged
-  # against a regular file and is deterministic.
+  # closureInfo passed via `regInfo=` on the kernel cmdline; the guest's
+  # register-nix-paths service loads it into the local nix db on boot.
+  # Embedded at the launcher (host) layer because referencing it from
+  # the guest's own kernelParams would cycle through toplevel.
+  guestClosureInfo = guestPkgs.closureInfo { rootPaths = [ guestToplevel ]; };
+
+  # Empty 1 GiB ext4 scratch (label=nixos); /nix/store comes from the
+  # host over 9p, so this only holds /etc, /var, /home, ...
   guestImage = guestPkgs.runCommand "venus-guest-scratch" {
     nativeBuildInputs = [ guestPkgs.qemu-utils guestPkgs.e2fsprogs ];
   } ''
@@ -319,20 +280,18 @@ let
         qemu-img resize "$DISK" 32G
       fi
 
-      # VK_DRIVER_FILES: Metal-backed Vulkan ICD for virglrenderer's loader.
-      # ANGLE_DEFAULT_PLATFORM=metal: force ANGLE onto Metal for IOSurface
-      #   interop (not its GL/Vulkan backends).
-      # DYLD_FALLBACK_LIBRARY_PATH: catch any indirect dlopen of ANGLE /
-      #   MoltenVK by leaf name.
+      # MoltenVK ICD for virglrenderer's Vulkan loader; ANGLE on Metal
+      # for IOSurface interop; DYLD_FALLBACK catches indirect dlopens
+      # of ANGLE/MoltenVK by leaf name.
       export VK_DRIVER_FILES="${hostPkgs.moltenvk}/share/vulkan/icd.d/MoltenVK_icd.json"
       export VK_ICD_FILENAMES="$VK_DRIVER_FILES"
       export ANGLE_DEFAULT_PLATFORM=metal
       export DYLD_FALLBACK_LIBRARY_PATH="${hostPkgs.moltenvk}/lib:${hostPkgs.angle}/lib:''${DYLD_FALLBACK_LIBRARY_PATH:-/usr/local/lib:/usr/lib}"
 
-    '' + (if consoleMode then ''
-      SPICE_SOCK="$CACHE/qemu.sock"
-      rm -f "$SPICE_SOCK"
-    '' else "") + ''
+      ${lib.optionalString consoleMode ''
+        SPICE_SOCK="$CACHE/qemu.sock"
+        rm -f "$SPICE_SOCK"
+      ''}
 
       QEMU_ARGS=(
         -name venus-guest
@@ -340,10 +299,9 @@ let
         -cpu host -smp 4 -m 8G
         -kernel ${guestKernelImg}
         -initrd ${guestInitrd}/initrd
-        -append "console=ttyAMA0,115200 root=/dev/vda init=${guestToplevel}/init loglevel=4"
+        -append "console=ttyAMA0,115200 root=/dev/vda init=${guestToplevel}/init regInfo=${guestClosureInfo}/registration loglevel=4"
         -drive if=virtio,format=qcow2,file="$DISK"
-        # Share host /nix/store over 9p so we don't bake the ~63 GB
-        # closure into the disk; guest enforces readonly again.
+        # Host /nix/store via 9p — avoids baking the closure into the disk.
         -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store,readonly=on
         ${if consoleMode
           then ''-spice unix=on,addr="$SPICE_SOCK",disable-ticketing=on,gl=es''
@@ -351,10 +309,9 @@ let
         -device virtio-gpu-gl-pci,hostmem=8G,blob=true,venus=true
         -device virtio-keyboard-pci
         -device virtio-tablet-pci
-        # No networking: slirp virtio-net runs in QEMU's main loop and
-        # tx-times-out under load on darwin, starving 9p + virtio-blk
-        # until jbd2/journald wedge. -nic none is required because
-        # omitting -netdev still gets a default -net nic -net user.
+        # No networking. slirp virtio-net wedges QEMU's main loop under
+        # 9p+virtio-blk load on darwin; -nic none is required because
+        # omitting -netdev still defaults to slirp.
         -nic none
         ${lib.optionalString consoleMode "-serial mon:stdio"}
       )

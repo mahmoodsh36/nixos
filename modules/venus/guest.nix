@@ -1,3 +1,11 @@
+# Guest-side NixOS profile for the Venus VM.
+#
+# We can't import qemu-vm.nix (it's Linux-host-only and tightly coupled
+# to vmVariant's runner), so we lift only the patterns we need:
+# overlayfs /nix/store on a 9p RO lower + tmpfs upper, ext4 scratch /
+# with autoResize, /tmp tmpfs, legacy initrd, aarch64 ttyAMA0 console,
+# regInfo-driven nix db registration. See ./default.nix for the launcher.
+
 { config, lib, pkgs, modulesPath, ... }:
 
 let
@@ -75,42 +83,90 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.overlays = [ guestOverlay ];
 
-    # Legacy (non-systemd) initrd: systemd-in-initrd + make-disk-image
-    # emits a duplicate sysroot.mount and drops to emergency mode.
+    # Legacy initrd; systemd-in-initrd + make-disk-image emit a
+    # duplicate sysroot.mount and drop to emergency mode. Bootloaders
+    # off — the launcher boots via qemu -kernel/-initrd directly.
     boot.loader.grub.enable         = mkForce false;
     boot.loader.systemd-boot.enable = mkForce false;
     boot.initrd.systemd.enable      = false;
     boot.initrd.availableKernelModules = [
       "virtio_pci" "virtio_blk" "virtio_net" "virtio_gpu"
       "drm" "drm_kms_helper"
-      # 9p for the /nix/store mount below. Builtins in the aarch64
-      # kernel; don't add fscache/netfs (not packaged, breaks modprobe -S).
+      # 9p modules are built into the aarch64 kernel; don't add
+      # fscache/netfs (unpackaged, breaks modprobe -S).
       "9p" "9pnet" "9pnet_virtio"
+      "overlay"
     ];
     boot.kernelModules = [ "virtio_gpu" ];
-    # qemu-guest.nix sets ttyS0 (x86); aarch64 virt uses ttyAMA0.
-    boot.kernelParams = mkForce [
-      "console=ttyAMA0,115200"
-      "console=tty0"
-    ];
+    # aarch64 virt = ttyAMA0 (qemu-guest.nix's ttyS0 default is x86).
+    boot.kernelParams = mkForce [ "console=ttyAMA0,115200" "console=tty0" ];
 
-    # mkForce to override any fileSystems."/" from the parent config's
-    # hardware-configuration.nix. Empty disk provisioned by the launcher.
+    # Root: 1 GiB ext4 scratch, grown to 32 GiB on first boot via
+    # autoResize after the launcher's qemu-img resize. mkForce
+    # overrides the parent's hardware-configuration.nix.
     fileSystems."/" = mkForce {
       device     = "/dev/disk/by-label/nixos";
       fsType     = "ext4";
       autoResize = true;
     };
 
-    # Host /nix/store over 9p instead of baking the ~63 GB closure into
-    # the disk. neededForBoot so stage-1 mounts it before switching root
-    # (the init= cmdline path lives under /nix/store).
-    fileSystems."/nix/store" = mkForce {
-      device       = "nix-store";
-      fsType       = "9p";
-      options      = [ "trans=virtio" "version=9p2000.L" "msize=1048576" "ro" "cache=loose" ];
+    fileSystems."/tmp" = {
+      device  = "tmpfs";
+      fsType  = "tmpfs";
+      options = [ "mode=1777" ];
+    };
+
+    # /nix/store: 9p RO lower + tmpfs upper overlayfs. nix-daemon dies
+    # on a RO store, which breaks HM activation. tmpfs writes are lost
+    # on reboot — fine, the VM shouldn't persist new store paths.
+    # neededForBoot because init=${toplevel}/init lives under /nix/store.
+    fileSystems."/nix/.ro-store" = mkForce {
+      device        = "nix-store";
+      fsType        = "9p";
+      options       = [ "trans=virtio" "version=9p2000.L" "msize=1048576" "ro" "cache=loose" ];
       neededForBoot = true;
     };
+    fileSystems."/nix/.rw-store" = {
+      fsType        = "tmpfs";
+      options       = [ "mode=0755" ];
+      neededForBoot = true;
+    };
+    fileSystems."/nix/store" = mkForce {
+      overlay = {
+        lowerdir = [ "/nix/.ro-store" ];
+        upperdir = "/nix/.rw-store/upper";
+        workdir  = "/nix/.rw-store/work";
+      };
+      neededForBoot = true;
+    };
+
+    # Lifted from qemu-vm.nix. Loads the regInfo file (passed via
+    # kernel cmdline by the launcher) into the local nix db before
+    # nix-daemon starts, so realise resolves closure paths locally
+    # instead of falling back to substituters.
+    systemd.services.register-nix-paths = {
+      description = "Load regInfo into nix store db";
+      unitConfig.DefaultDependencies = false;
+      wantedBy   = [ "sysinit.target" ];
+      before     = [ "sysinit.target" "shutdown.target"
+                     "nix-daemon.socket" "nix-daemon.service" ];
+      after      = [ "local-fs.target" ];
+      conflicts  = [ "shutdown.target" ];
+      restartIfChanged = false;
+      serviceConfig = { Type = "oneshot"; RemainAfterExit = true; };
+      script = ''
+        if [[ "$(cat /proc/cmdline)" =~ regInfo=([^ ]*) ]]; then
+          ${lib.getExe' config.nix.package.out "nix-store"} --load-db < "''${BASH_REMATCH[1]}"
+        fi
+      '';
+    };
+
+    # Offline nix: regInfo covers the happy path, empty substituters
+    # as defense-in-depth, tight connect-timeout fails fast on any
+    # stray network-bound op instead of stalling boot.
+    nix.settings.substituters         = lib.mkForce [ ];
+    nix.settings.trusted-substituters = lib.mkForce [ ];
+    nix.settings.connect-timeout      = 1;
 
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "yes";
@@ -118,8 +174,7 @@ in {
 
     hardware.graphics.enable = true;
 
-    # Pin the venus ICD so the loader doesn't try (and noisily fail) the
-    # other Mesa drivers first.
+    # Pin the venus ICD so the loader doesn't noisily try other drivers.
     environment.sessionVariables.VK_DRIVER_FILES =
       "/run/opengl-driver/share/vulkan/icd.d/virtio_icd.aarch64.json";
     environment.sessionVariables.VK_ICD_FILENAMES =
