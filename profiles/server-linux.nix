@@ -152,7 +152,7 @@ in
 
     # virtualization
     virtualisation.libvirtd = {
-      enable = !config.machine.low_resources;
+      enable = !config.machine.low_resources && !config.machine.is_vm;
       qemu = {
         package = pkgs.qemu_kvm;
         runAsRoot = true;
@@ -162,7 +162,7 @@ in
     virtualisation.podman = {
       package = config.machine.podman.pkg;
       enableNvidia = config.machine.enable_nvidia;
-      enable = config.machine.can_compile && !config.machine.low_resources;
+      enable = config.machine.can_compile && !config.machine.low_resources && !config.machine.is_vm;
       dockerCompat = true;
       dockerSocket.enable = true;
       defaultNetwork.settings = {
