@@ -184,7 +184,7 @@ in
         };
 
         programs.atuin = {
-          enable = true;
+          enable = !config'.machine.is_vm;
           flags = [
             "--disable-up-arrow"
           ];
