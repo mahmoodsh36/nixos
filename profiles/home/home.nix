@@ -185,6 +185,9 @@ in
             # style = "full";
             # sync_address = "https://api.atuin.sh";
             search_mode = "fuzzy";
+            db_path = "$DATA_DIR/atuin/history.db";
+            record_store_path = "$DATA_DIR/atuin/records.db";
+            key_path = "$DATA_DIR/atuin/key";
           };
         };
 
