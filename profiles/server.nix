@@ -5,7 +5,6 @@ let
 in
 {
   imports = [
-    ../services/llm.nix
     ../services/mpv-daemon.nix
     ./network.nix
   ];
@@ -124,14 +123,6 @@ in
       inputs.nix-alien.overlays.default
       inputs.niri-flake.overlays.niri
     ];
-
-    llms = {
-      enable = false;
-      modelsDirectory = "${config.machine.voldir}/models";
-      # llama-cpp.enable = config.machine.name == "mahmooz0";
-      llama-cpp.enable = false;
-      # llama-cpp-embeddings.enable = config.machine.name == "mahmooz0";
-    };
 
     # mpv history daemon
     mpv-daemon.enable = !config.machine.low_resources;
