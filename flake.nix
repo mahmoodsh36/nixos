@@ -95,10 +95,6 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-    krunkit = {
-      url = "github:slp/homebrew-krunkit";
-      flake = false;
-    };
     # https://github.com/hraban/mac-app-util/issues/39
     mac-app-util = {
       url = "github:hraban/mac-app-util";
@@ -116,16 +112,6 @@
       url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
-    };
-
-    # android
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
-    robotnix = {
-      url = "github:nix-community/robotnix";
     };
 
     # dotfiles
@@ -325,25 +311,6 @@
                   boot.loader.grub.efiInstallAsRemovable = true;
                   boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
                   boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
-
-                  # this might help prevent system freezing on rebuilds
-                  # enabling this would be problematic because it might make us unable to nixos-rebuild in some cases which is hard to recover from
-                  # nix.settings.max-jobs = 1;
-                  # nix.settings.cores = 1;
-                  # systemd.slices.anti-hungry.sliceConfig = {
-                  #   CPUAccounting = true;
-                  #   CPUQuota = "50%";
-                  #   MemoryAccounting = true; # allow to control with systemd-cgtop
-                  #   MemoryHigh = "50%";
-                  #   MemoryMax = "75%";
-                  #   MemorySwapMax = "50%";
-                  #   MemoryZSwapMax = "50%";
-                  # };
-                  # systemd.services.nix-daemon.serviceConfig.Slice = "anti-hungry.slice";
-                  # kill process using most ram after ram availability drops below
-                  # a specific threshold.
-                  # services.earlyoom.enable = true;
-                  # services.earlyoom.enableNotifications = true;
                 };
               }
             ];
@@ -400,11 +367,6 @@
           mahmooz4 = allConfigs."mahmooz4-x86_64-linux";
           mahmooz5 = allConfigs."mahmooz5-aarch64-linux";
         };
-
-    nixOnDroidConfigurations.droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-      pkgs = import nixpkgs { system = "aarch64-linux"; };
-      modules = [ ./hosts/droid.nix ];
-    };
 
     devShells = forAllSystems (system: let
       sysPkgs = mkPkgs system;
@@ -543,12 +505,6 @@
       venus-guest = import ./modules/venus/guest.nix;
     };
 
-    robotnixConfigurations = {
-      # nix build .#robotnixConfigurations.mylineageos.ota.
-      "mylineageos" = inputs.robotnix.lib.robotnixSystem ./android/lineageos.nix;
-      "mygrapheneos" = inputs.robotnix.lib.robotnixSystem ./android/grapheneos.nix;
-    };
-
     darwinConfigurations = {
       # silicon macs (M1, M2, M3, etc.)
       mahmooz0 =
@@ -591,46 +547,6 @@
                   machine.is_linux = false;
                   machine.is_darwin = true;
                   machine.static_ip = "192.168.1.1";
-
-                  # add mps-transformers package to system packages
-                  environment.systemPackages = [
-                    # create a transformers CLI executable
-                    (sysPkgs.writeShellScriptBin "mps-transformers" ''
-                      exec ${mps-transformers}/bin/transformers "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "mps-python" ''
-                      exec ${mps-transformers}/bin/python "$@"
-                    '')
-                    # mlx-lm scripts
-                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-generate" ''
-                      exec ${mlx-lm}/bin/mlx_lm.generate "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-convert" ''
-                      exec ${mlx-lm}/bin/mlx_lm.convert "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-lora" ''
-                      exec ${mlx-lm}/bin/mlx_lm.lora "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-merge" ''
-                      exec ${mlx-lm}/bin/mlx_lm.merge "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-chat" ''
-                      exec ${mlx-lm}/bin/mlx_lm.chat "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "uv-mlx-python" ''
-                      exec ${mlx-lm}/bin/python "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "uv-mlx-lm-server" ''
-                      exec ${mlx-lm}/bin/mlx_lm.server "$@"
-                    '')
-                    (sysPkgs.writeShellScriptBin "uv-fastmlx" ''
-                      exec ${mlx-lm}/bin/fastmlx "$@"
-                    '')
-                    # Venus launchers: `run-mahmooz1-vm` (Cocoa window) and
-                    # `run-mahmooz1-vm-console` (serial console).
-                    self.packages.${system}.vm
-                    self.packages.${system}.vm-headless
-                  ];
                 };
               })
               ./config-darwin.nix

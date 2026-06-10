@@ -6,7 +6,6 @@ let
     "homebrew/homebrew-core" = inputs.homebrew-core;
     "homebrew/homebrew-cask" = inputs.homebrew-cask;
     # we need to add "homebrew-" prefix
-    "slp/homebrew-krunkit" = inputs.krunkit;
   };
 in
 {
@@ -81,7 +80,6 @@ in
         "discord"
       ];
       brews = [
-        "krunkit"
         "mole"
       ];
       global = {
