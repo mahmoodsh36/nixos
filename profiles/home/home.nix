@@ -107,7 +107,6 @@ in
           ./python.nix
           # ./julia.nix
           ./sbcl.nix
-          ./distrobox-config.nix
           ../../services/podman-autobuilder.nix
         ];
 
@@ -141,15 +140,6 @@ in
             ];
           };
           sessionVariables = rec {
-            # we want our rsync to precede macos' default rsync to support options like --iconv
-            # PATH = "${pkgs.rsync}/bin:" + (builtins.getEnv "PATH");
-            # this doesnt seem to take effect?
-            # PATH = builtins.concatStringsSep ":" [
-            #   "${pkgs.rsync}/bin"
-            #   "${pkgs.coreutils}/bin"
-            #   "${builtins.getEnv "PATH"}"
-            # ];
-
             PYTHON_HISTORY = "$HOME/brain/python_history";
             HOME_DIR = homedir;
             VOL_DIR = voldir;
@@ -179,7 +169,6 @@ in
             MAHMOOZ2_ADDR = constants.mahmooz2_addr;
             MAHMOOZ4_ADDR = constants.mahmooz4_addr;
             MYDOMAIN = constants.mydomain;
-            CONTAINERS_MACHINE_PROVIDER = "libkrun";
           };
         };
 
@@ -198,19 +187,6 @@ in
             search_mode = "fuzzy";
           };
         };
-
-        # ls alternative
-        # programs.eza = {
-        #   enable = true;
-        #   git = true;
-        #   icons = "auto";
-        #   extraOptions = [
-        #     "--group-directories-first"
-        #     "--header"
-        #     "--hyperlink"
-        #     "--follow-symlinks"
-        #   ];
-        # };
 
         programs.home-manager.enable = true;
 
@@ -240,120 +216,14 @@ in
             email = "mahmod.m2015@gmail.com";
           };
         };
-        # programs.difftastic = {
-        #   enable = true;
-        #   git = {
-        #     enable = true;
-        #   };
-        #   options = {
-        #     tab-width = 2;
-        #   };
-        # };
 
         services.podman-autobuilder = {
           enable = config'.machine.can_compile;
           podmanPackage = config'.machine.podman.pkg;
-
           containers = {
-            # test-alpine = {
-            #   imageName = "test-alpine:latest";
-            #   context = ../../containers/test-container;
-            #   dockerfile = "Dockerfile";
-            #   runArgs = [
-            #     "--network=host"
-            #   ];
-            #   command = [ "sleep" "infinity" ];
-            #   aliases = {
-            #     "test-shell" = {
-            #       command = [ "sh" ];
-            #       interactive = true;
-            #     };
-            #     "test-bash" = {
-            #       command = [ "bash" ];
-            #       interactive = true;
-            #     };
-            #     "test-curl" = {
-            #       command = [ "curl" ];
-            #       interactive = false;
-            #     };
-            #   };
-            # };
-
-            # fedora-vulkan = lib.mkIf config'.machine.is_darwin {
-            #   imageName = "fedora-vulkan";
-            #   context = ../../containers/fedora-vulkan;
-            #   buildArgs = [
-            #     # "--network=host"
-            #   ];
-            #   runArgs = [
-            #     # "--network=host"
-            #     "--device" "/dev/dri"
-            #   ];
-            #   command = [ "sleep" "infinity" ];
-            #   aliases = {
-            #     "myvulkaninfo" = {
-            #       command = [ "vulkaninfo" ];
-            #       interactive = true;
-            #     };
-            #     # "mineru" = {
-            #     #   command = [ "mineru" ];
-            #     #   interactive = true;
-            #     # };
-            #     # "mineru-mlx" = {
-            #     #   command = [ "python3" ];
-            #     #   interactive = true;
-            #     # };
-            #   };
-            # };
-
-            fedora-pytorch-vulkan = lib.mkIf config'.machine.is_darwin {
-              imageName = "fedora-pytorch-vulkan";
-              context = ../../containers/fedora-pytorch-vulkan;
-              buildArgs = [
-                # "--network=host"
-                "--memory=32000m"
-              ];
-              runArgs = [
-                "--network=host"
-                "--entrypoint=" # clear the broken ENTRYPOINT from base image
-                "--device" "/dev/dri"
-                "--memory" "32g"
-                "-v" "${config'.machine.voldir}/models:/models"
-                "-e" "HF_HOME=/models"
-                "-e" "TRANSFORMERS_CACHE=/models"
-                "-e" "HUGGINGFACE_HUB_CACHE=/models"
-                "-e" "LLAMA_CACHE=/models"
-              ];
-              command = [ "sleep" "infinity" ];
-              aliases = {
-                "pytorch-vulkan" = {
-                  command = [ "python3" ];
-                  interactive = true;
-                };
-                "pytorch-vulkaninfo" = {
-                  command = [ "vulkaninfo" ];
-                  interactive = true;
-                };
-                "vulkan-transformers" = {
-                  command = [ "transformers" ];
-                  interactive = false;
-                };
-                "vulkan-llama-server" = {
-                  command = [ "llama-server" ];
-                  interactive = false;
-                };
-              };
-            };
           };
 
           composeFiles = {
-            # open-notebook = {
-            #   composeFile = ../../containers/open-notebook/docker-compose.full.yml;
-            #   workingDirectory = ../../containers/open-notebook;
-            #   environment = {
-            #     HOME = config.home.homeDirectory;
-            #   };
-            # };
           };
         };
       };

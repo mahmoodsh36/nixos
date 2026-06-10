@@ -66,21 +66,7 @@
 
       # music
       # strawberry
-      spotube
-      # tauon
-      # (deadbeef-with-plugins.override {
-      #   plugins = with deadbeefPlugins; [
-      #     mpris2
-      #     statusnotifier
-      #     lyricbar
-      #     waveform-seekbar
-      #     # playlist-manager
-      #     # musical-spectrum
-      #   ];
-      # })
-      # audacious
-      # this causes build cuz of the yt-dlp overlay
-      # jellyfin-tui jellytui
+      jellyfin-tui jellytui
 
       pkgs-pinned.ffmpeg-full.bin # untrunc-anthwlock
       pandoc
@@ -103,7 +89,6 @@
       argc
       imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
       pigz # for compression
-      (pkgs.callPackage ../packages/vend.nix {})
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
       xournalpp pkgs-pinned.rnote # krita
