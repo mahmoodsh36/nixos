@@ -49,7 +49,6 @@ in
   }] ++ (lib.optional isDarwin {
      services.tailscale = {
       enable = true;
-      # package = tailscale-pkg;
       overrideLocalDns = true;
     };
   }) ++ (lib.optional isLinux {
@@ -58,13 +57,12 @@ in
 
     services.tailscale = lib.mkIf (!config.machine.is_vm) {
       enable = true;
-      # package = tailscale-pkg;
       useRoutingFeatures = "both";
       port = 12345; # (default: 41641)
     };
 
     services.openssh = {
-      ports = [ 22 2222 ]; # my uni wifi blocks port 22..
+      # ports = [ 22 2222 ]; # my uni wifi blocks port 22..
       # require public key authentication for better security
       settings.PasswordAuthentication = false;
       settings.KbdInteractiveAuthentication = false;

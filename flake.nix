@@ -7,7 +7,6 @@
     pkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
-      # url = "github:nix-community/home-manager/a3fcc92180c7462082cd849498369591dfb20855";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lem = {
@@ -49,7 +48,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs = {
-      # url = "github:nix-community/emacs-overlay/e434cb40e1a77ef70a4d8a848ccca91d0a7e42ad";
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -284,15 +282,6 @@
                   machine.enable_nvidia = true;
                   machine.static_ip = "192.168.1.2";
                   machine.is_home_server = true;
-                  # embed executable for mlpython
-                  # environment.systemPackages = pkgs.lib.mkIf (builtins.pathExists ./uv.lock ) [
-                  #   (mkUvPkgs system).writeShellScriptBin "mlpython2" ''
-                  #     export LD_LIBRARY_PATH=/run/opengl-driver/lib
-                  #     export TRITON_LIBCUDA_PATH=/run/opengl-driver/lib
-                  #     export TRITON_PTXAS_PATH="${(mkUvPkgs system).cudatoolkit}/bin/ptxas"
-                  #     exec ${mlvenv}/bin/python "$@"
-                  #   ''
-                  # ];
                 };
               })
               ./profiles/network-local.nix

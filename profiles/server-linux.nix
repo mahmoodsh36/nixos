@@ -133,23 +133,6 @@ in
       # execWheelOnly = true; # we may want this to be true for security
     };
 
-    # didnt work for my other machine.. :/
-    systemd.services.keepalive = {
-      enable = false;
-      description = "keep network connections alive";
-      after = [ "network.target" ];
-      wants = [ "network.target" ];
-      serviceConfig = {
-        ExecStart = "${pkgs.python3.withPackages (ps: with ps; [ aiohttp requests ])}/bin/python /home/${config.machine.user}/work/scripts/keepalive.py";
-        Restart = "always";
-        RestartSec = 10;
-        User = "${config.machine.user}";
-        NoNewPrivileges = true;
-        ConditionPathExists = "/home/${config.machine.user}/work/scripts/keepalive.py";
-      };
-      wantedBy = [ "multi-user.target" ];
-    };
-
     # virtualization
     virtualisation.libvirtd = {
       enable = !config.machine.low_resources && !config.machine.is_vm;
@@ -193,13 +176,6 @@ in
       bind_ip = "0.0.0.0";
     };
 
-    # http://localhost:28981
-    environment.etc."paperless-admin-pass".text = "admin";
-    services.paperless = {
-      # enable = true;
-      passwordFile = "/etc/paperless-admin-pass";
-    };
-
     services.postgresql = {
       enable = lib.mkDefault (!config.machine.low_resources && !config.machine.is_vm);
       enableTCPIP = true;
@@ -222,29 +198,6 @@ in
         ensureDBOwnership = true;
       }];
     };
-
-    services.open-webui = lib.mkIf (lib.and config.machine.is_desktop (!config.machine.enable_nvidia)) {
-      enable = false;
-      host = "0.0.0.0";
-      port = 8083;
-      environment = {
-        WEBUI_AUTH = "False";
-        ANONYMIZED_TELEMETRY = "False";
-        DO_NOT_TRACK = "True";
-        SCARF_NO_ANALYTICS = "True";
-      };
-    };
-
-    # virtualisation.arion = {
-    #   backend = "podman-socket";
-    #   projects.open-notebook = lib.mkIf config.machine.is_desktop {
-    #     settings = {
-    #       imports = [
-    #         ./arion-open-notebook.nix
-    #       ];
-    #     };
-    #   };
-    # };
 
     zramSwap = lib.mkIf config.machine.low_resources {
       enable = true;
