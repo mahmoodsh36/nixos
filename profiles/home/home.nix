@@ -9,6 +9,40 @@ let
              else "/home/${config.machine.user}";
   voldir = config.machine.voldir;
   work_dir = "${config.machine.voldir}/work";
+  # ssot for shell env vars.
+  sessionVars = rec {
+    PYTHON_HISTORY = "${homedir}/brain/python_history";
+    HOME_DIR = homedir;
+    VOL_DIR = voldir;
+    BRAIN_DIR = "${VOL_DIR}/brain";
+    MUSIC_DIR = "${VOL_DIR}/music";
+    WORK_DIR = work_dir;
+    work = WORK_DIR;
+    mahmooz4 = constants.mahmooz4_addr;
+    brain = BRAIN_DIR;
+    VOLUME_DIR = voldir;
+    vol = VOLUME_DIR;
+    NOTES_DIR = "${BRAIN_DIR}/notes";
+    SCRIPTS_DIR = "${WORK_DIR}/scripts";
+    DOTFILES_DIR = "${WORK_DIR}/otherdots";
+    EMACS_D_DIR = "${WORK_DIR}/emacs.d";
+    LEM_CONFIG_DIR = "${WORK_DIR}/lem-config";
+    NIX_CONFIG_DIR = "${WORK_DIR}/nixos";
+    BLOG_DIR = "${WORK_DIR}/blog";
+    EDITOR = "nvim";
+    BROWSER = "firefox";
+    DATA_DIR = "${VOL_DIR}/data";
+    MPV_SOCKET_DIR = "${DATA_DIR}/mpv_data/sockets";
+    MPV_MAIN_SOCKET_PATH = "${DATA_DIR}/mpv_data/sockets/mpv.socket";
+    MYGITHUB = constants.mygithub;
+    PERSONAL_WEBSITE = constants.personal_website;
+    MAHMOOZ3_ADDR = constants.mahmooz3_addr;
+    MAHMOOZ2_ADDR = constants.mahmooz2_addr;
+    MAHMOOZ4_ADDR = constants.mahmooz4_addr;
+    MYDOMAIN = constants.mydomain;
+  };
+  sessionVarsExports = lib.concatStringsSep "\n"
+    (lib.mapAttrsToList (n: v: ''export ${n}="${toString v}"'') sessionVars);
 in
 {
   imports = [
@@ -129,6 +163,7 @@ in
           initContent = lib.mkOrder 1500 ''
             source ~/.zshrc.manual
           '';
+          envExtra = sessionVarsExports;
           syntaxHighlighting.enable = true;
           # lsp causes high cpu usage for some reason (400%?)
           # enableCompletion = true;
@@ -139,37 +174,7 @@ in
               "completion"
             ];
           };
-          sessionVariables = rec {
-            PYTHON_HISTORY = "$HOME/brain/python_history";
-            HOME_DIR = homedir;
-            VOL_DIR = voldir;
-            BRAIN_DIR = "${VOL_DIR}/brain";
-            MUSIC_DIR = "${VOL_DIR}/music";
-            WORK_DIR = work_dir;
-            work = WORK_DIR;
-            mahmooz4 = constants.mahmooz4_addr;
-            brain = BRAIN_DIR;
-            VOLUME_DIR = voldir;
-            vol = VOLUME_DIR;
-            NOTES_DIR = "${BRAIN_DIR}/notes";
-            SCRIPTS_DIR = "${WORK_DIR}/scripts";
-            DOTFILES_DIR = "${WORK_DIR}/otherdots";
-            EMACS_D_DIR = "${WORK_DIR}/emacs.d";
-            LEM_CONFIG_DIR = "${WORK_DIR}/lem-config";
-            NIX_CONFIG_DIR = "${WORK_DIR}/nixos";
-            BLOG_DIR = "${WORK_DIR}/blog";
-            EDITOR = "nvim";
-            BROWSER = "firefox";
-            DATA_DIR = "${VOL_DIR}/data";
-            MPV_SOCKET_DIR = "${DATA_DIR}/mpv_data/sockets";
-            MPV_MAIN_SOCKET_PATH = "${DATA_DIR}/mpv_data/sockets/mpv.socket";
-            MYGITHUB = constants.mygithub;
-            PERSONAL_WEBSITE = constants.personal_website;
-            MAHMOOZ3_ADDR = constants.mahmooz3_addr;
-            MAHMOOZ2_ADDR = constants.mahmooz2_addr;
-            MAHMOOZ4_ADDR = constants.mahmooz4_addr;
-            MYDOMAIN = constants.mydomain;
-          };
+          sessionVariables = sessionVars;
         };
 
         programs.atuin = {
