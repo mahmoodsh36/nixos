@@ -52,7 +52,7 @@
     # packages
     environment.systemPackages = with pkgs; [
       firefox
-      pkgs-pinned.mpv
+      mpv
       ntfs3g
       gnupg
       uv
@@ -133,7 +133,7 @@
       pkgs-unstable.codex
       inputs.llm-agents.packages.${pkgs.system}.opencode
       inputs.llm-agents.packages.${pkgs.system}.pi
-      # inputs.llm-agents.packages.${pkgs.system}.hermes-agent
+      inputs.llm-agents.packages.${pkgs.system}.hermes-agent
       inputs.llm-agents.packages.${pkgs.system}.beads
       inputs.llm-agents.packages.${pkgs.system}.claude-code
       inputs.llm-agents.packages.${pkgs.system}.gemini-cli

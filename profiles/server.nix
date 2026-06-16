@@ -50,14 +50,14 @@ in
       dash
       lsof
       tree
-      btop ncdu # glances
+      btop ncdu glances
       file zip unzip fzf p7zip unrar-wrapper
       gnupg
       openssl
       # we need wezterm installed on the server too, for persistent sessions
       wezterm
       bc # used for some arithmetic in shell scripts
-      yt-dlp #pkgs-unstable.yt-dlp # (lib.mkIf (!config.machine.is_vm) ytdl-sub)
+      yt-dlp # ytdl-sub
       expect # for unbuffer etc
       coreutils-full
 
