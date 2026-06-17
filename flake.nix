@@ -52,7 +52,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     darwin-emacs = {
-      url = "github:nix-giant/nix-darwin-emacs/6d160e90cf6c76bb58c215b3cd8a4db44899e5ed";
+      url = "github:nix-giant/nix-darwin-emacs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     wezterm = {
