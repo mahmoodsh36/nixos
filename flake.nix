@@ -71,10 +71,6 @@
       url = "github:rasmus-kirk/nixarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    yt-dlp = {
-      url = "github:yt-dlp/yt-dlp";
-      flake = false;
-    };
 
     # macos
     nix-darwin = {
