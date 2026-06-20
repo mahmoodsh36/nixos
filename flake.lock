@@ -845,11 +845,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1781849779,
-        "narHash": "sha256-Ihdla0v+oCO6dNN6iExgdGc9+JmKLmAnbiTneiJgZbE=",
+        "lastModified": 1781935030,
+        "narHash": "sha256-VbghtmBX09cL/JIm5fXSzHnI2tFE8lorxe9Fx/hE6yk=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "a1e67cc315b6bd924614d4232e09bab54df3ae39",
+        "rev": "6d65e7002dd5fe407af6d989ea49f9e89619d4db",
         "type": "github"
       },
       "original": {
@@ -1434,8 +1434,7 @@
         "pyproject-nix": "pyproject-nix",
         "scripts": "scripts",
         "uv2nix": "uv2nix",
-        "wezterm": "wezterm",
-        "yt-dlp": "yt-dlp"
+        "wezterm": "wezterm"
       }
     },
     "rust-overlay": {
@@ -1861,22 +1860,6 @@
       "original": {
         "owner": "Supreeeme",
         "repo": "xwayland-satellite",
-        "type": "github"
-      }
-    },
-    "yt-dlp": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1781820308,
-        "narHash": "sha256-16En82SXv3D+lsG1pNA1y6ODozuWbme0byuO0jiO4a4=",
-        "owner": "yt-dlp",
-        "repo": "yt-dlp",
-        "rev": "9ae7df9a22b29e2f81825230c9bba7d444190de0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yt-dlp",
-        "repo": "yt-dlp",
         "type": "github"
       }
     },
