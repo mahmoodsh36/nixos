@@ -342,17 +342,6 @@ let
       # jellycli
     ];
 
-    # systemd.services.my_mpv_logger_service = {
-    #   description = "mpv logger";
-    #   wantedBy = [ "multi-user.target" ];
-    #   script = "${pkgs.dash}/bin/dash ${scripts_dir}/mpv_logger.sh";
-    #   serviceConfig = {
-    #     User = config.machine.user;
-    #     Restart = "always";
-    #     RuntimeMaxSec = "3600";
-    #   };
-    # };
-
     systemd.services.my_keys_py_service = {
       description = "service for keys.py";
       wantedBy = [ "multi-user.target" ];
@@ -389,10 +378,6 @@ let
       powertop.enable = !config.machine.low_resources;
       cpuFreqGovernor = "ondemand";
     };
-
-    # ccache is needed for robotnix
-    nix.settings.extra-sandbox-paths = lib.mkIf (!config.machine.low_resources) [ config.programs.ccache.cacheDir ];
-    programs.ccache.enable = !config.machine.low_resources;
 
     # helps finding the package that contains a specific file
     programs.nix-index = {
