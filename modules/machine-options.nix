@@ -60,7 +60,7 @@
         trim the config for resource-constrained machines: skip large
         package sets (texlive, sage, llm CLIs, full font collection),
         heavy services (postgresql, libvirtd, podman, jellyfin, mpv-daemon),
-        extra desktop environments, dev docs, audit, ccache, full nix-ld
+        extra desktop environments, dev docs, audit, full nix-ld
         library set, and similar. enables zramSwap.
       '';
     };
