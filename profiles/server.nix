@@ -60,6 +60,7 @@ in
       yt-dlp # ytdl-sub
       expect # for unbuffer etc
       coreutils-full
+      gh
 
       # networking tools
       curl wget socat
