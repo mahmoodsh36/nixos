@@ -155,7 +155,7 @@ in
     nix = {
       linux-builder = {
         # https://github.com/nix-darwin/nix-darwin/issues/1192
-        enable = true;
+        enable = false;
         ephemeral = true;
         maxJobs = 4;
         # comment the following 2 expressions out on first run?
