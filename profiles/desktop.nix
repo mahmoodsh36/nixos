@@ -136,7 +136,6 @@
       inputs.llm-agents.packages.${pkgs.system}.hermes-agent
       inputs.llm-agents.packages.${pkgs.system}.beads
       inputs.llm-agents.packages.${pkgs.system}.claude-code
-      inputs.llm-agents.packages.${pkgs.system}.gemini-cli
       pkgs.antigravity
       pre-commit
 
