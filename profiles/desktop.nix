@@ -13,8 +13,6 @@
       # enableDefaultPackages = true;
       packages = with pkgs; [
         nerd-fonts.jetbrains-mono
-        noto-fonts
-        noto-fonts-color-emoji
         dejavu_fonts
         font-awesome
       ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
@@ -24,14 +22,13 @@
         nerd-fonts.inconsolata nerd-fonts.fira-code
         fira-code
         ubuntu-classic
-        noto-fonts-cjk-sans
         cm_unicode
         unicode-emoji
         unicode-character-database
         unifont
         symbola
         # persian font
-        vazir-fonts
+        vazirmatn
         corefonts # for good arabic/hebrew/etc fonts
         mplus-outline-fonts.githubRelease
         dina-font
@@ -51,7 +48,7 @@
 
     # packages
     environment.systemPackages = with pkgs; [
-      firefox
+      pkgs-pinned.firefox
       mpv
       ntfs3g
       gnupg
@@ -70,7 +67,6 @@
 
       pkgs-pinned.ffmpeg-full.bin # untrunc-anthwlock
       pandoc
-      nodejs
 
       # other
       # adb-sync
@@ -92,6 +88,7 @@
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
       xournalpp pkgs-pinned.rnote # krita
+      youtube-music
 
       # nix specific
       nixos-generators
@@ -113,40 +110,22 @@
       typescript-language-server
       python3Packages.python-lsp-server
       yaml-language-server
-      tailwindcss-language-server
       postgres-language-server
-      lua-language-server
       java-language-server
-      dockerfile-language-server
-      dot-language-server
       cmake-language-server
       bash-language-server
-      autotools-language-server
-      llm-ls
       vscode-langservers-extracted
 
       # dictionary
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
 
       python3Packages.huggingface-hub
-      aichat
       pkgs-unstable.codex
       inputs.llm-agents.packages.${pkgs.system}.opencode
       inputs.llm-agents.packages.${pkgs.system}.pi
       inputs.llm-agents.packages.${pkgs.system}.hermes-agent
       inputs.llm-agents.packages.${pkgs.system}.beads
       inputs.llm-agents.packages.${pkgs.system}.claude-code
-      pkgs.antigravity
-      pre-commit
-
-      youtube-music
-      # telegram-desktop
-      darktable # image editor
-
-      config.machine.llama-cpp.pkg
-      whisper-cpp
-
-      pkgs.gitingest
     ] ++ pkgs.lib.optionals (!config.machine.is_darwin && !config.machine.low_resources) [
       # transmission fails on darwin due to fmt build issue
       transmission_4
