@@ -49,7 +49,7 @@
     # packages
     environment.systemPackages = with pkgs; [
       pkgs-pinned.firefox
-      mpv
+      pkgs-pinned.mpv
       ntfs3g
       gnupg
       uv
@@ -63,7 +63,7 @@
 
       # music
       # strawberry
-      jellyfin-tui jellytui
+      # jellyfin-tui jellytui
 
       pkgs-pinned.ffmpeg-full.bin # untrunc-anthwlock
       pandoc
@@ -123,7 +123,6 @@
       pkgs-unstable.codex
       inputs.llm-agents.packages.${pkgs.system}.opencode
       inputs.llm-agents.packages.${pkgs.system}.pi
-      inputs.llm-agents.packages.${pkgs.system}.hermes-agent
       inputs.llm-agents.packages.${pkgs.system}.beads
       inputs.llm-agents.packages.${pkgs.system}.claude-code
       inputs.llm-agents.packages.${pkgs.system}.antigravity-cli

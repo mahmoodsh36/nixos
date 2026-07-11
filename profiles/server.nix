@@ -49,7 +49,7 @@ in
       lsof
       tree
       btop ncdu glances
-      file zip unzip fzf p7zip unrar-wrapper
+      file zip unzip fzf p7zip
       gnupg
       openssl
       # we need wezterm installed on the server too, for persistent sessions
