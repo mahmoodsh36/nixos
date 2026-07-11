@@ -1,5 +1,5 @@
 # this is for macos
-{ config, pkgs, lib, inputs, myutils, ... }:
+{ config, pkgs, lib, inputs, myutils, pkgs-pinned, ... }:
 
 let
   taps = {
@@ -22,6 +22,8 @@ in
 
     # necessary temporary fix
     ids.gids.nixbld = 350;
+
+    machine.podman.pkg = pkgs-pinned.podman;
 
     environment.variables.HOMEBREW_NO_ANALYTICS = "1";
 
