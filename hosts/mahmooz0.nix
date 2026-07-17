@@ -77,6 +77,7 @@ in
         "slack"
         # "rnote"
         "discord"
+        "spotify"
       ];
       brews = [
         "mole"
