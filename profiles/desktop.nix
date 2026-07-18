@@ -56,7 +56,6 @@
 
       nix-prefetch-git
       nix-tree
-      nil
     ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
       neovide
       inputs.lem.packages.${pkgs.system}.lem-webview-app
