@@ -1464,6 +1464,7 @@
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",
         "scripts": "scripts",
+        "trackify": "trackify",
         "uv2nix": "uv2nix",
         "wezterm": "wezterm"
       }
@@ -1651,6 +1652,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "trackify": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669401963,
+        "narHash": "sha256-xuZWhygkaLzqw3dclEbRskS1/QYOGZI/yP+IOuj3HHg=",
+        "owner": "mahmoodsheikh36",
+        "repo": "trackify",
+        "rev": "41f021a726dca49bb292d2f5bfbf1f6fd043e6ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsheikh36",
+        "repo": "trackify",
         "type": "github"
       }
     },
