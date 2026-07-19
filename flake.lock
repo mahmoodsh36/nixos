@@ -1658,11 +1658,11 @@
     "trackify": {
       "flake": false,
       "locked": {
-        "lastModified": 1669401963,
-        "narHash": "sha256-xuZWhygkaLzqw3dclEbRskS1/QYOGZI/yP+IOuj3HHg=",
+        "lastModified": 1784490752,
+        "narHash": "sha256-OjwhrqgcxlfzkJ2Lx93daE+RajIHaIAV1FLzF2/zWPk=",
         "owner": "mahmoodsheikh36",
         "repo": "trackify",
-        "rev": "41f021a726dca49bb292d2f5bfbf1f6fd043e6ff",
+        "rev": "d8408072cd486603f08cedaeb4960e46196ebf1f",
         "type": "github"
       },
       "original": {
