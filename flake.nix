@@ -71,6 +71,10 @@
       url = "github:rasmus-kirk/nixarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    trackify = {
+      url = "github:mahmoodsheikh36/trackify";
+      flake = false;
+    };
 
     # macos
     nix-darwin = {
@@ -287,6 +291,7 @@
               {
                 config = {
                   machine.name = "mahmooz3";
+                  services.trackify.enable = true;
                   networking.firewall.allowedTCPPorts = [ 43594 ];
                   machine.is_desktop = false;
                   machine.enable_nvidia = false;

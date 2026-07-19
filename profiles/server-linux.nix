@@ -7,6 +7,7 @@ in
   imports = [
     ./nvidia.nix
     ../services/jellyfin.nix
+    ../services/trackify.nix
   ];
 
   config = lib.mkIf config.machine.is_linux {
@@ -163,12 +164,6 @@ in
     # see: https://github.com/containers/podman/blob/main/troubleshooting.md#26-running-containers-with-resource-limits-fails-with-a-permissions-error
     systemd.services."user@".serviceConfig = {
       Delegate = "cpu cpuset io memory pids";
-    };
-
-    services.mysql = {
-      enable = false;
-      settings.mysqld.bind-address = "0.0.0.0";
-      package = pkgs.mariadb;
     };
 
     services.mongodb = {
