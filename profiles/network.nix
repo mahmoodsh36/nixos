@@ -78,8 +78,8 @@ in
       settings = {
         server_url = "https://${headscale_host}";
         dns = {
-          # the base domain for internal MagicDNS names
-          base_domain = "https://${mydomain}";
+          # the base domain for internal MagicDNS names.
+          base_domain = "tailnet.${mydomain}";
           magic_dns = true;
           # upstream resolvers for the Headscale server itself. use Blocky for filtering.
           nameservers.global = [
@@ -575,5 +575,28 @@ in
       DISABLE_TELEMETRY = true;
     };
   };
+
+  systemd.services.umami-seed-website =
+    lib.mkIf (is_exit_node && isLinux && umami_secret != "") {
+      description = "ensure the umami website row exists (idempotent)";
+      after = [ "umami.service" "postgresql.service" ];
+      requires = [ "postgresql.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        User = "postgres";
+      };
+      script = ''
+        ${config.services.postgresql.package}/bin/psql -d umami <<'SQL'
+        INSERT INTO website (website_id, name, domain, user_id, created_by, created_at)
+        SELECT 'e2027c6d-2921-4339-a2b1-18dc85f9e526', 'mahmoodsh.com', 'mahmoodsh.com',
+               u.user_id, u.user_id, now()
+        FROM "user" u
+        WHERE u.username = 'admin'
+        ON CONFLICT (website_id) DO NOTHING;
+        SQL
+      '';
+    };
   }));
 }
