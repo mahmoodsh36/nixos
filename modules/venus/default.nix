@@ -1,7 +1,7 @@
 # Venus GPU passthrough: aarch64-linux NixOS guest with Venus->Metal
 # on aarch64-darwin, built from UTM's macOS-Venus tree.
 #
-# Replaces qemu-vm.nix/vmVariant (which is Linux-host-only). the
+# Replaces qemu-vm.nix/vmVariant (which is Linux-host-only): the
 # launcher is a darwin writeShellApplication wrapping the UTM-fork
 # qemu; the guest's filesystem/init bits live in ./guest.nix.
 # Guest derivations (kernel/initrd) need a linux builder.
@@ -17,6 +17,12 @@
 # Absolute path on the host to share into the guest at /data via 9p.
 # When null, /data is left unmounted.
 , hostVoldir ? null
+# Default network backend: "user" (slirp NAT, unprivileged), "vmnet"
+# (Apple vmnet shared NAT, needs root) or "none". Overridable per-run
+# with VENUS_NET=... without rebuilding the launcher.
+, defaultNetwork ? "user"
+# Host-side port forwarded to the guest's sshd under the "user" backend.
+, sshHostPort ? 2222
 }:
 
 let
@@ -232,7 +238,8 @@ let
   # nixpkgs.config (e.g. mahmooz1's permittedInsecurePackages).
   guestPkgs      = nixosGuest.pkgs;
   guestKernel    = nixosGuest.config.system.build.kernel;
-  guestKernelImg = "${guestKernel}/${guestPkgs.stdenv.hostPlatform.linux-kernel.target}";
+  # kernelFile is NixOS' own image name (aarch64 -> "Image").
+  guestKernelImg = "${guestKernel}/${nixosGuest.config.system.boot.loader.kernelFile}";
   guestInitrd    = nixosGuest.config.system.build.initialRamdisk;
   guestToplevel  = nixosGuest.config.system.build.toplevel;
 
@@ -272,7 +279,8 @@ let
     excludeShellChecks = [ "SC2054" ];
     text = ''
       set -euo pipefail
-      CACHE="''${XDG_CACHE_HOME:-$HOME/.cache}/venus-guest"
+      # VENUS_STATE_DIR gives a run its own disk/socket.
+      CACHE="''${VENUS_STATE_DIR:-''${XDG_CACHE_HOME:-$HOME/.cache}/venus-guest}"
       mkdir -p "$CACHE"
       DISK="$CACHE/disk.qcow2"
 
@@ -296,6 +304,38 @@ let
         rm -f "$SPICE_SOCK"
       ''}
 
+      # VENUS_NET picks the backend per run, no rebuild needed:
+      #   user  - slirp NAT, ssh on localhost:${toString sshHostPort}, unprivileged
+      #   vmnet - Apple vmnet shared NAT, guest gets its own IP, needs root
+      #   none  - no NIC at all
+      NET="''${VENUS_NET:-${defaultNetwork}}"
+      case "$NET" in
+        user)
+          NET_ARGS=(
+            -netdev "user,id=net0,hostfwd=tcp:127.0.0.1:${toString sshHostPort}-:22"
+            -device virtio-net-pci,netdev=net0
+          )
+          ;;
+        vmnet)
+          if [ "$(id -u)" -ne 0 ]; then
+            echo "venus-guest: VENUS_NET=vmnet needs root (vmnet has no unprivileged path); re-run under sudo." >&2
+            exit 1
+          fi
+          NET_ARGS=(
+            -netdev vmnet-shared,id=net0
+            -device virtio-net-pci,netdev=net0
+          )
+          ;;
+        none)
+          # Omitting -netdev entirely still gets a default slirp nic.
+          NET_ARGS=( -nic none )
+          ;;
+        *)
+          echo "venus-guest: unknown VENUS_NET=$NET (want user|vmnet|none)" >&2
+          exit 1
+          ;;
+      esac
+
       QEMU_ARGS=(
         -name venus-guest
         -machine virt,gic-version=max,accel=hvf
@@ -303,7 +343,13 @@ let
         -kernel ${guestKernelImg}
         -initrd ${guestInitrd}/initrd
         -append "console=ttyAMA0,115200 root=/dev/vda init=${guestToplevel}/init regInfo=${guestClosureInfo}/registration loglevel=4"
-        -drive if=virtio,format=qcow2,file="$DISK"
+        # Keeps block I/O off the main loop, which also serves 9p and the
+        # net backend. `-drive if=virtio` tests the same, so this is
+        # headroom rather than a fix.
+        -object iothread,id=iothread0
+        -blockdev driver=file,node-name=disk-file,filename="$DISK"
+        -blockdev driver=qcow2,node-name=disk,file=disk-file
+        -device virtio-blk-pci,drive=disk,iothread=iothread0
         # Host /nix/store via 9p, avoids baking the closure into the disk.
         -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store,readonly=on
         ${lib.optionalString (hostVoldir != null)
@@ -314,10 +360,7 @@ let
         -device virtio-gpu-gl-pci,hostmem=8G,blob=true,venus=true
         -device virtio-keyboard-pci
         -device virtio-tablet-pci
-        # No networking. slirp virtio-net wedges QEMU's main loop under
-        # 9p+virtio-blk load on darwin; -nic none is required because
-        # omitting -netdev still defaults to slirp.
-        -nic none
+        "''${NET_ARGS[@]}"
         ${lib.optionalString consoleMode "-serial mon:stdio"}
       )
 
@@ -336,6 +379,7 @@ let
     qemu        = hostPkgs.qemu-venus-spice;
     consoleMode = true;
   };
+
 in {
   inherit hostPkgs nixosGuest;
   inherit guestImage guestKernel guestKernelImg guestInitrd guestToplevel;

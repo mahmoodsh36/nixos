@@ -85,7 +85,7 @@ in {
 
     # Legacy initrd; systemd-in-initrd + make-disk-image emit a
     # duplicate sysroot.mount and drop to emergency mode. Bootloaders
-    # off, the launcher boots via qemu -kernel/-initrd directly.
+    # off; the launcher boots via qemu -kernel/-initrd directly.
     boot.loader.grub.enable         = mkForce false;
     boot.loader.systemd-boot.enable = mkForce false;
     boot.initrd.systemd.enable      = false;
@@ -118,7 +118,7 @@ in {
 
     # Host machine.voldir (e.g. /Volumes/main on mahmooz0) shared as 9p.
     # mkForce because mahmooz1's disko-raid1.nix declares /data as btrfs.
-    # security_model=none passes through host UIDs, guest sees files
+    # security_model=none passes through host UIDs, so the guest sees files
     # owned by host's uid (501 on macOS), which mismatches guest
     # mahmooz=1000; access as root or fix perms if you need to write
     # as user. `nofail` so the VM boots even when launched without
@@ -131,7 +131,7 @@ in {
 
     # /nix/store: 9p RO lower + tmpfs upper overlayfs. nix-daemon dies
     # on a RO store, which breaks HM activation. tmpfs writes are lost
-    # on reboot, which is fine, the VM shouldn't persist new store paths.
+    # on reboot, which is fine: the VM shouldn't persist new store paths.
     # neededForBoot because init=${toplevel}/init lives under /nix/store.
     fileSystems."/nix/.ro-store" = mkForce {
       device        = "nix-store";
@@ -174,12 +174,9 @@ in {
       '';
     };
 
-    # Offline nix: regInfo covers the happy path, empty substituters
-    # as defense-in-depth, tight connect-timeout fails fast on any
-    # stray network-bound op instead of stalling boot.
-    nix.settings.substituters         = lib.mkForce [ ];
-    nix.settings.trusted-substituters = lib.mkForce [ ];
-    nix.settings.connect-timeout      = 1;
+    # regInfo covers the boot closure locally; the short connect-timeout
+    # keeps nix failing fast under VENUS_NET=none.
+    nix.settings.connect-timeout = lib.mkDefault 5;
 
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "yes";
