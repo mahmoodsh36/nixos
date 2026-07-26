@@ -73,7 +73,7 @@
     };
     trackify = {
       url = "github:mahmoodsheikh36/trackify";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-avf = {
       url = "github:nix-community/nixos-avf";
