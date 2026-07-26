@@ -48,7 +48,7 @@ in
       dash
       lsof
       tree
-      btop ncdu glances
+      btop ncdu
       file zip unzip fzf p7zip
       gnupg
       openssl
