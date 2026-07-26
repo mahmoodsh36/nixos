@@ -1335,11 +1335,11 @@
     "otherdots": {
       "flake": false,
       "locked": {
-        "lastModified": 1783945074,
-        "narHash": "sha256-MOkiBub2/rcUEb4BovKlbp/MVrlXL0ynbN5d9AtWm3g=",
+        "lastModified": 1785078012,
+        "narHash": "sha256-ywF97C5PgSvDY7mJ9ARPQLS41lrRQGQCst44OCKapbc=",
         "owner": "mahmoodsh36",
         "repo": "otherdots",
-        "rev": "63af389987a8278052be23bd1b4451e756e13dc3",
+        "rev": "4d15f35a9a8f0737ff834462b5b340405dec4587",
         "type": "github"
       },
       "original": {

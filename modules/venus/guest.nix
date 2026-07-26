@@ -184,11 +184,50 @@ in {
 
     hardware.graphics.enable = true;
 
+    # The 9p-shared host store comes from a case-insensitive macOS volume, so
+    # nix renamed case-colliding paths on unpack: terminfo's x/ (every xterm*
+    # entry) became x~nix~case~hack~1/, leaving ncurses to find only the
+    # uppercase X/ entries and fail with "cannot initialize terminal type".
+    # Rebuild a de-mangled tree on the guest's own case-sensitive filesystem.
+    systemd.services.terminfo-case-hack-fix = {
+      description = "Undo nix case-hack mangling of the terminfo database";
+      wantedBy    = [ "sysinit.target" ];
+      before      = [ "systemd-user-sessions.service" "display-manager.service" ];
+      unitConfig.DefaultDependencies = false;
+      serviceConfig = { Type = "oneshot"; RemainAfterExit = true; };
+      script = ''
+        set -eu
+        out=/run/terminfo
+        rm -rf "$out"; mkdir -p "$out"
+        # source ncurses directly: the system-path tree is merged by buildEnv on
+        # the case-insensitive host, which drops the lowercase entries entirely.
+        for d in ${pkgs.ncurses}/share/terminfo/*; do
+          [ -d "$d" ] || continue
+          name=$(basename "$d")
+          # strip the ~nix~case~hack~N suffix to recover the real directory
+          real=''${name%%~nix~case~hack~*}
+          mkdir -p "$out/$real"
+          for f in "$d"/*; do
+            [ -e "$f" ] || continue
+            ln -sfn "$f" "$out/$real/$(basename "$f")"
+          done
+        done
+      '';
+    };
+    # point the default lookup path at the repaired tree, and make sure it is
+    # searched even though TERMINFO_DIRS is set (which shadows the builtin).
+    environment.etc.terminfo.source = mkForce "/run/terminfo";
+    environment.profileRelativeSessionVariables.TERMINFO_DIRS = mkForce [
+      "/share/terminfo"
+    ];
+    environment.sessionVariables.TERMINFO_DIRS = mkForce "/run/terminfo";
+
     # Pin the venus ICD so the loader doesn't noisily try other drivers.
     environment.sessionVariables.VK_DRIVER_FILES =
       "/run/opengl-driver/share/vulkan/icd.d/virtio_icd.aarch64.json";
     environment.sessionVariables.VK_ICD_FILENAMES =
       "/run/opengl-driver/share/vulkan/icd.d/virtio_icd.aarch64.json";
+
 
     environment.systemPackages = with pkgs; [
       vulkan-tools
