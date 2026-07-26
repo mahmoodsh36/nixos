@@ -75,6 +75,10 @@
       url = "github:mahmoodsheikh36/trackify";
       flake = false;
     };
+    nixos-avf = {
+      url = "github:nix-community/nixos-avf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # macos
     nix-darwin = {
@@ -260,7 +264,7 @@
             ];
             mahmooz5 = [
               # ./hardware-configuration.nix
-              <nixos-avf/avf>
+              inputs.nixos-avf.nixosModules.avf
               ({ lib, ... }: {
                 config = {
                   avf.defaultUser = "mahmooz";
