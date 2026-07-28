@@ -2,6 +2,7 @@
 { config, pkgs, lib, inputs, myutils, pkgs-pinned, ... }:
 
 let
+  constants = import ../lib/constants.nix;
   taps = {
     "homebrew/homebrew-core" = inputs.homebrew-core;
     "homebrew/homebrew-cask" = inputs.homebrew-cask;
@@ -19,6 +20,14 @@ in
       # utm
       keycastr
     ];
+
+    # our headscale tailnet uses a custom magicdns suffix (tailnet.${constants.mydomain})
+    # instead of the default *.ts.net, macos doesn't route dns queries for it to
+    # tailscale's resolver on its own, so register it explicitly, same mechanism
+    # tailscale itself uses for *.ts.net
+    environment.etc."resolver/tailnet.${constants.mydomain}".text = ''
+      nameserver 100.100.100.100
+    '';
 
     # necessary temporary fix
     ids.gids.nixbld = 350;
