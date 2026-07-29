@@ -80,6 +80,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # vllm on apple silicon. built from source (the published wheels bundle
+    # prebuilt .so/.metallib artifacts that are gitignored from the repo),
+    # see packages/vllm-metal.nix.
+    vllm-metal-src = {
+      url = "github:vllm-project/vllm-metal";
+      flake = false;
+    };
+
     # macos
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";
@@ -213,7 +221,8 @@
 
     # helper to create Python environment for any system
     # usage: mkPythonEnv { system = "x86_64-linux"; workspaceRoot = ./path; envName = "my-env"; cudaSupport = true; }
-    mkPythonEnv = { system, workspaceRoot, envName, cudaSupport ? false }: let
+    mkPythonEnv = { system, workspaceRoot, envName, cudaSupport ? false
+                  , extraOverrides ? (final: prev: { }), extraDeps ? { } }: let
       isLinux = nixpkgs.lib.hasInfix "linux" system;
       sysPkgs = import inputs.pkgs-pinned {
         inherit system;
@@ -226,7 +235,7 @@
       uv2nix = inputs.uv2nix;
       pyproject-build-systems = inputs.pyproject-build-systems;
       python = sysPkgs.python312;
-      inherit workspaceRoot envName cudaSupport;
+      inherit workspaceRoot envName cudaSupport extraOverrides extraDeps;
     };
   in {
     nixosConfigurations =
@@ -367,11 +376,6 @@
       isLinux = nixpkgs.lib.hasInfix "linux" system;
 
       pythonShells = {
-        # mlx-lm environment
-        mlx-lm = sysPkgs.mkShell {
-          packages = [ self.packages.${system}.mlx-lm-env ];
-        };
-
         # ML/CUDA environment
         ml-cuda = let
           pythonEnv = mkPythonEnv {
@@ -470,13 +474,40 @@
         venus-guest-toplevel = venus.guestToplevel;
       };
 
-      basePackages = {
-        mlx-lm-env = mkPythonEnv {
-          inherit system;
-          workspaceRoot = ./python-envs/mlx-lm;
-          envName = "mlx-lm-venv";
-          cudaSupport = false;
+      # vllm + the vllm-metal plugin (built from source) on apple silicon.
+      # provides the stock `vllm` CLI; vllm-metal has no binary of its own,
+      # it registers itself through vllm's platform_plugins entry point.
+      vllmMetalPackages = nixpkgs.lib.optionalAttrs (system == "aarch64-darwin") {
+        vllm-metal-env = let
+          venv = mkPythonEnv {
+            inherit system;
+            workspaceRoot = ./python-envs/vllm-metal;
+            envName = "vllm-metal-venv";
+            cudaSupport = false;
+            extraOverrides = import ./packages/vllm-metal.nix {
+              src = inputs.vllm-metal-src;
+            };
+            extraDeps = { vllm-metal = [ ]; };
+          };
+        in sysPkgs.symlinkJoin {
+          name = "vllm-metal-env";
+          paths = [ venv ];
+          nativeBuildInputs = [ sysPkgs.makeWrapper ];
+          # we ship no precompiled .metallib shaders, so the loader has to be
+          # told to compile them in-process via MLX. see packages/vllm-metal.nix.
+          # wrap the venv's own bin/vllm rather than wrapProgram'ing the symlink
+          # in place: wrapProgram renames the target to .vllm-wrapped, and since
+          # it is a shebang script python takes sys.argv[0] from that path, so
+          # the CLI's usage text would read `.vllm-wrapped`.
+          postBuild = ''
+            rm $out/bin/vllm
+            makeWrapper ${venv}/bin/vllm $out/bin/vllm \
+              --set VLLM_METAL_BUILD_FROM_SOURCE 1
+          '';
         };
+      };
+
+      basePackages = {
         # darwin: mahmooz1 under Venus (`vm` = Cocoa window, `vm-headless`
         # = serial console). Linux: standard NixOS test-vm runner.
         vm =
@@ -493,7 +524,7 @@
             modules = [{ machine.is_vm = true; }];
           }).config.system.build.vm;
       };
-    in basePackages // venusDarwinPackages // venusLinuxPackages);
+    in basePackages // venusDarwinPackages // venusLinuxPackages // vllmMetalPackages);
 
     nixosModules = {
       venus-guest = import ./modules/venus/guest.nix;
@@ -505,19 +536,11 @@
         let
           system = "aarch64-darwin";
           sysPkgs = mkPkgs system;
-          # transformers environment with MPS support for macOS
-          mps-transformers = mkPythonEnv {
-            inherit system;
-            workspaceRoot = ./python-envs/transformers-mps;
-            envName = "transformers-mps-venv";
-          };
-          # mlx-lm environment
-          mlx-lm = self.packages.${system}.mlx-lm-env;
         in
           inputs.nix-darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             specialArgs = {
-              inherit inputs;
+              inherit inputs self;
               system = "aarch64-darwin";
               myutils = import ./lib/utils.nix { inherit system; };
             };

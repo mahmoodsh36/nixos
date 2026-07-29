@@ -1,5 +1,5 @@
 # this is for macos
-{ config, pkgs, lib, inputs, myutils, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, self, myutils, pkgs-pinned, ... }:
 
 let
   constants = import ../lib/constants.nix;
@@ -15,10 +15,15 @@ in
     system.stateVersion = 1;
     system.primaryUser = "${config.machine.user}";
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = (with pkgs; [
       macpm # asitop
       # utm
       keycastr
+    ]) ++ [
+      # puts the stock `vllm` CLI on PATH. the vllm-metal plugin has no
+      # command of its own, it hooks in via vllm's platform_plugins entry
+      # point. drags in torch, so it is a big closure.
+      self.packages.${pkgs.stdenv.hostPlatform.system}.vllm-metal-env
     ];
 
     # our headscale tailnet uses a custom magicdns suffix (tailnet.${constants.mydomain})

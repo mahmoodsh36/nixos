@@ -1,4 +1,12 @@
-{ pkgs, python, pyproject-nix, uv2nix, pyproject-build-systems, workspaceRoot, envName ? "venv", cudaSupport ? true, ... }:
+{ pkgs, python, pyproject-nix, uv2nix, pyproject-build-systems, workspaceRoot, envName ? "venv", cudaSupport ? true
+# composed last, so an env can correct anything the shared overrides above get
+# wrong for it (e.g. the hardcoded mlx version). called with the resolved
+# pkgs/python so an env-specific package builds against the same ones.
+, extraOverrides ? ({ pkgs, python }: final: prev: { })
+# extra packages to pull into the venv that the workspace lock does not
+# declare, for nix-built packages injected via extraOverrides.
+, extraDeps ? { }
+, ... }:
 
 let
   cudaPatch = old: {
@@ -298,19 +306,21 @@ except NameError:
     "transformers[serving]" = prev."transformers[serving]" or prev.transformers;
   };
 
+  resolvedExtra = extraOverrides { inherit pkgs python; };
+
   # Combine overrides based on platform and support flags
   pyprojectOverrides = let
     isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
   in
     if isDarwin then
       # On macOS, we use common + MPS-specific overrides
-      pkgs.lib.composeManyExtensions [ commonOverrides mpsOverrides ]
+      pkgs.lib.composeManyExtensions [ commonOverrides mpsOverrides resolvedExtra ]
     else if cudaSupport then
       # On Linux with CUDA, use common + CUDA-specific overrides
-      pkgs.lib.composeManyExtensions [ commonOverrides cudaOverrides ]
+      pkgs.lib.composeManyExtensions [ commonOverrides cudaOverrides resolvedExtra ]
     else
       # On other systems without CUDA, use only common overrides
-      commonOverrides;
+      pkgs.lib.composeManyExtensions [ commonOverrides resolvedExtra ];
 
   workspace = uv2nix.lib.workspace.loadWorkspace { inherit workspaceRoot; };
   pythonSet =
@@ -327,7 +337,7 @@ except NameError:
           pyprojectOverrides
         ]
       );
-  venv = (pythonSet.mkVirtualEnv envName workspace.deps.default).overrideAttrs(old: {
+  venv = (pythonSet.mkVirtualEnv envName (workspace.deps.default // extraDeps)).overrideAttrs(old: {
     venvIgnoreCollisions = [ "*bin/fastapi" ];
   });
 in

@@ -1487,6 +1487,7 @@
         "scripts": "scripts",
         "trackify": "trackify",
         "uv2nix": "uv2nix",
+        "vllm-metal-src": "vllm-metal-src",
         "wezterm": "wezterm"
       }
     },
@@ -1853,6 +1854,22 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "vllm-metal-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785255651,
+        "narHash": "sha256-GkGI39ZUYR1a95Tr49oyd1gQ8uXf6sQrevsZ0BHZbbs=",
+        "owner": "vllm-project",
+        "repo": "vllm-metal",
+        "rev": "b0ff480d37272dd1e5de572e3ad992861d6c0a68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vllm-project",
+        "repo": "vllm-metal",
         "type": "github"
       }
     },
