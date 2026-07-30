@@ -507,7 +507,28 @@
         };
       };
 
+      # mineru pdf extraction cli. models are fetched on first run into the
+      # huggingface cache, MINERU_MODEL_SOURCE picks where from.
+      mineru-env = let
+        venv = mkPythonEnv {
+          inherit system;
+          workspaceRoot = ./python-envs/mineru;
+          envName = "mineru-venv";
+          cudaSupport = nixpkgs.lib.hasInfix "linux" system;
+          extraOverrides = import ./packages/mineru.nix;
+        };
+      in sysPkgs.runCommand "mineru" { passthru = { inherit venv; }; } ''
+        # only the mineru commands, the rest of the venv's bin/ (python3.12,
+        # transformers, mlx_lm.*, ...) would collide in the system path.
+        mkdir -p $out/bin
+        for f in ${venv}/bin/mineru*; do
+          ln -s "$f" "$out/bin/$(basename "$f")"
+        done
+      '';
+
       basePackages = {
+        inherit mineru-env;
+
         # darwin: mahmooz1 under Venus (`vm` = Cocoa window, `vm-headless`
         # = serial console). Linux: standard NixOS test-vm runner.
         vm =

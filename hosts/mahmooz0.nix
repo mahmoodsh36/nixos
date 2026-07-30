@@ -24,6 +24,8 @@ in
       # command of its own, it hooks in via vllm's platform_plugins entry
       # point. drags in torch, so it is a big closure.
       self.packages.${pkgs.stdenv.hostPlatform.system}.vllm-metal-env
+      # `mineru` pdf extraction cli
+      self.packages.${pkgs.stdenv.hostPlatform.system}.mineru-env
     ];
 
     # our headscale tailnet uses a custom magicdns suffix (tailnet.${constants.mydomain})
