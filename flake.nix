@@ -517,12 +517,19 @@
           cudaSupport = nixpkgs.lib.hasInfix "linux" system;
           extraOverrides = import ./packages/mineru.nix;
         };
-      in sysPkgs.runCommand "mineru" { passthru = { inherit venv; }; } ''
+      in sysPkgs.runCommand "mineru" {
+        passthru = { inherit venv; };
+        nativeBuildInputs = [ sysPkgs.makeWrapper ];
+      } ''
         # only the mineru commands, the rest of the venv's bin/ (python3.12,
         # transformers, mlx_lm.*, ...) would collide in the system path.
         mkdir -p $out/bin
         for f in ${venv}/bin/mineru*; do
-          ln -s "$f" "$out/bin/$(basename "$f")"
+          # keep the config out of ~/mineru.json. mineru wont create missing
+          # parent dirs, so it goes directly in ~/.config.
+          makeWrapper "$f" "$out/bin/$(basename "$f")" \
+            --run 'export MINERU_TOOLS_CONFIG_JSON="''${MINERU_TOOLS_CONFIG_JSON:-''${XDG_CONFIG_HOME:-$HOME/.config}/mineru.json}"' \
+            --run 'export MINERU_MODEL_SOURCE="''${MINERU_MODEL_SOURCE:-huggingface}"'
         done
       '';
 
