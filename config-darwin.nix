@@ -23,6 +23,11 @@ in
 
   config = {
     nixpkgs.overlays = [
+      # mailutils 3.21 fails to link the uidnew sieve module on darwin
+      # (undefined _mu_url_* symbols); 3.19 from pkgs-pinned is fine
+      (final: prev: {
+        mailutils = pkgs-pinned.mailutils;
+      })
       (final: prev: {
         nss_wrapper = prev.runCommand "nss_wrapper-stub" {} ''
           mkdir -p $out/lib $out/bin
