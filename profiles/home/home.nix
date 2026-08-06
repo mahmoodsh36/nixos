@@ -201,6 +201,7 @@ in
         # i dont think im even making use of this
         programs.neovim = {
           enable = true;
+          sideloadInitLua = false;
           plugins = lib.optionals (!config'.machine.low_resources) (with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
           ]);
