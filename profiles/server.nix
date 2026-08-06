@@ -18,6 +18,13 @@ in
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nix.settings.auto-optimise-store = true;
+    nix.gc = {
+      automatic = true;
+      options = "--delete-older-than 10d";
+    } // (if pkgs.stdenv.isDarwin
+          # nix-darwin removed nix.gc.dates in favor of a launchd calendar interval
+          then { interval = [{ Hour = 3; Minute = 15; }]; }
+          else { dates = "daily"; });
     # not needed with flakes and causes a bunch of warnings
     nix.channel.enable = false;
 
