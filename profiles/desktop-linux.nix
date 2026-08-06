@@ -305,7 +305,6 @@ let
       imv # nice image viewer
       spotube # open source spotify client?
       inkscape
-      nyxt
 
       scrcpy
       libreoffice
