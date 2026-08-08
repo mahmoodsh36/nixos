@@ -62,6 +62,30 @@ in
       default = builtins.getEnv "GHOST_DB_PASSWORD";
     };
 
+    # claims the owner account on first boot, otherwise whoever finds /ghost
+    # first can claim it
+    owner = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        default = let n = builtins.getEnv "GHOST_ADMIN_NAME"; in
+          if n != "" then n else "admin";
+      };
+      email = lib.mkOption {
+        type = lib.types.str;
+        default = builtins.getEnv "GHOST_ADMIN_EMAIL";
+      };
+      password = lib.mkOption {
+        type = lib.types.str;
+        default = builtins.getEnv "GHOST_ADMIN_PASSWORD";
+      };
+    };
+
+    siteTitle = lib.mkOption {
+      type = lib.types.str;
+      default = let t = builtins.getEnv "GHOST_SITE_TITLE"; in
+        if t != "" then t else "blog";
+    };
+
     # pinned rather than :6 so a rebuild never silently jumps a minor version
     ghostImage = lib.mkOption {
       type = lib.types.str;
@@ -116,6 +140,10 @@ in
           database__connection__user = "ghost";
           database__connection__password = cfg.dbPassword;
           database__connection__database = "ghost";
+          # ghost emails a code when staff sign in from a new device, so leaving
+          # this on without smtp locks them out
+          security__staffDeviceVerification =
+            if smtp_host != "" then "true" else "false";
         } // mail_env;
         extraOptions = [ "--pod=${pod}" ];
       };
@@ -191,6 +219,44 @@ in
 
     services.caddy.virtualHosts."www.${cfg.domain}" = {
       extraConfig = "redir https://${cfg.domain}{uri} permanent";
+    };
+
+    # the setup endpoint is unauthenticated until it succeeds once, so claim the
+    # owner as soon as ghost is up rather than leaving the window open
+    systemd.services.ghost-setup = lib.mkIf (cfg.owner.email != "" && cfg.owner.password != "") {
+      after = [ "podman-ghost.service" ];
+      requires = [ "podman-ghost.service" ];
+      wantedBy = [ "multi-user.target" ];
+      path = with pkgs; [ curl jq coreutils ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        api=http://127.0.0.1:${toString cfg.port}/ghost/api/admin/authentication/setup/
+
+        for i in $(seq 1 60); do
+          curl -sf -m 5 "$api" >/dev/null 2>&1 && break
+          sleep 5
+        done
+
+        if curl -sf -m 10 "$api" | jq -e '.setup[0].status == true' >/dev/null; then
+          echo "owner already claimed"
+          exit 0
+        fi
+
+        jq -n \
+          --arg name ${lib.escapeShellArg cfg.owner.name} \
+          --arg email ${lib.escapeShellArg cfg.owner.email} \
+          --arg password ${lib.escapeShellArg cfg.owner.password} \
+          --arg blogTitle ${lib.escapeShellArg cfg.siteTitle} \
+          '{setup:[{name:$name,email:$email,password:$password,blogTitle:$blogTitle}]}' \
+          | curl -sf -m 30 -X POST "$api" \
+              -H 'Content-Type: application/json' \
+              -H 'Accept-Version: v5.0' \
+              --data @- >/dev/null \
+          && echo "claimed owner ${cfg.owner.email}"
+      '';
     };
 
     # the db holds the posts, content/ holds the uploads, both are needed to restore
