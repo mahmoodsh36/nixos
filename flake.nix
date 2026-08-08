@@ -536,6 +536,13 @@
       basePackages = {
         inherit mineru-env;
 
+        # `nix run .#backup [host]` -> $vol/data/backups/<host>/<timestamp>
+        backup = sysPkgs.writeShellApplication {
+          name = "backup";
+          runtimeInputs = with sysPkgs; [ openssh rsync gzip coreutils ];
+          text = builtins.readFile ./scripts/backup.sh;
+        };
+
         # darwin: mahmooz1 under Venus (`vm` = Cocoa window, `vm-headless`
         # = serial console). Linux: standard NixOS test-vm runner.
         vm =

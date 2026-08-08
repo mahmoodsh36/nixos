@@ -8,6 +8,7 @@ in
     ./nvidia.nix
     ../services/jellyfin.nix
     ../services/trackify.nix
+    ../services/ghost.nix
   ];
 
   config = lib.mkIf config.machine.is_linux {
