@@ -42,6 +42,8 @@ in
       useOSProber = true;
       devices = [ "nodev" ];
       copyKernels = true;
+      # nix.gc never touches /boot, so kernels accumulate there until it fills
+      configurationLimit = 5;
     };
     boot.loader.efi.canTouchEfiVariables = true;
 
