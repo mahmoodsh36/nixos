@@ -2,6 +2,7 @@
 
 let
   constants = (import ../lib/constants.nix);
+  gnome_enabled = constants.enable_gnome && !config.machine.low_resources;
   work_dir = "${config.machine.voldir}/work";
   scripts_dir = "${config.machine.voldir}/work/scripts";
   keys_python = pkgs.python3.withPackages (ps: with ps; [ evdev ]);
@@ -95,7 +96,7 @@ let
     #   xkb.layout = "us,il,ara";
     #   desktopManager.xfce.enable = (!constants.enable_plasma);
     # };
-    services.desktopManager.gnome.enable = constants.enable_gnome && !config.machine.low_resources;
+    services.desktopManager.gnome.enable = gnome_enabled;
     services.libinput = {
       enable = true;
       touchpad = {
@@ -116,7 +117,7 @@ let
       # xdgOpenUsePortal = true; # this seems to override my .desktop definitions in home-manager?
       enable = true;
       extraPortals = [
-        (lib.mkIf constants.enable_gnome pkgs.xdg-desktop-portal-gnome)
+        (lib.mkIf gnome_enabled pkgs.xdg-desktop-portal-gnome)
         pkgs.xdg-desktop-portal-gtk
         # pkgs.xdg-desktop-portal-hyprland
         (lib.mkIf constants.enable_plasma pkgs.kdePackages.xdg-desktop-portal-kde)
@@ -141,7 +142,7 @@ let
         settings.General.DisplayServer = "wayland";
       };
       # defaultSession = "hyprland";
-      defaultSession = if config.machine.low_resources then "hyprland" else "gnome";
+      defaultSession = if gnome_enabled then "gnome" else "hyprland";
       # defaultSession = "niri";
       # defaultSession = "plasma";
       # defaultSession = "cosmic";

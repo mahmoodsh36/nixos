@@ -10,6 +10,6 @@ rec {
   personal_website = "https://mahmoodsh36.github.io";
   ssh_pub_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz";
   enable_plasma = false;
-  enable_gnome = true;
+  enable_gnome = false;
   password = "mahmooz";
 }
