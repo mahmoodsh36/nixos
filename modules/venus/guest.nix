@@ -13,22 +13,12 @@ let
 
   cfg = config.venus.guest;
 
-  # Mesa with osy's 16-KiB blob-alignment patch (guest 4K vs host 16K
-  # Apple-Silicon page size). Obsolete once F_BLOB_ALIGNMENT lands.
-  mesa16kAlign = {
-    url  = "https://gist.githubusercontent.com/osy/a8f705050eed1c8421ad1a0855a8faa9/raw/1080c476b50ac1ec379def46ba9d78561e582635/0001-DO-NOT-MERGE-venus-hack-to-align-mappings-to-16KiB.patch";
-    hash = "sha256-DbitYq+/wl5SSHk+jeIcTvReZZ3Vojx5alicYShC/qU=";
-  };
-
   guestOverlay = final: prev: {
+    # Mesa with osy's 16-KiB blob-alignment patch (guest 4K vs host 16K
+    # Apple-Silicon page size), rebased onto current mesa. Obsolete once
+    # F_BLOB_ALIGNMENT lands.
     mesa = prev.mesa.overrideAttrs (old: {
-      patches = (old.patches or []) ++ [
-        (final.fetchurl {
-          name = "mesa-venus-16k-blob-align.patch";
-          url  = mesa16kAlign.url;
-          hash = mesa16kAlign.hash;
-        })
-      ];
+      patches = (old.patches or []) ++ [ ./mesa-venus-16k-blob-align.patch ];
     });
 
     # Pure-compute Vulkan benchmark; confirms Venus dispatches run on
