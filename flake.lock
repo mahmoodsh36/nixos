@@ -1685,11 +1685,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786262588,
-        "narHash": "sha256-KvJs2H5YjysxxcyuBhhOmbfeCm8snb70xt8mOvG55tc=",
+        "lastModified": 1786293340,
+        "narHash": "sha256-I+kXDeNa/pRgj6GQIm2/bSK0khE4j6hYInySNaGpMWs=",
         "owner": "mahmoodsheikh36",
         "repo": "trackify",
-        "rev": "877c72c47b91a360ff3ede7fdf14ea2dfdc1a0dd",
+        "rev": "c60e26e4cec5b5cb3604fe0978e78f412f0fbd29",
         "type": "github"
       },
       "original": {
