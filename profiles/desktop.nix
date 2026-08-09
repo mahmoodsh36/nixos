@@ -87,7 +87,6 @@
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
       android-tools
       xournalpp pkgs-pinned.rnote # krita
-      youtube-music
       pkgs-pinned.spotify-player
 
       # nix specific
