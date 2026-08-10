@@ -26,6 +26,10 @@ in
       self.packages.${pkgs.stdenv.hostPlatform.system}.vllm-metal-env
       # `mineru` pdf extraction cli
       self.packages.${pkgs.stdenv.hostPlatform.system}.mineru-env
+      # venus launchers: `run-mahmooz1-vm` (cocoa window) and
+      # `run-mahmooz1-vm-console` (serial console).
+      self.packages.${pkgs.stdenv.hostPlatform.system}.vm
+      self.packages.${pkgs.stdenv.hostPlatform.system}.vm-headless
     ];
 
     # our headscale tailnet uses a custom magicdns suffix (tailnet.${constants.mydomain})

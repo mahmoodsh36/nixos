@@ -162,7 +162,6 @@
       inputs.pyproject-nix.follows = "pyproject-nix";
       inputs.uv2nix.follows = "uv2nix";
     };
-
   };
 
   outputs = {
