@@ -148,7 +148,7 @@ in
           ".zshrc.manual" = {
             source = config.lib.file.mkOutOfStoreSymlink "${dots}/.zshrc";
           };
-          ".zprofile" = {
+          ".zprofile.manual" = {
             source = config.lib.file.mkOutOfStoreSymlink "${dots}/.zprofile";
           };
           ".config/nvim" = {
@@ -162,6 +162,9 @@ in
           # we use a custom .zshrc.manual to avoid issues
           initContent = lib.mkOrder 1500 ''
             source ~/.zshrc.manual
+          '';
+          profileExtra = ''
+            [ -f ~/.zprofile.manual ] && source ~/.zprofile.manual
           '';
           envExtra = sessionVarsExports;
           syntaxHighlighting.enable = true;

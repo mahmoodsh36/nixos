@@ -264,6 +264,7 @@
                   machine.enable_nvidia = false;
                   machine.static_ip = "192.168.1.1";
                   machine.is_home_server = true;
+                  services.record.enable = true;
                 };
               })
               ./profiles/network-local.nix
@@ -540,6 +541,13 @@
           name = "backup";
           runtimeInputs = with sysPkgs; [ openssh rsync gzip coreutils ];
           text = builtins.readFile ./scripts/backup.sh;
+        };
+
+        # continuous segmented webcam recording (used by services/record.nix)
+        record = sysPkgs.writeShellApplication {
+          name = "record";
+          runtimeInputs = with sysPkgs; [ ffmpeg util-linux coreutils ];
+          text = builtins.readFile "${inputs.scripts}/record-loop.sh";
         };
 
         # darwin: mahmooz1 under Venus (`vm` = Cocoa window, `vm-headless`
