@@ -1515,11 +1515,11 @@
     "scripts": {
       "flake": false,
       "locked": {
-        "lastModified": 1786383344,
-        "narHash": "sha256-LrcPqnA6uamBH+Z6qI5lwGoHUcrcDrRcIDN/qHBo1oU=",
+        "lastModified": 1786447203,
+        "narHash": "sha256-6+jX3nINBGtQb4HqsXG25RBoyr9wPBrcrr1JgsuNat4=",
         "owner": "mahmoodsh36",
         "repo": "scripts",
-        "rev": "e392315fc83a9d41e918de61d219641af35597bc",
+        "rev": "d3d3dd72ec5ce6a7cc2a0b7bd2ac05ff1bf9f212",
         "type": "github"
       },
       "original": {

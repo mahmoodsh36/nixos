@@ -18,6 +18,7 @@ in
       environment = {
         DATA_DIR = config.machine.datadir;
         RECORD_FALLBACK = "${config.machine.voldir}/wc";
+        RECORD_FPS = "24";
       };
 
       serviceConfig = {
