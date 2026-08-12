@@ -115,11 +115,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lix = {
-      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
+      url = "https://git.lix.systems/lix-project/lix/archive/2.95.3.tar.gz";
       flake = false;
     };
     lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
+      url = "https://git.lix.systems/api/v1/repos/lix-project/nixos-module/archive/727d859b6f5f3289ce49fe26146b3f006387d457.tar.gz?rev=727d859b6f5f3289ce49fe26146b3f006387d457";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
@@ -587,7 +587,7 @@
               myutils = import ./lib/utils.nix { inherit system; };
             };
             modules = [
-              inputs.lix-module.darwinModules.default
+              inputs.lix-module.darwinModules.lixFromNixpkgs
 
               inputs.mac-app-util.darwinModules.default
               inputs.home-manager.darwinModules.home-manager
