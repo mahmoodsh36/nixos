@@ -12,9 +12,12 @@ dependencies = [
     # it was compiled against.
     "mlx==0.32.0",
     "nanobind==2.10.2",
-    "mlx-lm>=0.31.3",
+    "mlx-lm",
     "mlx-vlm>=0.6.2,<0.7.0",
     "llguidance>=1.7.0,<1.8.0",
+    # we never import it, but xgrammar's wheels segfault against 0.1.13 and
+    # only declare >=0.1.9.
+    "apache-tvm-ffi>=0.1.9,<0.1.13",
     # transformers 5.13+ makes MLX Metal unavailable inside the vLLM process.
     "transformers>=5.5.3,<5.13",
     "accelerate>=0.26.0",
@@ -27,6 +30,9 @@ dependencies = [
 ]
 
 [tool.uv.sources]
+# a sha, not a version: archs merged after 0.31.3 never reach pypi and main
+# still self-reports 0.31.3. keep in step with vllm-metal's own pyproject.
+mlx-lm = { git = "https://github.com/ml-explore/mlx-lm", rev = "254d153fdeb6f150edd4fc5a54f9828638481fa8" }
 # vLLM ships no macOS wheel on PyPI. this release asset is the only prebuilt
 # darwin/arm64 build.
 vllm = { url = "https://github.com/vllm-project/vllm/releases/download/v0.26.0/vllm-0.26.0%2Bcpu-cp312-cp312-macosx_11_0_arm64.whl" }
