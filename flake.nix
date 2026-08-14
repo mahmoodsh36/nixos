@@ -537,8 +537,24 @@
         done
       '';
 
+      llama-cpp = let
+        upstream = inputs.llama-cpp-flake.packages.${system}.default;
+        pkg = if !isDarwin then upstream else upstream.override {
+          # upstream takes these from darwin.apple_sdk, now a throwing stub.
+          # the stdenv provides them, so the stubs just drop dead buildInputs.
+          darwin.apple_sdk.frameworks = nixpkgs.lib.genAttrs
+            [ "Accelerate" "CoreVideo" "CoreGraphics" "MetalKit" ]
+            (_: sysPkgs.emptyDirectory);
+        };
+      in pkg.overrideAttrs (old: {
+        # the unit-test binaries are unprefixed (test-log, test-opt, ...)
+        postInstall = (old.postInstall or "") + ''
+          rm -f $out/bin/test-*
+        '';
+      });
+
       basePackages = {
-        inherit mineru-env;
+        inherit mineru-env llama-cpp;
 
         # `nix run .#backup [host]` -> $vol/data/backups/<host>/<timestamp>
         backup = sysPkgs.writeShellApplication {
