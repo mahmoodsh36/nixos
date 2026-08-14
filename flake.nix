@@ -481,19 +481,19 @@
       # vllm + the vllm-metal plugin (built from source) on apple silicon.
       # provides the stock `vllm` CLI; vllm-metal has no binary of its own,
       # it registers itself through vllm's platform_plugins entry point.
-      vllmMetalPackages = nixpkgs.lib.optionalAttrs (system == "aarch64-darwin") {
-        vllm-metal-env = let
-          venv = mkPythonEnv {
-            inherit system;
-            workspaceRoot = ./python-envs/vllm-metal;
-            envName = "vllm-metal-venv";
-            cudaSupport = false;
-            extraOverrides = import ./packages/vllm-metal.nix {
-              src = inputs.vllm-metal-src;
-            };
-            extraDeps = { vllm-metal = [ ]; };
+      vllmMetalPackages = nixpkgs.lib.optionalAttrs (system == "aarch64-darwin") (let
+        venv = mkPythonEnv {
+          inherit system;
+          workspaceRoot = ./python-envs/vllm-metal;
+          envName = "vllm-metal-venv";
+          cudaSupport = false;
+          extraOverrides = import ./packages/vllm-metal.nix {
+            src = inputs.vllm-metal-src;
           };
-        in sysPkgs.symlinkJoin {
+          extraDeps = { vllm-metal = [ ]; };
+        };
+      in {
+        vllm-metal-env = sysPkgs.symlinkJoin {
           name = "vllm-metal-env";
           paths = [ venv ];
           nativeBuildInputs = [ sysPkgs.makeWrapper ];
@@ -509,7 +509,15 @@
               --set VLLM_METAL_BUILD_FROM_SOURCE 1
           '';
         };
-      };
+
+        llama-convert-hf-to-gguf = sysPkgs.writeShellApplication {
+          name = "llama-convert-hf-to-gguf";
+          text = ''
+            exec ${venv}/bin/python3 \
+              ${inputs.llama-cpp-flake}/convert_hf_to_gguf.py "$@"
+          '';
+        };
+      });
 
       # mineru pdf extraction cli. models are fetched on first run into the
       # huggingface cache, MINERU_MODEL_SOURCE picks where from.

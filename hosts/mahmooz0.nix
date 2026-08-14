@@ -27,6 +27,7 @@ in
       # `mineru` pdf extraction cli
       self.packages.${pkgs.stdenv.hostPlatform.system}.mineru-env
       self.packages.${pkgs.stdenv.hostPlatform.system}.llama-cpp
+      self.packages.${pkgs.stdenv.hostPlatform.system}.llama-convert-hf-to-gguf
       # venus launchers: `run-mahmooz1-vm` (cocoa window) and
       # `run-mahmooz1-vm-console` (serial console).
       self.packages.${pkgs.stdenv.hostPlatform.system}.vm
