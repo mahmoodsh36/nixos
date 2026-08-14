@@ -356,7 +356,7 @@ let
           "-virtfs local,path=${hostVoldir},security_model=none,mount_tag=host-data"}
         ${if consoleMode
           then ''-spice unix=on,addr="$SPICE_SOCK",disable-ticketing=on,gl=es''
-          else ''-display cocoa,gl=es,zoom-to-fit=on''}
+          else ''-display cocoa,gl=es,zoom-to-fit=on,swap-opt-cmd=on''}
         -device virtio-gpu-gl-pci,hostmem=8G,blob=true,venus=true
         -device virtio-keyboard-pci
         -device virtio-tablet-pci

@@ -5,7 +5,6 @@ let
   gnome_enabled = constants.enable_gnome && !config.machine.low_resources;
   work_dir = "${config.machine.voldir}/work";
   scripts_dir = "${config.machine.voldir}/work/scripts";
-  keys_python = pkgs.python3.withPackages (ps: with ps; [ evdev ]);
   gtk_python_env = (pkgs.python3.withPackages (ps: with ps; [
     pygobject3
     pydbus
@@ -34,6 +33,8 @@ let
   };
  in
 {
+  imports = [ inputs.xremap-flake.nixosModules.default ];
+
   config = lib.mkIf (config.machine.is_linux && config.machine.is_desktop) {
     boot = {
       kernelParams = [
@@ -342,29 +343,60 @@ let
       # jellycli
     ];
 
-    systemd.services.my_keys_py_service = {
-      description = "service for keys.py";
-      wantedBy = [ "multi-user.target" ];
-      # choose glove80 if its present
-      script = ''
-        export kbd=$(${pkgs.libinput}/bin/libinput list-devices | ${pkgs.gnugrep}/bin/grep glove80 -i -A 10 | ${pkgs.gnugrep}/bin/grep Kernel: | ${pkgs.gawk}/bin/awk '{print $2}'); [ -z "$kbd" ] && ${pkgs.dash}/bin/dash -lc '${keys_python}/bin/python ${work_dir}/keys/keys.py -d' || ${pkgs.dash}/bin/dash -lc "${keys_python}/bin/python ${work_dir}/keys/keys.py -d -p $kbd"
-      '';
-      serviceConfig = {
-        Restart = "always";
-      };
-      unitConfig = {
-        ConditionPathExists = "${work_dir}/keys/keys.py";
+    services.xremap = {
+      enable = true;
+      withWlroots = true;
+      package = pkgs.xremap;
+      serviceMode = "user";
+      userName = config.machine.user;
+      watch = true;
+      config = {
+        modmap = [{
+          name = "global";
+          remap = {
+            CapsLock = "Esc";
+            Alt_R = "Ctrl_L";
+          };
+        }];
+        keymap = [{
+          name = "global";
+          remap = {
+            "Super-Enter".launch = [ "wezterm" "--config-file" "/home/${config.machine.user}/.config/wezterm/wezterm.lua" ];
+            "Super-Shift-Enter".launch = [ "wezterm" "connect" "mahmooz2" ];
+            "Super-r".launch = [ "run.sh" ];
+            "Super-p".launch = [ "myscrot.sh" ];
+            "Super-Shift-p".launch = [ "myscrot.sh" "1" ];
+            "Super-x" = {
+              timeout_millis = 2000;
+              remap = {
+                w.launch = [ "firefox" ];
+                e.launch = [ "emacs" ];
+                c.launch = [ "code" ];
+                x.launch = [ "xournalpp" ];
+                j.launch = [ "jellyfinmediaplayer" ];
+                l.launch = [ "lem" ];
+                k.launch = [ "kill_process.sh" ];
+                b.launch = [ "web_bookmarks.sh" ];
+                o.launch = [ "terminal_with_cmd.sh" "glances" ];
+                p.launch = [ "terminal_with_cmd.sh" "pulsemixer" ];
+                i.launch = [ "${pkgs.dash}/bin/dash" "-lc" "cd ~/data/images/scrots/; ls -t --color=no | imv -d" ];
+                a.launch = [ "${pkgs.dash}/bin/dash" "-lc" ''HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances | head -1 | cut -d " " -f2 | tr -d ":") sh -c "cd ${work_dir}/widgets; nix-shell --run \"python bar.py\""'' ];
+                t = [ "C-c" "h" "e" "l" "l" "o" ];
+              };
+            };
+          };
+        }];
       };
     };
 
     # without this okular is blurry
     environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
 
-    # make disablewhiletyping and other settings work with keys.py (libevdev-based key remapper, https://github.com/rvaiya/keyd/issues/66#issuecomment-985983524)
+    # make disablewhiletyping and other settings work with xremap (libevdev-based key remapper, https://github.com/rvaiya/keyd/issues/66#issuecomment-985983524)
     environment.etc."libinput/local-overrides.quirks".text = pkgs.lib.mkForce ''
       [Serial Keyboards]
       MatchUdevType=keyboard
-      MatchName=virtual*
+      MatchName=xremap*
       AttrKeyboardIntegration=internal
     '';
 
