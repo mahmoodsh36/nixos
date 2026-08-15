@@ -121,10 +121,10 @@
       python3Packages.huggingface-hub
       pkgs-unstable.codex
       inputs.llm-agents.packages.${pkgs.system}.opencode
-      inputs.llm-agents.packages.${pkgs.system}.pi
       # inputs.llm-agents.packages.${pkgs.system}.beads
       inputs.llm-agents.packages.${pkgs.system}.claude-code
       inputs.llm-agents.packages.${pkgs.system}.antigravity-cli
+      goose-cli
     ] ++ pkgs.lib.optionals (!config.machine.is_darwin && !config.machine.low_resources) [
       # transmission fails on darwin due to fmt build issue
       transmission_4
