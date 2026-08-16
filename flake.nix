@@ -317,6 +317,19 @@
                 };
               }
             ];
+            mahmooz6 = [
+              ./hardware-configuration.nix
+              ({ lib, ... }: {
+                config = {
+                  machine.name = "mahmooz6";
+                  machine.is_desktop = false;
+                  machine.enable_nvidia = false;
+                  machine.is_home_server = false;
+                  machine.can_compile = false;
+                  machine.low_resources = true;
+                };
+              })
+            ];
           };
         in {
           "mahmooz1-${system}" = mkSystem system machineConfigs.mahmooz1;
@@ -329,6 +342,7 @@
           "mahmooz3-${system}" = mkSystem system machineConfigs.mahmooz3;
           "mahmooz4-${system}" = mkSystem system machineConfigs.mahmooz4;
           "mahmooz5-${system}" = mkSystem system machineConfigs.mahmooz5;
+          "mahmooz6-${system}" = mkSystem system machineConfigs.mahmooz6;
 
           "mahmooz1_iso-${system}" = mkSystem system [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
@@ -369,6 +383,7 @@
           mahmooz3 = allConfigs."mahmooz3-x86_64-linux";
           mahmooz4 = allConfigs."mahmooz4-x86_64-linux";
           mahmooz5 = allConfigs."mahmooz5-aarch64-linux";
+          mahmooz6 = allConfigs."mahmooz6-aarch64-linux";
         };
 
     devShells = forAllSystems (system: let
