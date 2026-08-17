@@ -1316,11 +1316,11 @@
     "otherdots": {
       "flake": false,
       "locked": {
-        "lastModified": 1786388020,
-        "narHash": "sha256-FNtdW+iWh28UWCAruoPbqLt9Ug7XDRzG8r1drvJ44/M=",
+        "lastModified": 1786739933,
+        "narHash": "sha256-ppNh/CxQMQN9PG/O59Di2Yny3VGqmrYFKMdfCu1USw4=",
         "owner": "mahmoodsh36",
         "repo": "otherdots",
-        "rev": "3d6b131a81b5479c50dfaebf9fef6dcf8b2addc7",
+        "rev": "804cd1d4e2bf3fe2b3dae159effbfbdf0d7ee10d",
         "type": "github"
       },
       "original": {

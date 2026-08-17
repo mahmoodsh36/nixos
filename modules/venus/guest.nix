@@ -82,9 +82,10 @@ in {
     boot.initrd.availableKernelModules = [
       "virtio_pci" "virtio_blk" "virtio_net" "virtio_gpu"
       "drm" "drm_kms_helper"
-      # 9p modules are built into the aarch64 kernel; don't add
-      # fscache/netfs (unpackaged, breaks modprobe -S).
+      # 9p (for the /data share) is built into the aarch64 kernel; don't
+      # add fscache/netfs (unpackaged, breaks modprobe -S).
       "9p" "9pnet" "9pnet_virtio"
+      "squashfs"
       "overlay"
     ];
     boot.kernelModules = [ "virtio_gpu" ];
@@ -119,14 +120,15 @@ in {
       options = [ "trans=virtio" "version=9p2000.L" "msize=1048576" "rw" "nofail" ];
     };
 
-    # /nix/store: 9p RO lower + tmpfs upper overlayfs. nix-daemon dies
-    # on a RO store, which breaks HM activation. tmpfs writes are lost
-    # on reboot, which is fine: the VM shouldn't persist new store paths.
+    # /nix/store is a squashfs RO lower + tmpfs upper overlayfs, with
+    # ./default.nix packing and attaching the lower layer. nix-daemon dies
+    # on a RO store, which breaks HM activation. tmpfs writes are lost on
+    # reboot, which is fine, the VM shouldn't persist new store paths.
     # neededForBoot because init=${toplevel}/init lives under /nix/store.
     fileSystems."/nix/.ro-store" = mkForce {
-      device        = "nix-store";
-      fsType        = "9p";
-      options       = [ "trans=virtio" "version=9p2000.L" "msize=1048576" "ro" "cache=loose" ];
+      device        = "/dev/vdb";
+      fsType        = "squashfs";
+      options       = [ "ro" ];
       neededForBoot = true;
     };
     fileSystems."/nix/.rw-store" = {
@@ -173,44 +175,6 @@ in {
     users.users.root.initialPassword = cfg.rootInitialPassword;
 
     hardware.graphics.enable = true;
-
-    # The 9p-shared host store comes from a case-insensitive macOS volume, so
-    # nix renamed case-colliding paths on unpack: terminfo's x/ (every xterm*
-    # entry) became x~nix~case~hack~1/, leaving ncurses to find only the
-    # uppercase X/ entries and fail with "cannot initialize terminal type".
-    # Rebuild a de-mangled tree on the guest's own case-sensitive filesystem.
-    systemd.services.terminfo-case-hack-fix = {
-      description = "Undo nix case-hack mangling of the terminfo database";
-      wantedBy    = [ "sysinit.target" ];
-      before      = [ "systemd-user-sessions.service" "display-manager.service" ];
-      unitConfig.DefaultDependencies = false;
-      serviceConfig = { Type = "oneshot"; RemainAfterExit = true; };
-      script = ''
-        set -eu
-        out=/run/terminfo
-        rm -rf "$out"; mkdir -p "$out"
-        # source ncurses directly: the system-path tree is merged by buildEnv on
-        # the case-insensitive host, which drops the lowercase entries entirely.
-        for d in ${pkgs.ncurses}/share/terminfo/*; do
-          [ -d "$d" ] || continue
-          name=$(basename "$d")
-          # strip the ~nix~case~hack~N suffix to recover the real directory
-          real=''${name%%~nix~case~hack~*}
-          mkdir -p "$out/$real"
-          for f in "$d"/*; do
-            [ -e "$f" ] || continue
-            ln -sfn "$f" "$out/$real/$(basename "$f")"
-          done
-        done
-      '';
-    };
-    # point the default lookup path at the repaired tree, and make sure it is
-    # searched even though TERMINFO_DIRS is set (which shadows the builtin).
-    environment.etc.terminfo.source = mkForce "/run/terminfo";
-    environment.profileRelativeSessionVariables.TERMINFO_DIRS = mkForce [
-      "/share/terminfo"
-    ];
-    environment.sessionVariables.TERMINFO_DIRS = mkForce "/run/terminfo";
 
     # Pin the venus ICD so the loader doesn't noisily try other drivers.
     environment.sessionVariables.VK_DRIVER_FILES =

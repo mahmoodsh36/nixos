@@ -23,21 +23,24 @@
 , defaultNetwork ? "user"
 # Host-side port forwarded to the guest's sshd under the "user" backend.
 , sshHostPort ? 2222
+# null packs the store image uncompressed (~2.5x the size, no per-read
+# decompression); a string goes to sqfstar -comp, e.g. "zstd -Xcompression-level 3".
+, storeImageCompression ? null
 }:
 
 let
   sources = {
     # utmapp/virglrenderer @ branch macos (osy's open virgl MRs).
     virglrenderer = {
-      rev  = "d48a2d0d9a722fffd3f92c83e71d9426a4892a66";
-      hash = "sha256-8NSYebv9iKynkbGl7Jh8J0a7A0TC1+IP1Ff8B2zNnd4=";
+      rev  = "71a67414013f120c158729da7f56f29b55bf4f6c";
+      hash = "sha256-k/yk3RGam6Xj7ZmY37jEJgXaA3+qrilyFDUJtX2ebJM=";
     };
 
     # utmapp/libepoxy @ branch macos-venus. Stock nixpkgs libepoxy
     # disables EGL on darwin; this branch wires up ANGLE.
     libepoxy = {
-      rev  = "5014658f79e4d6872a1ad6754da9098ccd9d4fc5";
-      hash = "sha256-XV7RNGev2UJLZ5o8Cqq/a4ydxRMtWxUIpSnORabvBrk=";
+      rev  = "15d904dcb1d5a8d626ffe11e8f3339499d6f7b09";
+      hash = "sha256-NTjklUW3Tpb7IwuXxtU1ANoK1f6iGt+54p4A+CGBmio=";
     };
 
     # utmapp/MoltenVK @ branch macos, 3 fixes ahead of Khronos needed
@@ -249,8 +252,40 @@ let
   # the guest's own kernelParams would cycle through toplevel.
   guestClosureInfo = guestPkgs.closureInfo { rootPaths = [ guestToplevel ]; };
 
-  # Empty 1 GiB ext4 scratch (label=nixos); /nix/store comes from the
-  # host over 9p, so this only holds /etc, /var, /home, ...
+  # regInfo included so register-nix-paths can read it off the image.
+  guestStorePaths = guestPkgs.closureInfo {
+    rootPaths = [ guestToplevel guestClosureInfo ];
+  };
+
+  # qemu-vm.nix's useNixStoreImage; the tar half is
+  # nixos/lib/erofs-store-image.nix verbatim, whose transform also strips
+  # the ~nix~case~hack~N nix adds to paths colliding on a case-insensitive
+  # host volume. sharing the host's live store over 9p instead wedges
+  # every virtio device within a minute of any GL rendering. sqfstar not
+  # upstream's mkfs.erofs, which ignores -z in --tar=f mode.
+  mkStoreImage = ''
+    ${hostPkgs.gnutar}/bin/tar --create \
+      --absolute-names \
+      --verbatim-files-from \
+      --transform 'flags=rSh;s|/nix/store/||' \
+      --transform 'flags=rSh;s|~nix~case~hack~[[:digit:]]\+||g' \
+      --files-from ${guestStorePaths}/store-paths \
+      | ${hostPkgs.squashfsTools}/bin/sqfstar \
+        -quiet -no-progress -all-root -b 1048576 \
+        ${if storeImageCompression == null
+          then "-no-compression"
+          else "-comp ${storeImageCompression}"} \
+        "$STORE_IMG.tmp"
+  '';
+
+  # repack when either the closure or the compression choice changes.
+  storeImageStamp = "${guestStorePaths} comp=${
+    if storeImageCompression == null then "none" else storeImageCompression
+  }";
+
+  # 1 GiB ext4 seed (label=nixos), which the launcher resizes to 32G for
+  # autoResize to grow into on boot. /nix/store rides on the store image
+  # above, so this only holds /etc, /var, /home, ...
   guestImage = guestPkgs.runCommand "venus-guest-scratch" {
     nativeBuildInputs = [ guestPkgs.qemu-utils guestPkgs.e2fsprogs ];
   } ''
@@ -289,6 +324,15 @@ let
         install -m 0644 "${guestImage}/nixos.qcow2" "$DISK"
         chmod u+w "$DISK"
         qemu-img resize "$DISK" 32G
+      fi
+
+      STORE_IMG="$CACHE/store.img"
+      if [ "$(cat "$STORE_IMG.stamp" 2>/dev/null)" != "${storeImageStamp}" ]; then
+        echo "venus-guest: packing nix store image (several minutes on a first run)"
+        rm -f "$STORE_IMG" "$STORE_IMG.stamp" "$STORE_IMG.tmp"
+        ${mkStoreImage}
+        mv "$STORE_IMG.tmp" "$STORE_IMG"
+        echo "${storeImageStamp}" > "$STORE_IMG.stamp"
       fi
 
       # MoltenVK ICD for virglrenderer's Vulkan loader; ANGLE on Metal
@@ -350,8 +394,10 @@ let
         -blockdev driver=file,node-name=disk-file,filename="$DISK"
         -blockdev driver=qcow2,node-name=disk,file=disk-file
         -device virtio-blk-pci,drive=disk,iothread=iothread0
-        # Host /nix/store via 9p, avoids baking the closure into the disk.
-        -virtfs local,path=/nix/store,security_model=none,mount_tag=nix-store,readonly=on
+        # must stay after the root disk above so the guest sees it as vdb.
+        -blockdev driver=file,node-name=store-file,filename="$STORE_IMG",read-only=on
+        -blockdev driver=raw,node-name=store,file=store-file,read-only=on
+        -device virtio-blk-pci,drive=store
         ${lib.optionalString (hostVoldir != null)
           "-virtfs local,path=${hostVoldir},security_model=none,mount_tag=host-data"}
         ${if consoleMode

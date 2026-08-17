@@ -9,6 +9,18 @@ let
     pygobject3
     pydbus
   ]));
+  # xremap's .launch forks children directly, so they inherit its unit's
+  # RestrictAddressFamilies=AF_UNIX seccomp filter and get no network.
+  # --user makes the user manager fork instead; --scope would not, it
+  # forks from the caller and keeps the filter.
+  spawn = pkgs.writeShellScriptBin "spawn" ''
+    cmd=$(command -v "$1") || { echo "spawn: $1 not found" >&2; exit 127; }
+    shift
+    exec ${pkgs.systemd}/bin/systemd-run --user --collect --quiet \
+      --unit="spawn-$(basename "$cmd")-$$" --setenv=PATH="$PATH" \
+      -- "$cmd" "$@"
+  '';
+
   gtkpython = pkgs.stdenv.mkDerivation rec {
     pname = "gtkpython";
     version = "1.0";
@@ -113,6 +125,15 @@ let
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
+      # systemd-managed session, otherwise graphical-session.target never
+      # activates and xremap never starts
+      withUWSM = true;
+    };
+    programs.uwsm.waylandCompositors.hyprland = {
+      prettyName = "Hyprland";
+      comment = "hyprland managed by uwsm";
+      # not /run/wrappers/bin/Hyprland: uwsm rejects it as unreadable
+      binPath = "/run/current-system/sw/bin/Hyprland";
     };
     xdg.portal = {
       # xdgOpenUsePortal = true; # this seems to override my .desktop definitions in home-manager?
@@ -143,7 +164,7 @@ let
         settings.General.DisplayServer = "wayland";
       };
       # defaultSession = "hyprland";
-      defaultSession = if gnome_enabled then "gnome" else "hyprland";
+      defaultSession = if gnome_enabled then "gnome" else "hyprland-uwsm";
       # defaultSession = "niri";
       # defaultSession = "plasma";
       # defaultSession = "cosmic";
@@ -361,26 +382,26 @@ let
         keymap = [{
           name = "global";
           remap = {
-            "Super-Enter".launch = [ "wezterm" "--config-file" "/home/${config.machine.user}/.config/wezterm/wezterm.lua" ];
-            "Super-Shift-Enter".launch = [ "wezterm" "connect" "mahmooz2" ];
-            "Super-r".launch = [ "run.sh" ];
-            "Super-p".launch = [ "myscrot.sh" ];
-            "Super-Shift-p".launch = [ "myscrot.sh" "1" ];
+            "Super-Enter".launch = [ "${spawn}/bin/spawn" "wezterm" "--config-file" "/home/${config.machine.user}/.config/wezterm/wezterm.lua" ];
+            "Super-Shift-Enter".launch = [ "${spawn}/bin/spawn" "wezterm" "connect" "mahmooz2" ];
+            "Super-r".launch = [ "${spawn}/bin/spawn" "run.sh" ];
+            "Super-p".launch = [ "${spawn}/bin/spawn" "myscrot.sh" ];
+            "Super-Shift-p".launch = [ "${spawn}/bin/spawn" "myscrot.sh" "1" ];
             "Super-x" = {
               timeout_millis = 2000;
               remap = {
-                w.launch = [ "firefox" ];
-                e.launch = [ "emacs" ];
-                c.launch = [ "code" ];
-                x.launch = [ "xournalpp" ];
-                j.launch = [ "jellyfinmediaplayer" ];
-                l.launch = [ "lem" ];
-                k.launch = [ "kill_process.sh" ];
-                b.launch = [ "web_bookmarks.sh" ];
-                o.launch = [ "terminal_with_cmd.sh" "glances" ];
-                p.launch = [ "terminal_with_cmd.sh" "pulsemixer" ];
-                i.launch = [ "${pkgs.dash}/bin/dash" "-lc" "cd ~/data/images/scrots/; ls -t --color=no | imv -d" ];
-                a.launch = [ "${pkgs.dash}/bin/dash" "-lc" ''HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances | head -1 | cut -d " " -f2 | tr -d ":") sh -c "cd ${work_dir}/widgets; nix-shell --run \"python bar.py\""'' ];
+                w.launch = [ "${spawn}/bin/spawn" "firefox" ];
+                e.launch = [ "${spawn}/bin/spawn" "emacs" ];
+                c.launch = [ "${spawn}/bin/spawn" "code" ];
+                x.launch = [ "${spawn}/bin/spawn" "xournalpp" ];
+                j.launch = [ "${spawn}/bin/spawn" "jellyfinmediaplayer" ];
+                l.launch = [ "${spawn}/bin/spawn" "lem" ];
+                k.launch = [ "${spawn}/bin/spawn" "kill_process.sh" ];
+                b.launch = [ "${spawn}/bin/spawn" "web_bookmarks.sh" ];
+                o.launch = [ "${spawn}/bin/spawn" "terminal_with_cmd.sh" "glances" ];
+                p.launch = [ "${spawn}/bin/spawn" "terminal_with_cmd.sh" "pulsemixer" ];
+                i.launch = [ "${spawn}/bin/spawn" "${pkgs.dash}/bin/dash" "-lc" "cd ~/data/images/scrots/; ls -t --color=no | imv -d" ];
+                a.launch = [ "${spawn}/bin/spawn" "${pkgs.dash}/bin/dash" "-lc" ''HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances | head -1 | cut -d " " -f2 | tr -d ":") sh -c "cd ${work_dir}/widgets; nix-shell --run \"python bar.py\""'' ];
                 t = [ "C-c" "h" "e" "l" "l" "o" ];
               };
             };
@@ -388,6 +409,14 @@ let
         }];
       };
     };
+
+    # the unit's default PATH has none of these, so the launches above ENOENT
+    systemd.user.services.xremap.path = [
+      "/run/wrappers"
+      "/etc/profiles/per-user/${config.machine.user}"
+      "/run/current-system/sw"
+      "/home/${config.machine.user}/.local"
+    ];
 
     # without this okular is blurry
     environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
