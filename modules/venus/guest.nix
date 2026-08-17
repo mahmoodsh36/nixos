@@ -176,6 +176,35 @@ in {
 
     hardware.graphics.enable = true;
 
+    # hyprland keeps the mode list it read when the output was enabled, so
+    # a resize updates the connector's preferred mode and nothing follows.
+    # reload and monitor=,preferred do not rescan, only an explicit
+    # WxH@rate does, named per output to beat hyprland.conf's wildcard.
+    systemd.user.services.venus-follow-host-resize =
+      mkIf config.programs.hyprland.enable {
+        description = "match the wayland output to the qemu window size";
+        wantedBy      = [ "graphical-session.target" ];
+        partOf        = [ "graphical-session.target" ];
+        after         = [ "graphical-session.target" ];
+        serviceConfig.Restart = "always";
+        script = ''
+          prev=
+          while :; do
+            for dir in /sys/class/drm/card*-Virtual-*; do
+              [ -r "$dir/modes" ] || continue
+              mode=$(head -1 "$dir/modes")
+              name=''${dir##*/}; name=''${name#card*-}
+              if [ -n "$mode" ] && [ "$name=$mode" != "$prev" ]; then
+                ${config.programs.hyprland.package}/bin/hyprctl keyword \
+                  monitor "$name,$mode@60,auto,auto" > /dev/null \
+                  && prev="$name=$mode"
+              fi
+            done
+            sleep 2
+          done
+        '';
+      };
+
     # Pin the venus ICD so the loader doesn't noisily try other drivers.
     environment.sessionVariables.VK_DRIVER_FILES =
       "/run/opengl-driver/share/vulkan/icd.d/virtio_icd.aarch64.json";
