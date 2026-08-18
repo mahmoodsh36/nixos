@@ -42,8 +42,5 @@ in
     nixpkgs.config.allowUnfree = true;
     # this is always gonna be false anyway on mac
     nixpkgs.config.cudaSupport = config.machine.enable_nvidia;
-    nixpkgs.config.permittedInsecurePackages = [
-      "ventoy-1.1.12"
-    ];
   };
 }

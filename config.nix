@@ -33,8 +33,5 @@ in
 
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.cudaSupport = config.machine.enable_nvidia;
-    nixpkgs.config.permittedInsecurePackages = [
-      "ventoy-1.1.12"
-    ];
   };
 }

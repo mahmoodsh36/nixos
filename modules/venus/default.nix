@@ -7,6 +7,9 @@
 # Guest derivations (kernel/initrd) need a linux builder.
 
 { nixpkgs
+# host packages override upstream srcs with UTM forks and so inherit nixpkgs'
+# version-coupled recipes, hence their own pin. the guest tracks nixpkgs.
+, hostNixpkgs ? nixpkgs
 , hostSystem ? "aarch64-darwin"
 , guestSystem ? "aarch64-linux"
 , lib ? nixpkgs.lib
@@ -41,6 +44,15 @@ let
     libepoxy = {
       rev  = "15d904dcb1d5a8d626ffe11e8f3339499d6f7b09";
       hash = "sha256-NTjklUW3Tpb7IwuXxtU1ANoK1f6iGt+54p4A+CGBmio=";
+    };
+
+    # the MoltenVK fork pins Vulkan-Headers 1.4.334; nixpkgs' 1.4.328 lacks
+    # e.g. VkPhysicalDeviceShaderFmaFeaturesKHR. loader must match headers'
+    # version or nixpkgs marks it broken.
+    vulkanSdk = {
+      version      = "1.4.335.0";
+      headersHash  = "sha256-DIePLzDoImnaso0WYUv819wSDeA7Zy1I/tYAbsALXKg=";
+      loaderHash   = "sha256-1xLT4AynJumzwkYOBS5i0OpCi3EdE8QctctDn+DGrvU=";
     };
 
     # utmapp/MoltenVK @ branch macos, 3 fixes ahead of Khronos needed
@@ -159,6 +171,26 @@ let
       '';
     });
 
+    vulkan-headers = prev.vulkan-headers.overrideAttrs (_: rec {
+      version = sources.vulkanSdk.version;
+      src = final.fetchFromGitHub {
+        owner = "KhronosGroup";
+        repo  = "Vulkan-Headers";
+        rev   = "vulkan-sdk-${version}";
+        hash  = sources.vulkanSdk.headersHash;
+      };
+    });
+
+    vulkan-loader = prev.vulkan-loader.overrideAttrs (_: rec {
+      version = sources.vulkanSdk.version;
+      src = final.fetchFromGitHub {
+        owner = "KhronosGroup";
+        repo  = "Vulkan-Loader";
+        rev   = "vulkan-sdk-${version}";
+        hash  = sources.vulkanSdk.loaderHash;
+      };
+    });
+
     moltenvk = prev.moltenvk.overrideAttrs (old: {
       pname   = "moltenvk-utm";
       version = "macos-${builtins.substring 0 7 sources.moltenvk.rev}";
@@ -168,6 +200,13 @@ let
         rev   = sources.moltenvk.rev;
         hash  = sources.moltenvk.hash;
       };
+      # the fork's pbxprojs carry various deployment targets, so nixpkgs'
+      # replace-fail on 10.15 matches nothing. normalize to what it expects.
+      postPatch = ''
+        find . -name project.pbxproj -exec sed -i \
+          's/MACOSX_DEPLOYMENT_TARGET = [0-9.]*;/MACOSX_DEPLOYMENT_TARGET = 10.15;/' {} +
+        ${old.postPatch or ""}
+      '';
     });
 
     virglrenderer = prev.virglrenderer.overrideAttrs (old: {
@@ -221,7 +260,7 @@ let
     };
   };
 
-  hostPkgs = import nixpkgs {
+  hostPkgs = import hostNixpkgs {
     system   = hostSystem;
     overlays = [ hostOverlay ];
     config.allowUnfree = true;

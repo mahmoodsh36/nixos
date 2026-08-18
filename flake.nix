@@ -5,6 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pkgs-pinned.url = "github:NixOS/nixpkgs/8c809a146a140c5c8806f13399592dbcb1bb5dc4";
     pkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # venus host packages, pinned apart from nixpkgs (see modules/venus).
+    nixpkgs-venus.url = "github:NixOS/nixpkgs/cd648d6ea62bc0ffba91e61fcfe5e33c1e2004b1";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -467,6 +469,7 @@
 
       venus = import ./modules/venus {
         inherit nixpkgs;
+        hostNixpkgs = inputs.nixpkgs-venus;
         lib = nixpkgs.lib;
         customGuest = venusCustomGuest;
         hostVoldir =
@@ -480,6 +483,8 @@
         launcher-console = venus.launchers.launcher-console;
         qemu-venus       = venus.qemu-venus;
         qemu-venus-spice = venus.qemu-venus-spice;
+        venus-moltenvk   = venus.moltenvk;
+        venus-virgl      = venus.virglrenderer;
       };
 
       venusLinuxPackages = nixpkgs.lib.optionalAttrs (system == "aarch64-linux") {

@@ -358,7 +358,6 @@ let
 
       woeusb-ng
       quickemu # quickly start VMs
-      ventoy
       acpi lm_sensors
       cryptsetup
       # jellycli
