@@ -193,6 +193,8 @@ in
             };
             cores = 8;
             # rosetta.enable = true;
+            # nixpkgs hardcodes gic-version=2 for hvf, which qemu 11 rejects outright
+            qemu.options = [ "-machine gic-version=3" ];
           };
         };
       };
