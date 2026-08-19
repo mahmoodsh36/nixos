@@ -201,6 +201,20 @@ in
       settings.trusted-users = [ "@admin" ];
     };
 
+    # launchd only signals the top-level script, so the qemu grandchild is orphaned on
+    # bootout: a darwin-rebuild leaves a stale vm holding port 31022 and the new daemon
+    # crash-loops, rebuilding store.img with mkfs.erofs (pegging a core) every 10s.
+    launchd.daemons.linux-builder.script = lib.mkBefore ''
+      builder_vm='/run/org.nixos.linux-builder/store.img'
+      for sig in TERM KILL; do
+        /usr/bin/pkill -$sig -f "$builder_vm" || break
+        for _ in $(/usr/bin/seq 40); do
+          /usr/bin/pgrep -f "$builder_vm" > /dev/null || break 2
+          sleep 0.25
+        done
+      done
+    '';
+
     # nix-rosetta-builder = {
     #   enable = true;
     #   onDemand = true;
