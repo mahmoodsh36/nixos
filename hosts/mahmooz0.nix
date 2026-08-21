@@ -3,6 +3,8 @@
 
 let
   constants = import ../lib/constants.nix;
+  # in the persistent workdir, linux-builder-start wipes $TMPDIR on every launch
+  builder_qmp = "/var/lib/linux-builder/qmp.sock";
   taps = {
     "homebrew/homebrew-core" = inputs.homebrew-core;
     "homebrew/homebrew-cask" = inputs.homebrew-cask;
@@ -194,8 +196,14 @@ in
             cores = 8;
             # rosetta.enable = true;
             # nixpkgs hardcodes gic-version=2 for hvf, which qemu 11 rejects outright
-            qemu.options = [ "-machine gic-version=3" ];
+            qemu.options = [
+              "-machine gic-version=3"
+              "-qmp unix:${builder_qmp},server=on,wait=off"
+            ];
           };
+          # nix doesn't fsync build outputs by default, so a killed qemu leaves fresh store
+          # paths truncated to 0 bytes while they stay valid in the db
+          nix.settings.fsync-store-paths = true;
           # qemu freezes the guest while the mac sleeps, so its clock falls behind by the
           # sleep duration and tls rejects fresh certs as "not yet valid". the emulated rtc
           # keeps tracking host time, so step the system clock back onto it.
@@ -217,6 +225,15 @@ in
     # crash-loops, rebuilding store.img with mkfs.erofs (pegging a core) every 10s.
     launchd.daemons.linux-builder.script = lib.mkBefore ''
       builder_vm='/run/org.nixos.linux-builder/store.img'
+      # qemu dies on TERM without shutting the guest down, see fsync-store-paths above
+      if /usr/bin/pgrep -f "$builder_vm" > /dev/null; then
+        { printf '{"execute":"qmp_capabilities"}{"execute":"system_powerdown"}'; sleep 2; } \
+          | /usr/bin/nc -U '${builder_qmp}' > /dev/null 2>&1 || true
+        for _ in $(/usr/bin/seq 120); do
+          /usr/bin/pgrep -f "$builder_vm" > /dev/null || break
+          sleep 0.25
+        done
+      fi
       for sig in TERM KILL; do
         /usr/bin/pkill -$sig -f "$builder_vm" || break
         for _ in $(/usr/bin/seq 40); do
@@ -224,6 +241,7 @@ in
           sleep 0.25
         done
       done
+      rm -f '${builder_qmp}'
     '';
 
     # nix-rosetta-builder = {
