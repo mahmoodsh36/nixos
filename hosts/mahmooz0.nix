@@ -196,6 +196,17 @@ in
             # nixpkgs hardcodes gic-version=2 for hvf, which qemu 11 rejects outright
             qemu.options = [ "-machine gic-version=3" ];
           };
+          # qemu freezes the guest while the mac sleeps, so its clock falls behind by the
+          # sleep duration and tls rejects fresh certs as "not yet valid". the emulated rtc
+          # keeps tracking host time, so step the system clock back onto it.
+          systemd.services.rtc-resync = {
+            startAt = "minutely";
+            after = [ "time-set.target" ];
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = "/run/current-system/sw/bin/hwclock --hctosys";
+            };
+          };
         };
       };
       settings.trusted-users = [ "@admin" ];
