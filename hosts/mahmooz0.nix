@@ -181,7 +181,7 @@ in
       linux-builder = {
         # https://github.com/nix-darwin/nix-darwin/issues/1192
         enable = true;
-        ephemeral = true;
+        ephemeral = false;
         maxJobs = 4;
         # comment the following 2 expressions out on first run?
         # systems = [ "aarch64-linux" "x86_64-linux" ];
@@ -189,7 +189,7 @@ in
           virtualisation = {
             darwin-builder = {
               diskSize = 150 * 1024;
-              memorySize = 8 * 1024;
+              memorySize = 48 * 1024;
             };
             cores = 8;
             # rosetta.enable = true;
