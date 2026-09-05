@@ -1,0 +1,1 @@
+nix build .#nixosConfigurations.mahmooz1_iso.config.system.build.isoImage --show-trace --impure

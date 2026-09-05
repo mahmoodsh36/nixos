@@ -1,0 +1,4 @@
+services:
+  demo:
+    build: .
+    image: demo:${TAG:-latest}

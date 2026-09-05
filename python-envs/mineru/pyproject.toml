@@ -1,0 +1,21 @@
+[project]
+name = "mineru-env"
+version = "0.1.0"
+description = "MinerU pdf extraction cli"
+requires-python = "==3.12.*"
+dependencies = [
+    # gradio/vllm/lmdeploy extras left out, none of them work on darwin
+    "mineru[pipeline,vlm]>=3.4.4",
+    # contents of mineru[mlx], spelled out: a second `mineru[...]` entry shadows
+    # the first in the lock and its extras get dropped from the venv
+    "mlx-vlm>=0.3.3,<0.4; sys_platform == 'darwin'",
+    "mlx<=0.31.1; sys_platform == 'darwin'",
+]
+
+[tool.uv]
+# resolved for linux and macos both, so the env builds on every host.
+environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'linux' and platform_machine == 'aarch64'",
+]
