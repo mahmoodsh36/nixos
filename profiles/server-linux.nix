@@ -1,0 +1,194 @@
+{ system, config, pkgs, lib, inputs, myutils, self, ... }:
+
+let
+  constants = (import ../lib/constants.nix);
+in
+{
+  imports = [
+    ../services/trackify.nix
+  ];
+
+  config = lib.mkIf config.machine.is_linux {
+    system.stateVersion = "${config.system.nixos.release}";
+
+    _module.args = {
+      inherit inputs;
+    };
+
+    boot.tmp.cleanOnBoot = true;
+    system.etc.overlay.enable = false;
+
+    systemd.settings.Manager = {
+      DefaultTimeoutStopSec = "10s";
+      DefaultTimeoutStartSec = "15s";
+      # this didnt help with too many open files errors
+      # https://discourse.nixos.org/t/unable-to-fix-too-many-open-files-error/27094/10
+      DefaultLimitNOFILE = "10000";
+    };
+
+    # use the systemd-boot EFI boot loader.
+    # boot.loader.systemd-boot.enable = true;
+    # boot.loader.efi.canTouchEfiVariables = true;
+
+    # use grub
+    boot.loader.systemd-boot.enable = config.machine.is_avf;
+    # boot.supportedFilesystems = [ "ntfs" ];
+    boot.loader.grub = lib.mkIf (!config.machine.is_avf) {
+      enable = true;
+      efiSupport = true;
+      useOSProber = true;
+      devices = [ "nodev" ];
+      copyKernels = true;
+      # nix.gc never touches /boot, so kernels accumulate there until it fills
+      configurationLimit = 5;
+    };
+    boot.loader.efi.canTouchEfiVariables = true;
+
+    # gpg
+    services.pcscd.enable = true;
+    programs.gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryPackage = pkgs.pinentry-curses;
+    };
+
+    environment.systemPackages = with pkgs; [
+      lshw
+      libva-utils
+      nethogs
+      cryptsetup
+      (pkgs.writeShellScriptBin "unlock-data" ''
+        set -e
+        echo -n "enter LUKS password: "
+        read -s password
+        echo ""
+
+        echo "unlocking disk1 (crypted1)..."
+        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50CE23-part1 crypted1 -
+
+        echo "unlocking disk2 (crypted2)..."
+        echo -n "$password" | sudo cryptsetup open /dev/disk/by-id/ata-ST18000NM000J-2TV103_WR50H9LF-part1 crypted2 -
+
+        # clear password from memory (best effort in shell)
+        unset password
+
+        echo "mounting /data..."
+        sudo mount /data
+
+        echo "done! /data is mounted."
+      '')
+      (pkgs.writeShellScriptBin "lock-data" ''
+        set -e
+        echo "unmounting /data..."
+        sudo umount /data || true
+
+        echo "locking disk2 (crypted2)..."
+        sudo cryptsetup close crypted2
+
+        echo "locking disk1 (crypted1)..."
+        sudo cryptsetup close crypted1
+
+        echo "done! /data is unmounted and disks are locked."
+      '')
+    ];
+
+    # enable some programs/services
+    programs.git = {
+      enable = true;
+      package = if config.machine.low_resources then pkgs.git else pkgs.gitFull;
+      lfs.enable = !config.machine.low_resources;
+    };
+    programs.htop.enable = true;
+    programs.iotop.enable = !config.machine.low_resources;
+    programs.java.enable = !config.machine.low_resources;
+    programs.mosh.enable = !config.machine.low_resources;
+    programs.sniffnet.enable = !config.machine.low_resources;
+    programs.wireshark.enable = !config.machine.low_resources;
+    programs.traceroute.enable = true;
+
+    hardware.graphics = {
+      enable = true;
+      # enable32Bit = true;
+    };
+
+    # users
+    users.users."${config.machine.user}" = {
+      isNormalUser = true;
+      extraGroups = [ "audio" "wheel" "podman" "incus-admin" "libvirtd" "caddy" ];
+      shell = pkgs.zsh;
+      initialPassword = constants.password;
+      packages = with pkgs; [];
+    };
+
+    # wheel group doesnt need password for sudo
+    security.sudo = {
+      enable = true;
+      wheelNeedsPassword = false;
+      # execWheelOnly = true; # we may want this to be true for security
+    };
+
+    # virtualization
+    virtualisation.libvirtd = {
+      enable = !config.machine.low_resources && !config.machine.is_vm;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        swtpm.enable = true;
+      };
+    };
+    virtualisation.podman = {
+      package = config.machine.podman.pkg;
+      enable = config.machine.can_compile && !config.machine.low_resources && !config.machine.is_vm;
+      dockerCompat = true;
+      dockerSocket.enable = true;
+      defaultNetwork.settings = {
+        dns_enabled = true;
+        # dns_servers = [ "8.8.8.8" "1.1.1.1" ];
+      };
+      autoPrune.enable = true;
+      # dont add extraPackages on server to avoid building (building podman is resource intensive..)
+      extraPackages = lib.mkIf config.machine.is_desktop [
+        pkgs.curl
+        pkgs.neovim
+        pkgs.git
+      ];
+    };
+    # see: https://github.com/containers/podman/blob/main/troubleshooting.md#26-running-containers-with-resource-limits-fails-with-a-permissions-error
+    systemd.services."user@".serviceConfig = {
+      Delegate = "cpu cpuset io memory pids";
+    };
+
+    services.mongodb = {
+      enable = false;
+      bind_ip = "0.0.0.0";
+    };
+
+    services.postgresql = {
+      enable = lib.mkDefault (!config.machine.low_resources && !config.machine.is_vm);
+      enableTCPIP = true;
+      authentication = pkgs.lib.mkOverride 10 ''
+        # generated file; do not edit!
+        # TYPE  DATABASE        USER            ADDRESS                 METHOD
+        local   all             all                                     trust
+        host    all             all             127.0.0.1/32            trust
+        host    all             all             ::1/128                 trust
+      '';
+      ensureDatabases = [ "mahmooz" ];
+      # port = 5432;
+      initialScript = pkgs.writeText "backend-initScript" ''
+        CREATE ROLE mahmooz WITH LOGIN PASSWORD 'mahmooz' CREATEDB;
+        CREATE DATABASE test;
+        GRANT ALL PRIVILEGES ON DATABASE test TO mahmooz;
+      '';
+      ensureUsers = [{
+        name = "mahmooz";
+        ensureDBOwnership = true;
+      }];
+    };
+
+    zramSwap = lib.mkIf config.machine.low_resources {
+      enable = true;
+      memoryPercent = 50;
+    };
+  };
+}

@@ -1,0 +1,32 @@
+{ lib, inputs, pkgs, config, config', pkgs-pinned, ... }:
+
+let
+  mysbcl = (pkgs.sbcl.withPackages (ps: with ps; [
+    inputs.cltpt.packages.${pkgs.system}.cltpt-lib
+    serapeum
+    lparallel
+    cl-csv
+    jsown
+    alexandria
+    cl-ppcre
+    # swank
+    slynk
+    cl-fad
+    str
+    py4cl # run python in common lisp
+    clingon # command-line options parser
+    ironclad # crypto functions
+    fiveam rove # tests
+    closer-mop
+    local-time
+    cl-json
+  ]));
+in
+{
+  config = lib.mkIf (config'.machine.is_desktop && !config'.machine.low_resources) {
+    home.packages = [
+      mysbcl
+      inputs.lem.packages.${pkgs.system}.lem-repl
+    ];
+  };
+}
