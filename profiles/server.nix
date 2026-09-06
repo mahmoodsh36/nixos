@@ -57,7 +57,7 @@ in
       bc # used for some arithmetic in shell scripts
       yt-dlp # ytdl-sub
       coreutils-full
-      gh
+      # gh # intentionally commented out
 
       # networking tools
       curl wget socat
