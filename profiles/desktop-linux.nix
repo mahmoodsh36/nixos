@@ -221,6 +221,9 @@ let
     # without this okular is blurry
     environment.sessionVariables.QT_QPA_PLATFORM = "wayland";
 
+    # read by configs that need vm-specific behavior
+    environment.sessionVariables.IS_VM = lib.mkIf config.machine.is_vm "1";
+
     # make disablewhiletyping and other settings work with xremap (libevdev-based key remapper, https://github.com/rvaiya/keyd/issues/66#issuecomment-985983524)
     environment.etc."libinput/local-overrides.quirks".text = pkgs.lib.mkForce ''
       [Serial Keyboards]
