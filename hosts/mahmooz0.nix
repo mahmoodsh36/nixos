@@ -39,8 +39,6 @@ in
     # necessary temporary fix
     ids.gids.nixbld = 350;
 
-    machine.podman.pkg = pkgs-pinned.podman;
-
     environment.variables.HOMEBREW_NO_ANALYTICS = "1";
 
     users.users."${config.machine.user}" = {
@@ -78,7 +76,6 @@ in
         "wacom-tablet"
         "zoom"
         "slack"
-        "discord"
       ];
       brews = [
         "mole"
@@ -97,8 +94,6 @@ in
     system.defaults = {
       dock = {
         autohide = true;
-        # magnification = true;
-        # mineffect = "scale";
         tilesize = 40;
         autohide-delay = 0.2;
         autohide-time-modifier = 0.1;
@@ -106,6 +101,7 @@ in
           "/Applications/Nix Apps/Firefox.app"
           "/Applications/Nix Apps/WezTerm.app"
           "/Applications/Nix Apps/Emacs.app"
+          "/Applications/Nix Apps/Lem.app"
           "/Applications/Transmission.app"
         ];
       };
@@ -137,7 +133,7 @@ in
           NewWindowTargetPath = "file:///Users/${config.machine.user}/";
           NewWindowTarget = "PfHm";
           # set search scope to directory
-          # FXDefaultSearchScope = "SCcf";
+          FXDefaultSearchScope = "SCcf";
           # multi-file tab view
           FinderSpawnTab = true;
         };
