@@ -797,11 +797,11 @@
         "nixpkgs-venus": "nixpkgs-venus"
       },
       "locked": {
-        "lastModified": 1788681641,
-        "narHash": "sha256-5xrvorxBkhkB6Y1EfEq+U0i2vHm+apugz9Hm5Tw8uFw=",
+        "lastModified": 1788960931,
+        "narHash": "sha256-9RqeTbeqWmdUBJsqSy8kZ/x0eROeZ2t7PjojYpLGUuk=",
         "owner": "mahmoodsh36",
         "repo": "nix-venus",
-        "rev": "e1a7cf44c6158bd454ec89cfe3e934eaf298cff8",
+        "rev": "d585b4fa544c7c3fa5c09cb2795e3c6cfa76c624",
         "type": "github"
       },
       "original": {
