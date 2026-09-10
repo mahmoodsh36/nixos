@@ -18,6 +18,7 @@ in
     ./profiles/server-linux.nix
     ./profiles/desktop.nix
     ./profiles/desktop-linux.nix
+    ./profiles/quickshell.nix
     ./profiles/home/home.nix
     ./services/record.nix
   ];

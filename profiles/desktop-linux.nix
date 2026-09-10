@@ -186,7 +186,7 @@ let
           remap = {
             "Super-Enter".launch = [ "${spawn}/bin/spawn" "wezterm" "--config-file" "/home/${config.machine.user}/.config/wezterm/wezterm.lua" ];
             "Super-Shift-Enter".launch = [ "${spawn}/bin/spawn" "wezterm" "connect" "mahmooz2" ];
-            "Super-r".launch = [ "${spawn}/bin/spawn" "run.sh" ];
+            "Super-r".launch = [ "${spawn}/bin/spawn" "${lib.getExe' pkgs.quickshell "qs"}" "ipc" "call" "launcher" "toggle" ];
             "Super-p".launch = [ "${spawn}/bin/spawn" "myscrot.sh" ];
             "Super-Shift-p".launch = [ "${spawn}/bin/spawn" "myscrot.sh" "1" ];
             "Super-x" = {
