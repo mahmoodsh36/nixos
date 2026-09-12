@@ -7,7 +7,7 @@
     pkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-venus = {
       url = "github:mahmoodsh36/nix-venus";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -36,10 +36,6 @@
     };
     darwin-emacs = {
       url = "github:nix-giant/nix-darwin-emacs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri-flake = {

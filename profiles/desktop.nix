@@ -49,11 +49,9 @@
       pandoc
       llama-cpp
       graphviz
-      isync notmuch
       djvulibre djvu2pdf
       prettier
       exiftool
-      argc
       imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
       pigz # for compression
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
@@ -61,6 +59,7 @@
       scrcpy
       xournalpp
       telegram-desktop
+      opencode
 
       # nix specific
       nixos-generators
@@ -85,17 +84,10 @@
 
       # dictionary
       (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
-
-      python3Packages.huggingface-hub
-      inputs.llm-agents.packages.${pkgs.system}.opencode
-      inputs.llm-agents.packages.${pkgs.system}.antigravity-cli
     ] ++ pkgs.lib.optionals (!config.machine.is_darwin && !config.machine.low_resources) [
       # transmission fails on darwin due to fmt build issue
       transmission_4
       transmission_4-gtk
-    ] ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
-      # x86_64-only upstream binaries (no aarch64-linux builds).
-      pkgs.discord
     ];
   };
 }
