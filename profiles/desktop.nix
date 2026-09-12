@@ -48,7 +48,6 @@
       ffmpeg-full.bin # untrunc-anthwlock
       pandoc
       llama-cpp
-      graphviz
       djvulibre djvu2pdf
       prettier
       exiftool
