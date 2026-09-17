@@ -54,10 +54,8 @@ in
       openssl
       # we need wezterm installed on the server too, for persistent sessions
       wezterm
-      bc # used for some arithmetic in shell scripts
       yt-dlp # ytdl-sub
       coreutils-full
-      # gh # intentionally commented out
 
       # networking tools
       curl wget socat
@@ -72,12 +70,7 @@ in
       inputs.lem.packages.${pkgs.system}.lem-ncurses
       arp-scan iftop
 
-      # some build systems
-      cmake gnumake automake autoconf
-      pkg-config
-
       # nix specific stuff
-      nvfetcher
       inputs.disko.packages.${pkgs.system}.default
     ];
 
@@ -87,10 +80,7 @@ in
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_DATA_HOME   = "$HOME/.local/share";
       XDG_STATE_HOME  = "$HOME/.local/state";
-      # not officially in the specification
-      XDG_BIN_HOME    = "$HOME/.local/bin";
       WEZTERM_CONFIG_FILE = lib.mkIf config.machine.is_darwin "$HOME/.config/wezterm/wezterm.lua";
-      # this one fixes some problems with python matplotlib and probably some other qt applications
     };
 
     nixpkgs.overlays = [
