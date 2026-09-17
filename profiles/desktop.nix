@@ -32,13 +32,11 @@
       # };
     };
 
-    # packages
     environment.systemPackages = with pkgs; [
       pkgs-pinned.firefox
       mpv
       ntfs3g
       gnupg
-      uv
 
       nix-prefetch-git
       nix-tree
