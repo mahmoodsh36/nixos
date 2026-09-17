@@ -18,14 +18,6 @@ in
     boot.tmp.cleanOnBoot = true;
     system.etc.overlay.enable = false;
 
-    systemd.settings.Manager = {
-      DefaultTimeoutStopSec = "10s";
-      DefaultTimeoutStartSec = "15s";
-      # this didnt help with too many open files errors
-      # https://discourse.nixos.org/t/unable-to-fix-too-many-open-files-error/27094/10
-      DefaultLimitNOFILE = "10000";
-    };
-
     # use the systemd-boot EFI boot loader.
     # boot.loader.systemd-boot.enable = true;
     # boot.loader.efi.canTouchEfiVariables = true;
@@ -92,18 +84,9 @@ in
       '')
     ];
 
-    # enable some programs/services
-    programs.git = {
-      enable = true;
-      package = if config.machine.low_resources then pkgs.git else pkgs.gitFull;
-      lfs.enable = !config.machine.low_resources;
-    };
     programs.htop.enable = true;
     programs.iotop.enable = !config.machine.low_resources;
-    programs.java.enable = !config.machine.low_resources;
     programs.mosh.enable = !config.machine.low_resources;
-    programs.sniffnet.enable = !config.machine.low_resources;
-    programs.wireshark.enable = !config.machine.low_resources;
     programs.traceroute.enable = true;
 
     hardware.graphics = {
@@ -114,10 +97,9 @@ in
     # users
     users.users."${config.machine.user}" = {
       isNormalUser = true;
-      extraGroups = [ "audio" "wheel" "podman" "incus-admin" "libvirtd" "caddy" ];
+      extraGroups = [ "audio" "wheel" "podman" "libvirtd" "caddy" ];
       shell = pkgs.zsh;
       initialPassword = constants.password;
-      packages = with pkgs; [];
     };
 
     # wheel group doesnt need password for sudo
@@ -156,11 +138,6 @@ in
     # see: https://github.com/containers/podman/blob/main/troubleshooting.md#26-running-containers-with-resource-limits-fails-with-a-permissions-error
     systemd.services."user@".serviceConfig = {
       Delegate = "cpu cpuset io memory pids";
-    };
-
-    services.mongodb = {
-      enable = false;
-      bind_ip = "0.0.0.0";
     };
 
     services.postgresql = {

@@ -147,7 +147,6 @@ in
       libinput
       bluez-tools blueman
       material-design-icons
-      cryptsetup
     ];
 
     # without this okular is blurry
