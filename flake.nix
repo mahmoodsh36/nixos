@@ -46,14 +46,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # vllm on apple silicon. built from source (the published wheels bundle
-    # prebuilt .so/.metallib artifacts that are gitignored from the repo),
-    # see packages/vllm-metal.nix.
-    vllm-metal-src = {
-      url = "github:vllm-project/vllm-metal";
-      flake = false;
-    };
-
     # macos
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";
@@ -100,23 +92,6 @@
     lem-config = {
       url = "github:mahmoodsh36/lem-config";
       flake = false;
-    };
-
-    # for python
-    pyproject-nix = {
-      url = "github:pyproject-nix/pyproject.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    uv2nix = {
-      url = "github:pyproject-nix/uv2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.pyproject-nix.follows = "pyproject-nix";
-    };
-    pyproject-build-systems = {
-      url = "github:pyproject-nix/build-system-pkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.pyproject-nix.follows = "pyproject-nix";
-      inputs.uv2nix.follows = "uv2nix";
     };
   };
 
@@ -306,7 +281,6 @@
           mahmooz6 = allConfigs."mahmooz6-aarch64-linux";
         };
 
-    devShells = forAllSystems (system: import ./devshells.nix { inherit inputs nixpkgs system; });
     packages = forAllSystems (system: let
       sysPkgs = mkPkgs system;
       isDarwin = nixpkgs.lib.hasInfix "darwin" system;
