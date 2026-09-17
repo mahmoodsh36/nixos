@@ -2,7 +2,7 @@ rec {
   mahmooz3_addr = "95.179.250.73";
   # static addr..
   mahmooz2_addr = "192.168.1.2";
-  mahmooz4_addr = "100.64.0.3"; # tailscale ip?
+  mahmooz4_addr = "mahmooz4.tailnet.${mydomain}";
   # mahmooz4_addr = "10.0.0.4";
   # private_domain = "mahmooz3.lan";
   mydomain = "mahmoodsh.com";
