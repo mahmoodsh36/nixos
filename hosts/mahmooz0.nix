@@ -2,7 +2,6 @@
 { config, pkgs, lib, inputs, self, myutils, pkgs-pinned, ... }:
 
 let
-  constants = import ../lib/constants.nix;
   # in the persistent workdir, linux-builder-start wipes $TMPDIR on every launch
   builder_qmp = "/var/lib/linux-builder/qmp.sock";
   taps = {
@@ -27,14 +26,6 @@ in
       self.packages.${pkgs.stdenv.hostPlatform.system}.vm
       self.packages.${pkgs.stdenv.hostPlatform.system}.vm-headless
     ];
-
-    # our headscale tailnet uses a custom magicdns suffix (tailnet.${constants.mydomain})
-    # instead of the default *.ts.net, macos doesn't route dns queries for it to
-    # tailscale's resolver on its own, so register it explicitly, same mechanism
-    # tailscale itself uses for *.ts.net
-    environment.etc."resolver/tailnet.${constants.mydomain}".text = ''
-      nameserver 100.100.100.100
-    '';
 
     # necessary temporary fix
     ids.gids.nixbld = 350;
