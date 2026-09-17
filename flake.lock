@@ -967,7 +967,6 @@
         "pkgs-pinned": "pkgs-pinned",
         "pkgs-unstable": "pkgs-unstable",
         "scripts": "scripts",
-        "trackify": "trackify",
         "xremap-flake": "xremap-flake"
       }
     },
@@ -1074,26 +1073,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "trackify": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1786293340,
-        "narHash": "sha256-I+kXDeNa/pRgj6GQIm2/bSK0khE4j6hYInySNaGpMWs=",
-        "owner": "mahmoodsheikh36",
-        "repo": "trackify",
-        "rev": "c60e26e4cec5b5cb3604fe0978e78f412f0fbd29",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mahmoodsheikh36",
-        "repo": "trackify",
         "type": "github"
       }
     },

@@ -4,10 +4,6 @@ let
   constants = (import ../lib/constants.nix);
 in
 {
-  imports = [
-    ../services/trackify.nix
-  ];
-
   config = lib.mkIf config.machine.is_linux {
     system.stateVersion = "${config.system.nixos.release}";
 

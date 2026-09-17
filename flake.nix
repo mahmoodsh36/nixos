@@ -37,10 +37,6 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    trackify = {
-      url = "github:mahmoodsheikh36/trackify";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixos-avf = {
       url = "github:nix-community/nixos-avf";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -203,7 +199,6 @@
               {
                 config = {
                   machine.name = "mahmooz3";
-                  services.trackify.enable = true;
                   networking.firewall.allowedTCPPorts = [ 43594 ];
                   machine.is_desktop = false;
                   machine.can_compile = false;
