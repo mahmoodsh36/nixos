@@ -86,7 +86,6 @@ in
           ./python.nix
           # ./julia.nix
           ./sbcl.nix
-          ../../services/podman-autobuilder.nix
         ];
 
         # symlink to live $work repository if it exists at runtime,
@@ -214,39 +213,6 @@ in
           settings.user = {
             name = "mahmoodsh36";
             email = "mahmod.m2015@gmail.com";
-          };
-        };
-
-        services.podman-autobuilder = {
-          enable = config'.machine.can_compile;
-          podmanPackage = config'.machine.podman.pkg;
-          containers = {
-            demo = {
-              enable = false;
-              imageName = "demo:latest";
-              context = ../../containers/demo;
-              buildArgs = [ "GREETING=hello from the demo" ];
-              runArgs = [ "-p" "127.0.0.1:8080:80" ];
-              command = [ "httpd" "-f" "-p" "80" "-h" "/www" ];
-              execServices = {
-                demo-greeting = { command = [ "cat" "/www/index.html" ]; };
-              };
-              aliases = {
-                demo-shell = {
-                  command = [ "sh" ];
-                  interactive = true;
-                };
-              };
-            };
-          };
-
-          composeFiles = {
-            demo-compose = {
-              enable = false;
-              composeFile = ../../containers/demo/compose.yaml;
-              workingDirectory = ../../containers/demo;
-              environment = { TAG = "latest"; };
-            };
           };
         };
       };
