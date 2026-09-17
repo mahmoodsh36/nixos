@@ -3,7 +3,6 @@
 let
   constants = (import ../lib/constants.nix);
   isLinux = options ? boot.kernelPackages;
-  isDarwin = lib.strings.hasInfix "darwin" system;
   is_exit_node = config.machine.name == "mahmooz3";
   mydomain = (if is_exit_node then constants.mydomain else "localhost");
   headscale_host = "headscale.${mydomain}";
@@ -17,7 +16,7 @@ let
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
   umami_secret = builtins.getEnv "UMAMI_SECRET";
-  blocky_port = 53;
+  blocky_port = constants.blocky_port;
 in
 {
   config = lib.mkMerge ([{
@@ -55,20 +54,9 @@ in
            StrictHostKeyChecking no
            UserKnownHostsFile /dev/null
     '';
-  }] ++ (lib.optional isDarwin {
-     services.tailscale = {
-      enable = true;
-      overrideLocalDns = true;
-    };
-  }) ++ (lib.optional isLinux {
+  }] ++ (lib.optional isLinux {
     # enable ip forwarding on exit node
     boot.kernel.sysctl."net.ipv4.ip_forward" = lib.mkIf is_exit_node 1;
-
-    services.tailscale = lib.mkIf (!config.machine.is_vm) {
-      enable = true;
-      useRoutingFeatures = "both";
-      port = 12345; # (default: 41641)
-    };
 
     services.openssh = {
       # ports = [ 22 2222 ]; # my uni wifi blocks port 22..
@@ -80,23 +68,6 @@ in
     };
 
     services.fail2ban.enable = is_exit_node;
-
-    services.headscale = {
-      enable = is_exit_node;
-      address = "0.0.0.0";
-      settings = {
-        server_url = "https://${headscale_host}";
-        dns = {
-          # the base domain for internal MagicDNS names.
-          base_domain = "tailnet.${mydomain}";
-          magic_dns = true;
-          # upstream resolvers for the Headscale server itself. use Blocky for filtering.
-          nameservers.global = [
-            "127.0.0.1:${toString blocky_port}" # use local Blocky instance for ad-blocking
-          ];
-        };
-      };
-    };
 
     services.prometheus = {
       enable = !config.machine.is_vm;
@@ -563,8 +534,7 @@ in
       };
       # enable blocking of certain domains.
       blocking = {
-        blackLists = {
-          # adblocking
+        denylists = {
           ads = [ "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" ];
         };
         # configure what block categories are used

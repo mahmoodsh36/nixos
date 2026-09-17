@@ -7,6 +7,7 @@ in
   imports = [
     ../services/mpv-daemon.nix
     ./network.nix
+    ./tailnet.nix
   ];
 
   config = {
