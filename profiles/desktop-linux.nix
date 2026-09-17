@@ -150,7 +150,6 @@ let
       brightnessctl
       swww # wallpaper setter
     ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
-      zathura
       vulkan-tools mesa-demos
       ocrmypdf poppler-utils
       pulsemixer # tui for pulseaudio control
@@ -161,8 +160,6 @@ let
       libinput
       bluez-tools blueman
       material-design-icons
-      woeusb-ng
-      acpi lm_sensors
       cryptsetup
     ];
 

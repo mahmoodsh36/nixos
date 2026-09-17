@@ -57,7 +57,6 @@
       android-tools
       scrcpy
       xournalpp
-      telegram-desktop
       opencode
 
       # nix specific

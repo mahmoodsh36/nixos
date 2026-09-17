@@ -21,13 +21,8 @@
       url = "github:mahmoodsh36/mpv-history-daemon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    arion = {
-      url = "github:hercules-ci/arion";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     cltpt = {
       url = "github:mahmoodsh36/cltpt";
-      # inputs.nixpkgs.follows = "pkgs-pinned";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
@@ -158,7 +153,6 @@
         modules = [
           ./config.nix
           inputs.home-manager.nixosModules.home-manager
-          inputs.arion.nixosModules.arion
         ]
         ++ extraModules;
       };
