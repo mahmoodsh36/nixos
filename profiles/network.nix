@@ -16,6 +16,7 @@ let
   grafana_password = builtins.getEnv "GRAFANA_PASSWORD";
   searxng_secret = builtins.getEnv "SEARXNG_SECRET";
   umami_secret = builtins.getEnv "UMAMI_SECRET";
+  umami_password = builtins.getEnv "UMAMI_ADMIN_PASSWORD";
   blocky_port = constants.blocky_port;
 in
 {
@@ -545,7 +546,7 @@ in
     };
   };
 
-  services.umami = lib.mkIf (is_exit_node && isLinux && umami_secret != "") {
+  services.umami = lib.mkIf (is_exit_node && isLinux && umami_secret != "" && umami_password != "") {
     enable = true;
     settings = {
       HOSTNAME = "0.0.0.0";
@@ -555,9 +556,9 @@ in
     };
   };
 
-  systemd.services.umami-seed-website =
-    lib.mkIf (is_exit_node && isLinux && umami_secret != "") {
-      description = "ensure the umami website row exists (idempotent)";
+  systemd.services.umami-seed =
+    lib.mkIf (is_exit_node && isLinux && umami_secret != "" && umami_password != "") {
+      description = "seed umami account and website (idempotent)";
       after = [ "umami.service" "postgresql.service" ];
       requires = [ "postgresql.service" ];
       wantedBy = [ "multi-user.target" ];
@@ -565,16 +566,29 @@ in
         Type = "oneshot";
         RemainAfterExit = true;
         User = "postgres";
+        Restart = "on-failure";
+        RestartSec = 5;
       };
       script = ''
-        ${config.services.postgresql.package}/bin/psql -d umami <<'SQL'
+        set -euo pipefail
+        PSQL="${config.services.postgresql.package}/bin/psql -d umami"
+        $PSQL -v pw="$(cat ${pkgs.writeText "umami-admin-password" umami_password})" <<'SQL'
+        CREATE EXTENSION IF NOT EXISTS pgcrypto;
+        UPDATE "user" SET password = crypt(:'pw', gen_salt('bf', 10)) WHERE username IN ('admin', 'mahmooz');
+        UPDATE "user" SET username = 'mahmooz' WHERE username = 'admin'
+          AND NOT EXISTS (SELECT 1 FROM "user" WHERE username = 'mahmooz');
+        DELETE FROM "user" WHERE username = 'admin';
+        SQL
+        $PSQL <<'SQL'
         INSERT INTO website (website_id, name, domain, user_id, created_by, created_at)
         SELECT 'e2027c6d-2921-4339-a2b1-18dc85f9e526', 'mahmoodsh.com', 'mahmoodsh.com',
                u.user_id, u.user_id, now()
         FROM "user" u
-        WHERE u.username = 'admin'
+        WHERE u.username = 'mahmooz'
         ON CONFLICT (website_id) DO NOTHING;
         SQL
+        MAHMOOZ=$($PSQL -tAc "SELECT count(*) FROM \"user\" WHERE username = 'mahmooz'")
+        [ "$MAHMOOZ" -ge 1 ]
       '';
     };
   }));
