@@ -46,7 +46,6 @@
       ffmpeg-full.bin # untrunc-anthwlock
       pandoc
       llama-cpp
-      djvulibre djvu2pdf
       prettier
       exiftool
       imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
