@@ -51,6 +51,7 @@
       imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
       pigz # for compression
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
+      (pkgs.callPackage ../packages/mineru.nix {})
       android-tools
       scrcpy
       xournalpp

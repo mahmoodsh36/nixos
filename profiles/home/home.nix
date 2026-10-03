@@ -40,6 +40,7 @@ let
     MAHMOOZ2_ADDR = constants.mahmooz2_addr;
     MAHMOOZ4_ADDR = constants.mahmooz4_addr;
     MYDOMAIN = constants.mydomain;
+    MINERU_MODEL_BASE_DIR = "${VOL_DIR}/models";
   };
   sessionVarsExports = lib.concatStringsSep "\n"
     (lib.mapAttrsToList (n: v: ''export ${n}="${toString v}"'') sessionVars);
