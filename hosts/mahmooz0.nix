@@ -74,7 +74,6 @@ in
         "wacom-tablet"
         "zoom"
         "slack"
-        "discord"
       ];
       brews = [
         "mole"
