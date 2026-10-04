@@ -9,6 +9,7 @@ in
 {
   config = lib.mkIf (config.machine.is_linux && config.machine.is_desktop) {
     services.upower.enable = true;
+    fonts.packages = [ pkgs.material-symbols ];
 
     home-manager.users.${user} = {
       programs.quickshell = {
@@ -24,6 +25,8 @@ in
       # user manager PATH is minimal, launched apps inherit this
       systemd.user.services.quickshell.Service.Environment = [
         "PATH=/run/wrappers/bin:/etc/profiles/per-user/${user}/bin:${home}/.nix-profile/bin:${home}/.local/bin:/run/current-system/sw/bin"
+        # for the calendar's cltpt agenda
+        "NOTES_DIR=${config.machine.voldir}/brain/notes"
       ];
     };
   };
