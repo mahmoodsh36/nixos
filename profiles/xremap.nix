@@ -12,6 +12,9 @@ let
       --unit="spawn-$(basename "$cmd")-$$" --setenv=PATH="$PATH" \
       -- "$cmd" "$@"
   '';
+  # ipc only talks over a unix socket, so it needs no spawn
+  qs = args: [ (lib.getExe' pkgs.quickshell "qs") "ipc" "call" ] ++ args;
+  playerctl = args: [ (lib.getExe pkgs.playerctl) ] ++ args;
 in
 {
   imports = [ inputs.xremap-flake.nixosModules.default ];
@@ -37,7 +40,19 @@ in
           remap = {
             "Super-Enter".launch = [ "${spawn}/bin/spawn" "wezterm" "--config-file" "/home/${config.machine.user}/.config/wezterm/wezterm.lua" ];
             "Super-Shift-Enter".launch = [ "${spawn}/bin/spawn" "wezterm" "connect" "mahmooz2" ];
-            "Super-r".launch = [ "${spawn}/bin/spawn" "${lib.getExe' pkgs.quickshell "qs"}" "ipc" "call" "launcher" "toggle" ];
+            "Super-r".launch = qs [ "launcher" "toggle" ];
+            "Super-Shift-v".launch = qs [ "launcher" "clipboard" ];
+            "Super-Ctrl-p".launch = qs [ "recorder" "toggle" ];
+            "Super-Ctrl-Shift-p".launch = qs [ "recorder" "region" ];
+            "Super-n".launch = qs [ "nightlight" "toggle" ];
+            VolumeUp.launch = qs [ "volume" "up" ];
+            VolumeDown.launch = qs [ "volume" "down" ];
+            Mute.launch = qs [ "volume" "mute" ];
+            BrightnessUp.launch = qs [ "brightness" "up" ];
+            BrightnessDown.launch = qs [ "brightness" "down" ];
+            PlayPause.launch = playerctl [ "play-pause" ];
+            NextSong.launch = playerctl [ "next" ];
+            PreviousSong.launch = playerctl [ "previous" ];
             "Super-p".launch = [ "${spawn}/bin/spawn" "myscrot.sh" ];
             "Super-Shift-p".launch = [ "${spawn}/bin/spawn" "myscrot.sh" "1" ];
             "Super-x" = {

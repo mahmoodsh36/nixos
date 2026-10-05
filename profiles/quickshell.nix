@@ -20,7 +20,15 @@ in
         systemd.enable = true;
       };
 
-      home.packages = [ pkgs.brightnessctl ];
+      home.packages = with pkgs; [
+        brightnessctl
+        wlsunset # night light
+        wf-recorder
+        slurp
+      ];
+
+      # feeds the launcher's clipboard mode
+      services.cliphist.enable = true;
 
       # user manager PATH is minimal, launched apps inherit this
       systemd.user.services.quickshell.Service.Environment = [

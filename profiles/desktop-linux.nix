@@ -120,10 +120,7 @@ in
     documentation.dev.enable = !config.machine.low_resources;
 
     environment.systemPackages = with pkgs; [
-      # overwrite notify-send to not let anything handle notifications
-      (pkgs.writeShellScriptBin "notify-send" ''
-        echo $@ > /tmp/notif
-      '')
+      libnotify # notify-send, quickshell is the daemon
 
       pavucontrol
       alsa-utils
