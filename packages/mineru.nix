@@ -65,11 +65,11 @@ let
 
       docvortex = pyself.buildPythonPackage rec {
         pname = "docvortex";
-        version = "0.5.8";
+        version = "0.5.13";
         pyproject = true;
         src = fetchPypi {
           inherit pname version;
-          hash = "sha256-KccRBCLHJYr4WmsEIZWo1Vy2hdOzCc/sxy9u7fmZCgs=";
+          hash = "sha256-E98tjD/xHzPMFSdw+kVDeBnjQg8tcUVvdo+/5METhFU=";
         };
         cargoDeps = rustPlatform.fetchCargoVendor {
           inherit pname version src;
@@ -113,7 +113,10 @@ let
           reportlab
           ziamath
           magika
-          opencv-python
+          onnxruntime
+          pyyaml
+          pyclipper
+          filelock
         ];
         pythonImportsCheck = [
           "docvortex"
@@ -177,17 +180,17 @@ let
 in
 python.pkgs.buildPythonApplication rec {
   pname = "mineru";
-  version = "4.0.10";
+  # master tip; keep pep 440 (setuptools validates mineru/version.py)
+  version = "4.0.11";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "opendatalab";
     repo = "MinerU";
-    tag = "mineru-${version}-released";
-    hash = "sha256-821VJ8BcJrJAuJ8S+NcU8SyPSOOcEUdoGImfYJsxeFI=";
+    rev = "31e4e3d0a54e5a82d169bdd81b2f3eddb652bb27";
+    hash = "sha256-RS86QVudxH3/w1hnPW8Ie1Qq6/VZVV0aDpGYMc7hGvY=";
   };
 
-  # release tags carry the previous version, ci bumps it when publishing
   postPatch = ''
     echo '__version__ = "${version}"' > mineru/version.py
   '';
@@ -222,7 +225,6 @@ python.pkgs.buildPythonApplication rec {
     hf-xet
     filelock
     json-repair
-    opencv-python
     openai
     beautifulsoup4
     tinycss2
