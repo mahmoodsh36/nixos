@@ -169,6 +169,9 @@ in
               "-qmp unix:${builder_qmp},server=on,wait=off"
             ];
           };
+          # slirp's dns proxy (10.0.2.3) only forwards to the mac's first resolver, which can
+          # be dead while macos silently falls back; static entries sort before dhcp's 10.0.2.3
+          networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
           # nix doesn't fsync build outputs by default, so a killed qemu leaves fresh store
           # paths truncated to 0 bytes while they stay valid in the db
           nix.settings.fsync-store-paths = true;
