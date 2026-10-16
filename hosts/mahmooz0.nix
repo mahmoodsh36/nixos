@@ -85,7 +85,7 @@ in
       onActivation.upgrade = true;
       onActivation.cleanup = "uninstall";
       masApps = {
-        "XCode" = 497799835;
+        # "XCode" = 497799835;
       };
     };
 
