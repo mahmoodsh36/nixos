@@ -15,7 +15,6 @@
         dejavu_fonts
       ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
         fantasque-sans-mono
-        google-fonts
         # cm_unicode
         # unicode-emoji
         # unicode-character-database
