@@ -40,7 +40,7 @@
       nix-prefetch-git
       nix-tree
     ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
-      inputs.lem.packages.${pkgs.system}.lem-webview-app
+      inputs.lem.packages.${pkgs.system}.lem-gecko-app
 
       ffmpeg-full.bin # untrunc-anthwlock
       pandoc

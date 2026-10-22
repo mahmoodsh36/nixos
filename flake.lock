@@ -432,11 +432,11 @@
         "webview-upstream": "webview-upstream"
       },
       "locked": {
-        "lastModified": 1792410643,
-        "narHash": "sha256-cUav6T5X0HyfFTfvxuvn80B9AHP2VWcXACVKjX0A3u4=",
+        "lastModified": 1792664083,
+        "narHash": "sha256-mtvClKnxK4IOFaGbZykD2XXVp9CLM1lkMvJfRfj+C1A=",
         "owner": "mahmoodsh36",
         "repo": "lem-flake",
-        "rev": "2f595d05e700e4d4f54b737d0370b840850256ab",
+        "rev": "bd4f9792e3ef4a119fbdfc30f231c2c4b93de8e7",
         "type": "github"
       },
       "original": {

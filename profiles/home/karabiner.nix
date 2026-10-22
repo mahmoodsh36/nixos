@@ -71,7 +71,7 @@ in
                   (swapKey "right_command" "left_control")
                   (launchApp "b" "Firefox")
                   (launchApp "e" "Emacs")
-                  (launchApp "m" "Lem")
+                  (launchApp "m" "Lem Gecko")
                   # (launchApp "return_or_enter" "WezTerm")
                   (launchCommand "return_or_enter" "export WEZTERM_CONFIG_FILE=$HOME/.config/wezterm/wezterm.lua; open -a wezterm")
                   (openLatestScreenshot "i")

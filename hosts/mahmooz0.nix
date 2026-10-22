@@ -99,7 +99,7 @@ in
           "/Applications/Nix Apps/Firefox.app"
           "/Applications/Nix Apps/WezTerm.app"
           "/Applications/Nix Apps/Emacs.app"
-          "/Applications/Nix Apps/Lem.app"
+          "/Applications/Nix Apps/Lem Gecko.app"
           "/Applications/Transmission.app"
         ];
       };
