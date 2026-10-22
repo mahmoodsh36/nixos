@@ -78,7 +78,7 @@
       vscode-langservers-extracted
 
       # dictionary
-      (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
+      (aspellWithDicts (dicts: with dicts; [ en ]))
     ] ++ pkgs.lib.optionals (!config.machine.is_darwin && !config.machine.low_resources) [
       # transmission fails on darwin due to fmt build issue
       transmission_4
