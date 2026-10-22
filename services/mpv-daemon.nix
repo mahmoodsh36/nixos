@@ -12,7 +12,7 @@ in
   };
 
   config = {} // (if isDarwin then {
-    launchd.agents.mpv-history-daemon = lib.mkIf config.mpv-daemon.enable {
+    launchd.user.agents.mpv-history-daemon = lib.mkIf config.mpv-daemon.enable {
       command = pkgs.writeShellScript "start-mpv-history-daemon.sh" ''
         #!${pkgs.stdenv.shell}
         mkdir -p ${sockets_dir}
@@ -31,8 +31,6 @@ in
         RunAtLoad = true;
         StandardOutPath = "${config.machine.voldir}/data/mpv_data/daemon.log";
         StandardErrorPath = "${config.machine.voldir}/data/mpv_data/daemon_error.log";
-        UserName = config.machine.user;
-        GroupName = "staff";
       };
     };
   } else {}) // (if isLinux then {
