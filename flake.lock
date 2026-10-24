@@ -78,11 +78,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792849112,
-        "narHash": "sha256-+UmqqKLW95j335OZbaYLqn4gpXhgAgJ2n5sZJOGm53A=",
+        "lastModified": 1792861821,
+        "narHash": "sha256-Crm7P02gt+kESyExUmGhqhXCyk0Tw46AWDLtC6Ol1kc=",
         "owner": "mahmoodsh36",
         "repo": "cltpt",
-        "rev": "b6c4d5be396e407656308a43ff99931aae6b0502",
+        "rev": "096a3835d5cf710d379ca475caa9597bb3b4c4cb",
         "type": "github"
       },
       "original": {
@@ -100,11 +100,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792849112,
-        "narHash": "sha256-+UmqqKLW95j335OZbaYLqn4gpXhgAgJ2n5sZJOGm53A=",
+        "lastModified": 1792861821,
+        "narHash": "sha256-Crm7P02gt+kESyExUmGhqhXCyk0Tw46AWDLtC6Ol1kc=",
         "owner": "mahmoodsh36",
         "repo": "cltpt",
-        "rev": "b6c4d5be396e407656308a43ff99931aae6b0502",
+        "rev": "096a3835d5cf710d379ca475caa9597bb3b4c4cb",
         "type": "github"
       },
       "original": {
@@ -432,11 +432,11 @@
         "webview-upstream": "webview-upstream"
       },
       "locked": {
-        "lastModified": 1792849361,
-        "narHash": "sha256-hIEFvBHE4F7Y+JxNV9uMBK8GT3lsq28CtPbtYsuiAw0=",
+        "lastModified": 1792862575,
+        "narHash": "sha256-r4vtznEDRZtzpPd0Fydz1K5eLy5coSB7lLP5gxfHaaY=",
         "owner": "mahmoodsh36",
         "repo": "lem-flake",
-        "rev": "2d8174ddbcb2e87cb81435bf9b8565906d524d29",
+        "rev": "4ce99861057ffe1ef325df7c55cc7eb703ce2e75",
         "type": "github"
       },
       "original": {
