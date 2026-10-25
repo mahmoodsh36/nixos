@@ -28,6 +28,16 @@ elif [ "$conf" == "mahmooz0" ]; then
     sudo darwin-rebuild switch --flake .#mahmooz0 --show-trace --impure $extra_args --keep-going
 elif [ "$conf" == "mahmooz5" ]; then
     sudo -E nixos-rebuild switch --flake .#"$conf" --show-trace --impure $extra_args
+elif [ "$conf" == "mahmooz3" ]; then
+    # low_resources server. cap parallelism to avoid OOM/thrash.
+    # set BUILD_HOST (e.g. mahmooz1) to compile elsewhere and only ship # the closure over:
+    # BUILD_HOST=mahmooz1 ./upgrade.sh mahmooz3
+    build_args="--cores 1 --max-jobs 1"
+    if [ -n "$BUILD_HOST" ]; then
+        echo "offloading build to $BUILD_HOST..."
+        build_args="$build_args --build-host $BUILD_HOST"
+    fi
+    sudo -E nixos-rebuild switch --flake .#"$conf" --show-trace --impure --install-bootloader $build_args $extra_args
 else
     # sudo -E nixos-rebuild switch --upgrade --flake .#"$conf" --show-trace --impure --install-bootloader
     # the -E option is sometimes problematic, but nixos-rebuild has to be run as root

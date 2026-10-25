@@ -10,7 +10,8 @@ in
   config = {
     # packages
     environment.systemPackages = with pkgs; [
-      (lib.mkIf (!config.machine.is_vm) ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
+      (lib.mkIf (!config.machine.is_vm && config.machine.low_resources) emacs_pkg)
+      (lib.mkIf (!config.machine.is_vm && !config.machine.low_resources) ((emacsPackagesFor emacs_pkg).emacsWithPackages(epkgs: with epkgs; [
         (treesit-grammars.with-grammars (
           p: with p; [
             tree-sitter-bash

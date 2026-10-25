@@ -5,7 +5,8 @@ let
 in
 {
   config = lib.mkIf config.machine.is_linux {
-    system.stateVersion = "${config.system.nixos.release}";
+    # pinned on purpose: tracking config.system.nixos.release rebuilds on every unstable bump and is discouraged upstream
+    system.stateVersion = "24.05";
 
     _module.args = {
       inherit inputs;
@@ -42,7 +43,6 @@ in
 
     environment.systemPackages = with pkgs; [
       lshw
-      libva-utils
       nethogs
       cryptsetup
       (pkgs.writeShellScriptBin "unlock-data" ''
@@ -86,7 +86,7 @@ in
     programs.traceroute.enable = true;
 
     hardware.graphics = {
-      enable = true;
+      enable = config.machine.is_desktop;
       # enable32Bit = true;
     };
 
@@ -162,5 +162,13 @@ in
       enable = true;
       memoryPercent = 50;
     };
+
+    # keep rebuilds from OOMing/thrashing on tiny boxes
+    nix.settings.max-jobs = lib.mkIf config.machine.low_resources 1;
+    nix.settings.cores = lib.mkIf config.machine.low_resources 1;
+    boot.tmp.useTmpfs = !config.machine.low_resources;
+    documentation.enable = !config.machine.low_resources;
+    # LTS kernel: fewer rebuilds than tracking the latest unstable kernel
+    boot.kernelPackages = lib.mkIf config.machine.low_resources pkgs.linuxPackages;
   };
 }
