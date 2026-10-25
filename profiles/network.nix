@@ -560,35 +560,69 @@ in
     lib.mkIf (is_exit_node && isLinux && umami_secret != "" && umami_password != "") {
       description = "seed umami account and website (idempotent)";
       after = [ "umami.service" "postgresql.service" ];
+      wants = [ "umami.service" ];
       requires = [ "postgresql.service" ];
       wantedBy = [ "multi-user.target" ];
+      path = [ pkgs.curl pkgs.jq pkgs.coreutils ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        User = "postgres";
-        Restart = "on-failure";
-        RestartSec = 5;
+        DynamicUser = true;
+        TimeoutStartSec = "5min";
       };
       script = ''
         set -euo pipefail
-        PSQL="${config.services.postgresql.package}/bin/psql -d umami"
-        $PSQL -v pw="$(cat ${pkgs.writeText "umami-admin-password" umami_password})" <<'SQL'
-        CREATE EXTENSION IF NOT EXISTS pgcrypto;
-        UPDATE "user" SET password = crypt(:'pw', gen_salt('bf', 10)) WHERE username IN ('admin', 'mahmooz');
-        UPDATE "user" SET username = 'mahmooz' WHERE username = 'admin'
-          AND NOT EXISTS (SELECT 1 FROM "user" WHERE username = 'mahmooz');
-        DELETE FROM "user" WHERE username = 'admin';
-        SQL
-        $PSQL <<'SQL'
-        INSERT INTO website (website_id, name, domain, user_id, created_by, created_at)
-        SELECT 'e2027c6d-2921-4339-a2b1-18dc85f9e526', 'mahmoodsh.com', 'mahmoodsh.com',
-               u.user_id, u.user_id, now()
-        FROM "user" u
-        WHERE u.username = 'mahmooz'
-        ON CONFLICT (website_id) DO NOTHING;
-        SQL
-        MAHMOOZ=$($PSQL -tAc "SELECT count(*) FROM \"user\" WHERE username = 'mahmooz'")
-        [ "$MAHMOOZ" -ge 1 ]
+        BASE="http://127.0.0.1:${toString config.services.umami.settings.PORT}"
+        SITE_ID="e2027c6d-2921-4339-a2b1-18dc85f9e526"
+        SECRET="$(cat ${pkgs.writeText "umami-admin-password" umami_password})"
+        if [ "''${#SECRET}" -lt 8 ]; then
+          echo "umami-seed: admin password must be at least 8 characters" >&2
+          exit 1
+        fi
+
+        login() {
+          local body
+          body=$(curl -fsS -X POST "$BASE/api/auth/login" -H 'Content-Type: application/json' \
+            -d "$(jq -n --arg u "$1" --arg p "$2" '{username: $u, password: $p}')" 2>/dev/null) || return 1
+          jq -r '"\(.token) \(.user.id)"' <<<"$body"
+        }
+
+        api() {
+          if [ "$#" -ge 4 ]; then
+            curl -fsS -X "$1" "$BASE$2" -H "Authorization: Bearer $3" \
+              -H 'Content-Type: application/json' -d "$4"
+          else
+            curl -fsS -X "$1" "$BASE$2" -H "Authorization: Bearer $3"
+          fi
+        }
+
+        curl -fsS --retry 48 --retry-delay 5 --retry-all-errors "$BASE/" -o /dev/null
+
+        ADMIN_ID=""
+        RENAME_FAILED=""
+        if creds=$(login admin umami); then
+          ADMIN_ID="''${creds##* }"
+          api POST "/api/users/$ADMIN_ID" "''${creds%% *}" \
+            "$(jq -n --arg p "$SECRET" '{username: "mahmooz", password: $p}')" >/dev/null || RENAME_FAILED=1
+        fi
+
+        if creds=$(login mahmooz "$SECRET"); then
+          TOKEN="''${creds%% *}"
+        else
+          echo "umami-seed: login failed for both admin and mahmooz" >&2
+          exit 1
+        fi
+
+        if [ -n "$RENAME_FAILED" ] && [ -n "$ADMIN_ID" ]; then
+          api DELETE "/api/users/$ADMIN_ID" "$TOKEN" >/dev/null
+        fi
+
+        if ! api GET /api/websites "$TOKEN" \
+            | jq -e --arg id "$SITE_ID" '.. | objects | select(.id == $id)' >/dev/null; then
+          api POST /api/websites "$TOKEN" \
+            "$(jq -n --arg id "$SITE_ID" '{id: $id, name: "mahmoodsh.com", domain: "mahmoodsh.com"}')" >/dev/null
+        fi
+        echo "umami-seed: ok"
       '';
     };
   }));
