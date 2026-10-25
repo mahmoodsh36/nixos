@@ -328,7 +328,7 @@ in
     };
 
     services.searx = {
-      enable = is_exit_node;
+      enable = false;
       redisCreateLocally = true;
 
       # rate limiting
