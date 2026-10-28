@@ -47,6 +47,7 @@
       llama-cpp
       prettier
       exiftool
+      mupdf # used in my lem config
       imagemagickBig ghostscript # ghostscript is needed for some imagemagick commands
       pigz # for compression
       (pkgs.callPackage ../packages/better-adb-sync.nix {})
