@@ -89,6 +89,10 @@
       url = "github:mahmoodsh36/lem-config";
       flake = false;
     };
+    quickshell-config = {
+      url = "github:mahmoodsh36/quickshell";
+      flake = false;
+    };
   };
 
   outputs = {

@@ -943,6 +943,22 @@
         "type": "github"
       }
     },
+    "quickshell-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793222878,
+        "narHash": "sha256-8hGektdi1skeyfdpl9HOY8C1IvQN3cg53GLnwETcbas=",
+        "owner": "mahmoodsh36",
+        "repo": "quickshell",
+        "rev": "87edbd7f99a5c5b4f40949233c9c21beffb23c31",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahmoodsh36",
+        "repo": "quickshell",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "cltpt": "cltpt",
@@ -966,6 +982,7 @@
         "otherdots": "otherdots",
         "pkgs-pinned": "pkgs-pinned",
         "pkgs-unstable": "pkgs-unstable",
+        "quickshell-config": "quickshell-config",
         "scripts": "scripts",
         "xremap-flake": "xremap-flake"
       }
