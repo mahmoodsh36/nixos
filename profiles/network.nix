@@ -514,7 +514,6 @@ in
     enable = is_exit_node;
     allowedUDPPorts = [
       config.services.tailscale.port
-      blocky_port
     ];
     trustedInterfaces = [ config.services.tailscale.interfaceName ];
     checkReversePath = "loose"; # https://github.com/tailscale/tailscale/issues/4432#issuecomment-1112819111

@@ -42,9 +42,7 @@ in
           dns = {
             base_domain = "tailnet.${constants.mydomain}";
             magic_dns = true;
-            nameservers.global = [
-              "127.0.0.1:${toString constants.blocky_port}"
-            ];
+            nameservers.global = [ constants.mahmooz3_tailnet_addr ];
           };
         };
       };
@@ -58,12 +56,27 @@ in
         after = [ "headscale.service" ];
         wants = [ "headscale.service" ];
         restartTriggers = [ headscale_authkey ];
-        path = with pkgs; [ sqlite apacheHttpd jq headscale gnugrep coreutils gawk ];
+        path = with pkgs; [ sqlite apacheHttpd jq headscale gnugrep coreutils gawk config.services.tailscale.package ];
         script = ''
           set -euo pipefail
           DB="${config.services.headscale.settings.database.sqlite.path or "/var/lib/headscale/db.sqlite"}"
           KEY="${headscale_authkey}"
           SYSTEMCTL="${config.systemd.package}/bin/systemctl"
+          SELF="${config.networking.hostName}"
+          SELF_ADDR="${constants.mahmooz3_tailnet_addr}"
+
+          self_ip() {
+            headscale nodes list -o json | jq -r --arg n "$SELF" \
+              'first(.[]? | select((.given_name // .name) == $n) | (.ip_addresses // [])[] | select(test("^[0-9.]+$"))) // empty'
+          }
+          # clients use SELF_ADDR as their dns server (constants.nix), so a mismatch breaks dns tailnet-wide.
+          check_self_ip() {
+            local ip; ip=$(self_ip)
+            if [ "$ip" != "$SELF_ADDR" ]; then
+              echo "$SELF has tailnet ip '$ip', expected $SELF_ADDR; update mahmooz3_tailnet_addr in lib/constants.nix" >&2
+              exit 1
+            fi
+          }
 
           case "$KEY" in
             hskey-auth-*) ;;
@@ -85,8 +98,18 @@ in
 
           if [ "$(sqlite3 "$DB" "SELECT COUNT(*) FROM pre_auth_keys WHERE prefix='$PREFIX';")" -ge 1 ]; then
             echo "pinned preauth key already present, nothing to do"
+            check_self_ip
             exit 0
           fi
+
+          # fresh db: join self with a one-off key before the shared key exists, so
+          # sequential allocation gives us the first address (SELF_ADDR).
+          if [ -z "$(self_ip)" ]; then
+            echo "registering $SELF first to claim $SELF_ADDR"
+            TMP_KEY=$(headscale preauthkeys create --user "$USER_ID" --expiration 10m -o json | jq -r '.key')
+            tailscale up --reset --timeout 120s --auth-key "$TMP_KEY" ${lib.escapeShellArgs config.services.tailscale.extraUpFlags}
+          fi
+          check_self_ip
 
           # rotation needs a new full key (new prefix); same prefix is ignored.
           echo "inserting pinned preauth key"

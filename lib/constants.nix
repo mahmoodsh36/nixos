@@ -1,5 +1,7 @@
 rec {
   mahmooz3_addr = "95.179.250.73";
+  # assigned by headscale at registration, stable unless the node is re-registered.
+  mahmooz3_tailnet_addr = "100.64.0.1";
   # static addr..
   mahmooz2_addr = "192.168.1.2";
   mahmooz4_addr = "mahmooz4.tailnet.${mydomain}";
