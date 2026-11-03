@@ -91,7 +91,7 @@
     };
     quickshell-config = {
       url = "github:mahmoodsh36/quickshell";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

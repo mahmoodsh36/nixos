@@ -13,7 +13,7 @@ let
       -- "$cmd" "$@"
   '';
   # ipc only talks over a unix socket, so it needs no spawn
-  qs = args: [ (lib.getExe' pkgs.quickshell "qs") "ipc" "call" ] ++ args;
+  qs = args: [ (lib.getExe config.mahmooz.quickshell.package) "ipc" "call" ] ++ args;
   playerctl = args: [ (lib.getExe pkgs.playerctl) ] ++ args;
 in
 {
@@ -45,6 +45,7 @@ in
             "Super-Ctrl-p".launch = qs [ "recorder" "toggle" ];
             "Super-Ctrl-Shift-p".launch = qs [ "recorder" "region" ];
             "Super-n".launch = qs [ "nightlight" "toggle" ];
+            "Super-Shift-w".launch = qs [ "wallpaper" "toggle" ];
             VolumeUp.launch = qs [ "volume" "up" ];
             VolumeDown.launch = qs [ "volume" "down" ];
             Mute.launch = qs [ "volume" "mute" ];

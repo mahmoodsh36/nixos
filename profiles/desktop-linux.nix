@@ -132,7 +132,6 @@ in
       pciutils
       grim slurp # for screenshots
       brightnessctl
-      swww # wallpaper setter
     ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
       vulkan-tools mesa-demos
       ocrmypdf poppler-utils
