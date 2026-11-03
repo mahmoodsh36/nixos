@@ -78,11 +78,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793099615,
-        "narHash": "sha256-3bSwoRh8J+ek7rS1fKGQE/LeEHJe9OtwEq04ugdVLGU=",
+        "lastModified": 1793618294,
+        "narHash": "sha256-mujO61a478rQYRXZ/bCXJfZBIpdCTeM++AcYJEBjyho=",
         "owner": "mahmoodsh36",
         "repo": "cltpt",
-        "rev": "28a685e96001ad9c5a1fb4356fc6f1e8710f33d3",
+        "rev": "062928fd5a6049f2b258dfe96a7f91b084cff38e",
         "type": "github"
       },
       "original": {
@@ -657,11 +657,11 @@
         "nixpkgs-venus": "nixpkgs-venus"
       },
       "locked": {
-        "lastModified": 1788960931,
-        "narHash": "sha256-9RqeTbeqWmdUBJsqSy8kZ/x0eROeZ2t7PjojYpLGUuk=",
+        "lastModified": 1793710815,
+        "narHash": "sha256-22jPBejUrYPHsBQOBRCiRGmGvXND4VpFDHrsAtIZSk8=",
         "owner": "mahmoodsh36",
         "repo": "nix-venus",
-        "rev": "d585b4fa544c7c3fa5c09cb2795e3c6cfa76c624",
+        "rev": "95d27c341d25ef1208cce407fcc26cf4f4de5493",
         "type": "github"
       },
       "original": {
