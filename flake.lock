@@ -950,11 +950,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793717561,
-        "narHash": "sha256-crm2fvunpeBQlNiehUSM1hKhm2BuyKuiA94l9Zp7E9Y=",
+        "lastModified": 1793719289,
+        "narHash": "sha256-HlrWpZrhAZMc+YAFxJ9Ry1/dCwBt/KXDJXmlWtPx38s=",
         "owner": "mahmoodsh36",
         "repo": "quickshell",
-        "rev": "e3da290e9cd93c605058bd3f6e0a0d8df1a111c5",
+        "rev": "212e7a5dd7bab194ceb888a4ca876099e0507a23",
         "type": "github"
       },
       "original": {
