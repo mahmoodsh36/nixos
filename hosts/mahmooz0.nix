@@ -73,7 +73,6 @@ in
         "google-chrome"
         "wacom-tablet"
         "zoom"
-        "slack"
       ];
       brews = [
         "mole"
