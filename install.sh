@@ -39,7 +39,7 @@ SSHOPTS=(-o ConnectTimeout=10)
 [ -z "$KEY" ] || SSHOPTS+=(-i "$KEY" -o IdentitiesOnly=yes)
 
 # shellcheck source=/dev/null
-[ ! -f ~/brain/moredots/env.sh ] || source ~/brain/moredots/env.sh
+[ ! -f "${brain:-}/moredots/env.sh" ] || source "$brain/moredots/env.sh"
 # shellcheck source=/dev/null
 [ ! -f "$REPO/env.sh" ] || source "$REPO/env.sh"
 

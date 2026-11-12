@@ -6,7 +6,7 @@ if [ -z "$conf" ]; then
     exit
 fi
 echo -e building for "\e[31m$conf\e[0m"
-[ -f ~/brain/moredots/env.sh ] && source ~/brain/moredots/env.sh
+[ -f "${brain:-}/moredots/env.sh" ] && . "$brain/moredots/env.sh"
 [ -f ./env.sh ] && {
     echo sourcing env.sh
     source ./env.sh

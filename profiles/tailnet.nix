@@ -29,6 +29,12 @@ in
         extraUpFlags = lib.mkIf have_headscale_key [ "--login-server=https://${headscale_public_host}" ];
       };
 
+      # autoconnect only runs at boot; rerun it so hosts rejoin if headscale forgets them
+      systemd.timers.tailscaled-autoconnect = lib.mkIf (!config.machine.is_vm && have_headscale_key) {
+        wantedBy = [ "timers.target" ];
+        timerConfig.OnUnitInactiveSec = "5min";
+      };
+
       environment.etc."tailscale-preauthkey" = lib.mkIf have_headscale_key {
         text = headscale_authkey;
         mode = "0600";
@@ -49,13 +55,17 @@ in
 
       # headscale takes no key material as config, so pin the env key directly
       # (prefix + bcrypt). breaks if upstream changes the pre_auth_keys schema.
-      # reruns when the key changes; retries on failure for slow headscale.
+      # started once headscale's socket exists (it is created when headscale is ready);
+      # a key change restarts the path unit, which reruns the setup.
+      systemd.paths.headscale-setup = lib.mkIf (is_exit_node && have_headscale_key) {
+        wantedBy = [ "multi-user.target" ];
+        pathConfig.PathExists = config.services.headscale.settings.unix_socket;
+        restartTriggers = [ headscale_authkey ];
+      };
       systemd.services.headscale-setup = lib.mkIf (is_exit_node && have_headscale_key) {
         description = "pin declarative headscale preauth key from env.sh";
-        wantedBy = [ "multi-user.target" ];
         after = [ "headscale.service" ];
         wants = [ "headscale.service" ];
-        restartTriggers = [ headscale_authkey ];
         path = with pkgs; [ sqlite apacheHttpd jq headscale gnugrep coreutils gawk config.services.tailscale.package ];
         script = ''
           set -euo pipefail
