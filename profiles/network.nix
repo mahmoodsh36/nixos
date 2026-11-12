@@ -3,7 +3,7 @@
 let
   constants = (import ../lib/constants.nix);
   isLinux = options ? boot.kernelPackages;
-  is_exit_node = config.machine.name == "mahmooz3";
+  is_exit_node = config.machine.is_exit_node;
   mydomain = (if is_exit_node then constants.mydomain else "localhost");
   headscale_host = "headscale.${mydomain}";
   grafana_host = "grafana.${mydomain}";
@@ -71,13 +71,13 @@ in
     services.fail2ban.enable = is_exit_node;
 
     services.prometheus = {
-      enable = !config.machine.is_vm;
+      enable = is_exit_node && !config.machine.is_vm;
       port = 9090; # default
       exporters = {
         node = {
           port = 9100;
           enabledCollectors = [ "systemd" ];
-          enable = true;
+          enable = is_exit_node && !config.machine.is_vm;
         };
       };
       scrapeConfigs = [
@@ -101,7 +101,7 @@ in
     };
 
     services.caddy = {
-      enable = !config.machine.is_vm;
+      enable = is_exit_node && !config.machine.is_vm;
       globalConfig = ''
         # this option enables the caddy admin endpoint which prometheus needs.
         admin 127.0.0.1:2019
@@ -171,7 +171,7 @@ in
     };
 
     services.loki = {
-      enable = !config.machine.is_vm;
+      enable = is_exit_node && !config.machine.is_vm;
       configuration = {
         server = {
           http_listen_address = "127.0.0.1";
@@ -494,7 +494,7 @@ in
   networking.usePredictableInterfaceNames = true;
 
   # make caddy_dir owned by caddy:caddy (uses systemd)
-  systemd.tmpfiles.rules = [
+  systemd.tmpfiles.rules = lib.optionals is_exit_node [
     # create the directory if it doesn't exist
     # Type Path                  Mode    User   Group  Age Argument
     "d ${caddy_dir} 0755 caddy caddy - -"

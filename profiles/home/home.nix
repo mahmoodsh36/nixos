@@ -170,7 +170,7 @@ in
         };
 
         programs.atuin = {
-          enable = !config'.machine.is_vm;
+          enable = !config'.machine.is_vm && config'.machine.can_compile;
           package = pkgs.atuin.overrideAttrs { doCheck = false; };
           flags = [
             "--disable-up-arrow"

@@ -16,6 +16,11 @@
       type = lib.types.str;
       default = "192.168.1.100";
     };
+    machine.is_exit_node = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "public tailnet exit node: headscale, caddy, grafana, monitoring";
+    };
     machine.is_home_server = lib.mkOption {
       type = lib.types.bool;
       default = false;

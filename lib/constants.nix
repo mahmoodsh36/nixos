@@ -13,4 +13,7 @@ rec {
   personal_website = "https://mahmoodsh36.github.io";
   ssh_pub_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQaNODbg0EX196+JkADTx/cB0arDn6FelMGsa0tD0p6 mahmooz@mahmooz";
   password = "mahmooz";
+  # gpt partuuids of the usb image (the esp one is fixed by nixpkgs make-disk-image.nix)
+  usb_root_partuuid = "F222513B-DED1-49FA-B591-20CE86A2FE7F";
+  usb_esp_partuuid = "1C06F03B-704E-4657-B9CD-681A087A2FDC";
 }

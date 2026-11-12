@@ -3,7 +3,7 @@
 # Build NixOS ISO for specified architecture
 # Usage: ./build-iso.sh [arch] [config]
 # arch: x86_64 or aarch64 (default: x86_64)
-# config: mahmooz1 or server (default: mahmooz1)
+# config: mahmooz1 (default)
 
 ARCH=${1:-x86_64}
 CONFIG=${2:-mahmooz1}
@@ -13,8 +13,8 @@ if [[ "$ARCH" != "x86_64" && "$ARCH" != "aarch64" ]]; then
     exit 1
 fi
 
-if [[ "$CONFIG" != "mahmooz1" && "$CONFIG" != "server" ]]; then
-    echo "Error: Unsupported config '$CONFIG'. Use mahmooz1 or server"
+if [[ "$CONFIG" != "mahmooz1" ]]; then
+    echo "Error: Unsupported config '$CONFIG'. Use mahmooz1"
     exit 1
 fi
 

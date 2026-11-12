@@ -4,7 +4,7 @@ let
   constants = (import ../lib/constants.nix);
   isLinux = options ? boot.kernelPackages;
   isDarwin = lib.strings.hasInfix "darwin" system;
-  is_exit_node = config.machine.name == "mahmooz3";
+  is_exit_node = config.machine.is_exit_node;
   # mydomain is "localhost" off the exit node, so clients use the public host.
   headscale_public_host = "headscale.${constants.mydomain}";
   # full key format: hskey-auth-<12>-<64>. empty means manual tailscale join.

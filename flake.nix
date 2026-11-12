@@ -198,22 +198,6 @@
               })
               ./profiles/network-local.nix
             ];
-            mahmooz3 = [
-              ./hardware-configuration.nix
-              {
-                config = {
-                  machine.name = "mahmooz3";
-                  networking.firewall.allowedTCPPorts = [ 43594 ];
-                  machine.is_desktop = false;
-                  machine.can_compile = false;
-                  machine.low_resources = true;
-                  # needed for virtual machines
-                  boot.loader.grub.efiInstallAsRemovable = true;
-                  boot.loader.efi.canTouchEfiVariables = nixpkgs.lib.mkForce false;
-                  boot.loader.grub.useOSProber = nixpkgs.lib.mkForce false;
-                };
-              }
-            ];
             mahmooz6 = [
               ./hardware-configuration.nix
               ({ lib, ... }: {
@@ -225,6 +209,20 @@
                   machine.low_resources = true;
                 };
               })
+            ];
+            mahmooz6-usb = [ ./profiles/usb.nix ];
+            mahmooz3 = [
+              inputs.disko.nixosModules.disko
+              ./disko-vps.nix
+              ./profiles/vps.nix
+              {
+                config = {
+                  machine.name = "mahmooz3";
+                  machine.is_exit_node = true;
+                  vps.disk = "/dev/vda";
+                  networking.firewall.allowedTCPPorts = [ 43594 ];
+                };
+              }
             ];
           };
         in {
@@ -239,6 +237,7 @@
           "mahmooz4-${system}" = mkSystem system machineConfigs.mahmooz4;
           "mahmooz5-${system}" = mkSystem system machineConfigs.mahmooz5;
           "mahmooz6-${system}" = mkSystem system machineConfigs.mahmooz6;
+          "mahmooz6-usb-${system}" = mkSystem system machineConfigs.mahmooz6-usb;
 
           "mahmooz1_iso-${system}" = mkSystem system [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
@@ -254,17 +253,6 @@
               };
             }
             ./profiles/network-local.nix
-          ];
-          "server_iso-${system}" = mkSystem system [
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-            isobase
-            {
-              config = {
-                machine.name = "mahmooz3";
-                machine.is_desktop = false;
-                boot.loader.grub.enable = nixpkgs.lib.mkForce true;
-              };
-            }
           ];
         };
 
