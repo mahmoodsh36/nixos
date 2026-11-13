@@ -36,7 +36,6 @@
       mpv
       ntfs3g
       gnupg
-      telegram-desktop
 
       nix-prefetch-git
       nix-tree
