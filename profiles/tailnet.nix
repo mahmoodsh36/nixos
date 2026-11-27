@@ -1,0 +1,144 @@
+{ config, pkgs, lib, options, system, ... }:
+
+let
+  constants = (import ../lib/constants.nix);
+  isLinux = options ? boot.kernelPackages;
+  isDarwin = lib.strings.hasInfix "darwin" system;
+  is_exit_node = config.machine.is_exit_node;
+  # mydomain is "localhost" off the exit node, so clients use the public host.
+  headscale_public_host = "headscale.${constants.mydomain}";
+  # full key format: hskey-auth-<12>-<64>. empty means manual tailscale join.
+  headscale_authkey = builtins.getEnv "HEADSCALE_PREAUTH_KEY";
+  have_headscale_key = headscale_authkey != "";
+in
+{
+  config = lib.mkMerge ([]
+    ++ (lib.optional isDarwin {
+      services.tailscale = {
+        enable = true;
+        overrideLocalDns = true;
+      };
+    })
+    ++ (lib.optional isLinux {
+      services.tailscale = lib.mkIf (!config.machine.is_vm) {
+        enable = true;
+        useRoutingFeatures = "both";
+        port = 12345; # (default: 41641)
+        # without the key, join manually: tailscale up --login-server=https://headscale.mahmoodsh.com
+        authKeyFile = lib.mkIf have_headscale_key "/etc/tailscale-preauthkey";
+        extraUpFlags = lib.mkIf have_headscale_key [ "--login-server=https://${headscale_public_host}" ];
+      };
+
+      # autoconnect only runs at boot; rerun it so hosts rejoin if headscale forgets them
+      systemd.timers.tailscaled-autoconnect = lib.mkIf (!config.machine.is_vm && have_headscale_key) {
+        wantedBy = [ "timers.target" ];
+        timerConfig.OnUnitInactiveSec = "5min";
+      };
+
+      environment.etc."tailscale-preauthkey" = lib.mkIf have_headscale_key {
+        text = headscale_authkey;
+        mode = "0600";
+      };
+
+      services.headscale = {
+        enable = is_exit_node && have_headscale_key;
+        address = "0.0.0.0";
+        settings = {
+          server_url = "https://${headscale_public_host}";
+          dns = {
+            base_domain = "tailnet.${constants.mydomain}";
+            magic_dns = true;
+            nameservers.global = [ constants.mahmooz3_tailnet_addr ];
+          };
+        };
+      };
+
+      # headscale takes no key material as config, so pin the env key directly
+      # (prefix + bcrypt). breaks if upstream changes the pre_auth_keys schema.
+      # started once headscale's socket exists (it is created when headscale is ready);
+      # a key change restarts the path unit, which reruns the setup.
+      systemd.paths.headscale-setup = lib.mkIf (is_exit_node && have_headscale_key) {
+        wantedBy = [ "multi-user.target" ];
+        pathConfig.PathExists = config.services.headscale.settings.unix_socket;
+        restartTriggers = [ headscale_authkey ];
+      };
+      systemd.services.headscale-setup = lib.mkIf (is_exit_node && have_headscale_key) {
+        description = "pin declarative headscale preauth key from env.sh";
+        after = [ "headscale.service" ];
+        wants = [ "headscale.service" ];
+        path = with pkgs; [ sqlite apacheHttpd jq headscale gnugrep coreutils gawk config.services.tailscale.package ];
+        script = ''
+          set -euo pipefail
+          DB="${config.services.headscale.settings.database.sqlite.path or "/var/lib/headscale/db.sqlite"}"
+          KEY="${headscale_authkey}"
+          SYSTEMCTL="${config.systemd.package}/bin/systemctl"
+          SELF="${config.networking.hostName}"
+          SELF_ADDR="${constants.mahmooz3_tailnet_addr}"
+
+          self_ip() {
+            headscale nodes list -o json | jq -r --arg n "$SELF" \
+              'first(.[]? | select((.given_name // .name) == $n) | (.ip_addresses // [])[] | select(test("^[0-9.]+$"))) // empty'
+          }
+          # clients use SELF_ADDR as their dns server (constants.nix), so a mismatch breaks dns tailnet-wide.
+          check_self_ip() {
+            local ip; ip=$(self_ip)
+            if [ "$ip" != "$SELF_ADDR" ]; then
+              echo "$SELF has tailnet ip '$ip', expected $SELF_ADDR; update mahmooz3_tailnet_addr in lib/constants.nix" >&2
+              exit 1
+            fi
+          }
+
+          case "$KEY" in
+            hskey-auth-*) ;;
+            *) echo "HEADSCALE_PREAUTH_KEY must look like hskey-auth-<12chars>-<64chars>" >&2; exit 1 ;;
+          esac
+          RAW="''${KEY#hskey-auth-}"
+          PREFIX="''${RAW:0:12}"
+          SECRET="''${RAW:13}"
+          if [ "''${#PREFIX}" -ne 12 ] || [ "''${#SECRET}" -ne 64 ]; then
+            echo "malformed HEADSCALE_PREAUTH_KEY (need 12-char prefix + 64-char secret)" >&2; exit 1
+          fi
+          [ -f "$DB" ] || { echo "headscale db not found at $DB" >&2; exit 1; }
+
+          if ! headscale users list 2>/dev/null | grep -qw mahmooz; then
+            headscale users create mahmooz || true
+          fi
+          USER_ID=$(headscale users list -o json | jq -r '.[] | select(.name=="mahmooz") | .id // empty')
+          [ -n "$USER_ID" ] || { echo "could not find headscale user mahmooz" >&2; exit 1; }
+
+          if [ "$(sqlite3 "$DB" "SELECT COUNT(*) FROM pre_auth_keys WHERE prefix='$PREFIX';")" -ge 1 ]; then
+            echo "pinned preauth key already present, nothing to do"
+            check_self_ip
+            exit 0
+          fi
+
+          # fresh db: join self with a one-off key before the shared key exists, so
+          # sequential allocation gives us the first address (SELF_ADDR).
+          if [ -z "$(self_ip)" ]; then
+            echo "registering $SELF first to claim $SELF_ADDR"
+            TMP_KEY=$(headscale preauthkeys create --user "$USER_ID" --expiration 10m -o json | jq -r '.key')
+            tailscale up --reset --timeout 120s --auth-key "$TMP_KEY" ${lib.escapeShellArgs config.services.tailscale.extraUpFlags}
+          fi
+          check_self_ip
+
+          # rotation needs a new full key (new prefix); same prefix is ignored.
+          echo "inserting pinned preauth key"
+          $SYSTEMCTL stop headscale.service
+          trap '"$SYSTEMCTL" start headscale.service' EXIT
+          HASH=$(htpasswd -bnBC 10 "" "$SECRET" | cut -d: -f2)
+          sqlite3 "$DB" "INSERT INTO pre_auth_keys (created_at, expiration, user_id, reusable, ephemeral, used, tags, prefix, hash) VALUES ('1970-01-01 00:00:00.000000000+00:00', '2099-01-01 00:00:00.000000000+00:00', $USER_ID, 1, 0, 0, '[]', '$PREFIX', '$HASH');"
+          trap - EXIT
+          $SYSTEMCTL start headscale.service
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          Restart = "on-failure";
+          RestartSec = 20;
+        };
+        unitConfig = {
+          StartLimitIntervalSec = 600;
+          StartLimitBurst = 30;
+        };
+      };
+    }));
+}

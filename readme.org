@@ -1,0 +1,16 @@
+#+title: nixos config
+
+=install-usb.sh= writes the =mahmooz6-usb= system to a usb stick.
+
+#+begin_src sh
+./install-usb.sh /dev/sdX # linux
+./install-usb.sh /dev/disk4 # macos
+./install-usb.sh -a aarch64 /dev/disk4
+#+end_src
+
+=install.sh= installs a flake host over ssh with nixos-anywhere. the target disk is wiped.
+
+#+begin_src sh
+./install.sh -n -k mahmooz3 root@mahmooz3   # check only, installs nothing
+./install.sh -k mahmooz3 root@mahmooz3      # install
+#+end_src
