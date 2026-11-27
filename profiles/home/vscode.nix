@@ -20,13 +20,12 @@ in {
         esbenp.prettier-vscode
         hediet.vscode-drawio
         james-yu.latex-workshop
-        # ms-python.python
+        ms-python.python
         ms-toolsai.jupyter
         ms-toolsai.jupyter-keymap
         ms-toolsai.jupyter-renderers
         ms-toolsai.vscode-jupyter-slideshow
         ms-toolsai.vscode-jupyter-cell-tags
-        ms-vsliveshare.vsliveshare
         redhat.vscode-yaml
         vscodevim.vim
         file-icons.file-icons
