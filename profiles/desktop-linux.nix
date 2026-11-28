@@ -1,9 +1,5 @@
-{ config, pkgs, lib, inputs, myutils, pkgs-pinned, ... }:
+{ config, pkgs, lib, ... }:
 
-let
-  work_dir = "${config.machine.main_dir}/work";
-  scripts_dir = "${config.machine.main_dir}/work/scripts";
-in
 {
   config = lib.mkIf (config.machine.is_linux && config.machine.is_desktop) {
     boot = {
@@ -111,7 +107,7 @@ in
     services.printing.enable = !config.machine.low_resources; # CUPS
 
     # dont hibernate when lid is closed
-    services.logind.lidSwitch = "ignore";
+    services.logind.settings.Login.HandleLidSwitch = "ignore";
 
     # dictionaries
     services.dictd.enable = !config.machine.low_resources;
@@ -152,8 +148,8 @@ in
     environment.sessionVariables.IS_VM = lib.mkIf config.machine.is_vm "1";
 
     services.udev.extraRules = ''
-      SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
-      SUBSYSTEM=="block", ENV{ID_FS_UUID}=="be5af23f-da6d-42ee-a346-5ad3af1a299a", RUN+="${pkgs.coreutils}/bin/mkdir -p /home/mahmooz/mnt2" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} /home/mahmooz/mnt2", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
+      SUBSYSTEM=="block", ENV{ID_FS_UUID}=="777ddbd7-9692-45fb-977e-0d6678a4a213", RUN+="${pkgs.coreutils}/bin/mkdir -p ${config.machine.main_dir}/mnt" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} ${config.machine.main_dir}/mnt/", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
+      SUBSYSTEM=="block", ENV{ID_FS_UUID}=="be5af23f-da6d-42ee-a346-5ad3af1a299a", RUN+="${pkgs.coreutils}/bin/mkdir -p ${config.machine.main_dir}/mnt2" RUN+="${pkgs.systemd}/bin/systemd-mount $env{DEVNAME} ${config.machine.main_dir}/mnt2", RUN+="${lib.getExe pkgs.logger} --tag my-manual-usb-mount udev rule success, drive: %k with uuid $env{ID_FS_UUID}"
     '';
 
     powerManagement = {

@@ -1,8 +1,5 @@
-{ config, pkgs, lib, inputs, myutils, pkgs-pinned, pkgs-unstable, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
-let
-  constants = (import ../lib/constants.nix);
-in
 {
   imports = [
     ../services/mpv-daemon.nix
@@ -60,13 +57,13 @@ in
       gcc clang clang-tools # gdb
       man-pages man-pages-posix
       podman-compose
-      inputs.cltpt.packages.${pkgs.system}.default
-      inputs.mpv-history-daemon.packages.${pkgs.system}.default
-      inputs.lem.packages.${pkgs.system}.lem-ncurses
+      inputs.cltpt.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.mpv-history-daemon.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.lem.packages.${pkgs.stdenv.hostPlatform.system}.lem-ncurses
       arp-scan iftop
 
       # nix specific stuff
-      inputs.disko.packages.${pkgs.system}.default
+      inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     # some apps respect XDG paths even on macos

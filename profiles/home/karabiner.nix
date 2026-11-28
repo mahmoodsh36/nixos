@@ -1,4 +1,4 @@
-{ lib, pkgs, config, config', ... }:
+{ lib, config, config', ... }:
 
 let
   swapKey = from: to: {

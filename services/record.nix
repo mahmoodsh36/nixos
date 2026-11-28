@@ -1,7 +1,7 @@
 { config, pkgs, lib, self, ... }:
 
 let
-  record = self.packages.${pkgs.system}.record;
+  record = self.packages.${pkgs.stdenv.hostPlatform.system}.record;
   mountGate = import ../lib/mount-gate.nix { inherit lib pkgs; };
   dataMount = mountGate.mountUnit config.machine.ext_data_dir;
   user = config.machine.user;

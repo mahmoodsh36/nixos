@@ -44,9 +44,6 @@ let
     (lib.mapAttrsToList (n: v: ''export ${n}="${toString v}"'') sessionVars);
 in
 {
-  imports = [
-  ];
-
   config = {
     users.users."${config.machine.user}" = {
       shell = lib.mkDefault pkgs.zsh;
@@ -191,6 +188,7 @@ in
         programs.neovim = {
           enable = true;
           sideloadInitLua = true;
+          withRuby = false;
           plugins = lib.optionals (!config'.machine.low_resources) (with pkgs.vimPlugins; [
             nvim-treesitter.withAllGrammars
           ]);

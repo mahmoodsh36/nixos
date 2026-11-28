@@ -1,5 +1,5 @@
 # this is for macos
-{ config, pkgs, lib, inputs, self, myutils, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, self, ... }:
 
 let
   constants = import ../lib/constants.nix;

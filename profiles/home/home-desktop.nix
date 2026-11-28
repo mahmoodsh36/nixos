@@ -1,4 +1,4 @@
-{ lib, pkgs, config, config', pkgs-pinned, ... }:
+{ lib, pkgs, config', ... }:
 
 {
   imports = [
@@ -35,7 +35,7 @@
       xdg.desktopEntries.add_magnet = {
         name = "add_magnet";
         genericName = "add_magnet";
-        exec = '' add_magnet.sh %u '';
+        exec = "add_magnet.sh %u";
         terminal = false;
         categories = [];
         mimeType = [ "x-scheme-handler/magnet" ];
@@ -55,6 +55,7 @@
       };
 
       home.pointerCursor = {
+        enable = true;
         gtk.enable = config'.machine.is_desktop;
         # x11.enable = true;
         package = pkgs.bibata-cursors;

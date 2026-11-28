@@ -8,7 +8,6 @@ let
   # ${volume}/arr. this is normally /data, which is noauto + nofail and has to
   # be unlocked and mounted by hand (see the unlock-data/lock-data scripts).
   volume = config.machine.ext_data_dir;
-  volumeUnit = mountGate.mountUnit volume;
   arrRoot = "${volume}/arr";
 
   # every unit that owns state or writes media on the volume

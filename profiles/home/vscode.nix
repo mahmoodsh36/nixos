@@ -1,12 +1,9 @@
 {
   pkgs,
-  inputs,
   lib,
   config',
   ...
-}: let
-  extensions = inputs.nix-vscode-extensions.extensions.${pkgs.system};
-in {
+}: {
   config = lib.mkIf (config'.machine.is_desktop && !config'.machine.low_resources) {
     programs.vscode = {
       enable = true;

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, system, ... }:
+{ pkgs, inputs, system, ... }:
 
 let
   pkgs-unstable = import inputs.pkgs-unstable {

@@ -1,8 +1,9 @@
-{ config, pkgs, lib, inputs, pkgs-unstable, myutils, pkgs-pinned, ... }:
+{ config, pkgs, lib, inputs, myutils, pkgs-pinned, ... }:
 
- let
-    constants = (import ../lib/constants.nix);
-  in
+let
+  lemPkgs = inputs.lem.packages.${pkgs.stdenv.hostPlatform.system};
+  lemApp = lemPkgs.lem-gecko-app or lemPkgs.lem-webview;
+in
 {
   imports = [
     ./emacs.nix
@@ -40,7 +41,7 @@
       nix-prefetch-git
       nix-tree
     ] ++ pkgs.lib.optionals (!config.machine.low_resources) [
-      inputs.lem.packages.${pkgs.system}.lem-gecko-app
+      lemApp
 
       ffmpeg-full.bin # untrunc-anthwlock
       pandoc

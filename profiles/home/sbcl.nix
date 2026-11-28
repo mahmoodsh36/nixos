@@ -1,8 +1,8 @@
-{ lib, inputs, pkgs, config, config', pkgs-pinned, ... }:
+{ lib, inputs, pkgs, config', ... }:
 
 let
   mysbcl = (pkgs.sbcl.withPackages (ps: with ps; [
-    inputs.cltpt.packages.${pkgs.system}.cltpt-lib
+    inputs.cltpt.packages.${pkgs.stdenv.hostPlatform.system}.cltpt-lib
     serapeum
     lparallel
     cl-csv
@@ -26,7 +26,7 @@ in
   config = lib.mkIf (config'.machine.is_desktop && !config'.machine.low_resources) {
     home.packages = [
       mysbcl
-      inputs.lem.packages.${pkgs.system}.lem-repl
+      inputs.lem.packages.${pkgs.stdenv.hostPlatform.system}.lem-repl
     ];
   };
 }

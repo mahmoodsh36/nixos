@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, myutils, options, pkgs-pinned, system, ... }:
+{ config, pkgs, lib, options, ... }:
 
 let
   constants = (import ../lib/constants.nix);
@@ -348,8 +348,6 @@ in
 
       # UWSGI configuration
       configureUwsgi = true;
-      # it doesnt work without this.
-      runInUwsgi = true;
       uwsgiConfig = {
         socket = "/run/searx/searx.sock";
         http = ":8888";
